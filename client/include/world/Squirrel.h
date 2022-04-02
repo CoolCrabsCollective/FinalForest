@@ -6,8 +6,21 @@
 #define LD50_CLIENT_SQUIRREL_H
 
 
-class Squirrel {
+#include "SFML/Graphics/Drawable.hpp"
+#include "Physical.h"
+#include "Tickable.h"
 
+class Squirrel : public sf::Drawable, public Physical, public Tickable {
+public:
+	void draw(sf::RenderTarget& target, const sf::RenderStates& states) const override;
+
+	b2Body* getBody() const override;
+
+	b2Vec2 getPosition() const override;
+
+	b2Vec2 getSize() const override;
+
+	void tick(float delta) override;
 };
 
 

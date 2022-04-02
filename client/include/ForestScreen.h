@@ -10,13 +10,13 @@
 #include "Box2D/Dynamics/b2World.h"
 #include "SFML/Graphics/Sprite.hpp"
 #include "SFML/Graphics/Text.hpp"
+#include "world/Forest.h"
 
 class ForestScreen : public wiz::Screen, public wiz::WindowListener {
 	std::string name = "ForestScreen";
     sf::Text nutCountText;
 
-	b2World world;
-	sf::Sprite sprite;
+	Forest forest;
 
 public:
 	ForestScreen(wiz::Game& game);

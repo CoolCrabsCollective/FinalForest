@@ -7,7 +7,10 @@
 
 
 class Tickable {
-	void tick(float delta);
+public:
+	virtual ~Tickable() = default;
+
+	virtual void tick(float delta) = 0;
 };
 
 
