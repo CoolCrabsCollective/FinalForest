@@ -21,8 +21,8 @@
 
 const float PATHFINDING_TILE_SIZE = 1.0f;
 
-#define TILES_WIDTH 32
-#define TILES_HEIGHT 32
+#define TILES_WIDTH 75
+#define TILES_HEIGHT 50
 
 class Forest : public sf::Drawable, public Tickable {
 	const wiz::AssetLoader& assetLoader;
