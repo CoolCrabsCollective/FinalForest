@@ -61,12 +61,18 @@ void Squirrel::draw(sf::RenderTarget& target, const sf::RenderStates& states) co
 	b2Vec2 prev = getPosition();
 	if(!path.empty()) {
 		for(ForestNode* node : path) {
+
 			b2Vec2 nodeDest = node->getWorldPosition();
 			b2Vec2 center = prev;
 			center += nodeDest;
 			center *= 0.5f;
 			b2Vec2 size = nodeDest;
 			size -= prev;
+
+			if(prev == getPosition()) {
+				prev = nodeDest;
+				continue;
+			}
 
 			float width = b2Distance(nodeDest, prev);
 
@@ -100,15 +106,29 @@ void Squirrel::tick(float delta) {
 	if(destinationChanged) {
 		if(!getForest().getPathFinder().findPath(getPosition(), destination, path))
 			path.clear();
+		else
+			pathIndex = 1;
 		destinationChanged = false;
 	}
 
 	b2Vec2 direction;
 
-	if(path.empty())
+	if(path.size() < 2 || pathIndex == -1)
 		direction = destination - getPosition();
-	else
-		direction = path[path.size() - 1]->getWorldPosition() - getPosition();
+	else {
+		direction = path[pathIndex]->getWorldPosition() - getPosition();
+
+		if(direction.LengthSquared() < 1.0f) {
+			pathIndex++;
+			if(pathIndex == path.size())
+			{
+				pathIndex = -1;
+				direction = destination - getPosition();
+			}
+			else
+				direction = path[pathIndex]->getWorldPosition() - getPosition();
+		}
+	}
 
 	facingRight = direction.x > 0;
 	direction.Normalize();
