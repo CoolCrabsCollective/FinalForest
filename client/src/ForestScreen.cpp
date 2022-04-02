@@ -29,10 +29,10 @@ void ForestScreen::render(sf::RenderTarget& target) {
     target.draw(squirrelCountText);
     target.draw(squirrelSprite);
     target.draw(manaText);
+    target.draw(manaSprite);
 }
 
 void ForestScreen::show() {
-
     nutTexture = *getGame().getAssets().get(GameAssets::NUT);
     nutSprite.setTexture(nutTexture);
     nutSprite.setTextureRect(sf::Rect<int>({0, 0}, {16, 16}));
@@ -46,6 +46,13 @@ void ForestScreen::show() {
     squirrelSprite.setColor(sf::Color(255, 255, 255, 200));
     squirrelSprite.setPosition(sf::Vector2f(1500.0f, 75.0f));
     squirrelSprite.setScale({2.0f, 2.0f});
+
+    manaTexture = *getGame().getAssets().get(GameAssets::MANA);
+    manaSprite.setTexture(manaTexture);
+    manaSprite.setTextureRect(sf::Rect<int>({0, 0}, {16, 16}));
+    manaSprite.setColor(sf::Color(255, 255, 255, 200));
+    manaSprite.setPosition(sf::Vector2f(1500.0f, 125.0f));
+    manaSprite.setScale({2.0f, 2.0f});
 
 	getGame().addWindowListener(this);
 }
@@ -78,7 +85,7 @@ void ForestScreen::updateSquirrelCount() {
 
 void ForestScreen::updateMana() {
     manaText.setString(std::to_string(forest.mana));
-    manaText.setPosition(sf::Vector2f(1550, 120));
+    manaText.setPosition(sf::Vector2f(1550, 125));
     manaText.setCharacterSize(20);
     manaText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
 }

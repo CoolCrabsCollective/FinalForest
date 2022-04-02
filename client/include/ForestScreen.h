@@ -23,6 +23,8 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener {
     sf::Texture squirrelTexture;
     sf::Sprite squirrelSprite;
     sf::Text manaText;
+    sf::Texture manaTexture;
+    sf::Sprite manaSprite;
 
 	Forest forest;
 
