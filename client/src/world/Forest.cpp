@@ -7,6 +7,7 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "world/Tree.h"
 #include "world/Squirrel.h"
+#include "world/LumberJack.h"
 #include <stdlib.h>
 #include <iostream>
 #include <math.h>
@@ -60,6 +61,8 @@ Forest::Forest(const wiz::AssetLoader& assetLoader) : assetLoader(assetLoader),
 			map[key] = node;
 		}
 	}
+
+    objects.push_back(new LumberJack(*this, b2Vec2(50.0f, 50.0f)));
 }
 
 Forest::~Forest() {
@@ -76,6 +79,12 @@ void Forest::tick(float delta) {
 	}
 
 	world.Step(delta / 1000.0f, 6, 2);
+
+    GenerateEnemyWave();
+}
+
+void Forest::GenerateEnemyWave() {
+
 }
 
 void Forest::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
