@@ -24,6 +24,8 @@ const float PATHFINDING_TILE_SIZE = 1.0f;
 #define TILES_WIDTH 75
 #define TILES_HEIGHT 50
 
+#define PI 3.14159265
+
 class Forest : public sf::Drawable, public Tickable {
 	const wiz::AssetLoader& assetLoader;
 	b2World world;
@@ -53,7 +55,7 @@ public:
 
 	void tick(float delta) override;
 
-    void GenerateEnemyWave();
+    void GenerateEnemyWave(int numOfEnemies);
 
 	void findPath(b2Vec2 start, b2Vec2 goal, std::vector<ForestNode*> path) const;
 

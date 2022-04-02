@@ -62,7 +62,7 @@ Forest::Forest(const wiz::AssetLoader& assetLoader) : assetLoader(assetLoader),
 		}
 	}
 
-    objects.push_back(new LumberJack(*this, b2Vec2(50.0f, 50.0f)));
+    GenerateEnemyWave(20);
 }
 
 Forest::~Forest() {
@@ -79,12 +79,27 @@ void Forest::tick(float delta) {
 	}
 
 	world.Step(delta / 1000.0f, 6, 2);
-
-    GenerateEnemyWave();
 }
 
-void Forest::GenerateEnemyWave() {
+void Forest::GenerateEnemyWave(int numOfEnemies) {
+    int spawnRadius;
+    int screenCenter = 50;
 
+    int spawnDirection;
+    float newXPos;
+    float newYPos;
+
+    for (int i = 0; i<numOfEnemies; i++) {
+        spawnRadius = rand() % 150 + 80;
+
+        spawnDirection = rand() % 360;
+
+        newXPos = (float) cos( spawnDirection * PI / 180.0 ) * spawnRadius + screenCenter;
+
+        newYPos = (float) sin( spawnDirection * PI / 180.0 ) * spawnRadius + screenCenter;
+
+        objects.push_back(new LumberJack(*this, b2Vec2(newXPos, newYPos)));
+    }
 }
 
 void Forest::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
