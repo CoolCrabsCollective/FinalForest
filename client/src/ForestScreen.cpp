@@ -31,7 +31,7 @@ void ForestScreen::render(sf::RenderTarget& target) {
 void ForestScreen::show() {
     updateNutCount(forest.nutCount);
 
-#ifdef OS_SWITCH
+#ifndef OS_SWITCH
     nutTexture = *getGame().getAssets().get(GameAssets::NUT);
     nutSprite.setTexture(nutTexture);
 #endif
@@ -40,7 +40,7 @@ void ForestScreen::show() {
     nutSprite.setPosition(sf::Vector2f(1500.0f, 25.0f));
     nutSprite.setScale({2.0f, 2.0f});
 
-#ifdef OS_SWITCH
+#ifndef OS_SWITCH
     squirrelTexture = *getGame().getAssets().get(GameAssets::SQUIRREL);
     squirrelSprite.setTexture(squirrelTexture);
 #endif

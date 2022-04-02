@@ -8,6 +8,7 @@
 #include "world/Tree.h"
 #include "world/Squirrel.h"
 #include "world/LumberJack.h"
+#include "world/LumberJackChainsaw.h"
 #include <stdlib.h>
 #include <iostream>
 #include <math.h>
@@ -148,7 +149,7 @@ void Forest::GenerateEnemyWave(int numOfEnemies) {
 
         newYPos = (float) sin( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
 
-        objects.push_back(new LumberJack(*this, b2Vec2(newXPos, newYPos)));
+        objects.push_back(new LumberJackChainsaw(*this, b2Vec2(newXPos, newYPos)));
     }
 }
 
@@ -212,6 +213,10 @@ void Forest::createForest() {
 
 b2World& Forest::getB2World() {
 	return world;
+}
+
+const std::vector<Tree*> Forest::getTrees() const {
+    return trees;
 }
 
 const wiz::AssetLoader& Forest::getAssets() const {
