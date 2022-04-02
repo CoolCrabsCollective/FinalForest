@@ -10,7 +10,7 @@
 
 
 Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
-	sprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_PIXEL));
+	sprite.setTexture(*forest.getAssets().get(GameAssets::TREE));
 
 	// Define the dynamic body. We set its position and call the body factory.
 	b2BodyDef bodyDef;
@@ -20,18 +20,15 @@ Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
 	body = forest.getB2World().CreateBody(&bodyDef);
 
 	// Define another box shape for our dynamic body.
-	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(1.0f, 1.0f);
+	b2CircleShape circleShape;
+	circleShape.m_radius = getSize().x;
 
 	// Define the dynamic body fixture.
 	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &dynamicBox;
+	fixtureDef.shape = &circleShape;
 
 	// Set the box density to be non-zero, so it will be dynamic.
-	fixtureDef.density = 1.0f;
-
-	// Override the default friction.
-	fixtureDef.friction = 0.3f;
+	fixtureDef.density = 0.f;
 
 	// Add the shape to the body.
 	body->CreateFixture(&fixtureDef);
@@ -53,7 +50,7 @@ b2Vec2 Tree::getPosition() const {
 }
 
 b2Vec2 Tree::getSize() const {
-	return b2Vec2(1.0f, 1.0f);
+	return b2Vec2(5.0f, 5.0f);
 }
 
 Forest& Tree::getForest() const {
