@@ -6,11 +6,11 @@
 #include "world/Entity.h"
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "world/Tree.h"
+#include "world/Squirrel.h"
 #include <stdlib.h>
 #include <iostream>
 
 Forest::Forest(const wiz::AssetLoader& assetLoader) : assetLoader(assetLoader), world(b2Vec2_zero) {
-
     float minDistance = 8.f;
     int totalTrees = 75;
     std::vector<Tree *> trees;
@@ -36,6 +36,10 @@ Forest::Forest(const wiz::AssetLoader& assetLoader) : assetLoader(assetLoader), 
 
     for(Tree* tree : trees)
         objects.push_back(tree);
+
+    nutCount = 0;
+
+	objects.push_back(new Squirrel(*this, b2Vec2(0.0f, 0.0f)));
 }
 
 Forest::~Forest() {
