@@ -47,6 +47,8 @@ void ForestScreen::show() {
     squirrelSprite.setScale({2.0f, 2.0f});
 
 	getGame().addWindowListener(this);
+
+	getGame().addInputListener(this);
 }
 
 void ForestScreen::hide() {
@@ -75,4 +77,17 @@ void ForestScreen::updateSquirrelCount(int squirrelCount) {
     nutCountText.setPosition(sf::Vector2f(1550, 75));
     nutCountText.setCharacterSize(20);
     nutCountText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+}
+
+bool ForestScreen::isDebug() const {
+	return debug;
+}
+
+void ForestScreen::setDebug(bool debug) {
+	ForestScreen::debug = debug;
+}
+
+void ForestScreen::keyPressed(const sf::Event::KeyEvent& keyEvent) {
+	if(keyEvent.code == sf::Keyboard::F12)
+		debug = !debug;
 }

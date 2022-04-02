@@ -13,12 +13,13 @@
 #include <math.h>
 #include "GameAssets.h"
 #include "world/BigAssTree.h"
+#include "ForestScreen.h"
 
 Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 	: screen(screen),
 		assetLoader(assetLoader),
 		world(b2Vec2_zero),
-		map() {
+		finder(assetLoader) {
 
     nutCount = 0;
     squirrelCount = 0;
@@ -43,26 +44,9 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 
     createForest();
 
-	objects.push_back(new Squirrel(*this, b2Vec2(0.0f, 0.0f)));
+	objects.push_back(new Squirrel(*this, b2Vec2(50.0f, 5.0f)));
 
-	int16_t minX = floor(-50.0f / PATHFINDING_TILE_SIZE);
-	int16_t minY = floor(-50.0f / PATHFINDING_TILE_SIZE);
-
-	int16_t maxX = floor(50.0f / PATHFINDING_TILE_SIZE);
-	int16_t maxY = floor(50.0f / PATHFINDING_TILE_SIZE);
-
-	for(int16_t x = minX; x < maxX; x++) {
-		for(int16_t y = minY; y < maxY; y++) {
-			uint32_t key = x & 0x0000FFFF | (static_cast<uint32_t>(y << 16) & 0xFFFF0000);
-
-			ForestNode* node = new ForestNode();
-
-
-			node->setPosition(x, y);
-
-			map[key] = node;
-		}
-	}
+	finder.initialize(objects);
 
     GenerateEnemyWave(20);
 }
@@ -115,6 +99,9 @@ void Forest::draw(sf::RenderTarget& target, const sf::RenderStates& states) cons
 	        target.draw(grass, states);
         }
     }
+
+	if(getScreen().isDebug())
+		finder.draw(target, states);
 
     for(Entity* obj : objects) {
 		sf::Drawable* drawable = dynamic_cast<sf::Drawable*>(obj);
@@ -171,25 +158,10 @@ const wiz::AssetLoader& Forest::getAssets() const {
 	return assetLoader;
 }
 
-void Forest::findPath(b2Vec2 start, b2Vec2 goal, std::vector<ForestNode*> path) const {
-	pathFinder.setStart(*getNode(start));
-	pathFinder.setGoal(*getNode(goal));
-
-	if(!pathFinder.findPath<pf::AStar>(path))
-		path.clear();
-}
-
-ForestNode* Forest::getNode(b2Vec2 position) const {
-	return map.at(key(position));
-}
-
-uint32_t Forest::key(b2Vec2 position) const {
-	int16_t x = static_cast<int16_t>(floor(position.x / PATHFINDING_TILE_SIZE));
-	int16_t y = static_cast<int16_t>(floor(position.y / PATHFINDING_TILE_SIZE));
-
-	return x & 0x0000FFFF | (static_cast<uint32_t>(y << 16) & 0xFFFF0000);
-}
-
 const ForestScreen& Forest::getScreen() const {
 	return screen;
+}
+
+const ForestPathFinder& Forest::getPathFinder() const {
+	return finder;
 }

@@ -12,16 +12,18 @@
 #include "SFML/Graphics/Sprite.hpp"
 #include "PathFinder/AStar.h"
 #include "PathFinder/PathFinder.h"
+#include "world/pathfinding/ForestNode.h"
 
 class Squirrel : public sf::Drawable, public Physical, public Tickable {
 
-	mutable sf::Sprite sprite;
+	mutable sf::Sprite sprite, debugSprite;
 	b2Body* body;
 	Forest& forest;
 
-	b2Vec2 destination = b2Vec2(100.f, 100.f);
+	std::vector<ForestNode*> path;
+	b2Vec2 destination = b2Vec2(75.f, 75.f);
 	float speed = 10.0f;
-	bool facingRight = false;
+	bool facingRight = false, destinationChanged = false;
 public:
 
 	Forest& getForest() const override;
@@ -37,6 +39,10 @@ public:
 	b2Vec2 getSize() const override;
 
 	void tick(float delta) override;
+
+	const b2Vec2& getDestination() const;
+
+	void setDestination(const b2Vec2& destination);
 };
 
 

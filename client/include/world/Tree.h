@@ -10,10 +10,10 @@
 #include "SFML/Graphics/Sprite.hpp"
 #include "WIZ/asset/AssetLoader.h"
 #include "Box2D/Dynamics/b2Body.h"
-#include "Physical.h"
 #include "Forest.h"
+#include "Obstacle.h"
 
-class Tree : public sf::Drawable, public Physical {
+class Tree : public sf::Drawable, public Obstacle {
 protected:
     int health = 10;
 
@@ -34,6 +34,8 @@ public:
 	Forest& getForest() const override;
 
 	void setHealth(int health);
+
+	bool isBlocking(b2Vec2 center, b2Vec2 size) override;
 };
 
 

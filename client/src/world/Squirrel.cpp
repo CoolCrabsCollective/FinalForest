@@ -13,6 +13,7 @@
 
 Squirrel::Squirrel(Forest& forest, b2Vec2 position) : forest(forest) {
 	sprite.setTexture(*forest.getAssets().get(GameAssets::SQUIRREL));
+	debugSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_PIXEL));
 
 	// Define the dynamic body. We set its position and call the body factory.
 	b2BodyDef bodyDef;
@@ -49,6 +50,35 @@ void Squirrel::draw(sf::RenderTarget& target, const sf::RenderStates& states) co
 	sprite.setScale({flip * getSize().x * 2.f / sprite.getTexture()->getSize().x,
 					 getSize().y * 2.f / sprite.getTexture()->getSize().y});
 	target.draw(sprite);
+
+	if(!getForest().getScreen().isDebug())
+		return;
+
+	b2Vec2 prev = getPosition();
+	if(!path.empty()) {
+		for(ForestNode* node : path) {
+			b2Vec2 nodeDest = node->getWorldPosition();
+			b2Vec2 center = prev;
+			center += nodeDest;
+			center *= 0.5f;
+			b2Vec2 size = nodeDest;
+			size -= prev;
+
+			float width = b2Distance(nodeDest, prev);
+
+			sf::Vector2f vec = sf::Vector2f(nodeDest.x - prev.x, nodeDest.y - prev.y);
+			vec.y *= -1.0f;
+
+			debugSprite.setPosition(sf::Vector2f(center.x, 100.0f - center.y));
+			debugSprite.setOrigin({ 0.5f, 0.5f });
+			debugSprite.setScale(sf::Vector2f(width, 1.0f));
+			debugSprite.setRotation(vec.angle());
+			debugSprite.setColor(sf::Color::Red);
+
+			target.draw(debugSprite);
+			prev = nodeDest;
+		}
+	}
 }
 
 void Squirrel::tick(float delta) {
@@ -58,22 +88,32 @@ void Squirrel::tick(float delta) {
 		const sf::RenderWindow& window = getForest().getScreen().getWindow();
 		sf::Vector2f pos = window.mapPixelToCoords(sf::Mouse::getPosition(window), view);
 
-		destination.x = pos.x;
-		destination.y = 100.0f - pos.y;
+		setDestination({pos.x, 100.0f - pos.y});
 	}
 
 	if(sf::Touch::isDown(1)) {
 		const sf::RenderWindow& window = getForest().getScreen().getWindow();
 		sf::Vector2f pos = window.mapPixelToCoords(sf::Mouse::getPosition(window), view);
 
-		destination.x = pos.x;
-		destination.y = 100.0f - pos.y;
+		setDestination({pos.x, 100.0f - pos.y});
 	}
 
 	if(b2DistanceSquared(destination, getPosition()) < 1.f)
 		return;
 
-	b2Vec2 direction = destination - getPosition();
+	if(destinationChanged) {
+		if(!getForest().getPathFinder().findPath(getPosition(), destination, path))
+			path.clear();
+		destinationChanged = false;
+	}
+
+	b2Vec2 direction;
+
+	if(path.empty())
+		direction = destination - getPosition();
+	else
+		direction = path[path.size() - 1]->getWorldPosition() - getPosition();
+
 	facingRight = direction.x > 0;
 	direction.Normalize();
 	body->SetLinearVelocity(speed * direction);
@@ -93,4 +133,13 @@ b2Vec2 Squirrel::getSize() const {
 
 Forest& Squirrel::getForest() const {
 	return forest;
+}
+
+const b2Vec2& Squirrel::getDestination() const {
+	return destination;
+}
+
+void Squirrel::setDestination(const b2Vec2& destination) {
+	Squirrel::destination = destination;
+	destinationChanged = true;
 }

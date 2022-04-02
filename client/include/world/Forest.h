@@ -16,13 +16,12 @@
 #include "PathFinder/AStar.h"
 #include "PathFinder/PathFinder.h"
 #include "SFML/System/Vector2.hpp"
-#include "ForestNode.h"
+#include "world/pathfinding/ForestNode.h"
 #include "WIZ/game/Screen.h"
 #include <unordered_map>
+#include "world/pathfinding/ForestPathFinder.h"
 
 class ForestScreen;
-
-const float PATHFINDING_TILE_SIZE = 1.0f;
 
 #define TILES_WIDTH 75
 #define TILES_HEIGHT 50
@@ -36,8 +35,7 @@ class Forest : public sf::Drawable, public Tickable {
 
 	std::vector<Entity*> objects;
 
-	mutable pf::PathFinder<ForestNode> pathFinder;
-	std::unordered_map<uint32_t, ForestNode*> map;
+	ForestPathFinder finder;
 
     sf::Sprite grass_sprite[4];
     int grass_map[TILES_HEIGHT][TILES_WIDTH];
@@ -61,15 +59,9 @@ public:
 
     void GenerateEnemyWave(int numOfEnemies);
 
-	void findPath(b2Vec2 start, b2Vec2 goal, std::vector<ForestNode*> path) const;
+	const ForestPathFinder& getPathFinder() const;
 
 	const ForestScreen& getScreen() const;
-
-private:
-	ForestNode* getNode(b2Vec2 position) const;
-
-	uint32_t key(b2Vec2 position) const;
-
 };
 
 
