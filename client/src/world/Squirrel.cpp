@@ -64,7 +64,7 @@ void Squirrel::tick(float delta) {
 
 	if(sf::Touch::isDown(1)) {
 		const sf::RenderWindow& window = getForest().getScreen().getWindow();
-		sf::Vector2f pos = window.mapPixelToCoords(sf::Mouse::getPosition(window), view);
+		sf::Vector2f pos = window.mapPixelToCoords(sf::Touch::getPosition(1), view);
 
 		destination.x = pos.x;
 		destination.y = 100.0f - pos.y;
