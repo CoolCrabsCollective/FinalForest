@@ -47,9 +47,13 @@ b2Vec2 Tree::getPosition() const {
 }
 
 b2Vec2 Tree::getSize() const {
-	return b2Vec2(5.0f, 5.0f);
+	return {5.0f, 5.0f};
 }
 
 Forest& Tree::getForest() const {
 	return forest;
+}
+
+void Tree::setHealth(int health) {
+	this->health = health;
 }

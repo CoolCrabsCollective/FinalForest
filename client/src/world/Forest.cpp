@@ -11,6 +11,7 @@
 #include <iostream>
 #include <math.h>
 #include "GameAssets.h"
+#include "world/BigAssTree.h"
 
 Forest::Forest(const wiz::AssetLoader& assetLoader) : assetLoader(assetLoader),
 		world(b2Vec2_zero),
@@ -23,17 +24,16 @@ Forest::Forest(const wiz::AssetLoader& assetLoader) : assetLoader(assetLoader),
     grass_sprite[3] = sf::Sprite(*assetLoader.get(GameAssets::GRASS4));
 
     float scale = grass_sprite->getScale().x / grass_sprite->getTexture()->getSize().x;
+
     for(int i = 0; i < 4; i++)
-    {
         grass_sprite->setScale({scale, scale});
-    }
+
     for(int i = 0; i < TILES_HEIGHT; i++)
-    {
         for(int j = 0; j < TILES_WIDTH; j++)
-        {
             grass_map[i][j] = rand() % 4;
-        }
-    }
+
+	objects.push_back(new BigAssTree(*this, b2Vec2(50.0f, 50.0f)));
+
     createForest();
 
 	objects.push_back(new Squirrel(*this, b2Vec2(0.0f, 0.0f)));
@@ -96,10 +96,9 @@ void Forest::draw(sf::RenderTarget& target, const sf::RenderStates& states) cons
 void Forest::createForest() {
     float minDistance = 8.f;
     int totalTrees = 75;
-    std::vector<Tree *> trees;
+	int addedTrees = 0;
 
-
-    while (trees.size() < totalTrees) {
+    while (addedTrees < totalTrees) {
         float x = (float) (rand() % 100);
         float y = (float) (rand() % 100);
         b2Vec2 position(x, y);
@@ -107,20 +106,24 @@ void Forest::createForest() {
         if(b2DistanceSquared(position, b2Vec2(50.0f, 50.0f)) > 50.0f * 50.0f)
             continue;
 
-        bool overlappingTree = false;
-        for (Tree *tree : trees) {
-            if (b2DistanceSquared(tree->getPosition(), position) < minDistance * minDistance) {
-                overlappingTree = true;
+        bool overlapping = false;
+        for (Entity* entity : objects) {
+			Physical* physical = dynamic_cast<Physical*>(entity);
+
+			if(!physical)
+				continue;
+
+            if (b2DistanceSquared(physical->getPosition(), position) < minDistance * minDistance) {
+				overlapping = true;
                 continue;
             }
         }
 
-        if(!overlappingTree)
-            trees.push_back(new Tree(*this, position));
+        if(!overlapping) {
+			objects.push_back(new Tree(*this, position));
+			addedTrees++;
+		}
     }
-
-    for(Tree* tree : trees)
-        objects.push_back(tree);
 }
 
 b2World& Forest::getB2World() {
