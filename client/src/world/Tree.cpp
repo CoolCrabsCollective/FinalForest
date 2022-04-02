@@ -17,7 +17,7 @@ Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(position.x, position.y);
 
-	b2Body* body = forest.getB2World().CreateBody(&bodyDef);
+	body = forest.getB2World().CreateBody(&bodyDef);
 
 	// Define another box shape for our dynamic body.
 	b2PolygonShape dynamicBox;
