@@ -61,3 +61,31 @@ void Tree::setHealth(int health) {
 void Tree::damage(int damage) {
     this->health -= damage;
 }
+
+bool Tree::isBlocking(b2Vec2 center, b2Vec2 size) {
+	size *= 0.5f;
+	if(body->GetFixtureList()->GetShape()->TestPoint(body->GetTransform(), center))
+		return true;
+
+	b2Vec2 topRight = center + size;
+	if(body->GetFixtureList()->GetShape()->TestPoint(body->GetTransform(), topRight))
+		return true;
+
+	b2Vec2 topLeft = center;
+	topLeft.x -= size.x;
+	topLeft.y += size.y;
+	if(body->GetFixtureList()->GetShape()->TestPoint(body->GetTransform(), topLeft))
+		return true;
+
+	b2Vec2 bottomLeft = center - size;
+	if(body->GetFixtureList()->GetShape()->TestPoint(body->GetTransform(), bottomLeft))
+		return true;
+
+	b2Vec2 bottomRight = center;
+	bottomRight.x += size.x;
+	bottomRight.y -= size.y;
+	if(body->GetFixtureList()->GetShape()->TestPoint(body->GetTransform(), bottomRight))
+		return true;
+
+	return false;
+}

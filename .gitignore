@@ -6,3 +6,4 @@ build/
 build-switch/
 out/
 server/logs/
+client/logs/

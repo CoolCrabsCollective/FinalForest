@@ -12,8 +12,9 @@
 #include "SFML/Graphics/Text.hpp"
 #include "world/Forest.h"
 #include "SFML/Graphics/Texture.hpp"
+#include "../cmake-build-debug/_deps/sfml-src/include/SFML/Window/Event.hpp"
 
-class ForestScreen : public wiz::Screen, public wiz::WindowListener {
+class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz::InputListener {
 	std::string name = "ForestScreen";
 
     sf::Text nutCountText;
@@ -28,6 +29,7 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener {
 
 	Forest forest;
 
+	bool debug = true;
 public:
 	ForestScreen(wiz::Game& game);
 
@@ -48,6 +50,12 @@ public:
     void updateSquirrelCount();
 
     void updateMana();
+
+	bool isDebug() const;
+
+	void setDebug(bool debug);
+
+	void keyPressed(const sf::Event::KeyEvent& keyEvent) override;
 };
 
 

@@ -59,6 +59,8 @@ void ForestScreen::show() {
     manaSprite.setScale({2.0f, 2.0f});
 
 	getGame().addWindowListener(this);
+
+	getGame().addInputListener(this);
 }
 
 void ForestScreen::hide() {
@@ -92,4 +94,17 @@ void ForestScreen::updateMana() {
     manaText.setPosition(sf::Vector2f(1550, 125));
     manaText.setCharacterSize(20);
     manaText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+}
+
+bool ForestScreen::isDebug() const {
+	return debug;
+}
+
+void ForestScreen::setDebug(bool debug) {
+	ForestScreen::debug = debug;
+}
+
+void ForestScreen::keyPressed(const sf::Event::KeyEvent& keyEvent) {
+	if(keyEvent.code == sf::Keyboard::F12)
+		debug = !debug;
 }

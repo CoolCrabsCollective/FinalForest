@@ -7,11 +7,24 @@
 
 
 #include "PathFinder/AStar.h"
+#include "Common/b2Math.h"
+
+class ForestPathFinder;
 
 class ForestNode : public pf::AStarNode {
-public:
+	ForestPathFinder& pathFinder;
+
 	bool obstructed = false;
+public:
+	ForestNode(ForestPathFinder& pathFinder);
+
 	float distanceTo(AStarNode* node) const override;
+
+	b2Vec2 getWorldPosition() const;
+
+	bool isObstructed() const;
+
+	void setObstructed(bool obstructed);
 };
 
 
