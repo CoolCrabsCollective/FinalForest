@@ -27,11 +27,8 @@ Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &circleShape;
 
-	// Set the box density to be non-zero, so it will be dynamic.
-	fixtureDef.density = 0.f;
-
 	// Add the shape to the body.
-	body->CreateFixture(&fixtureDef);
+	body->CreateFixture(&circleShape, 0.0f);
 }
 
 void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
