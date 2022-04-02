@@ -11,7 +11,7 @@
 #include "Tickable.h"
 #include "SFML/Graphics/Drawable.hpp"
 #include "WIZ/asset/AssetLoader.h"
-#include "Dynamics/b2World.h"
+#include "Box2D/Dynamics/b2World.h"
 #include "Entity.h"
 #include "PathFinder/AStar.h"
 #include "PathFinder/PathFinder.h"
@@ -53,12 +53,15 @@ public:
 
 	void tick(float delta) override;
 
+    void GenerateEnemyWave();
+
 	void findPath(b2Vec2 start, b2Vec2 goal, std::vector<ForestNode*> path) const;
 
 private:
 	ForestNode* getNode(b2Vec2 position) const;
 
 	uint32_t key(b2Vec2 position) const;
+
 };
 
 
