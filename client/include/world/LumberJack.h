@@ -13,15 +13,16 @@
 
 class LumberJack : public sf::Drawable, public Physical, public Tickable {
 
-	mutable sf::Sprite sprite;
-	b2Body* body;
-	Forest& forest;
-
+    b2Body* body;
 	b2Vec2 destination = b2Vec2(50.f, 50.f);
-	float speed = 10.0f;
+	float speed = 10.0F;
 	bool facingRight = false;
-public:
 
+protected:
+    Forest& forest;
+    mutable sf::Sprite sprite;
+
+public:
 	Forest& getForest() const override;
 
     LumberJack(Forest& forest, b2Vec2 position);
@@ -34,7 +35,11 @@ public:
 
 	b2Vec2 getSize() const override;
 
-	void tick(float delta) override;
+    void setSpeed(float speed);
+
+    void targetNearestTree();
+
+    void tick(float delta) override;
 };
 
 

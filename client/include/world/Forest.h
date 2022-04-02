@@ -77,6 +77,8 @@ public:
 
 	const ForestScreen& getScreen() const;
 
+    const std::vector<Tree*> getTrees() const;
+
 private:
 	ForestNode* getNode(b2Vec2 position) const;
 
