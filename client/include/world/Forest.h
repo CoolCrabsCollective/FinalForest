@@ -37,6 +37,7 @@ class Forest : public sf::Drawable, public Tickable {
     int grass_map[TILES_HEIGHT][TILES_WIDTH];
 public:
     int nutCount;
+    int squirrelCount;
 
 	Forest(const wiz::AssetLoader& assetLoader);
 

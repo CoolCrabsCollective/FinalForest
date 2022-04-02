@@ -18,6 +18,8 @@ Forest::Forest(const wiz::AssetLoader& assetLoader) : assetLoader(assetLoader),
 		map() {
 
     nutCount = 0;
+    squirrelCount = 1;
+
     grass_sprite[0] = sf::Sprite(*assetLoader.get(GameAssets::GRASS1));
     grass_sprite[1] = sf::Sprite(*assetLoader.get(GameAssets::GRASS2));
     grass_sprite[2] = sf::Sprite(*assetLoader.get(GameAssets::GRASS3));

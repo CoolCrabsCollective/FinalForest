@@ -23,10 +23,12 @@ void ForestScreen::render(sf::RenderTarget& target) {
     target.setView(sf::View({800.0f, 450.0f}, {1600.0f, 900.0f}));
     target.draw(nutCountText);
     target.draw(nutSprite);
+    target.draw(squirrelCountText);
 }
 
 void ForestScreen::show() {
     updateNutCount(forest.nutCount);
+    updateSquirrelCount(forest.squirrelCount);
 
     nutTexture = *getGame().getAssets().get(GameAssets::NUT);
     nutSprite.setTexture(nutTexture);
@@ -51,9 +53,17 @@ void ForestScreen::windowClosed() {
 }
 
 void ForestScreen::updateNutCount(int nutCount) {
-   forest.nutCount = nutCount;
-   nutCountText.setString(std::to_string(nutCount));
-   nutCountText.setPosition(sf::Vector2f(1550, 25));
-   nutCountText.setCharacterSize(20);
-   nutCountText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+    forest.nutCount = nutCount;
+    squirrelCountText.setString(std::to_string(nutCount));
+    squirrelCountText.setPosition(sf::Vector2f(1550, 25));
+    squirrelCountText.setCharacterSize(20);
+    squirrelCountText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+}
+
+void ForestScreen::updateSquirrelCount(int squirrelCount) {
+    forest.squirrelCount = squirrelCount;
+    nutCountText.setString(std::to_string(squirrelCount));
+    nutCountText.setPosition(sf::Vector2f(1550, 75));
+    nutCountText.setCharacterSize(20);
+    nutCountText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
 }
