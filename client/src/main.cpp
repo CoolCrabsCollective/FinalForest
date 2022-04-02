@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
 #ifdef OS_SWITCH
 	mode = sf::VideoMode::getDesktopMode();
 #else
-	mode = sf::VideoMode(640, 480, 32);
+	mode = sf::VideoMode(1280, 720, 32);
 #endif
 
 	std::shared_ptr<sf::RenderWindow> window = std::make_shared<sf::RenderWindow>(mode, "SFML Game Template Project");
