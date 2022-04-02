@@ -35,6 +35,8 @@ public:
 
 	void setHealth(int health);
 
+    void damage(int damage);
+
 	bool isBlocking(b2Vec2 center, b2Vec2 size) override;
 };
 

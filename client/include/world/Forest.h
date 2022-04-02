@@ -17,16 +17,20 @@
 #include "PathFinder/PathFinder.h"
 #include "SFML/System/Vector2.hpp"
 #include "world/pathfinding/ForestNode.h"
+#include "Squirrel.h"
+#include "Tree.h"
 #include "WIZ/game/Screen.h"
 #include <unordered_map>
 #include "world/pathfinding/ForestPathFinder.h"
+#include <math.h>
 
 class ForestScreen;
+class Tree;
+class Squirrel;
+class GreatOakTree;
 
 #define TILES_WIDTH 75
 #define TILES_HEIGHT 50
-
-#define PI 3.14159265
 
 class Forest : public sf::Drawable, public Tickable {
 	const ForestScreen& screen;
@@ -34,14 +38,19 @@ class Forest : public sf::Drawable, public Tickable {
 	b2World world;
 
 	std::vector<Entity*> objects;
+	std::vector<Tree*> trees;
 
 	ForestPathFinder finder;
 
     sf::Sprite grass_sprite[4];
+    GreatOakTree* greatOakTree;
     int grass_map[TILES_HEIGHT][TILES_WIDTH];
+    std::map<Squirrel*, Tree*> squirrelTreeMap;
+    std::map<Tree*, Squirrel*> treeSquirrelMap;
 public:
     int nutCount;
     int squirrelCount;
+    int mana;
 
 	Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader);
 
@@ -50,6 +59,16 @@ public:
 	void draw(sf::RenderTarget& target, const sf::RenderStates& states) const override;
 
 	void createForest();
+
+	void spawnSquirrel();
+
+	void assignSquirrel(Squirrel* squirrel, Tree* tree);
+
+	Tree* getNextAvailableTree();
+
+    void unassignTree(Tree* tree);
+
+    void unassignSquirrel(Squirrel* squirrel);
 
 	b2World& getB2World();
 
@@ -62,6 +81,10 @@ public:
 	const ForestPathFinder& getPathFinder() const;
 
 	const ForestScreen& getScreen() const;
+
+	GreatOakTree* getGreatOakTree() const;
+
+    const std::vector<Tree*> getTrees() const;
 };
 
 

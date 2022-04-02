@@ -9,9 +9,9 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 
 LumberJack::LumberJack(Forest& forest, b2Vec2 position) : forest(forest) {
-	sprite.setTexture(*forest.getAssets().get(GameAssets::WOODCUTTER));
+    sprite.setTexture(*forest.getAssets().get(GameAssets::LUMBERJACKAXE));
 
-	// Define the dynamic body. We set its position and call the body factory.
+    // Define the dynamic body. We set its position and call the body factory.
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(position.x, position.y);
@@ -32,6 +32,8 @@ LumberJack::LumberJack(Forest& forest, b2Vec2 position) : forest(forest) {
 
 	// Add the shape to the body.
 	body->CreateFixture(&fixtureDef);
+
+    targetNearestTree();
 }
 
 void LumberJack::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
@@ -54,6 +56,10 @@ void LumberJack::tick(float delta) {
 	facingRight = direction.x > 0;
 	direction.Normalize();
 	body->SetLinearVelocity(speed * direction);
+
+    if (isAtDestination()) {
+        attackTree();
+    }
 }
 
 b2Body* LumberJack::getBody() const {
@@ -70,4 +76,37 @@ b2Vec2 LumberJack::getSize() const {
 
 Forest& LumberJack::getForest() const {
 	return forest;
+}
+
+void LumberJack::setSpeed(float speed) {
+    this->speed = speed;
+}
+
+void LumberJack::setAttack(float attack) {
+    this->attack = attack;
+}
+
+void LumberJack::targetNearestTree() {
+    std::vector<Tree*> trees(forest.getTrees());
+
+    std::sort(trees.begin(), trees.end(), [this](Tree* a, Tree* b){
+        float a_dis = b2DistanceSquared(a->getPosition(), body->GetPosition());
+        float b_dis = b2DistanceSquared(b->getPosition(), body->GetPosition());
+        return a_dis < b_dis;
+    });
+
+    target = trees.front();
+    destination = target->getPosition();
+}
+
+float LumberJack::distanceToDestination() {
+    return b2DistanceSquared(destination, body->GetPosition());
+}
+
+bool LumberJack::isAtDestination() {
+    return distanceToDestination() < 0.1;
+}
+
+void LumberJack::attackTree() {
+    target->damage(attack);
 }

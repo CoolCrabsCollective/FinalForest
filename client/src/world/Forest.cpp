@@ -8,21 +8,25 @@
 #include "world/Tree.h"
 #include "world/Squirrel.h"
 #include "world/LumberJack.h"
+#include "world/LumberJackChainsaw.h"
 #include <stdlib.h>
 #include <iostream>
+#include <memory>
 #include <math.h>
+#include <world/state/SquirrelGoGathertState.h>
 #include "GameAssets.h"
-#include "world/BigAssTree.h"
+#include "world/GreatOakTree.h"
 #include "ForestScreen.h"
 
 Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 	: screen(screen),
 		assetLoader(assetLoader),
 		world(b2Vec2_zero),
-		finder(assetLoader) {
-
+		finder(assetLoader)
+{
     nutCount = 0;
     squirrelCount = 0;
+    mana = 0;
 
     grass_sprite[0] = sf::Sprite(*assetLoader.get(GameAssets::GRASS1));
     grass_sprite[1] = sf::Sprite(*assetLoader.get(GameAssets::GRASS2));
@@ -40,11 +44,26 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
         for(int j = 0; j < TILES_WIDTH; j++)
             grass_map[i][j] = rand() % 4;
 
-	objects.push_back(new BigAssTree(*this, b2Vec2(50.0f, 50.0f)));
+    this->greatOakTree = new GreatOakTree(*this, b2Vec2(50.0f, 50.0f));
+	objects.push_back(this->greatOakTree);
 
     createForest();
 
-	objects.push_back(new Squirrel(*this, b2Vec2(50.0f, 5.0f)));
+	for(Entity* entity : objects)
+	{
+		if(dynamic_cast<Tree*>(entity))
+			trees.push_back(dynamic_cast<Tree*>(entity));
+	}
+
+	std::sort(trees.begin(), trees.end(), [&](Tree* a, Tree* b){
+		b2Vec2 bigTree = {this->getGreatOakTree()->getPosition().x, this->getGreatOakTree()->getPosition().y};
+		float a_dis = b2DistanceSquared(a->getPosition(), bigTree);
+		float b_dis = b2DistanceSquared(b->getPosition(), bigTree);
+		return a_dis < b_dis;
+	});
+
+	for(int i = 0; i < 10; i++)
+		spawnSquirrel();
 
 	finder.initialize(objects);
 
@@ -57,7 +76,50 @@ Forest::~Forest() {
 	objects.clear();
 }
 
+
+void Forest::spawnSquirrel() {
+    Squirrel* squirrel = new Squirrel(*this, {50, 50});
+    objects.push_back(squirrel);
+    Tree* tree = getNextAvailableTree();
+    if(tree) {
+        assignSquirrel(squirrel, tree);
+        squirrel->setState(std::make_shared<SquirrelGoGatherState>(this, squirrel, tree));
+    }
+}
+
+void Forest::assignSquirrel(Squirrel *squirrel, Tree *tree) {
+    squirrelTreeMap.insert(std::pair<Squirrel*, Tree*> {squirrel, tree});
+    treeSquirrelMap.insert(std::pair<Tree*, Squirrel*> {tree, squirrel});
+}
+
+void Forest::unassignTree(Tree *tree) {
+    Squirrel* squirrel = treeSquirrelMap[tree];
+    treeSquirrelMap.erase(tree);
+    squirrelTreeMap.erase(squirrel);
+}
+
+void Forest::unassignSquirrel(Squirrel *squirrel) {
+    Tree* tree = squirrelTreeMap[squirrel];
+    squirrelTreeMap.erase(squirrel);
+    treeSquirrelMap.erase(tree);
+}
+
+Tree *Forest::getNextAvailableTree() {
+    for(Tree* tree : trees)
+        if(!dynamic_cast<GreatOakTree*>(tree) && !treeSquirrelMap.contains(tree))
+            return tree;
+
+    return nullptr;
+}
+
+
 void Forest::tick(float delta) {
+    for(Entity* obj : objects) {
+        Squirrel* squirrel = dynamic_cast<Squirrel*>(obj);
+        if(squirrel)
+            squirrel->getState()->tick(delta);
+    }
+
 	for(Entity* obj : objects) {
 		Tickable* tickable = dynamic_cast<Tickable*>(obj);
 		if(tickable)
@@ -80,11 +142,11 @@ void Forest::GenerateEnemyWave(int numOfEnemies) {
 
         spawnDirection = rand() % 360;
 
-        newXPos = (float) cos( spawnDirection * PI / 180.0 ) * spawnRadius + screenCenter;
+        newXPos = (float) cos( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
 
-        newYPos = (float) sin( spawnDirection * PI / 180.0 ) * spawnRadius + screenCenter;
+        newYPos = (float) sin( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
 
-        objects.push_back(new LumberJack(*this, b2Vec2(newXPos, newYPos)));
+        objects.push_back(new LumberJackChainsaw(*this, b2Vec2(newXPos, newYPos)));
     }
 }
 
@@ -111,7 +173,6 @@ void Forest::draw(sf::RenderTarget& target, const sf::RenderStates& states) cons
 }
 
 void Forest::createForest() {
-    float minDistance = 8.f;
     int totalTrees = 55;
 	int addedTrees = 0;
 
@@ -132,7 +193,7 @@ void Forest::createForest() {
 
 			float minDistance;
 
-			if(dynamic_cast<BigAssTree*>(entity))
+			if(dynamic_cast<GreatOakTree*>(entity))
 				minDistance = (physical->getSize().x + physical->getSize().y) / 2.0f;
 			else
 				minDistance = (physical->getSize().x + physical->getSize().y) * 3.0f / 4.0f;
@@ -154,6 +215,10 @@ b2World& Forest::getB2World() {
 	return world;
 }
 
+const std::vector<Tree*> Forest::getTrees() const {
+    return trees;
+}
+
 const wiz::AssetLoader& Forest::getAssets() const {
 	return assetLoader;
 }
@@ -164,4 +229,8 @@ const ForestScreen& Forest::getScreen() const {
 
 const ForestPathFinder& Forest::getPathFinder() const {
 	return finder;
+}
+
+GreatOakTree* Forest::getGreatOakTree() const {
+    return greatOakTree;
 }
