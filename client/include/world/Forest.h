@@ -19,6 +19,7 @@
 #include "ForestNode.h"
 #include "WIZ/game/Screen.h"
 #include <unordered_map>
+#include <math.h>
 
 class ForestScreen;
 
@@ -26,8 +27,6 @@ const float PATHFINDING_TILE_SIZE = 1.0f;
 
 #define TILES_WIDTH 75
 #define TILES_HEIGHT 50
-
-#define PI 3.14159265
 
 class Forest : public sf::Drawable, public Tickable {
 	const ForestScreen& screen;

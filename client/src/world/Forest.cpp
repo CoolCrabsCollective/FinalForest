@@ -96,9 +96,9 @@ void Forest::GenerateEnemyWave(int numOfEnemies) {
 
         spawnDirection = rand() % 360;
 
-        newXPos = (float) cos( spawnDirection * PI / 180.0 ) * spawnRadius + screenCenter;
+        newXPos = (float) cos( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
 
-        newYPos = (float) sin( spawnDirection * PI / 180.0 ) * spawnRadius + screenCenter;
+        newYPos = (float) sin( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
 
         objects.push_back(new LumberJack(*this, b2Vec2(newXPos, newYPos)));
     }
