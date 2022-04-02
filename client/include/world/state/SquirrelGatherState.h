@@ -8,7 +8,7 @@
 #include "SquirrelState.h"
 #include "world/Tree.h"
 
-#define SQUIRREL_HARVESTING_TIME 3.f
+#define SQUIRREL_HARVESTING_TIME 3000.f
 
 class SquirrelGatherState : public SquirrelState {
 private:

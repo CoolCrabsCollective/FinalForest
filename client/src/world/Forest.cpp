@@ -11,7 +11,9 @@
 #include "world/LumberJackChainsaw.h"
 #include <stdlib.h>
 #include <iostream>
+#include <memory>
 #include <math.h>
+#include <world/state/SquirrelGoGathertState.h>
 #include "GameAssets.h"
 #include "world/GreatOakTree.h"
 
@@ -59,7 +61,7 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
         return a_dis < b_dis;
     });
 
-    for(int i = 0; i < 5; i++)
+    for(int i = 0; i < 10; i++)
         spawnSquirrel();
 
 	int16_t minX = floor(-50.0f / PATHFINDING_TILE_SIZE);
@@ -92,11 +94,13 @@ Forest::~Forest() {
 
 
 void Forest::spawnSquirrel() {
-    Squirrel* squirrel = new Squirrel(*this, {30, 30});
+    Squirrel* squirrel = new Squirrel(*this, {50, 50});
     objects.push_back(squirrel);
     Tree* tree = getNextAvailableTree();
-    if(tree)
+    if(tree) {
         assignSquirrel(squirrel, tree);
+        squirrel->setState(std::make_shared<SquirrelGoGatherState>(this, squirrel, tree));
+    }
 }
 
 void Forest::assignSquirrel(Squirrel *squirrel, Tree *tree) {
@@ -118,7 +122,7 @@ void Forest::unassignSquirrel(Squirrel *squirrel) {
 
 Tree *Forest::getNextAvailableTree() {
     for(Tree* tree : trees)
-        if(!treeSquirrelMap.contains(tree))
+        if(!dynamic_cast<GreatOakTree*>(tree) && !treeSquirrelMap.contains(tree))
             return tree;
 
     return nullptr;
