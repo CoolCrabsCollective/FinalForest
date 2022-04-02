@@ -7,6 +7,7 @@
 #include "Box2D/Collision/Shapes/b2PolygonShape.h"
 #include "Box2D/Dynamics/b2Fixture.h"
 #include "GameAssets.h"
+#include "UI/Button.h"
 
 ForestScreen::ForestScreen(wiz::Game& game)
 		: Screen(game), forest(*this, game.getAssets()) {
@@ -30,6 +31,9 @@ void ForestScreen::render(sf::RenderTarget& target) {
     target.draw(squirrelSprite);
     target.draw(manaText);
     target.draw(manaSprite);
+
+    Button testButton = Button(sf::IntRect());
+    target.draw(testButton);
 }
 
 void ForestScreen::show() {
