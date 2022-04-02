@@ -62,7 +62,7 @@ ForestScreen::ForestScreen(wiz::Game& game)
 }
 
 void ForestScreen::tick(float delta) {
-	world.Step(delta / 1000.0f, 6, 2);
+    world.Step(delta / 1000.0f, 6, 2);
 }
 
 void ForestScreen::render(sf::RenderTarget& target) {
@@ -90,9 +90,16 @@ void ForestScreen::render(sf::RenderTarget& target) {
 		sprite.setRotation(sf::radians(body->GetTransform().q.GetAngle()));
 		target.draw(sprite);
 	}
+    target.setView(sf::View({800.0f, 450.0f}, {1600.0f, 900.0f}));
+    target.draw(nutCountText);
 }
 
 void ForestScreen::show() {
+    nutCountText.setString("0");
+    nutCountText.setPosition(sf::Vector2f(1550, 0));
+    nutCountText.setCharacterSize(20);
+    nutCountText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+
 	getGame().addWindowListener(this);
 }
 
