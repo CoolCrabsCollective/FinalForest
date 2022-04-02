@@ -11,5 +11,6 @@ LumberJackChainsaw::LumberJackChainsaw(Forest& forest, const b2Vec2& position)
 	: LumberJack(forest, position)
 {
     setSpeed(15.0f);
+    setAttack(2);
 	sprite.setTexture(*forest.getAssets().get(GameAssets::LUMBERJACKCHAINSAW), true);
 }

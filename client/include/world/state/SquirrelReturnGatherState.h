@@ -5,10 +5,17 @@
 #ifndef LD50_COMMON_SQUIRRELRETURNGATHERSTATE_H
 #define LD50_COMMON_SQUIRRELRETURNGATHERSTATE_H
 
+#include <world/Tree.h>
 #include "SquirrelState.h"
+
+#define MIN_GREAT_TREE_DISTANCE 6
 class SquirrelReturnGatherState : public SquirrelState {
-    public:
-        SquirrelReturnGatherState(Forest* forest, Squirrel* squirrel);
+private:
+  Tree* tree;
+public:
+    SquirrelReturnGatherState(Forest* forest, Squirrel* squirrel, Tree* previousTree);
+
+void tick(float delta) override;
 };
 
 

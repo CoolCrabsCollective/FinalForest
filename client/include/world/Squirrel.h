@@ -6,12 +6,16 @@
 #define LD50_CLIENT_SQUIRREL_H
 
 
+#include <world/state/SquirrelState.h>
 #include "SFML/Graphics/Drawable.hpp"
 #include "Physical.h"
 #include "Tickable.h"
 #include "SFML/Graphics/Sprite.hpp"
 #include "PathFinder/AStar.h"
 #include "PathFinder/PathFinder.h"
+#include "memory.h"
+
+class SquirrelState;
 
 class Squirrel : public sf::Drawable, public Physical, public Tickable {
 
@@ -22,6 +26,13 @@ class Squirrel : public sf::Drawable, public Physical, public Tickable {
 	b2Vec2 destination = b2Vec2(100.f, 100.f);
 	float speed = 10.0f;
 	bool facingRight = false;
+
+	std::shared_ptr<SquirrelState> state;
+public:
+    std::shared_ptr<SquirrelState> getState() const;
+
+    void setState(std::shared_ptr<SquirrelState> state);
+
 public:
 
 	Forest& getForest() const override;
@@ -36,7 +47,11 @@ public:
 
 	b2Vec2 getSize() const override;
 
-	void tick(float delta) override;
+    const b2Vec2 &getDestination() const;
+
+    void setDestination(const b2Vec2 &destination);
+
+    void tick(float delta) override;
 };
 
 

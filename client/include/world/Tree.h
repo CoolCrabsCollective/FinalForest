@@ -34,6 +34,8 @@ public:
 	Forest& getForest() const override;
 
 	void setHealth(int health);
+
+    void damage(int damage);
 };
 
 

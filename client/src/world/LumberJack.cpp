@@ -56,6 +56,10 @@ void LumberJack::tick(float delta) {
 	facingRight = direction.x > 0;
 	direction.Normalize();
 	body->SetLinearVelocity(speed * direction);
+
+    if (isAtDestination()) {
+        attackTree();
+    }
 }
 
 b2Body* LumberJack::getBody() const {
@@ -78,6 +82,10 @@ void LumberJack::setSpeed(float speed) {
     this->speed = speed;
 }
 
+void LumberJack::setAttack(float attack) {
+    this->attack = attack;
+}
+
 void LumberJack::targetNearestTree() {
     std::vector<Tree*> trees(forest.getTrees());
 
@@ -87,5 +95,18 @@ void LumberJack::targetNearestTree() {
         return a_dis < b_dis;
     });
 
-    destination = trees.front()->getPosition();
+    target = trees.front();
+    destination = target->getPosition();
+}
+
+float LumberJack::distanceToDestination() {
+    return b2DistanceSquared(destination, body->GetPosition());
+}
+
+bool LumberJack::isAtDestination() {
+    return distanceToDestination() < 0.1;
+}
+
+void LumberJack::attackTree() {
+    target->damage(attack);
 }

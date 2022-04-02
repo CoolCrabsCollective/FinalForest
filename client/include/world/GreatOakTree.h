@@ -5,12 +5,11 @@
 #ifndef LD50_CLIENT_BIGASSTREE_H
 #define LD50_CLIENT_BIGASSTREE_H
 
-
 #include "Tree.h"
 
-class BigAssTree : public Tree {
+class GreatOakTree : public Tree {
 public:
-	BigAssTree(Forest& forest, const b2Vec2& position);
+	GreatOakTree(Forest& forest, const b2Vec2& position);
 
 	b2Vec2 getSize() const override;
 };

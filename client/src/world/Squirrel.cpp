@@ -2,6 +2,9 @@
 // Created by Alexander Winter on 2022-04-02.
 //
 
+#include <world/state/SquirrelIdleState.h>
+
+#include <memory>
 #include "world/Squirrel.h"
 #include "world/Forest.h"
 #include "GameAssets.h"
@@ -36,6 +39,7 @@ Squirrel::Squirrel(Forest& forest, b2Vec2 position) : forest(forest) {
 	// Add the shape to the body.
 	body->CreateFixture(&fixtureDef);
 
+	this->state = std::make_shared<SquirrelIdleState>(&this->forest, this);
     // Update the squirrel count.
     forest.squirrelCount ++;
 }
@@ -52,24 +56,6 @@ void Squirrel::draw(sf::RenderTarget& target, const sf::RenderStates& states) co
 }
 
 void Squirrel::tick(float delta) {
-	sf::View view = sf::View({50.0f, 50.0f}, {213.33f, 120.0f});
-
-	if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-		const sf::RenderWindow& window = getForest().getScreen().getWindow();
-		sf::Vector2f pos = window.mapPixelToCoords(sf::Mouse::getPosition(window), view);
-
-		destination.x = pos.x;
-		destination.y = 100.0f - pos.y;
-	}
-
-	if(sf::Touch::isDown(1)) {
-		const sf::RenderWindow& window = getForest().getScreen().getWindow();
-		sf::Vector2f pos = window.mapPixelToCoords(sf::Mouse::getPosition(window), view);
-
-		destination.x = pos.x;
-		destination.y = 100.0f - pos.y;
-	}
-
 	if(b2DistanceSquared(destination, getPosition()) < 1.f)
 		return;
 
@@ -93,4 +79,20 @@ b2Vec2 Squirrel::getSize() const {
 
 Forest& Squirrel::getForest() const {
 	return forest;
+}
+
+const b2Vec2 &Squirrel::getDestination() const {
+    return destination;
+}
+
+void Squirrel::setDestination(const b2Vec2 &destination) {
+    Squirrel::destination = destination;
+}
+
+std::shared_ptr<SquirrelState> Squirrel::getState() const {
+    return state;
+}
+
+void Squirrel::setState(std::shared_ptr<SquirrelState> state) {
+    Squirrel::state = state;
 }

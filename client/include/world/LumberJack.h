@@ -9,13 +9,16 @@
 #include "SFML/Graphics/Drawable.hpp"
 #include "Physical.h"
 #include "Tickable.h"
+#include "Tree.h"
 #include "SFML/Graphics/Sprite.hpp"
 
 class LumberJack : public sf::Drawable, public Physical, public Tickable {
 
     b2Body* body;
 	b2Vec2 destination = b2Vec2(50.f, 50.f);
+    Tree* target;
 	float speed = 10.0F;
+    int attack = 1;
 	bool facingRight = false;
 
 protected:
@@ -37,7 +40,15 @@ public:
 
     void setSpeed(float speed);
 
+    void setAttack(float attack);
+
     void targetNearestTree();
+
+    float distanceToDestination();
+
+    bool isAtDestination();
+
+    void attackTree();
 
     void tick(float delta) override;
 };

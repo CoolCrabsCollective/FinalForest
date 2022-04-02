@@ -24,12 +24,14 @@
 #include <math.h>
 
 class ForestScreen;
+class Tree;
+class Squirrel;
+class GreatOakTree;
 
 const float PATHFINDING_TILE_SIZE = 1.0f;
 
 #define TILES_WIDTH 75
 #define TILES_HEIGHT 50
-class Tree;
 
 class Forest : public sf::Drawable, public Tickable {
 	const ForestScreen& screen;
@@ -43,6 +45,7 @@ class Forest : public sf::Drawable, public Tickable {
 	std::unordered_map<uint32_t, ForestNode*> map;
 
     sf::Sprite grass_sprite[4];
+    GreatOakTree* greatOakTree;
     int grass_map[TILES_HEIGHT][TILES_WIDTH];
     std::map<Squirrel*, Tree*> squirrelTreeMap;
     std::map<Tree*, Squirrel*> treeSquirrelMap;
@@ -76,6 +79,8 @@ public:
 	void findPath(b2Vec2 start, b2Vec2 goal, std::vector<ForestNode*> path) const;
 
 	const ForestScreen& getScreen() const;
+
+	GreatOakTree* getGreatOakTree() const;
 
     const std::vector<Tree*> getTrees() const;
 
