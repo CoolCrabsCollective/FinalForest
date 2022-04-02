@@ -83,6 +83,14 @@ void Squirrel::draw(sf::RenderTarget& target, const sf::RenderStates& states) co
 			prev = nodeDest;
 		}
 	}
+
+
+	debugSprite.setPosition(sf::Vector2f(destination.x, 100.0f - destination.y));
+	debugSprite.setOrigin({ 0.5f, 0.5f });
+	debugSprite.setScale(sf::Vector2f(1.0f, 1.0f));
+	debugSprite.setColor(sf::Color::Blue);
+
+	target.draw(debugSprite);
 }
 
 void Squirrel::tick(float delta) {
