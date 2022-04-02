@@ -9,11 +9,12 @@
 #include "GameAssets.h"
 
 ForestScreen::ForestScreen(wiz::Game& game)
-		: Screen(game), forest(game.getAssets()) {
+		: Screen(game), forest(*this, game.getAssets()) {
 }
 
 void ForestScreen::tick(float delta) {
 	forest.tick(delta);
+    updateSquirrelCount(forest.squirrelCount);
 }
 
 void ForestScreen::render(sf::RenderTarget& target) {
@@ -30,17 +31,19 @@ void ForestScreen::render(sf::RenderTarget& target) {
 void ForestScreen::show() {
     updateNutCount(forest.nutCount);
 
+#ifdef OS_SWITCH
     nutTexture = *getGame().getAssets().get(GameAssets::NUT);
     nutSprite.setTexture(nutTexture);
+#endif
     nutSprite.setTextureRect(sf::Rect<int>({0, 0}, {16, 16}));
     nutSprite.setColor(sf::Color(255, 255, 255, 200));
     nutSprite.setPosition(sf::Vector2f(1500.0f, 25.0f));
     nutSprite.setScale({2.0f, 2.0f});
 
-    updateSquirrelCount(forest.squirrelCount);
-
+#ifdef OS_SWITCH
     squirrelTexture = *getGame().getAssets().get(GameAssets::SQUIRREL);
     squirrelSprite.setTexture(squirrelTexture);
+#endif
     squirrelSprite.setTextureRect(sf::Rect<int>({0, 0}, {16, 16}));
     squirrelSprite.setColor(sf::Color(255, 255, 255, 200));
     squirrelSprite.setPosition(sf::Vector2f(1500.0f, 75.0f));

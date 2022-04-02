@@ -6,7 +6,7 @@
 #define LD50_CLIENT_PHYSICAL_H
 
 
-#include "Dynamics/b2Body.h"
+#include "Box2D/Dynamics/b2Body.h"
 #include "Entity.h"
 
 class Physical : public Entity {

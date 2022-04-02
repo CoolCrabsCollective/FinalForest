@@ -11,7 +11,7 @@
 #include "Tickable.h"
 #include "SFML/Graphics/Drawable.hpp"
 #include "WIZ/asset/AssetLoader.h"
-#include "Dynamics/b2World.h"
+#include "Box2D/Dynamics/b2World.h"
 #include "Entity.h"
 #include "PathFinder/AStar.h"
 #include "PathFinder/PathFinder.h"
@@ -19,7 +19,11 @@
 #include "ForestNode.h"
 #include "Squirrel.h"
 #include "Tree.h"
+#include "WIZ/game/Screen.h"
 #include <unordered_map>
+#include <math.h>
+
+class ForestScreen;
 
 const float PATHFINDING_TILE_SIZE = 1.0f;
 
@@ -28,6 +32,7 @@ const float PATHFINDING_TILE_SIZE = 1.0f;
 class Tree;
 
 class Forest : public sf::Drawable, public Tickable {
+	const ForestScreen& screen;
 	const wiz::AssetLoader& assetLoader;
 	b2World world;
 
@@ -45,7 +50,7 @@ public:
     int nutCount;
     int squirrelCount;
 
-	Forest(const wiz::AssetLoader& assetLoader);
+	Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader);
 
 	~Forest() override;
 
@@ -65,12 +70,17 @@ public:
 
 	void tick(float delta) override;
 
+    void GenerateEnemyWave(int numOfEnemies);
+
 	void findPath(b2Vec2 start, b2Vec2 goal, std::vector<ForestNode*> path) const;
+
+	const ForestScreen& getScreen() const;
 
 private:
 	ForestNode* getNode(b2Vec2 position) const;
 
 	uint32_t key(b2Vec2 position) const;
+
 };
 
 

@@ -7,18 +7,21 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "world/Tree.h"
 #include "world/Squirrel.h"
+#include "world/LumberJack.h"
 #include <stdlib.h>
 #include <iostream>
 #include <math.h>
 #include "GameAssets.h"
 #include "world/BigAssTree.h"
 
-Forest::Forest(const wiz::AssetLoader& assetLoader) : assetLoader(assetLoader),
+Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
+	: screen(screen),
+		assetLoader(assetLoader),
 		world(b2Vec2_zero),
 		map()
 {
     nutCount = 0;
-    squirrelCount = 1;
+    squirrelCount = 0;
 
     grass_sprite[0] = sf::Sprite(*assetLoader.get(GameAssets::GRASS1));
     grass_sprite[1] = sf::Sprite(*assetLoader.get(GameAssets::GRASS2));
@@ -73,6 +76,8 @@ Forest::Forest(const wiz::AssetLoader& assetLoader) : assetLoader(assetLoader),
 			map[key] = node;
 		}
 	}
+
+    GenerateEnemyWave(20);
 }
 
 Forest::~Forest() {
@@ -124,6 +129,27 @@ void Forest::tick(float delta) {
 	}
 
 	world.Step(delta / 1000.0f, 6, 2);
+}
+
+void Forest::GenerateEnemyWave(int numOfEnemies) {
+    int spawnRadius;
+    int screenCenter = 50;
+
+    int spawnDirection;
+    float newXPos;
+    float newYPos;
+
+    for (int i = 0; i<numOfEnemies; i++) {
+        spawnRadius = rand() % 150 + 80;
+
+        spawnDirection = rand() % 360;
+
+        newXPos = (float) cos( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
+
+        newYPos = (float) sin( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
+
+        objects.push_back(new LumberJack(*this, b2Vec2(newXPos, newYPos)));
+    }
 }
 
 void Forest::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
@@ -211,3 +237,6 @@ uint32_t Forest::key(b2Vec2 position) const {
 	return x & 0x0000FFFF | (static_cast<uint32_t>(y << 16) & 0xFFFF0000);
 }
 
+const ForestScreen& Forest::getScreen() const {
+	return screen;
+}
