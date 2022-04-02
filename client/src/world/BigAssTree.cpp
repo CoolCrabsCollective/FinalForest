@@ -4,12 +4,13 @@
 
 #include "world/BigAssTree.h"
 #include "GameAssets.h"
+#include "SFML/Graphics/RenderTarget.hpp"
 
 BigAssTree::BigAssTree(Forest& forest, const b2Vec2& position)
 	: Tree(forest, position)
 {
 	setHealth(100);
-	sprite.setTexture(*forest.getAssets().get(GameAssets::GREAT_OAK));
+	sprite.setTexture(*forest.getAssets().get(GameAssets::GREAT_OAK), true);
 }
 
 b2Vec2 BigAssTree::getSize() const {

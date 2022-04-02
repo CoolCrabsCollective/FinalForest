@@ -99,7 +99,7 @@ void Forest::draw(sf::RenderTarget& target, const sf::RenderStates& states) cons
 
 void Forest::createForest() {
     float minDistance = 8.f;
-    int totalTrees = 75;
+    int totalTrees = 55;
 	int addedTrees = 0;
 
     while (addedTrees < totalTrees) {
@@ -117,7 +117,14 @@ void Forest::createForest() {
 			if(!physical)
 				continue;
 
-            if (b2DistanceSquared(physical->getPosition(), position) < minDistance * minDistance) {
+			float minDistance;
+
+			if(dynamic_cast<BigAssTree*>(entity))
+				minDistance = (physical->getSize().x + physical->getSize().y) / 2.0f;
+			else
+				minDistance = (physical->getSize().x + physical->getSize().y) * 3.0f / 4.0f;
+
+            if(b2DistanceSquared(physical->getPosition(), position) < minDistance * minDistance) {
 				overlapping = true;
                 continue;
             }
