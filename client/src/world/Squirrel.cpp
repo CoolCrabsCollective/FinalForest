@@ -11,7 +11,6 @@
 #include "Box2D/Box2D.h"
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "SFML/Window/Mouse.hpp"
-#include "SFML/Window/Touch.hpp"
 #include "ForestScreen.h"
 
 Squirrel::Squirrel(Forest& forest, b2Vec2 position) : forest(forest) {
@@ -95,7 +94,10 @@ void Squirrel::draw(sf::RenderTarget& target, const sf::RenderStates& states) co
 
 void Squirrel::tick(float delta) {
 	if(b2DistanceSquared(destination, getPosition()) < 1.f)
-		return;
+    {
+        body->SetLinearVelocity({0.f, 0.f});
+        return;
+    }
 
 	if(destinationChanged) {
 		if(!getForest().getPathFinder().findPath(getPosition(), destination, path))
