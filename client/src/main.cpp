@@ -10,6 +10,7 @@
 #include "LoadingScreen.h"
 
 #include <WIZ/logging/DailyFileLogger.h>
+#include <time.h>
 
 #ifdef OS_SWITCH
 	#include <switch.h>
@@ -17,6 +18,7 @@
 
 int main(int argc, char* argv[])
 {
+    srand(time(NULL));
 #ifdef OS_SWITCH
 	// Setup NXLink
 	socketInitializeDefault();

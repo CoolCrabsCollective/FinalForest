@@ -10,20 +10,25 @@
 
 
 Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
-	sprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_PIXEL));
+	sprite.setTexture(*forest.getAssets().get(GameAssets::TREE));
 
 	// Define the dynamic body. We set its position and call the body factory.
 	b2BodyDef bodyDef;
+	bodyDef.type = b2_staticBody;
 	bodyDef.position.Set(position.x, position.y);
 
 	body = forest.getB2World().CreateBody(&bodyDef);
 
 	// Define another box shape for our dynamic body.
-	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(1.0f, 1.0f);
+	b2CircleShape circleShape;
+	circleShape.m_radius = getSize().x;
+
+	// Define the dynamic body fixture.
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &circleShape;
 
 	// Add the shape to the body.
-	body->CreateFixture(&dynamicBox, 0.0f);
+	body->CreateFixture(&circleShape, 0.0f);
 }
 
 void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
@@ -42,7 +47,7 @@ b2Vec2 Tree::getPosition() const {
 }
 
 b2Vec2 Tree::getSize() const {
-	return b2Vec2(1.0f, 1.0f);
+	return b2Vec2(5.0f, 5.0f);
 }
 
 Forest& Tree::getForest() const {
