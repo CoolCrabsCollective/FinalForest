@@ -19,10 +19,10 @@ Forest::Forest(const wiz::AssetLoader& assetLoader) : assetLoader(assetLoader), 
     grass_sprite[2] = sf::Sprite(*assetLoader.get(GameAssets::GRASS3));
     grass_sprite[3] = sf::Sprite(*assetLoader.get(GameAssets::GRASS4));
 
-    float scale = grass_sprite->getScale().x / grass_sprite->getTexture()->getSize().x;
+    float scale = grass_sprite->getScale().x / grass_sprite->getTexture()->getSize().x * 3;
     for(int i = 0; i < 4; i++)
     {
-        grass_sprite->setScale({scale, scale});
+        grass_sprite[i].setScale({scale, scale});
     }
     for(int i = 0; i < TILES_HEIGHT; i++)
     {
@@ -57,8 +57,8 @@ void Forest::draw(sf::RenderTarget& target, const sf::RenderStates& states) cons
 	    for(int j = 0; j < TILES_WIDTH; j++)
         {
             sf::Sprite grass = grass_sprite[grass_map[i][j]];
-            grass.setPosition({j * 16.f, i * 16.f});
-	        //target.draw(grass, states);
+            grass.setPosition({-60 + j * 16.f * grass_sprite->getScale().x, -10 + i * 16.f * grass_sprite->getScale().y});
+	        target.draw(grass, states);
         }
     }
 

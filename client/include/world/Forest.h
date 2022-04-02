@@ -14,8 +14,8 @@
 #include "Dynamics/b2World.h"
 #include "Entity.h"
 
-#define TILES_WIDTH 32
-#define TILES_HEIGHT 32
+#define TILES_WIDTH 75
+#define TILES_HEIGHT 50
 
 class Forest : public sf::Drawable, public Tickable {
 	const wiz::AssetLoader& assetLoader;
