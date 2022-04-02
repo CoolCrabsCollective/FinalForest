@@ -7,10 +7,11 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "world/Tree.h"
 #include <stdlib.h>
+#include <iostream>
 
 Forest::Forest(const wiz::AssetLoader& assetLoader) : assetLoader(assetLoader), world(b2Vec2_zero) {
-    float minDistance = 50.f;
-    int totalTrees = 30;
+    float minDistance = 8.f;
+    int totalTrees = 75;
     std::vector<Tree *> trees;
     while (trees.size() < totalTrees) {
         float x = (float) (rand() % 100);
@@ -20,13 +21,16 @@ Forest::Forest(const wiz::AssetLoader& assetLoader) : assetLoader(assetLoader), 
         if(b2DistanceSquared(position, b2Vec2(50.0f, 50.0f)) > 50.0f * 50.0f)
             continue;
 
+        bool overlappingTree = false;
         for (Tree *tree : trees) {
             if (b2DistanceSquared(tree->getPosition(), position) < minDistance * minDistance) {
+                overlappingTree = true;
                 continue;
             }
         }
 
-        trees.push_back(new Tree(*this, position));
+        if(!overlappingTree)
+            trees.push_back(new Tree(*this, position));
     }
 
     for(Tree* tree : trees)

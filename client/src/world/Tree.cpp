@@ -14,7 +14,7 @@ Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
 
 	// Define the dynamic body. We set its position and call the body factory.
 	b2BodyDef bodyDef;
-	bodyDef.type = b2_dynamicBody;
+	bodyDef.type = b2_staticBody;
 	bodyDef.position.Set(position.x, position.y);
 
 	body = forest.getB2World().CreateBody(&bodyDef);
