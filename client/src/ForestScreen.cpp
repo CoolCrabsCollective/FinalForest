@@ -22,6 +22,7 @@ void ForestScreen::render(sf::RenderTarget& target) {
     target.draw(forest);
     target.setView(sf::View({800.0f, 450.0f}, {1600.0f, 900.0f}));
     target.draw(nutCountText);
+    target.draw(nutSprite);
 }
 
 void ForestScreen::show() {
@@ -29,6 +30,13 @@ void ForestScreen::show() {
     nutCountText.setPosition(sf::Vector2f(1550, 0));
     nutCountText.setCharacterSize(20);
     nutCountText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+
+    nutTexture = *getGame().getAssets().get(GameAssets::NUT);
+    nutSprite.setTexture(nutTexture);
+    nutSprite.setTextureRect(sf::Rect<int>({0, 0}, {16, 16}));
+    nutSprite.setColor(sf::Color(255, 255, 255, 200));
+    nutSprite.setPosition(sf::Vector2f(1500.0f, 0.0f));
+    nutSprite.setScale({2.0f, 2.0f});
 
 	getGame().addWindowListener(this);
 }
