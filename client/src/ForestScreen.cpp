@@ -32,7 +32,7 @@ void ForestScreen::render(sf::RenderTarget& target) {
     target.draw(manaText);
     target.draw(manaSprite);
 
-    Button testButton = Button(sf::IntRect());
+    Button testButton = Button(sf::IntRect({50, 50}, {200, 100}));
     target.draw(testButton);
 }
 
