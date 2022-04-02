@@ -18,7 +18,6 @@ SquirrelReturnGatherState::SquirrelReturnGatherState(Forest *forest, Squirrel *s
 void SquirrelReturnGatherState::tick(float delta) {
     if(b2Distance(this->getSquirrel()->getPosition(), this->getForest()->getGreatOakTree()->getPosition()) < MIN_GREAT_TREE_DISTANCE)
     {
-        getForest()->getScreen().getLogger().debug("Walking towards nut...");
         this->getSquirrel()->setState(std::make_shared<SquirrelGoGatherState>(this->getForest(), this->getSquirrel(), this->tree));
         this->getForest()->nutCount++;
     }

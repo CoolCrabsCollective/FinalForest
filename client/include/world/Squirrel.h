@@ -27,7 +27,7 @@ class Squirrel : public sf::Drawable, public Physical, public Tickable {
 	std::vector<ForestNode*> path;
 	int pathIndex = -1;
 	b2Vec2 destination = b2Vec2(75.f, 75.f);
-	float speed = 10.0f;
+	float speed = 8.0f;
 	bool facingRight = false, destinationChanged = false;
 
 	std::shared_ptr<SquirrelState> state;
