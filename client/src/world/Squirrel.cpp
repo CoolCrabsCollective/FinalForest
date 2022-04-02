@@ -32,6 +32,9 @@ Squirrel::Squirrel(Forest& forest, b2Vec2 position) : forest(forest) {
 
 	// Add the shape to the body.
 	body->CreateFixture(&fixtureDef);
+
+    // Update the squirrel count.
+    forest.squirrelCount ++;
 }
 
 void Squirrel::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {

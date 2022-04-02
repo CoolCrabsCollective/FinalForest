@@ -14,6 +14,7 @@ ForestScreen::ForestScreen(wiz::Game& game)
 
 void ForestScreen::tick(float delta) {
 	forest.tick(delta);
+    updateSquirrelCount(forest.squirrelCount);
 }
 
 void ForestScreen::render(sf::RenderTarget& target) {
@@ -37,7 +38,6 @@ void ForestScreen::show() {
     nutSprite.setPosition(sf::Vector2f(1500.0f, 25.0f));
     nutSprite.setScale({2.0f, 2.0f});
 
-    updateSquirrelCount(forest.squirrelCount);
 
     squirrelTexture = *getGame().getAssets().get(GameAssets::SQUIRREL);
     squirrelSprite.setTexture(squirrelTexture);
