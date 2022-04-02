@@ -16,6 +16,8 @@ private:
     Tree* harvestingTree;
 public:
     SquirrelGatherState(Forest* forest, Squirrel* squirrel, Tree* tree);
+
+    void tick(float delta) override;
 };
 
 

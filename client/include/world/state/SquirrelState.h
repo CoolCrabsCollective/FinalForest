@@ -6,13 +6,18 @@
 #define LD50_COMMON_SQUIRRELSTATE_H
 
 #include "world/Squirrel.h"
+#include "world/Forest.h"
+
+class Squirrel;
+
 class SquirrelState {
     Squirrel* squirrel;
     Forest* forest;
 public:
     SquirrelState(Forest* forest, Squirrel* squirrel);
-    void tick(float delta);
+    virtual void tick(float delta) = 0;
     Squirrel* getSquirrel();
+    Forest* getForest();
 };
 
 

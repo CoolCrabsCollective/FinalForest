@@ -12,7 +12,7 @@
 #include <iostream>
 #include <math.h>
 #include "GameAssets.h"
-#include "world/BigAssTree.h"
+#include "world/GreatOakTree.h"
 
 Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 	: screen(screen),
@@ -39,7 +39,8 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
         for(int j = 0; j < TILES_WIDTH; j++)
             grass_map[i][j] = rand() % 4;
 
-	objects.push_back(new BigAssTree(*this, b2Vec2(50.0f, 50.0f)));
+    this->greatOakTree = new GreatOakTree(*this, b2Vec2(50.0f, 50.0f));
+	objects.push_back(this->greatOakTree);
 
     createForest();
 
@@ -49,14 +50,15 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
             trees.push_back(dynamic_cast<Tree*>(entity));
     }
 
-    std::sort(trees.begin(), trees.end(), [](Tree* a, Tree* b){
-        b2Vec2 bigTree = {50.f, 50.f};
+    std::sort(trees.begin(), trees.end(), [&](Tree* a, Tree* b){
+        b2Vec2 bigTree = {this->getGreatOakTree()->getPosition().x, this->getGreatOakTree()->getPosition().y};
         float a_dis = b2DistanceSquared(a->getPosition(), bigTree);
         float b_dis = b2DistanceSquared(b->getPosition(), bigTree);
         return a_dis < b_dis;
     });
 
-	objects.push_back(new Squirrel(*this, b2Vec2(0.0f, 0.0f)));
+    for(int i = 0; i < 5; i++)
+        spawnSquirrel();
 
 	int16_t minX = floor(-50.0f / PATHFINDING_TILE_SIZE);
 	int16_t minY = floor(-50.0f / PATHFINDING_TILE_SIZE);
@@ -122,6 +124,12 @@ Tree *Forest::getNextAvailableTree() {
 
 
 void Forest::tick(float delta) {
+    for(Entity* obj : objects) {
+        Squirrel* squirrel = dynamic_cast<Squirrel*>(obj);
+        if(squirrel)
+            squirrel->getState()->tick(delta);
+    }
+
 	for(Entity* obj : objects) {
 		Tickable* tickable = dynamic_cast<Tickable*>(obj);
 		if(tickable)
@@ -192,7 +200,7 @@ void Forest::createForest() {
 
 			float minDistance;
 
-			if(dynamic_cast<BigAssTree*>(entity))
+			if(dynamic_cast<GreatOakTree*>(entity))
 				minDistance = (physical->getSize().x + physical->getSize().y) / 2.0f;
 			else
 				minDistance = (physical->getSize().x + physical->getSize().y) * 3.0f / 4.0f;
@@ -239,4 +247,8 @@ uint32_t Forest::key(b2Vec2 position) const {
 
 const ForestScreen& Forest::getScreen() const {
 	return screen;
+}
+
+GreatOakTree* Forest::getGreatOakTree() const {
+    return greatOakTree;
 }

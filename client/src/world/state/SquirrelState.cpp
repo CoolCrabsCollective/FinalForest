@@ -12,3 +12,7 @@ SquirrelState::SquirrelState(Forest *forest, Squirrel *squirrel) {
 Squirrel* SquirrelState::getSquirrel() {
     return squirrel;
 }
+
+Forest *SquirrelState::getForest() {
+    return this->forest;
+}

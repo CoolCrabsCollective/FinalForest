@@ -7,12 +7,15 @@
 
 #include "SquirrelState.h"
 #include "world/Tree.h"
+
+#define MIN_TREE_DISTANCE 4
 class SquirrelGoGatherState : public SquirrelState {
     private:
-        Tree* destination;
+        Tree* tree;
     public:
         SquirrelGoGatherState(Forest* forest, Squirrel* squirrel, Tree* tree);
-};
 
+    void tick(float delta) override;
+};
 
 #endif //LD50_COMMON_GO_GATHER_STATE_H
