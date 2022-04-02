@@ -20,6 +20,8 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener {
     sf::Texture nutTexture;
     sf::Sprite nutSprite;
     sf::Text squirrelCountText;
+    sf::Texture squirrelTexture;
+    sf::Sprite squirrelSprite;
 
 	Forest forest;
 

@@ -24,11 +24,11 @@ void ForestScreen::render(sf::RenderTarget& target) {
     target.draw(nutCountText);
     target.draw(nutSprite);
     target.draw(squirrelCountText);
+    target.draw(squirrelSprite);
 }
 
 void ForestScreen::show() {
     updateNutCount(forest.nutCount);
-    updateSquirrelCount(forest.squirrelCount);
 
     nutTexture = *getGame().getAssets().get(GameAssets::NUT);
     nutSprite.setTexture(nutTexture);
@@ -36,6 +36,15 @@ void ForestScreen::show() {
     nutSprite.setColor(sf::Color(255, 255, 255, 200));
     nutSprite.setPosition(sf::Vector2f(1500.0f, 25.0f));
     nutSprite.setScale({2.0f, 2.0f});
+
+    updateSquirrelCount(forest.squirrelCount);
+
+    squirrelTexture = *getGame().getAssets().get(GameAssets::SQUIRREL);
+    squirrelSprite.setTexture(squirrelTexture);
+    squirrelSprite.setTextureRect(sf::Rect<int>({0, 0}, {16, 16}));
+    squirrelSprite.setColor(sf::Color(255, 255, 255, 200));
+    squirrelSprite.setPosition(sf::Vector2f(1500.0f, 75.0f));
+    squirrelSprite.setScale({2.0f, 2.0f});
 
 	getGame().addWindowListener(this);
 }
