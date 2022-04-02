@@ -19,7 +19,7 @@ Squirrel::Squirrel(Forest& forest, b2Vec2 position) : forest(forest) {
 	body = forest.getB2World().CreateBody(&bodyDef);
 
 	b2CircleShape circleShape;
-	circleShape.m_radius = getSize().x;
+	circleShape.m_radius = getSize().x / 2.0f;
 
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &circleShape;

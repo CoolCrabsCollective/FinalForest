@@ -4,6 +4,7 @@
 
 #include "LoadingScreen.h"
 #include "TitleScreen.h"
+#include "GameAssets.h"
 
 LoadingScreen::LoadingScreen(wiz::Game& game)
 	: Screen(game) {}

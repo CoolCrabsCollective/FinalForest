@@ -5,12 +5,11 @@
 #ifndef GAMETEMPLATE_LOADINGSCREEN_H
 #define GAMETEMPLATE_LOADINGSCREEN_H
 
-
-#include "HelloSFMLScreen.h"
+#include "SFML/Graphics/Text.hpp"
 #include "WIZ/game/Screen.h"
 #include "SFML/Graphics/Font.hpp"
 #include "SFML/Graphics/Sprite.hpp"
-#include "ExampleGame.h"
+#include "ForestGame.h"
 
 class LoadingScreen : public wiz::Screen, public wiz::WindowListener {
 	std::string name = "LoadingScreen";

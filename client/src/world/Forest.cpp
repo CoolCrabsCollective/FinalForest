@@ -9,8 +9,11 @@
 #include "world/Squirrel.h"
 #include <stdlib.h>
 #include <iostream>
+#include <math.h>
 
-Forest::Forest(const wiz::AssetLoader& assetLoader) : assetLoader(assetLoader), world(b2Vec2_zero) {
+Forest::Forest(const wiz::AssetLoader& assetLoader) : assetLoader(assetLoader),
+		world(b2Vec2_zero),
+		map() {
 
     float minDistance = 8.f;
     int totalTrees = 75;
@@ -39,6 +42,25 @@ Forest::Forest(const wiz::AssetLoader& assetLoader) : assetLoader(assetLoader), 
         objects.push_back(tree);
 
 	objects.push_back(new Squirrel(*this, b2Vec2(0.0f, 0.0f)));
+
+	int16_t minX = floor(-50.0f / PATHFINDING_TILE_SIZE);
+	int16_t minY = floor(-50.0f / PATHFINDING_TILE_SIZE);
+
+	int16_t maxX = floor(50.0f / PATHFINDING_TILE_SIZE);
+	int16_t maxY = floor(50.0f / PATHFINDING_TILE_SIZE);
+
+	for(int16_t x = minX; x < maxX; x++) {
+		for(int16_t y = minY; y < maxY; y++) {
+			uint32_t key = x & 0x0000FFFF | (static_cast<uint32_t>(y << 16) & 0xFFFF0000);
+
+			ForestNode* node = new ForestNode();
+
+
+			node->setPosition(x, y);
+
+			map[key] = node;
+		}
+	}
 }
 
 Forest::~Forest() {
@@ -72,4 +94,23 @@ b2World& Forest::getB2World() {
 
 const wiz::AssetLoader& Forest::getAssets() const {
 	return assetLoader;
+}
+
+void Forest::findPath(b2Vec2 start, b2Vec2 goal, std::vector<ForestNode*> path) const {
+	pathFinder.setStart(*getNode(start));
+	pathFinder.setGoal(*getNode(goal));
+
+	if(!pathFinder.findPath<pf::AStar>(path))
+		path.clear();
+}
+
+ForestNode* Forest::getNode(b2Vec2 position) const {
+	return map.at(key(position));
+}
+
+uint32_t Forest::key(b2Vec2 position) const {
+	int16_t x = static_cast<int16_t>(floor(position.x / PATHFINDING_TILE_SIZE));
+	int16_t y = static_cast<int16_t>(floor(position.y / PATHFINDING_TILE_SIZE));
+
+	return x & 0x0000FFFF | (static_cast<uint32_t>(y << 16) & 0xFFFF0000);
 }
