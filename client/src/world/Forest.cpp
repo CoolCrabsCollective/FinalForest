@@ -106,7 +106,7 @@ void Forest::unassignSquirrel(Squirrel *squirrel) {
 
 Tree *Forest::getNextAvailableTree() {
     for(Tree* tree : trees)
-        if(!dynamic_cast<GreatOakTree*>(tree) && !treeSquirrelMap.contains(tree))
+        if(!dynamic_cast<BigAssTree*>(tree) && !treeSquirrelMap.contains(tree))
             return tree;
 
     return nullptr;
