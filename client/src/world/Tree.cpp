@@ -6,34 +6,56 @@
 #include "GameAssets.h"
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "Box2D/Box2D.h"
+#include "world/Forest.h"
 
 
-Tree::Tree(const wiz::AssetLoader& assets) {
-	sprite.setTexture(*assets.get(GameAssets::WHITE_PIXEL));
+Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
+	sprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_PIXEL));
+
+	// Define the dynamic body. We set its position and call the body factory.
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set(position.x, position.y);
+
+	b2Body* body = forest.getB2World().CreateBody(&bodyDef);
+
+	// Define another box shape for our dynamic body.
+	b2PolygonShape dynamicBox;
+	dynamicBox.SetAsBox(1.0f, 1.0f);
+
+	// Define the dynamic body fixture.
+	b2FixtureDef fixtureDef;
+	fixtureDef.shape = &dynamicBox;
+
+	// Set the box density to be non-zero, so it will be dynamic.
+	fixtureDef.density = 1.0f;
+
+	// Override the default friction.
+	fixtureDef.friction = 0.3f;
+
+	// Add the shape to the body.
+	body->CreateFixture(&fixtureDef);
 }
 
 void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
-
-	b2AABB aabb, shapeAABB;
-	b2Transform transform;
-
-	aabb.lowerBound = b2Vec2(FLT_MAX, FLT_MAX);
-	aabb.upperBound = b2Vec2(-FLT_MAX, -FLT_MAX);
-
-	for(b2Fixture* fixture = body->GetFixtureList(); fixture != nullptr; fixture = fixture->GetNext()) {
-		int childCount = fixture->GetShape()->GetChildCount();
-		for(int child = 0; child < childCount; child++) {
-			transform = body->GetTransform();
-			transform.Set(transform.p, 0.0f);
-			fixture->GetShape()->ComputeAABB(&shapeAABB, transform, child);
-			aabb.Combine(shapeAABB);
-		}
-	}
-	b2Vec2 pos = aabb.GetCenter();
-	b2Vec2 size = 2.0f * aabb.GetExtents();
-	sprite.setPosition({pos.x, 100.0f - pos.y});
-	sprite.setOrigin({0.5f, 0.5f});
-	sprite.setScale({size.x, size.y});
-	sprite.setRotation(sf::radians(body->GetTransform().q.GetAngle()));
+	sprite.setPosition({getPosition().x, 100.0f - getPosition().y});
+	sprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
+	sprite.setScale({getSize().x / sprite.getTexture()->getSize().x, getSize().y / sprite.getTexture()->getSize().y});
 	target.draw(sprite);
+}
+
+b2Body* Tree::getBody() const {
+	return body;
+}
+
+b2Vec2 Tree::getPosition() const {
+	return body->GetPosition();
+}
+
+b2Vec2 Tree::getSize() const {
+	return b2Vec2(1.0f, 1.0f);
+}
+
+Forest& Tree::getForest() const {
+	return forest;
 }

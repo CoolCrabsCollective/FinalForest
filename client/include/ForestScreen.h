@@ -9,12 +9,12 @@
 #include "WIZ/game/WindowListener.h"
 #include "Box2D/Dynamics/b2World.h"
 #include "SFML/Graphics/Sprite.hpp"
+#include "world/Forest.h"
 
 class ForestScreen : public wiz::Screen, public wiz::WindowListener {
 	std::string name = "ForestScreen";
 
-	b2World world;
-	sf::Sprite sprite;
+	Forest forest;
 
 public:
 	ForestScreen(wiz::Game& game);

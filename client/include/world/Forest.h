@@ -8,10 +8,27 @@
 
 #include "Tickable.h"
 #include "SFML/Graphics/Drawable.hpp"
+#include "WIZ/asset/AssetLoader.h"
+#include "Dynamics/b2World.h"
+#include "Entity.h"
 
 class Forest : public sf::Drawable, public Tickable {
-protected:
+	const wiz::AssetLoader& assetLoader;
+	b2World world;
+
+	std::vector<Entity*> objects;
+public:
+	Forest(const wiz::AssetLoader& assetLoader);
+
+	~Forest() override;
+
 	void draw(sf::RenderTarget& target, const sf::RenderStates& states) const override;
+
+	b2World& getB2World();
+
+	const wiz::AssetLoader& getAssets() const;
+
+	void tick(float delta) override;
 };
 
 
