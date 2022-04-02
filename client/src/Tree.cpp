@@ -5,5 +5,5 @@
 #include "../include/Tree.h"
 
 Tree::Tree() {
-
+    health = 10;
 }
