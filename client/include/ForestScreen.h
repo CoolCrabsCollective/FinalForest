@@ -9,10 +9,16 @@
 #include "WIZ/game/WindowListener.h"
 #include "Box2D/Dynamics/b2World.h"
 #include "SFML/Graphics/Sprite.hpp"
+#include "SFML/Graphics/Text.hpp"
 #include "world/Forest.h"
+#include "SFML/Graphics/Texture.hpp"
 
 class ForestScreen : public wiz::Screen, public wiz::WindowListener {
 	std::string name = "ForestScreen";
+    sf::Text nutCountText;
+    sf::Texture nutTexture;
+    sf::Sprite nutSprite;
+
 
 	Forest forest;
 
