@@ -115,7 +115,12 @@ void Forest::createForest() {
 			if(!physical)
 				continue;
 
-			float minDistance = (physical->getSize().x + physical->getSize().y) * 3.0f / 4.0f;
+			float minDistance;
+
+			if(dynamic_cast<BigAssTree*>(entity))
+				minDistance = (physical->getSize().x + physical->getSize().y) / 2.0f;
+			else
+				minDistance = (physical->getSize().x + physical->getSize().y) * 3.0f / 4.0f;
 
             if(b2DistanceSquared(physical->getPosition(), position) < minDistance * minDistance) {
 				overlapping = true;
