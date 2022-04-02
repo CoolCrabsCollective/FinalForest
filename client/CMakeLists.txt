@@ -11,7 +11,7 @@ set(BOX2D_CMAKE_COMMIT master)
 
 if(CMAKE_COMPILER_IS_GNUCXX AND NOT WIN32)
     # Not for windows because windres.exe doesn't support those
-    add_definitions(-Wall -ansi -Wno-deprecated -pthread -Wpedantic)
+    add_definitions(-Wall -ansi -Wno-deprecated -pthread -Wpedantic -w)
 endif()
 
 if(WIN32)

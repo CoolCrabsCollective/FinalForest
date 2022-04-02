@@ -4,9 +4,7 @@
 
 #include "TitleScreen.h"
 #include "GameAssets.h"
-#include "HelloSFMLScreen.h"
 #include "SFML/Window/Touch.hpp"
-#include "Box2DTestScreen.h"
 #include "ForestScreen.h"
 
 TitleScreen::TitleScreen(wiz::Game& game)

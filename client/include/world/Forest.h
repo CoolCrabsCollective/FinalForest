@@ -13,6 +13,13 @@
 #include "WIZ/asset/AssetLoader.h"
 #include "Dynamics/b2World.h"
 #include "Entity.h"
+#include "PathFinder/AStar.h"
+#include "PathFinder/PathFinder.h"
+#include "SFML/System/Vector2.hpp"
+#include "ForestNode.h"
+#include <unordered_map>
+
+const float PATHFINDING_TILE_SIZE = 1.0f;
 
 #define TILES_WIDTH 75
 #define TILES_HEIGHT 50
@@ -22,6 +29,10 @@ class Forest : public sf::Drawable, public Tickable {
 	b2World world;
 
 	std::vector<Entity*> objects;
+
+	mutable pf::PathFinder<ForestNode> pathFinder;
+	std::unordered_map<uint32_t, ForestNode*> map;
+
     sf::Sprite grass_sprite[4];
     int grass_map[TILES_HEIGHT][TILES_WIDTH];
 public:
@@ -40,6 +51,13 @@ public:
 	const wiz::AssetLoader& getAssets() const;
 
 	void tick(float delta) override;
+
+	void findPath(b2Vec2 start, b2Vec2 goal, std::vector<ForestNode*> path) const;
+
+private:
+	ForestNode* getNode(b2Vec2 position) const;
+
+	uint32_t key(b2Vec2 position) const;
 };
 
 

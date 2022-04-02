@@ -10,6 +10,8 @@
 #include "Physical.h"
 #include "Tickable.h"
 #include "SFML/Graphics/Sprite.hpp"
+#include "PathFinder/AStar.h"
+#include "PathFinder/PathFinder.h"
 
 class Squirrel : public sf::Drawable, public Physical, public Tickable {
 

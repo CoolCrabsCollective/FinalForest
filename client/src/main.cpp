@@ -6,7 +6,7 @@
 #include <WIZ/logging/TagLoggerWrapper.h>
 #include <WIZ/asset/AssetLoader.h>
 
-#include "ExampleGame.h"
+#include "ForestGame.h"
 #include "LoadingScreen.h"
 
 #include <WIZ/logging/DailyFileLogger.h>
@@ -62,7 +62,7 @@ int main(int argc, char* argv[])
 
 	std::shared_ptr<sf::RenderWindow> window = std::make_shared<sf::RenderWindow>(mode, "SFML Game Template Project");
 
-	ExampleGame game(window, logger, loader);
+	ForestGame game(window, logger, loader);
 
 	game.setScreen(std::shared_ptr<LoadingScreen>(new LoadingScreen(game)));
 

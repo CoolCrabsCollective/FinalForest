@@ -14,6 +14,7 @@
 #include "Forest.h"
 
 class Tree : public sf::Drawable, public Physical {
+protected:
     int health = 10;
 
 	mutable sf::Sprite sprite;
@@ -31,6 +32,8 @@ public:
 	b2Vec2 getSize() const override;
 
 	Forest& getForest() const override;
+
+	void setHealth(int health);
 };
 
 

@@ -9,7 +9,6 @@
 #include "WIZ/asset/SoundAsset.h"
 #include "WIZ/asset/FontAsset.h"
 #include "WIZ/asset/TextureAsset.h"
-#include "FakeAsset.h"
 
 #ifndef ASSET
 #define ASSET(TYPE, NAME, CONSTRUCTOR) extern const TYPE NAME;

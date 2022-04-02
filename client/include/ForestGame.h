@@ -7,11 +7,11 @@
 
 #include <WIZ/game/BasicGame.h>
 
-class ExampleGame : public wiz::BasicGame {
+class ForestGame : public wiz::BasicGame {
 public:
-	ExampleGame(std::shared_ptr<sf::RenderWindow> window,
-				std::shared_ptr<wiz::Logger> logger,
-				std::shared_ptr<wiz::AssetLoader> assetLoader);
+	ForestGame(std::shared_ptr<sf::RenderWindow> window,
+			   std::shared_ptr<wiz::Logger> logger,
+			   std::shared_ptr<wiz::AssetLoader> assetLoader);
 };
 
 
