@@ -72,7 +72,7 @@ CFLAGS	:=	-g -Wall -O2 -ffunction-sections \
 
 CFLAGS	+=	-D__SWITCH__ -DOS_SWITCH $(INCLUDE) `sdl2-config --cflags`
 
-CXXFLAGS	:= $(CFLAGS) -fno-rtti -std=gnu++20
+CXXFLAGS	:= $(CFLAGS) -frtti -std=gnu++20
 
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=$(DEVKITPRO)/libnx/switch.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)

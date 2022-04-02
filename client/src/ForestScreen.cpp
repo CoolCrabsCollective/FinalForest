@@ -14,6 +14,7 @@ ForestScreen::ForestScreen(wiz::Game& game)
 
 void ForestScreen::tick(float delta) {
 	forest.tick(delta);
+    updateSquirrelCount(forest.squirrelCount);
 }
 
 void ForestScreen::render(sf::RenderTarget& target) {
@@ -23,6 +24,8 @@ void ForestScreen::render(sf::RenderTarget& target) {
     target.setView(sf::View({800.0f, 450.0f}, {1600.0f, 900.0f}));
     target.draw(nutCountText);
     target.draw(nutSprite);
+    target.draw(squirrelCountText);
+    target.draw(squirrelSprite);
 }
 
 void ForestScreen::show() {
@@ -34,6 +37,14 @@ void ForestScreen::show() {
     nutSprite.setColor(sf::Color(255, 255, 255, 200));
     nutSprite.setPosition(sf::Vector2f(1500.0f, 25.0f));
     nutSprite.setScale({2.0f, 2.0f});
+
+
+    squirrelTexture = *getGame().getAssets().get(GameAssets::SQUIRREL);
+    squirrelSprite.setTexture(squirrelTexture);
+    squirrelSprite.setTextureRect(sf::Rect<int>({0, 0}, {16, 16}));
+    squirrelSprite.setColor(sf::Color(255, 255, 255, 200));
+    squirrelSprite.setPosition(sf::Vector2f(1500.0f, 75.0f));
+    squirrelSprite.setScale({2.0f, 2.0f});
 
 	getGame().addWindowListener(this);
 }
@@ -51,9 +62,17 @@ void ForestScreen::windowClosed() {
 }
 
 void ForestScreen::updateNutCount(int nutCount) {
-   forest.nutCount = nutCount;
-   nutCountText.setString(std::to_string(nutCount));
-   nutCountText.setPosition(sf::Vector2f(1550, 25));
-   nutCountText.setCharacterSize(20);
-   nutCountText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+    forest.nutCount = nutCount;
+    squirrelCountText.setString(std::to_string(nutCount));
+    squirrelCountText.setPosition(sf::Vector2f(1550, 25));
+    squirrelCountText.setCharacterSize(20);
+    squirrelCountText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+}
+
+void ForestScreen::updateSquirrelCount(int squirrelCount) {
+    forest.squirrelCount = squirrelCount;
+    nutCountText.setString(std::to_string(squirrelCount));
+    nutCountText.setPosition(sf::Vector2f(1550, 75));
+    nutCountText.setCharacterSize(20);
+    nutCountText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
 }

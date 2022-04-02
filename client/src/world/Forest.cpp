@@ -7,6 +7,7 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "world/Tree.h"
 #include "world/Squirrel.h"
+#include "world/LumberJack.h"
 #include <stdlib.h>
 #include <iostream>
 #include <math.h>
@@ -20,6 +21,8 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 		map() {
 
     nutCount = 0;
+    squirrelCount = 0;
+
     grass_sprite[0] = sf::Sprite(*assetLoader.get(GameAssets::GRASS1));
     grass_sprite[1] = sf::Sprite(*assetLoader.get(GameAssets::GRASS2));
     grass_sprite[2] = sf::Sprite(*assetLoader.get(GameAssets::GRASS3));
@@ -60,6 +63,8 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 			map[key] = node;
 		}
 	}
+
+    GenerateEnemyWave(20);
 }
 
 Forest::~Forest() {
@@ -76,6 +81,27 @@ void Forest::tick(float delta) {
 	}
 
 	world.Step(delta / 1000.0f, 6, 2);
+}
+
+void Forest::GenerateEnemyWave(int numOfEnemies) {
+    int spawnRadius;
+    int screenCenter = 50;
+
+    int spawnDirection;
+    float newXPos;
+    float newYPos;
+
+    for (int i = 0; i<numOfEnemies; i++) {
+        spawnRadius = rand() % 150 + 80;
+
+        spawnDirection = rand() % 360;
+
+        newXPos = (float) cos( spawnDirection * PI / 180.0 ) * spawnRadius + screenCenter;
+
+        newYPos = (float) sin( spawnDirection * PI / 180.0 ) * spawnRadius + screenCenter;
+
+        objects.push_back(new LumberJack(*this, b2Vec2(newXPos, newYPos)));
+    }
 }
 
 void Forest::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
