@@ -17,30 +17,41 @@
 #include "PathFinder/PathFinder.h"
 #include "SFML/System/Vector2.hpp"
 #include "ForestNode.h"
+#include "Squirrel.h"
+#include "Tree.h"
+#include "WIZ/game/Screen.h"
 #include <unordered_map>
+#include <math.h>
+
+class ForestScreen;
 
 const float PATHFINDING_TILE_SIZE = 1.0f;
 
 #define TILES_WIDTH 75
 #define TILES_HEIGHT 50
+class Tree;
 
 class Forest : public sf::Drawable, public Tickable {
+	const ForestScreen& screen;
 	const wiz::AssetLoader& assetLoader;
 	b2World world;
 
 	std::vector<Entity*> objects;
+	std::vector<Tree*> trees;
 
 	mutable pf::PathFinder<ForestNode> pathFinder;
 	std::unordered_map<uint32_t, ForestNode*> map;
 
     sf::Sprite grass_sprite[4];
     int grass_map[TILES_HEIGHT][TILES_WIDTH];
+    std::map<Squirrel*, Tree*> squirrelTreeMap;
+    std::map<Tree*, Squirrel*> treeSquirrelMap;
 public:
     int nutCount;
     int squirrelCount;
     int mana;
 
-	Forest(const wiz::AssetLoader& assetLoader);
+	Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader);
 
 	~Forest() override;
 
@@ -48,15 +59,23 @@ public:
 
 	void createForest();
 
+	void spawnSquirrel();
+	void assignSquirrel(Squirrel* squirrel, Tree* tree);
+	Tree* getNextAvailableTree();
+    void unassignTree(Tree* tree);
+    void unassignSquirrel(Squirrel* squirrel);
+
 	b2World& getB2World();
 
 	const wiz::AssetLoader& getAssets() const;
 
 	void tick(float delta) override;
 
-    void GenerateEnemyWave();
+    void GenerateEnemyWave(int numOfEnemies);
 
 	void findPath(b2Vec2 start, b2Vec2 goal, std::vector<ForestNode*> path) const;
+
+	const ForestScreen& getScreen() const;
 
 private:
 	ForestNode* getNode(b2Vec2 position) const;

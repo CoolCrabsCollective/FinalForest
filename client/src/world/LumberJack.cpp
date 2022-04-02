@@ -38,7 +38,7 @@ void LumberJack::draw(sf::RenderTarget& target, const sf::RenderStates& states) 
 	sprite.setPosition({getPosition().x, 100.0f - getPosition().y});
 	sprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
 
-	float flip = facingRight > 0 ? -1.0f : 1.0f;
+	float flip = facingRight > 0 ? 1.0f : -1.0f;
 
 	sprite.setScale({flip * getSize().x * 2.f / sprite.getTexture()->getSize().x,
 					 getSize().y * 2.f / sprite.getTexture()->getSize().y});

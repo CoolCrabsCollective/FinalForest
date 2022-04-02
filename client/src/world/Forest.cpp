@@ -14,10 +14,12 @@
 #include "GameAssets.h"
 #include "world/BigAssTree.h"
 
-Forest::Forest(const wiz::AssetLoader& assetLoader) : assetLoader(assetLoader),
+Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
+	: screen(screen),
+		assetLoader(assetLoader),
 		world(b2Vec2_zero),
-		map() {
-
+		map()
+{
     nutCount = 0;
     squirrelCount = 0;
     mana = 0;
@@ -42,6 +44,19 @@ Forest::Forest(const wiz::AssetLoader& assetLoader) : assetLoader(assetLoader),
 
     createForest();
 
+    for(Entity* entity : objects)
+    {
+        if(dynamic_cast<Tree*>(entity))
+            trees.push_back(dynamic_cast<Tree*>(entity));
+    }
+
+    std::sort(trees.begin(), trees.end(), [](Tree* a, Tree* b){
+        b2Vec2 bigTree = {50.f, 50.f};
+        float a_dis = b2DistanceSquared(a->getPosition(), bigTree);
+        float b_dis = b2DistanceSquared(b->getPosition(), bigTree);
+        return a_dis < b_dis;
+    });
+
 	objects.push_back(new Squirrel(*this, b2Vec2(0.0f, 0.0f)));
 
 	int16_t minX = floor(-50.0f / PATHFINDING_TILE_SIZE);
@@ -63,7 +78,7 @@ Forest::Forest(const wiz::AssetLoader& assetLoader) : assetLoader(assetLoader),
 		}
 	}
 
-    objects.push_back(new LumberJack(*this, b2Vec2(50.0f, 50.0f)));
+    GenerateEnemyWave(20);
 }
 
 Forest::~Forest() {
@@ -71,6 +86,41 @@ Forest::~Forest() {
 		delete entity;
 	objects.clear();
 }
+
+
+void Forest::spawnSquirrel() {
+    Squirrel* squirrel = new Squirrel(*this, {30, 30});
+    objects.push_back(squirrel);
+    Tree* tree = getNextAvailableTree();
+    if(tree)
+        assignSquirrel(squirrel, tree);
+}
+
+void Forest::assignSquirrel(Squirrel *squirrel, Tree *tree) {
+    squirrelTreeMap.insert(std::pair<Squirrel*, Tree*> {squirrel, tree});
+    treeSquirrelMap.insert(std::pair<Tree*, Squirrel*> {tree, squirrel});
+}
+
+void Forest::unassignTree(Tree *tree) {
+    Squirrel* squirrel = treeSquirrelMap[tree];
+    treeSquirrelMap.erase(tree);
+    squirrelTreeMap.erase(squirrel);
+}
+
+void Forest::unassignSquirrel(Squirrel *squirrel) {
+    Tree* tree = squirrelTreeMap[squirrel];
+    squirrelTreeMap.erase(squirrel);
+    treeSquirrelMap.erase(tree);
+}
+
+Tree *Forest::getNextAvailableTree() {
+    for(Tree* tree : trees)
+        if(!treeSquirrelMap.contains(tree))
+            return tree;
+
+    return nullptr;
+}
+
 
 void Forest::tick(float delta) {
 	for(Entity* obj : objects) {
@@ -80,12 +130,27 @@ void Forest::tick(float delta) {
 	}
 
 	world.Step(delta / 1000.0f, 6, 2);
-
-    GenerateEnemyWave();
 }
 
-void Forest::GenerateEnemyWave() {
+void Forest::GenerateEnemyWave(int numOfEnemies) {
+    int spawnRadius;
+    int screenCenter = 50;
 
+    int spawnDirection;
+    float newXPos;
+    float newYPos;
+
+    for (int i = 0; i<numOfEnemies; i++) {
+        spawnRadius = rand() % 150 + 80;
+
+        spawnDirection = rand() % 360;
+
+        newXPos = (float) cos( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
+
+        newYPos = (float) sin( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
+
+        objects.push_back(new LumberJack(*this, b2Vec2(newXPos, newYPos)));
+    }
 }
 
 void Forest::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
@@ -108,7 +173,6 @@ void Forest::draw(sf::RenderTarget& target, const sf::RenderStates& states) cons
 }
 
 void Forest::createForest() {
-    float minDistance = 8.f;
     int totalTrees = 55;
 	int addedTrees = 0;
 
@@ -172,4 +236,8 @@ uint32_t Forest::key(b2Vec2 position) const {
 	int16_t y = static_cast<int16_t>(floor(position.y / PATHFINDING_TILE_SIZE));
 
 	return x & 0x0000FFFF | (static_cast<uint32_t>(y << 16) & 0xFFFF0000);
+}
+
+const ForestScreen& Forest::getScreen() const {
+	return screen;
 }
