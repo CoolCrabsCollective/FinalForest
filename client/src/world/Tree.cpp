@@ -14,7 +14,6 @@ Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
 
 	// Define the dynamic body. We set its position and call the body factory.
 	b2BodyDef bodyDef;
-	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(position.x, position.y);
 
 	body = forest.getB2World().CreateBody(&bodyDef);
@@ -23,18 +22,8 @@ Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
 	b2PolygonShape dynamicBox;
 	dynamicBox.SetAsBox(1.0f, 1.0f);
 
-	// Define the dynamic body fixture.
-	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &dynamicBox;
-
-	// Set the box density to be non-zero, so it will be dynamic.
-	fixtureDef.density = 1.0f;
-
-	// Override the default friction.
-	fixtureDef.friction = 0.3f;
-
 	// Add the shape to the body.
-	body->CreateFixture(&fixtureDef);
+	body->CreateFixture(&dynamicBox, 0.0f);
 }
 
 void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
