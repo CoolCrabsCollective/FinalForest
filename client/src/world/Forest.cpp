@@ -9,7 +9,6 @@
 #include <stdlib.h>
 
 Forest::Forest(const wiz::AssetLoader& assetLoader) : assetLoader(assetLoader), world(b2Vec2_zero) {
-
     float minDistance = 50.f;
     int totalTrees = 30;
     std::vector<Tree *> trees;
@@ -32,6 +31,8 @@ Forest::Forest(const wiz::AssetLoader& assetLoader) : assetLoader(assetLoader), 
 
     for(Tree* tree : trees)
         objects.push_back(tree);
+
+    nutCount = 0;
 }
 
 Forest::~Forest() {

@@ -18,6 +18,8 @@ class Forest : public sf::Drawable, public Tickable {
 
 	std::vector<Entity*> objects;
 public:
+    int nutCount;
+
 	Forest(const wiz::AssetLoader& assetLoader);
 
 	~Forest() override;
