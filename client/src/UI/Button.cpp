@@ -7,10 +7,10 @@
 #include "SFML/Graphics/RectangleShape.hpp"
 
 Button::Button(sf::IntRect rectangle) {
-    rectangleShape.setSize(sf::Vector2f(100, 50));
-    rectangleShape.setOutlineColor(sf::Color::Red);
+    rectangleShape.setSize(sf::Vector2f(rectangle.getSize().x, rectangle.getSize().y));
+    rectangleShape.setOutlineColor(sf::Color::Black);
     rectangleShape.setOutlineThickness(5);
-    rectangleShape.setPosition({10, 20});
+    rectangleShape.setPosition({(float)rectangle.getPosition().x, (float)rectangle.getPosition().y});
 };
 
 void Button::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
