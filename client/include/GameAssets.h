@@ -30,6 +30,14 @@ namespace GameAssets {
     ASSET(wiz::TextureAsset, TREE, ("gfx/tree.png"))
     ASSET(wiz::TextureAsset, MANA, ("gfx/mana.png"))
     ASSET(wiz::TextureAsset, WOODCUTTER, ("gfx/woodcutter.png"))
+    ASSET(wiz::TextureAsset, GREAT_OAK, ("gfx/great_oak.png"))
+
+    ASSET(wiz::TextureAsset, GRASS1, ("gfx/grass/grass1.png"))
+    ASSET(wiz::TextureAsset, GRASS2, ("gfx/grass/grass2.png"))
+    ASSET(wiz::TextureAsset, GRASS3, ("gfx/grass/grass3.png"))
+    ASSET(wiz::TextureAsset, GRASS4, ("gfx/grass/grass4.png"))
+
+
 }
 
 

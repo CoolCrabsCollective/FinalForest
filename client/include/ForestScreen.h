@@ -15,10 +15,10 @@
 
 class ForestScreen : public wiz::Screen, public wiz::WindowListener {
 	std::string name = "ForestScreen";
+
     sf::Text nutCountText;
     sf::Texture nutTexture;
     sf::Sprite nutSprite;
-
 
 	Forest forest;
 
@@ -36,6 +36,8 @@ public:
 	const std::string& getName() const override;
 
 	void windowClosed() override;
+
+    void updateNutCount(int nutCount);
 };
 
 

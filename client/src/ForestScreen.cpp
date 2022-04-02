@@ -26,10 +26,7 @@ void ForestScreen::render(sf::RenderTarget& target) {
 }
 
 void ForestScreen::show() {
-    nutCountText.setString("0");
-    nutCountText.setPosition(sf::Vector2f(1550, 25));
-    nutCountText.setCharacterSize(20);
-    nutCountText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+    updateNutCount(forest.nutCount);
 
     nutTexture = *getGame().getAssets().get(GameAssets::NUT);
     nutSprite.setTexture(nutTexture);
@@ -51,4 +48,12 @@ const std::string& ForestScreen::getName() const {
 
 void ForestScreen::windowClosed() {
 	getGame().getWindow().close();
+}
+
+void ForestScreen::updateNutCount(int nutCount) {
+   forest.nutCount = nutCount;
+   nutCountText.setString(std::to_string(nutCount));
+   nutCountText.setPosition(sf::Vector2f(1550, 25));
+   nutCountText.setCharacterSize(20);
+   nutCountText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
 }
