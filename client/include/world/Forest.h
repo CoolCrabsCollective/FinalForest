@@ -52,6 +52,7 @@ class Forest : public sf::Drawable, public Tickable {
 public:
     int nutCount;
     int squirrelCount;
+    int mana;
 
 	Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader);
 
@@ -80,6 +81,8 @@ public:
 	const ForestScreen& getScreen() const;
 
 	GreatOakTree* getGreatOakTree() const;
+
+    const std::vector<Tree*> getTrees() const;
 
 private:
 	ForestNode* getNode(b2Vec2 position) const;

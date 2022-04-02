@@ -9,19 +9,23 @@
 #include "SFML/Graphics/Drawable.hpp"
 #include "Physical.h"
 #include "Tickable.h"
+#include "Tree.h"
 #include "SFML/Graphics/Sprite.hpp"
 
 class LumberJack : public sf::Drawable, public Physical, public Tickable {
 
-	mutable sf::Sprite sprite;
-	b2Body* body;
-	Forest& forest;
-
+    b2Body* body;
 	b2Vec2 destination = b2Vec2(50.f, 50.f);
-	float speed = 10.0f;
+    Tree* target;
+	float speed = 10.0F;
+    int attack = 1;
 	bool facingRight = false;
-public:
 
+protected:
+    Forest& forest;
+    mutable sf::Sprite sprite;
+
+public:
 	Forest& getForest() const override;
 
     LumberJack(Forest& forest, b2Vec2 position);
@@ -34,7 +38,19 @@ public:
 
 	b2Vec2 getSize() const override;
 
-	void tick(float delta) override;
+    void setSpeed(float speed);
+
+    void setAttack(float attack);
+
+    void targetNearestTree();
+
+    float distanceToDestination();
+
+    bool isAtDestination();
+
+    void attackTree();
+
+    void tick(float delta) override;
 };
 
 

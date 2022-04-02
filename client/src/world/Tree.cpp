@@ -57,3 +57,7 @@ Forest& Tree::getForest() const {
 void Tree::setHealth(int health) {
 	this->health = health;
 }
+
+void Tree::damage(int damage) {
+    this->health -= damage;
+}

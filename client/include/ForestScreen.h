@@ -22,6 +22,9 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener {
     sf::Text squirrelCountText;
     sf::Texture squirrelTexture;
     sf::Sprite squirrelSprite;
+    sf::Text manaText;
+    sf::Texture manaTexture;
+    sf::Sprite manaSprite;
 
 	Forest forest;
 
@@ -40,9 +43,11 @@ public:
 
 	void windowClosed() override;
 
-    void updateNutCount(int nutCount);
+    void updateNutCount();
 
-    void updateSquirrelCount(int squirrelCount);
+    void updateSquirrelCount();
+
+    void updateMana();
 };
 
 
