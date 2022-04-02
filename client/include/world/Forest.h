@@ -38,6 +38,7 @@ class Forest : public sf::Drawable, public Tickable {
 public:
     int nutCount;
     int squirrelCount;
+    int mana;
 
 	Forest(const wiz::AssetLoader& assetLoader);
 

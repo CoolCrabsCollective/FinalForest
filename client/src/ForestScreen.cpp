@@ -14,7 +14,9 @@ ForestScreen::ForestScreen(wiz::Game& game)
 
 void ForestScreen::tick(float delta) {
 	forest.tick(delta);
-    updateSquirrelCount(forest.squirrelCount);
+    updateSquirrelCount();
+    updateNutCount();
+    updateMana();
 }
 
 void ForestScreen::render(sf::RenderTarget& target) {
@@ -26,10 +28,10 @@ void ForestScreen::render(sf::RenderTarget& target) {
     target.draw(nutSprite);
     target.draw(squirrelCountText);
     target.draw(squirrelSprite);
+    target.draw(manaText);
 }
 
 void ForestScreen::show() {
-    updateNutCount(forest.nutCount);
 
     nutTexture = *getGame().getAssets().get(GameAssets::NUT);
     nutSprite.setTexture(nutTexture);
@@ -37,7 +39,6 @@ void ForestScreen::show() {
     nutSprite.setColor(sf::Color(255, 255, 255, 200));
     nutSprite.setPosition(sf::Vector2f(1500.0f, 25.0f));
     nutSprite.setScale({2.0f, 2.0f});
-
 
     squirrelTexture = *getGame().getAssets().get(GameAssets::SQUIRREL);
     squirrelSprite.setTexture(squirrelTexture);
@@ -61,18 +62,23 @@ void ForestScreen::windowClosed() {
 	getGame().getWindow().close();
 }
 
-void ForestScreen::updateNutCount(int nutCount) {
-    forest.nutCount = nutCount;
-    squirrelCountText.setString(std::to_string(nutCount));
+void ForestScreen::updateNutCount() {
+    squirrelCountText.setString(std::to_string(forest.nutCount));
     squirrelCountText.setPosition(sf::Vector2f(1550, 25));
     squirrelCountText.setCharacterSize(20);
     squirrelCountText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
 }
 
-void ForestScreen::updateSquirrelCount(int squirrelCount) {
-    forest.squirrelCount = squirrelCount;
-    nutCountText.setString(std::to_string(squirrelCount));
+void ForestScreen::updateSquirrelCount() {
+    nutCountText.setString(std::to_string(forest.squirrelCount));
     nutCountText.setPosition(sf::Vector2f(1550, 75));
     nutCountText.setCharacterSize(20);
     nutCountText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+}
+
+void ForestScreen::updateMana() {
+    manaText.setString(std::to_string(forest.mana));
+    manaText.setPosition(sf::Vector2f(1550, 120));
+    manaText.setCharacterSize(20);
+    manaText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
 }
