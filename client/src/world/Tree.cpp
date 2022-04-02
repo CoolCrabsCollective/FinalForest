@@ -21,7 +21,7 @@ Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
 
 	// Define another box shape for our dynamic body.
 	b2CircleShape circleShape;
-	circleShape.m_radius = getSize().x;
+	circleShape.m_radius = getSize().x / 4;
 
 	// Define the dynamic body fixture.
 	b2FixtureDef fixtureDef;
@@ -35,7 +35,7 @@ Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
 }
 
 void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
-	sprite.setPosition({getPosition().x, 100.0f - getPosition().y});
+	sprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
 	sprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
 	sprite.setScale({getSize().x / sprite.getTexture()->getSize().x, getSize().y / sprite.getTexture()->getSize().y});
 	target.draw(sprite);
