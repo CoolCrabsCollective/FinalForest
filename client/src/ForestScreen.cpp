@@ -9,7 +9,7 @@
 #include "GameAssets.h"
 
 ForestScreen::ForestScreen(wiz::Game& game)
-		: Screen(game), forest(game.getAssets()) {
+		: Screen(game), forest(*this, game.getAssets()) {
 }
 
 void ForestScreen::tick(float delta) {

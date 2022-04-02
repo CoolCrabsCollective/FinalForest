@@ -13,7 +13,9 @@
 #include "GameAssets.h"
 #include "world/BigAssTree.h"
 
-Forest::Forest(const wiz::AssetLoader& assetLoader) : assetLoader(assetLoader),
+Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
+	: screen(screen),
+		assetLoader(assetLoader),
 		world(b2Vec2_zero),
 		map() {
 
@@ -160,4 +162,8 @@ uint32_t Forest::key(b2Vec2 position) const {
 	int16_t y = static_cast<int16_t>(floor(position.y / PATHFINDING_TILE_SIZE));
 
 	return x & 0x0000FFFF | (static_cast<uint32_t>(y << 16) & 0xFFFF0000);
+}
+
+const ForestScreen& Forest::getScreen() const {
+	return screen;
 }

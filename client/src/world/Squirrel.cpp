@@ -7,6 +7,9 @@
 #include "GameAssets.h"
 #include "Box2D.h"
 #include "SFML/Graphics/RenderTarget.hpp"
+#include "SFML/Window/Mouse.hpp"
+#include "SFML/Window/Touch.hpp"
+#include "ForestScreen.h"
 
 Squirrel::Squirrel(Forest& forest, b2Vec2 position) : forest(forest) {
 	sprite.setTexture(*forest.getAssets().get(GameAssets::SQUIRREL));
@@ -46,6 +49,23 @@ void Squirrel::draw(sf::RenderTarget& target, const sf::RenderStates& states) co
 }
 
 void Squirrel::tick(float delta) {
+	sf::View view = sf::View({50.0f, 50.0f}, {213.33f, 120.0f});
+
+	if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		const sf::RenderWindow& window = getForest().getScreen().getWindow();
+		sf::Vector2f pos = window.mapPixelToCoords(sf::Mouse::getPosition(window), view);
+
+		destination.x = pos.x;
+		destination.y = 100.0f - pos.y;
+	}
+
+	if(sf::Touch::isDown(1)) {
+		const sf::RenderWindow& window = getForest().getScreen().getWindow();
+		sf::Vector2f pos = window.mapPixelToCoords(sf::Mouse::getPosition(window), view);
+
+		destination.x = pos.x;
+		destination.y = 100.0f - pos.y;
+	}
 
 	if(b2DistanceSquared(destination, getPosition()) < 1.f)
 		return;
