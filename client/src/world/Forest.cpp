@@ -123,31 +123,6 @@ void Forest::createForest() {
         objects.push_back(tree);
 }
 
-Forest::~Forest() {
-	for(Entity* entity : objects)
-		delete entity;
-	objects.clear();
-}
-
-void Forest::tick(float delta) {
-	for(Entity* obj : objects) {
-		Tickable* tickable = dynamic_cast<Tickable*>(obj);
-		if(tickable)
-			tickable->tick(delta);
-	}
-
-	world.Step(delta / 1000.0f, 6, 2);
-}
-
-void Forest::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
-
-	for(Entity* obj : objects) {
-		sf::Drawable* drawable = dynamic_cast<sf::Drawable*>(obj);
-		if(drawable)
-			target.draw(*drawable, states);
-	}
-}
-
 b2World& Forest::getB2World() {
 	return world;
 }
