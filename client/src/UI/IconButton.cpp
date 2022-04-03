@@ -53,8 +53,8 @@ void IconButton::tick(float delta) {
         currencyCount = forest.mana;
 
     if (currencyCount < price)
-        rectangleShape.setOutlineColor(sf::Color::Red);
+        rectangleShape.setFillColor(unavailableColor);
     else
-        rectangleShape.setOutlineColor(sf::Color::Black);
+        rectangleShape.setFillColor(availableColor);
 }
 
