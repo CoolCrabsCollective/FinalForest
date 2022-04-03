@@ -15,7 +15,8 @@ ForestScreen::ForestScreen(wiz::Game& game)
 		: Screen(game), forest(*this, game.getAssets()), animalMenu(new AnimalMenu(
                                                                              game.getAssets(), forest)),
                                                             turretMenu(new TurretMenu(game.getAssets(), forest)){
-    animalMenu->show(false);
+    animalMenu->show(true);
+    turretMenu->show(false);
 }
 
 void ForestScreen::tick(float delta) {
