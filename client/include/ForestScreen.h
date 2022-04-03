@@ -5,6 +5,7 @@
 #ifndef WIZENGINEQUICKSTART_CLIENT_TOPDOWNSCREEN_H
 #define WIZENGINEQUICKSTART_CLIENT_TOPDOWNSCREEN_H
 
+#include <UI/MenuType.h>
 #include "WIZ/game/Screen.h"
 #include "WIZ/game/WindowListener.h"
 #include "Box2D/Dynamics/b2World.h"
@@ -68,6 +69,8 @@ public:
 	void mouseButtonReleased(const sf::Event::MouseButtonEvent &mouseButtonEvent) override;
 
     void touchBegan(const sf::Event::TouchEvent& touchEvent) override;
+
+    void setMenu(MenuType menuType);
 };
 
 

@@ -102,7 +102,9 @@ public:
 
 	const ForestScreen& getScreen() const;
 
-	BigAssTree* getGreatOakTree() const;
+	ForestScreen& getScreen();
+
+    BigAssTree* getGreatOakTree() const;
 
     const std::vector<Tree*> getAliveTrees() const;
 

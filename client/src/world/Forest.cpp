@@ -398,6 +398,10 @@ const ForestScreen& Forest::getScreen() const {
 	return screen;
 }
 
+ForestScreen& Forest::getScreen() {
+    return const_cast<ForestScreen &>(screen);
+}
+
 const ForestPathFinder& Forest::getPathFinder() const {
 	return finder;
 }

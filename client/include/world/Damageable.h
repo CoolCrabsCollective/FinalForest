@@ -11,7 +11,7 @@ class Damageable {
 private:
     float health = 0;
     bool destroyed = false;
-    sf::Texture* destroyedTexture;
+    sf::Texture* destroyedTexture = nullptr;
     sf::Sprite* sprite;
 
 public:

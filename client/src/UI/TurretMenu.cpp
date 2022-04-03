@@ -8,7 +8,7 @@
 #include <GameAssets.h>
 #include "UI/AnimalMenu.h"
 
-AnimalMenu::AnimalMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu(assetLoader, forest) {
+TurretMenu::TurretMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu(assetLoader, forest) {
     // Squirrel Button
     buttons.push_back(new PurchaseButton(
             sf::IntRect({50, 50}, {200, 100}),

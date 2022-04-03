@@ -145,3 +145,16 @@ void ForestScreen::touchBegan(const sf::Event::TouchEvent &touchScreenEvent) {
     sf::Vector2f touchVector = getWindow().mapPixelToCoords(sf::Vector2i(touchScreenEvent.x, touchScreenEvent.y), sf::View({800.0f, 450.0f}, {1600.0f, 900.0f}));
     animalMenu->click(touchVector);
 }
+
+void ForestScreen::setMenu(MenuType menuType) {
+    switch (menuType) {
+        case ANIMAL_MENU:
+            animalMenu->show(true);
+            turretMenu->show(false);
+            break;
+        case TURRET_MENU:
+            animalMenu->show(false);
+            turretMenu->show(true);
+            break;
+    }
+}
