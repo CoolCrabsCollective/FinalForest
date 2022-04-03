@@ -22,7 +22,7 @@ class LumberJack : public sf::Drawable, public Physical, public Tickable {
 	b2Vec2 destination = b2Vec2(50.f, 50.f);
     Tree* target;
 	float speed = 10.0F;
-    int attack = 1;
+    float attack = 1.0;
 	bool facingRight = false;
 
     std::shared_ptr<LumberJackState> state;
@@ -53,13 +53,15 @@ public:
 
     Tree* getTarget() const;
 
-    int getAttack() const;
+    float getAttack() const;
 
     void setSpeed(float speed);
 
     void setAttack(float attack);
 
     void setFacingRight(bool facingRight);
+
+    void setDestination(b2Vec2 destination);
 
     void targetNearestTree();
 

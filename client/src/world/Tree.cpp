@@ -58,14 +58,15 @@ bool Tree::isDestroyed() const {
     return destroyed;
 }
 
-void Tree::setHealth(int health) {
+void Tree::setHealth(float health) {
 	this->health = health;
 }
 
-void Tree::damage(int damage) {
+void Tree::damage(float damage) {
     health -= damage;
 
     if (health <= 0) {
+        sprite.setTexture(*forest.getAssets().get(GameAssets::TREE_STUMP));
         destroyed = true;
     }
 }
