@@ -7,15 +7,20 @@
 #include "GameAssets.h"
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "world/Obstacle.h"
+#include "world/River.h"
 
+
+ForestPathFinder::ForestPathFinder(const wiz::AssetLoader& assets) {
+	debugSprite.setTexture(*assets.get(GameAssets::WHITE_PIXEL));
+}
 
 void ForestPathFinder::initialize(const std::vector<Entity*>& vec) {
 
-	int16_t minX = floor(0.0f / getTileSize().x);
-	int16_t minY = floor(0.0f / getTileSize().y);
+	int16_t minX = floor(getTileStart().x / getTileSize().x);
+	int16_t minY = floor(getTileStart().y / getTileSize().y);
 
-	int16_t maxX = floor(100.0f / getTileSize().x);
-	int16_t maxY = floor(100.0f / getTileSize().y);
+	int16_t maxX = floor(getTileEnd().x / getTileSize().x);
+	int16_t maxY = floor(getTileEnd().y / getTileSize().y);
 
 	b2Vec2 halfSize = getTileSize();
 	halfSize *= 0.5f;
@@ -26,7 +31,11 @@ void ForestPathFinder::initialize(const std::vector<Entity*>& vec) {
 
 			b2Vec2 worldPos = tileToWorldCoordinates({x, y});
 
-			ForestNode* node = new ForestNode(*this);
+			ForestNode* animalNode = new ForestNode(*this);
+			ForestNode* enemyNode = new ForestNode(*this);
+
+			animalNode->setPosition(x, y);
+			enemyNode->setPosition(x, y);
 
 			for(Entity* entity : vec) {
 				Obstacle* obstacle = dynamic_cast<Obstacle*>(entity);
@@ -35,12 +44,15 @@ void ForestPathFinder::initialize(const std::vector<Entity*>& vec) {
 					continue;
 
 				if(obstacle->isBlocking(worldPos + halfSize, getTileSize())) {
-					node->setObstructed(true);
-					break;
+					if(dynamic_cast<River*>(entity)) {
+						enemyNode->setObstructed(true);
+					} else {
+						animalNode->setObstructed(true);
+						enemyNode->setObstructed(true);
+						break;
+					}
 				}
 			}
-
-			node->setPosition(x, y);
 
 			for(int i = -1; i <= 2; i++) {
 
@@ -52,35 +64,43 @@ void ForestPathFinder::initialize(const std::vector<Entity*>& vec) {
 
 				uint32_t otherKey = keyOf(sf::Vector2i {newX, newY });
 
+				ForestNode* otherAnimalNode = animalMap[otherKey];
+				ForestNode* otherEnemyNode = enemyMap[otherKey];
 
-				ForestNode* other = map[otherKey];
+				float dst = animalNode->distanceTo(otherAnimalNode);
 
-				float dst = node->distanceTo(other);
+				if(!otherAnimalNode->isObstructed())
+					animalNode->addChild(otherAnimalNode, dst);
 
-				if(!other->isObstructed())
-					node->addChild(other, dst);
+				if(!animalNode->isObstructed())
+					otherAnimalNode->addChild(animalNode, dst);
 
-				if(!node->isObstructed())
-					other->addChild(node, dst);
+
+				if(!otherEnemyNode->isObstructed())
+					enemyNode->addChild(otherEnemyNode, dst);
+
+				if(!enemyNode->isObstructed())
+					otherEnemyNode->addChild(enemyNode, dst);
 			}
 
-			map[key] = node;
+			animalMap[key] = animalNode;
+			enemyMap[key] = enemyNode;
 		}
 	}
 }
 
 void ForestPathFinder::draw(sf::RenderTarget& target, const sf::RenderStates& states) const
 {
-	int16_t minX = floor(0.0f / getTileSize().x);
-	int16_t minY = floor(0.0f / getTileSize().y);
+	int16_t minX = floor(getTileStart().x / getTileSize().x);
+	int16_t minY = floor(getTileStart().y / getTileSize().y);
 
-	int16_t maxX = floor(100.0f / getTileSize().x);
-	int16_t maxY = floor(100.0f / getTileSize().y);
+	int16_t maxX = floor(getTileEnd().x / getTileSize().x);
+	int16_t maxY = floor(getTileEnd().y / getTileSize().y);
 
 	for(int16_t y = minY; y < maxY; y++) {
 		for(int16_t x = minX; x < maxX; x++) {
 			uint32_t key = x & 0x0000FFFF | (static_cast<uint32_t>(y << 16) & 0xFFFF0000);
-			if(!map.at(key)->isObstructed())
+			if(!animalMap.at(key)->isObstructed() && !enemyMap.at(key)->isObstructed())
 				continue;
 
 			b2Vec2 worldPos = tileToWorldCoordinates({x, y});
@@ -91,27 +111,28 @@ void ForestPathFinder::draw(sf::RenderTarget& target, const sf::RenderStates& st
 			debugSprite.setPosition(sf::Vector2f(center.x, 100.0f - center.y));
 			debugSprite.setOrigin({ 0.5f, 0.5f });
 			debugSprite.setScale(sf::Vector2f(getTileSize().x, getTileSize().y));
+			debugSprite.setColor(animalMap.at(key)->isObstructed() ? sf::Color::White : sf::Color::Green);
 			target.draw(debugSprite);
 		}
 	}
 }
 
-bool ForestPathFinder::findPath(b2Vec2 start, b2Vec2 goal, std::vector<ForestNode*>& path) const {
-	pathFinder.setStart(*getNode(start));
+bool ForestPathFinder::findPath(PathType pathType, b2Vec2 start, b2Vec2 goal, std::vector<ForestNode*>& path) const {
+	pathFinder.setStart(pathType == Animal ? *animalNode(start) : *enemyNode(goal));
 
-	ForestNode* processDest = getNode(goal);
+	ForestNode* processDest = pathType == Animal ? animalNode(goal) : enemyNode(goal);
 	ForestNode* originalDest = processDest;
 
 	while(processDest->isObstructed()) {
 		goal.y -= getTileSize().y / 4.0f;
-		processDest = getNode(goal);
+		processDest = pathType == Animal ? animalNode(goal) : enemyNode(goal);
 	}
 	pathFinder.setGoal(*processDest);
 
 	if(pathFinder.getStart() == pathFinder.getGoal())
 		return false;
 
-	for (const auto & [key, value] : map)
+	for (const auto & [key, value] : pathType == Animal ? animalMap : enemyMap)
 		value->release();
 
 	path.clear();
@@ -130,7 +151,11 @@ b2Vec2 ForestPathFinder::getTileSize() const {
 }
 
 b2Vec2 ForestPathFinder::getTileStart() const {
-	return { 0.0f, 0.0f };
+	return { -20.0f, -20.0f };
+}
+
+b2Vec2 ForestPathFinder::getTileEnd() const {
+	return { 120.0f, 120.0f };
 }
 
 sf::Vector2i ForestPathFinder::worldToTileCoordinates(b2Vec2 worldCoords) const {
@@ -161,15 +186,15 @@ uint32_t ForestPathFinder::keyOf(sf::Vector2i tile) const {
 	return x & 0x0000FFFF | (static_cast<uint32_t>(y << 16) & 0xFFFF0000);
 }
 
-ForestNode* ForestPathFinder::getNode(b2Vec2 position) const {
+ForestNode* ForestPathFinder::animalNode(b2Vec2 position) const {
 
 	sf::Vector2i tile = worldToTileCoordinates(position);
 
-	int16_t minX = floor(0.0f / getTileSize().x);
-	int16_t minY = floor(0.0f / getTileSize().y);
+	int16_t minX = floor(getTileStart().x / getTileSize().x);
+	int16_t minY = floor(getTileStart().y / getTileSize().y);
 
-	int16_t maxX = floor(100.0f / getTileSize().x);
-	int16_t maxY = floor(100.0f / getTileSize().y);
+	int16_t maxX = floor(getTileEnd().x / getTileSize().x);
+	int16_t maxY = floor(getTileEnd().y / getTileSize().y);
 
 	if(tile.x > maxX - 1)
 		tile.x = maxX - 1;
@@ -183,9 +208,30 @@ ForestNode* ForestPathFinder::getNode(b2Vec2 position) const {
 	if(tile.y < minY)
 		tile.y = minY;
 
-	return map.at(keyOf(tile));
+	return animalMap.at(keyOf(tile));
 }
 
-ForestPathFinder::ForestPathFinder(const wiz::AssetLoader& assets) {
-	debugSprite.setTexture(*assets.get(GameAssets::WHITE_PIXEL));
+ForestNode* ForestPathFinder::enemyNode(b2Vec2 position) const {
+
+	sf::Vector2i tile = worldToTileCoordinates(position);
+
+	int16_t minX = floor(getTileStart().x / getTileSize().x);
+	int16_t minY = floor(getTileStart().y / getTileSize().y);
+
+	int16_t maxX = floor(getTileEnd().x / getTileSize().x);
+	int16_t maxY = floor(getTileEnd().y / getTileSize().y);
+
+	if(tile.x > maxX - 1)
+		tile.x = maxX - 1;
+
+	if(tile.y > maxY - 1)
+		tile.y = maxY - 1;
+
+	if(tile.x < minX)
+		tile.x = minX;
+
+	if(tile.y < minY)
+		tile.y = minY;
+
+	return enemyMap.at(keyOf(tile));
 }
