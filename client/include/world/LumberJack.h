@@ -54,7 +54,7 @@ public:
 
     b2Vec2 getDestination() const;
 
-	void setDestination(const b2Vec2& destination);
+	void setDestination(b2Vec2 destination);
 
 	float getSpeed() const;
 
@@ -67,8 +67,6 @@ public:
     void setAttack(float attack);
 
     void setFacingRight(bool facingRight);
-
-    void setDestination(b2Vec2 destination);
 
     void targetNearestTree();
 

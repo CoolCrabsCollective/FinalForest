@@ -193,10 +193,6 @@ void LumberJack::setFacingRight(bool facingRight) {
     this->facingRight = facingRight;
 }
 
-void LumberJack::setDestination(b2Vec2 destination) {
-    this->destination = destination;
-}
-
 void LumberJack::targetNearestTree() {
     if (forest.getAliveTrees().size() <= 0) {
         return;
@@ -226,7 +222,7 @@ void LumberJack::setState(std::shared_ptr<LumberJackState> state) {
     LumberJack::state = state;
 }
 
-void LumberJack::setDestination(const b2Vec2& destination) {
+void LumberJack::setDestination(b2Vec2 destination) {
 	LumberJack::destination = destination;
 	destinationChanged = true;
 }
