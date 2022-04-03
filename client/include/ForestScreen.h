@@ -13,6 +13,7 @@
 #include "world/Forest.h"
 #include "SFML/Graphics/Texture.hpp"
 #include "../cmake-build-debug/_deps/sfml-src/include/SFML/Window/Event.hpp"
+#include "UI/Menu.h"
 
 class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz::InputListener {
 	std::string name = "ForestScreen";
@@ -28,6 +29,7 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
     sf::Sprite manaSprite;
 
 	Forest forest;
+    Menu menu;
 
 	bool debug = false;
 public:

@@ -8,7 +8,7 @@
 #include "SquirrelState.h"
 #include "world/Tree.h"
 
-#define MIN_TREE_DISTANCE 4
+#define MIN_TREE_DISTANCE 3.f
 class SquirrelGoGatherState : public SquirrelState {
     private:
         Tree* tree;

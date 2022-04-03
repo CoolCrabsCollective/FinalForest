@@ -15,7 +15,7 @@
 #include <math.h>
 #include <world/state/SquirrelGoGathertState.h>
 #include "GameAssets.h"
-#include "world/GreatOakTree.h"
+#include "world/AssTree.h"
 #include "ForestScreen.h"
 #include "world/River.h"
 
@@ -45,7 +45,7 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
         for(int j = 0; j < TILES_WIDTH; j++)
             grass_map[i][j] = rand() % 4;
 
-    this->greatOakTree = new GreatOakTree(*this, b2Vec2(50.0f, 50.0f));
+    this->greatOakTree = new AssTree(*this, b2Vec2(50.0f, 50.0f));
 	objects.push_back(this->greatOakTree);
 
 	objects.push_back(new River(*this, { b2Vec2(-50.0f, -50.0f),
@@ -81,7 +81,9 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 		return a_dis < b_dis;
 	});
 
-	for(int i = 0; i < 10; i++)
+    aliveTrees = std::vector<Tree*>(trees);
+
+	for(int i = 0; i < 8; i++)
 		spawnSquirrel();
 
 	finder.initialize(objects);
@@ -124,8 +126,8 @@ void Forest::unassignSquirrel(Squirrel *squirrel) {
 }
 
 Tree *Forest::getNextAvailableTree() {
-    for(Tree* tree : trees)
-        if(!dynamic_cast<GreatOakTree*>(tree) && !treeSquirrelMap.contains(tree))
+    for(Tree* tree : aliveTrees)
+        if(!dynamic_cast<AssTree*>(tree) && !treeSquirrelMap.contains(tree))
             return tree;
 
     return nullptr;
@@ -220,7 +222,7 @@ void Forest::createForest() {
 
 			float minDistance;
 
-			if(dynamic_cast<GreatOakTree*>(entity))
+			if(dynamic_cast<AssTree*>(entity))
 				minDistance = (physical->getSize().x + physical->getSize().y) / 2.0f;
 			else if(dynamic_cast<Tree*>(entity))
 				minDistance = (physical->getSize().x + physical->getSize().y) * 3.0f / 4.0f;
@@ -242,8 +244,8 @@ b2World& Forest::getB2World() {
 	return world;
 }
 
-const std::vector<Tree*> Forest::getTrees() const {
-    return trees;
+const std::vector<Tree*> Forest::getAliveTrees() const {
+    return aliveTrees;
 }
 
 const wiz::AssetLoader& Forest::getAssets() const {
@@ -258,6 +260,6 @@ const ForestPathFinder& Forest::getPathFinder() const {
 	return finder;
 }
 
-GreatOakTree* Forest::getGreatOakTree() const {
+AssTree* Forest::getGreatOakTree() const {
     return greatOakTree;
 }

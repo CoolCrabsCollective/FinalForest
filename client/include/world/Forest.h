@@ -27,7 +27,7 @@
 class ForestScreen;
 class Tree;
 class Squirrel;
-class GreatOakTree;
+class AssTree;
 
 #define TILES_WIDTH 75
 #define TILES_HEIGHT 50
@@ -43,11 +43,13 @@ class Forest : public sf::Drawable, public Tickable {
 	ForestPathFinder finder;
 
     sf::Sprite grass_sprite[4];
-    GreatOakTree* greatOakTree;
+    AssTree* greatOakTree;
     int grass_map[TILES_HEIGHT][TILES_WIDTH];
     std::map<Squirrel*, Tree*> squirrelTreeMap;
     std::map<Tree*, Squirrel*> treeSquirrelMap;
 public:
+    std::vector<Tree*> aliveTrees;
+
     int nutCount;
     int squirrelCount;
     int mana;
@@ -82,9 +84,9 @@ public:
 
 	const ForestScreen& getScreen() const;
 
-	GreatOakTree* getGreatOakTree() const;
+	AssTree* getGreatOakTree() const;
 
-    const std::vector<Tree*> getTrees() const;
+    const std::vector<Tree*> getAliveTrees() const;
 };
 
 

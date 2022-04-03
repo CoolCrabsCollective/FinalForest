@@ -7,7 +7,7 @@
 
 
 #include "PathFinder/AStar.h"
-#include "Common/b2Math.h"
+#include "Box2D/Common/b2Math.h"
 
 class ForestPathFinder;
 
