@@ -65,6 +65,8 @@ public:
     void keyPressed(const sf::Event::KeyEvent& keyEvent) override;
 
 	void mouseButtonReleased(const sf::Event::MouseButtonEvent &mouseButtonEvent) override;
+
+    void touchBegan(const sf::Event::TouchEvent& touchEvent) override;
 };
 
 

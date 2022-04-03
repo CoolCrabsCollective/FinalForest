@@ -19,7 +19,9 @@ Menu::Menu(const wiz::AssetLoader &assetLoader, Forest& forest) : assetLoader(as
                 forest.spawnSquirrel();
             },
             assetLoader,
-            &GameAssets::SQUIRREL
+            &GameAssets::SQUIRREL,
+            &GameAssets::NUT,
+           5
             ));
 }
 
