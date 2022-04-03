@@ -14,22 +14,30 @@
 #include "SFML/Graphics/Sprite.hpp"
 #include "WIZ/asset/AssetLoader.h"
 
+enum PathType {
+	Animal,
+	Enemy
+};
+
 class ForestPathFinder : public sf::Drawable {
 
 	mutable sf::Sprite debugSprite;
 
 	mutable pf::PathFinder<ForestNode> pathFinder;
-	std::unordered_map<uint32_t, ForestNode*> map;
+	std::unordered_map<uint32_t, ForestNode*> animalMap;
+	std::unordered_map<uint32_t, ForestNode*> enemyMap;
 public:
 	ForestPathFinder(const wiz::AssetLoader& assets);
 
 	void initialize(const std::vector<Entity*>& vec);
 
-	bool findPath(b2Vec2 start, b2Vec2 goal, std::vector<ForestNode*>& path) const;
+	bool findPath(PathType pathType, b2Vec2 start, b2Vec2 goal, std::vector<ForestNode*>& path) const;
 
 	b2Vec2 getTileSize() const;
 
 	b2Vec2 getTileStart() const;
+
+	b2Vec2 getTileEnd() const;
 
 	sf::Vector2i worldToTileCoordinates(b2Vec2 worldCoords) const;
 
@@ -38,7 +46,9 @@ public:
 	void draw(sf::RenderTarget& target, const sf::RenderStates& states) const override;
 
 private:
-	ForestNode* getNode(b2Vec2 position) const;
+	ForestNode* animalNode(b2Vec2 position) const;
+
+	ForestNode* enemyNode(b2Vec2 position) const;
 
 	uint32_t keyOf(b2Vec2 position) const;
 

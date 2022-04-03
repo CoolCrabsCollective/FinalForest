@@ -119,7 +119,7 @@ void LumberJack::tick(float delta) {
 	}
 
 	if(destinationChanged) {
-		if(!getForest().getPathFinder().findPath(getPosition(), destination, path))
+		if(!getForest().getPathFinder().findPath(Enemy, getPosition(), destination, path))
 			path.clear();
 		else
 			pathIndex = 1;
