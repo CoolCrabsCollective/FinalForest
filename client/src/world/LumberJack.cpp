@@ -16,6 +16,10 @@ LumberJack::LumberJack(Forest& forest, b2Vec2 position) : forest(forest) {
     sprite.setTexture(*forest.getAssets().get(GameAssets::LUMBERJACKAXE));
 	debugSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_PIXEL));
 
+    setPower(1.0);
+    setAttackStateSprite(&sprite);
+    setAttackTexture(forest.getAssets().get(GameAssets::LUMBERJACKAXE));
+
     // Define the dynamic body. We set its position and call the body factory.
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
@@ -183,16 +187,8 @@ Tree* LumberJack::getTarget() const {
     return target;
 }
 
-float LumberJack::getAttack() const {
-    return attack;
-}
-
 void LumberJack::setSpeed(float speed) {
     this->speed = speed;
-}
-
-void LumberJack::setAttack(float attack) {
-    this->attack = attack;
 }
 
 void LumberJack::setFacingRight(bool facingRight) {
