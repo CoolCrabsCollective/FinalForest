@@ -177,7 +177,7 @@ Tree* LumberJack::getTarget() const {
     return target;
 }
 
-int LumberJack::getAttack() const {
+float LumberJack::getAttack() const {
     return attack;
 }
 
@@ -193,14 +193,24 @@ void LumberJack::setFacingRight(bool facingRight) {
     this->facingRight = facingRight;
 }
 
+void LumberJack::setDestination(b2Vec2 destination) {
+    this->destination = destination;
+}
+
 void LumberJack::targetNearestTree() {
+    if (forest.getAliveTrees().size() <= 0) {
+        return;
+    }
+
     std::vector<Tree*> trees(forest.getAliveTrees());
 
-    std::sort(trees.begin(), trees.end(), [this](Tree* a, Tree* b){
-        float a_dis = b2DistanceSquared(a->getPosition(), body->GetPosition());
-        float b_dis = b2DistanceSquared(b->getPosition(), body->GetPosition());
-        return a_dis < b_dis;
-    });
+    if (trees.size() > 2) {
+        std::sort(trees.begin(), trees.end(), [this](Tree* a, Tree* b){
+            float a_dis = b2DistanceSquared(a->getPosition(), body->GetPosition());
+            float b_dis = b2DistanceSquared(b->getPosition(), body->GetPosition());
+            return a_dis < b_dis;
+        });
+    }
 
     target = trees.front();
 	setDestination(target->getPosition());
