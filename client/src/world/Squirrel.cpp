@@ -17,10 +17,10 @@
 #include "ForestScreen.h"
 
 Squirrel::Squirrel(Forest& forest, b2Vec2 position) : forest(forest) {
-    squirrelWalk = *forest.getAssets().get(GameAssets::SQUIRREL);
-    squirrelIdle = *forest.getAssets().get(GameAssets::SQUIRREL_IDLE);
-    squirrelNut = *forest.getAssets().get(GameAssets::SQUIRREL_WITH_NUT);
-	sprite.setTexture(squirrelWalk);
+    squirrelWalk = forest.getAssets().get(GameAssets::SQUIRREL);
+    squirrelIdle = forest.getAssets().get(GameAssets::SQUIRREL_IDLE);
+    squirrelNut = forest.getAssets().get(GameAssets::SQUIRREL_WITH_NUT);
+	sprite.setTexture(*squirrelWalk);
 	debugSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_PIXEL));
 
 	// Define the dynamic body. We set its position and call the body factory.
@@ -108,15 +108,15 @@ void Squirrel::tick(float delta) {
 
     if(dynamic_pointer_cast<SquirrelIdleState>(state).get() || dynamic_pointer_cast<SquirrelGatherState>(state).get())
     {
-        sprite.setTexture(squirrelIdle);
+        sprite.setTexture(*squirrelIdle);
     }
     else if(dynamic_pointer_cast<SquirrelReturnGatherState>(state).get())
     {
-        sprite.setTexture(squirrelNut);
+        sprite.setTexture(*squirrelNut);
     }
     else
     {
-        sprite.setTexture(squirrelWalk);
+        sprite.setTexture(*squirrelWalk);
     }
 
 	if(b2DistanceSquared(destination, getPosition()) < 1.f)

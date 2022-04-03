@@ -5,8 +5,8 @@
 #include "world/River.h"
 #include "world/Forest.h"
 #include "GameAssets.h"
-#include "Collision/Shapes/b2PolygonShape.h"
-#include "Dynamics/b2Fixture.h"
+#include "Box2D/Collision/Shapes/b2PolygonShape.h"
+#include "Box2D/Dynamics/b2Fixture.h"
 #include "ForestScreen.h"
 #include "util/math_util.h"
 

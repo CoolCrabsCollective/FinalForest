@@ -85,6 +85,10 @@ Forest::~Forest() {
 void Forest::spawnSquirrel() {
     Squirrel* squirrel = new Squirrel(*this, {50, 50});
     objects.push_back(squirrel);
+    assignToNextAvailableTree(squirrel);
+}
+
+void Forest::assignToNextAvailableTree(Squirrel* squirrel) {
     Tree* tree = getNextAvailableTree();
     if(tree) {
         assignSquirrel(squirrel, tree);
@@ -97,6 +101,14 @@ void Forest::assignSquirrel(Squirrel *squirrel, Tree *tree) {
     treeSquirrelMap.insert(std::pair<Tree*, Squirrel*> {tree, squirrel});
 }
 
+void Forest::reAssignTree(Tree *tree) {
+    if (treeSquirrelMap.contains(tree)) {
+        Squirrel* squirrel = treeSquirrelMap[tree];
+        unassignTree(tree);
+        assignToNextAvailableTree(squirrel);
+    }
+}
+
 void Forest::unassignTree(Tree *tree) {
     Squirrel* squirrel = treeSquirrelMap[tree];
     treeSquirrelMap.erase(tree);
@@ -107,6 +119,15 @@ void Forest::unassignSquirrel(Squirrel *squirrel) {
     Tree* tree = squirrelTreeMap[squirrel];
     squirrelTreeMap.erase(squirrel);
     treeSquirrelMap.erase(tree);
+}
+
+void Forest::killTree(Tree* tree) {
+    for (int i = 0; i<aliveTrees.size(); i++) {
+        if (aliveTrees.at(i) == tree) {
+            aliveTrees.erase(aliveTrees.begin() + i);
+        }
+    }
+    reAssignTree(tree);
 }
 
 Tree *Forest::getNextAvailableTree() {
@@ -151,7 +172,7 @@ void Forest::GenerateEnemyWave(int numOfEnemies) {
 
         newYPos = (float) sin( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
 
-        objects.push_back(new LumberJackChainsaw(*this, b2Vec2(newXPos, newYPos)));
+        objects.push_back(new LumberJack(*this, b2Vec2(newXPos, newYPos)));
     }
 }
 

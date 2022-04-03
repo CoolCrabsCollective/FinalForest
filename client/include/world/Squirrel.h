@@ -24,9 +24,9 @@ class Squirrel : public sf::Drawable, public Physical, public Tickable {
 	mutable sf::Sprite sprite, debugSprite;
 	b2Body* body;
 	Forest& forest;
-	sf::Texture squirrelWalk;
-	sf::Texture squirrelIdle;
-	sf::Texture squirrelNut;
+	sf::Texture* squirrelWalk;
+	sf::Texture* squirrelIdle;
+	sf::Texture* squirrelNut;
 
 	std::vector<ForestNode*> path;
 	int pathIndex = -1;
