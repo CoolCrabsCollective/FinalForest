@@ -10,7 +10,7 @@
 #include "UI/Button.h"
 
 ForestScreen::ForestScreen(wiz::Game& game)
-		: Screen(game), forest(*this, game.getAssets()) {
+		: Screen(game), forest(*this, game.getAssets()), menu() {
 }
 
 void ForestScreen::tick(float delta) {
@@ -31,28 +31,32 @@ void ForestScreen::render(sf::RenderTarget& target) {
     target.draw(squirrelSprite);
     target.draw(manaText);
     target.draw(manaSprite);
-
-    Button testButton = Button(sf::IntRect({50, 50}, {200, 100}));
-    target.draw(testButton);
+    target.draw(menu);
 }
 
 void ForestScreen::show() {
+#ifndef OS_SWITCH
     nutTexture = *getGame().getAssets().get(GameAssets::NUT);
     nutSprite.setTexture(nutTexture);
+#endif
     nutSprite.setTextureRect(sf::Rect<int>({0, 0}, {16, 16}));
     nutSprite.setColor(sf::Color(255, 255, 255, 200));
     nutSprite.setPosition(sf::Vector2f(1500.0f, 25.0f));
     nutSprite.setScale({2.0f, 2.0f});
 
+#ifndef OS_SWITCH
     squirrelTexture = *getGame().getAssets().get(GameAssets::SQUIRREL);
     squirrelSprite.setTexture(squirrelTexture);
+#endif
     squirrelSprite.setTextureRect(sf::Rect<int>({0, 0}, {16, 16}));
     squirrelSprite.setColor(sf::Color(255, 255, 255, 200));
     squirrelSprite.setPosition(sf::Vector2f(1500.0f, 75.0f));
     squirrelSprite.setScale({2.0f, 2.0f});
 
+#ifndef OS_SWITCH
     manaTexture = *getGame().getAssets().get(GameAssets::MANA);
     manaSprite.setTexture(manaTexture);
+#endif
     manaSprite.setTextureRect(sf::Rect<int>({0, 0}, {16, 16}));
     manaSprite.setColor(sf::Color(255, 255, 255, 200));
     manaSprite.setPosition(sf::Vector2f(1500.0f, 125.0f));
