@@ -16,6 +16,10 @@ Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
 	whiteTreeSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_TREE));
     labelSquirrelCount.setFont(*forest.getAssets().get(GameAssets::SANS_TTF));
 
+
+    labelSquirrelCount.setCharacterSize(24);
+    labelSquirrelCount.setFillColor(sf::Color::Black);
+
     setDestroyedTexture(forest.getAssets().get(GameAssets::TREE_STUMP));
     setDamageStateSprite(&sprite);
     setHealth(10.0);
@@ -59,9 +63,13 @@ void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const 
     sprite.setScale({getSize().x / sprite.getTexture()->getSize().x, getSize().y / sprite.getTexture()->getSize().y});
 	target.draw(sprite);
 
-	if(squirrels.size() > 0)
+	if(!squirrels.empty())
     {
+
+        sf::View windowView = sf::View(sf::Vector2f(forest.getScreen().getWindow().getSize().x / 2.f, forest.getScreen().getWindow().getSize().y / 2.f), sf::Vector2f (forest.getScreen().getWindow().getSize()));
+        target.setView(windowView);
         target.draw(labelSquirrelCount);
+        target.setView(sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
     }
 }
 
@@ -70,9 +78,12 @@ void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const 
 void Tree::tick(float delta) {
 
     labelSquirrelCount.setString(std::to_string(squirrels.size()));
-    labelSquirrelCount.setPosition(sf::Vector2f(this->getPosition().x, this->getPosition().y));
-    labelSquirrelCount.setCharacterSize(20);
-    labelSquirrelCount.setFillColor(sf::Color::Black);
+
+    sf::Vector2 v = forest.getScreen().getWindow().mapCoordsToPixel({this->getPosition().x + 2, 100.f - this->getPosition().y - 5}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
+
+    labelSquirrelCount.setPosition({(float)v.x, (float)v.y});
+
+
     if(timeLeftForNut >= 0)
     {
         timeLeftForNut -= delta / 1000.f;
