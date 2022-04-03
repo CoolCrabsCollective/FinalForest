@@ -2,6 +2,7 @@
 // Created by Winter on 12/02/2022.
 //
 
+#include <ForestScreen.h>
 #include "LoadingScreen.h"
 #include "TitleScreen.h"
 #include "GameAssets.h"
@@ -13,7 +14,7 @@ void LoadingScreen::tick(float delta) {
 	getGame().getAssets().update(16.0f);
 
 	if(getGame().getAssets().isAllLoaded())
-		getGame().setScreen(std::shared_ptr<TitleScreen>(new TitleScreen(getGame())));
+		getGame().setScreen(std::shared_ptr<ForestScreen>(new ForestScreen(getGame())));
 }
 
 void LoadingScreen::render(sf::RenderTarget& target) {
