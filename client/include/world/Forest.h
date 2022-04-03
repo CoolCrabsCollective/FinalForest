@@ -32,6 +32,8 @@ class BigAssTree;
 #define TILES_WIDTH 75
 #define TILES_HEIGHT 50
 
+enum Currency {Nuts, Mana};
+
 class Forest : public sf::Drawable, public Tickable {
 	const ForestScreen& screen;
 	const wiz::AssetLoader& assetLoader;
