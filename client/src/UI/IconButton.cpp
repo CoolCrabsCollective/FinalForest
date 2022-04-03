@@ -52,9 +52,20 @@ void IconButton::tick(float delta) {
     else if (currency == Mana)
         currencyCount = forest.mana;
 
-    if (currencyCount < price)
+    if (currencyCount < price) {
+        sprite.setColor(unavailableColor);
+        currencySprite.setColor(unavailableColor);
         rectangleShape.setFillColor(unavailableColor);
-    else
+        rectangleShape.setOutlineColor(gray);
+        priceText.setFillColor(gray);
+        labelText.setFillColor(gray);
+    } else {
+        sprite.setColor(availableColor);
+        currencySprite.setColor(availableColor);
         rectangleShape.setFillColor(availableColor);
+        rectangleShape.setOutlineColor(sf::Color::Black);
+        priceText.setFillColor(sf::Color::Black);
+        labelText.setFillColor(sf::Color::Black);
+    }
 }
 
