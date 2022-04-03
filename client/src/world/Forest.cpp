@@ -15,7 +15,7 @@
 #include <math.h>
 #include <world/state/SquirrelGoGathertState.h>
 #include "GameAssets.h"
-#include "world/GreatOakTree.h"
+#include "world/BigAssTree.h"
 #include "ForestScreen.h"
 
 Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
@@ -44,7 +44,7 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
         for(int j = 0; j < TILES_WIDTH; j++)
             grass_map[i][j] = rand() % 4;
 
-    this->greatOakTree = new GreatOakTree(*this, b2Vec2(50.0f, 50.0f));
+    this->greatOakTree = new BigAssTree(*this, b2Vec2(50.0f, 50.0f));
 	objects.push_back(this->greatOakTree);
 
     createForest();
@@ -106,7 +106,7 @@ void Forest::unassignSquirrel(Squirrel *squirrel) {
 
 Tree *Forest::getNextAvailableTree() {
     for(Tree* tree : trees)
-        if(!dynamic_cast<GreatOakTree*>(tree) && !treeSquirrelMap.contains(tree))
+        if(!dynamic_cast<BigAssTree*>(tree) && !treeSquirrelMap.contains(tree))
             return tree;
 
     return nullptr;
@@ -193,7 +193,7 @@ void Forest::createForest() {
 
 			float minDistance;
 
-			if(dynamic_cast<GreatOakTree*>(entity))
+			if(dynamic_cast<BigAssTree*>(entity))
 				minDistance = (physical->getSize().x + physical->getSize().y) / 2.0f;
 			else
 				minDistance = (physical->getSize().x + physical->getSize().y) * 3.0f / 4.0f;
@@ -231,6 +231,6 @@ const ForestPathFinder& Forest::getPathFinder() const {
 	return finder;
 }
 
-GreatOakTree* Forest::getGreatOakTree() const {
+BigAssTree* Forest::getGreatOakTree() const {
     return greatOakTree;
 }

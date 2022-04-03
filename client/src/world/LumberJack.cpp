@@ -1,6 +1,10 @@
 //
-// Created by Alexander Winter on 2022-04-02.
+// Created by William Wells on 2022-04-02.
 //
+
+#include <world/state/LumberJackIdleState.h>
+#include <world/state/LumberJackGoAttackState.h>
+#include <world/state/LumberJackAttackState.h>
 
 #include "world/LumberJack.h"
 #include "world/Forest.h"
@@ -33,6 +37,8 @@ LumberJack::LumberJack(Forest& forest, b2Vec2 position) : forest(forest) {
 	// Add the shape to the body.
 	body->CreateFixture(&fixtureDef);
 
+    this->state = std::make_shared<LumberJackIdleState>(&this->forest, this);
+
     targetNearestTree();
 }
 
@@ -48,18 +54,7 @@ void LumberJack::draw(sf::RenderTarget& target, const sf::RenderStates& states) 
 }
 
 void LumberJack::tick(float delta) {
-
-	if(b2DistanceSquared(destination, getPosition()) < 1.f)
-		return;
-
-	b2Vec2 direction = destination - getPosition();
-	facingRight = direction.x > 0;
-	direction.Normalize();
-	body->SetLinearVelocity(speed * direction);
-
-    if (isAtDestination()) {
-        attackTree();
-    }
+    this->state->tick(delta);
 }
 
 b2Body* LumberJack::getBody() const {
@@ -74,8 +69,24 @@ b2Vec2 LumberJack::getSize() const {
 	return b2Vec2(1.5f, 1.5f);
 }
 
+b2Vec2 LumberJack::getDestination() const {
+    return destination;
+}
+
 Forest& LumberJack::getForest() const {
 	return forest;
+}
+
+float LumberJack::getSpeed() const {
+    return speed;
+}
+
+Tree* LumberJack::getTarget() const {
+    return target;
+}
+
+int LumberJack::getAttack() const {
+    return attack;
 }
 
 void LumberJack::setSpeed(float speed) {
@@ -84,6 +95,10 @@ void LumberJack::setSpeed(float speed) {
 
 void LumberJack::setAttack(float attack) {
     this->attack = attack;
+}
+
+void LumberJack::setFacingRight(bool facingRight) {
+    this->facingRight = facingRight;
 }
 
 void LumberJack::targetNearestTree() {
@@ -97,16 +112,14 @@ void LumberJack::targetNearestTree() {
 
     target = trees.front();
     destination = target->getPosition();
+
+    this->state = std::make_shared<LumberJackGoAttackState>(&this->forest, this);
 }
 
-float LumberJack::distanceToDestination() {
-    return b2DistanceSquared(destination, body->GetPosition());
+std::shared_ptr<LumberJackState> LumberJack::getState() const {
+    return state;
 }
 
-bool LumberJack::isAtDestination() {
-    return distanceToDestination() < 0.1;
-}
-
-void LumberJack::attackTree() {
-    target->damage(attack);
+void LumberJack::setState(std::shared_ptr<LumberJackState> state) {
+    LumberJack::state = state;
 }

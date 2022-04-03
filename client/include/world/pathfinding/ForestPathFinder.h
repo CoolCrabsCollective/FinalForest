@@ -6,7 +6,7 @@
 #define LD50_CLIENT_FORESTPATHFINDER_H
 
 #include "ForestNode.h"
-#include "Common/b2Math.h"
+#include "Box2D/Common/b2Math.h"
 #include "PathFinder/PathFinder.h"
 #include "world/Entity.h"
 #include "SFML/System/Vector2.hpp"
