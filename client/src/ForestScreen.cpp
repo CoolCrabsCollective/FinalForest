@@ -14,7 +14,7 @@ ForestScreen::ForestScreen(wiz::Game& game)
 }
 
 void ForestScreen::tick(float delta) {
-	forest.tick(delta);
+	forest.tick(1000.0f / 60.0f);
     menu.tick(delta);
     updateSquirrelCount();
     updateNutCount();

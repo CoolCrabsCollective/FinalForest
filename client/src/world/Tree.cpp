@@ -26,7 +26,7 @@ Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
 	b2CircleShape circleShape;
 	circleShape.m_radius = getSize().x / 4;
 
-	b2Fixture* fixture = body->CreateFixture(&circleShape, 0.0f);
+	fixture = body->CreateFixture(&circleShape, 0.0f);
 
 	b2Filter filter;
 	filter.categoryBits = 0x1000;
@@ -57,13 +57,9 @@ void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const 
 	target.draw(sprite);
 }
 
-void Tree::tick(float delta) {
 
-    if(isDestroyed())
-    {
-        squirrels.clear();
-        return;
-    }
+
+void Tree::tick(float delta) {
 
     if(timeLeftForNut >= 0)
     {
@@ -146,4 +142,19 @@ int Tree::getSquirrelCount() {
 
 void Tree::addSquirrelTurret(Squirrel *squirrel) {
     squirrels.push_back(squirrel);
+}
+
+void Tree::damage(float attack) {
+	bool wasDestroyed = isDestroyed();
+
+	Damageable::damage(attack);
+
+	if(isDestroyed() && !wasDestroyed) {
+		squirrels.clear();
+		b2Filter filter;
+		filter.categoryBits = 0x1000;
+		filter.maskBits = 0;
+
+		fixture->SetFilterData(filter);
+	}
 }

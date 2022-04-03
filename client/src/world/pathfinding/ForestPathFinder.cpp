@@ -12,7 +12,9 @@
 #include "world/BigAssTree.h"
 
 
-ForestPathFinder::ForestPathFinder(const wiz::AssetLoader& assets) {
+ForestPathFinder::ForestPathFinder(const wiz::Logger& logger, const wiz::AssetLoader& assets)
+	: logger(logger)
+{
 	debugSprite.setTexture(*assets.get(GameAssets::WHITE_PIXEL));
 }
 
@@ -153,11 +155,11 @@ b2Vec2 ForestPathFinder::getTileSize() const {
 }
 
 b2Vec2 ForestPathFinder::getTileStart() const {
-	return { -20.0f, -20.0f };
+	return { -60.0f, -60.0f };
 }
 
 b2Vec2 ForestPathFinder::getTileEnd() const {
-	return { 120.0f, 120.0f };
+	return { 160.0f, 160.0f };
 }
 
 sf::Vector2i ForestPathFinder::worldToTileCoordinates(b2Vec2 worldCoords) const {
@@ -236,4 +238,87 @@ ForestNode* ForestPathFinder::enemyNode(b2Vec2 position) const {
 		tile.y = minY;
 
 	return enemyMap.at(keyOf(tile));
+}
+
+void ForestPathFinder::addBridge(b2Vec2 start, b2Vec2 end) {
+
+	int16_t minX = 0;
+	int16_t minY = 0;
+
+	int16_t maxX = floor((getTileEnd().x - getTileStart().x) / getTileSize().x);
+	int16_t maxY = floor((getTileEnd().y - getTileStart().y) / getTileSize().y);
+
+	sf::Vector2i startIndex = worldToTileCoordinates(start);
+	sf::Vector2i endIndex = worldToTileCoordinates(end);
+
+	ForestNode* startNode = new ForestNode(*this);
+	startNode->setPosition(startIndex.x, startIndex.y);
+	startNode->setObstructed(false);
+
+	ForestNode* endNode = new ForestNode(*this);
+	endNode->setPosition(endIndex.x, endIndex.y);
+	endNode->setObstructed(false);
+
+	float dst = b2Distance(start, end);
+
+	startNode->addChild(endNode, dst);
+	endNode->addChild(startNode, dst);
+
+	for(int16_t i = -1; i <= 1; i++) {
+		for(int16_t j = -1; j <= 1; j++) {
+			if(i == 0 && j == 0)
+				continue;
+
+			int16_t startNBX = startIndex.x + i;
+			int16_t startNBY = startIndex.y + j;
+
+			if(startNBX < minX || startNBX >= maxX || startNBY < minY || startNBY >= maxY)
+				continue;
+
+			uint32_t otherKey = keyOf(sf::Vector2i {startNBX, startNBY });
+
+			ForestNode* otherEnemyNode = enemyMap[otherKey];
+
+			if(otherEnemyNode == nullptr) {
+				logger.error("Other enemy node null in addBridge");
+				return;
+			}
+
+			float dst = b2Distance(otherEnemyNode->getWorldPosition(), start);
+
+			if(!otherEnemyNode->isObstructed())
+				startNode->addChild(otherEnemyNode, dst);
+
+			otherEnemyNode->addChild(startNode, dst);
+		}
+	}
+
+	for(int16_t i = -1; i <= 1; i++) {
+		for(int16_t j = -1; j <= 1; j++) {
+			if(i == 0 && j == 0)
+				continue;
+
+			int16_t endNBX = endIndex.x + i;
+			int16_t endNBY = endIndex.y + j;
+
+			if(endNBX < minX || endNBX >= maxX || endNBY < minY || endNBY >= maxY)
+				continue;
+
+			uint32_t otherKey = keyOf(sf::Vector2i {endNBX, endNBY });
+
+			ForestNode* otherEnemyNode = enemyMap[otherKey];
+
+			if(otherEnemyNode == nullptr) {
+				logger.error("Other enemy node null in addBridge");
+				return;
+			}
+
+			float dst = b2Distance(otherEnemyNode->getWorldPosition(), end);
+
+			if(!otherEnemyNode->isObstructed())
+				endNode->addChild(otherEnemyNode, dst);
+
+			otherEnemyNode->addChild(endNode, dst);
+		}
+	}
 }

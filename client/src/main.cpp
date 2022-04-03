@@ -60,6 +60,18 @@ int main(int argc, char* argv[])
 	mode = sf::VideoMode(1280, 720, 32);
 #endif
 
+	unsigned int seed;
+
+	if(argc > 1) {
+		seed = std::stoul(argv[1]);
+		logger->info("Seed set");
+	} else {
+		seed = random();
+		logger->info("Seed is " + std::to_string(seed));
+	}
+
+	srand(seed);
+
 	std::shared_ptr<sf::RenderWindow> window = std::make_shared<sf::RenderWindow>(mode, "Final Forest - Ludum Dare 50");
 
 	ForestGame game(window, logger, loader);

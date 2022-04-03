@@ -45,8 +45,14 @@ River::River(Forest& forest, std::vector<b2Vec2> path, float width) : forest(for
 		filter.maskBits = 0xFFFF;
 
 		fixture->SetFilterData(filter);
+		fixtures.push_back(fixture);
 		prev = path[i];
 	}
+}
+
+River::~River() {
+	for(Bridge* bridge : bridges)
+		delete bridge;
 }
 
 void River::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
@@ -82,9 +88,11 @@ void River::draw(sf::RenderTarget& target, const sf::RenderStates& states) const
 											  {(int)round(dst / width * 8.0f), 8}));
 
 		target.draw(river_line);
-
 		prev = path[i];
 	}
+
+	for(Bridge* bridge : bridges)
+		target.draw(*bridge);
 }
 
 b2Body* River::getBody() const {
@@ -138,4 +146,23 @@ bool River::isBlocking(std::vector<b2Vec2> path, float width, b2Vec2 center, b2V
 	}
 
 	return false;
+}
+
+void River::addBridge(Bridge* newBridge) {
+	for(Bridge* bridge : bridges)
+		if(bridge->getSegmentIndex() == newBridge->getSegmentIndex())
+			throw std::runtime_error("There is already a bridge there");
+
+	bridges.push_back(newBridge);
+
+	b2Filter filter;
+	filter.categoryBits = 0x2000;
+	filter.maskBits = 0;
+	fixtures[newBridge->getSegmentIndex()]->SetFilterData(filter);
+
+	getForest().getPathFinder().addBridge(path.at(newBridge->getSegmentIndex()), path.at(newBridge->getSegmentIndex() + 1));
+}
+
+const std::vector<Bridge*>& River::getBridges() const {
+	return bridges;
 }

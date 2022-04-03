@@ -11,7 +11,7 @@ class Damageable {
 private:
     float health = 0;
     bool destroyed = false;
-    sf::Texture* destroyedTexture;
+    sf::Texture* destroyedTexture = nullptr;
     sf::Sprite* sprite;
 
 public:
@@ -21,7 +21,7 @@ public:
 
     void setHealth(float health);
 
-    void damage(float attack);
+    virtual void damage(float attack);
 
     void setDestroyedTexture(sf::Texture* destroyedTexture);
 

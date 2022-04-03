@@ -100,6 +100,8 @@ public:
 
 	const ForestPathFinder& getPathFinder() const;
 
+	ForestPathFinder& getPathFinder();
+
 	const ForestScreen& getScreen() const;
 
 	BigAssTree* getGreatOakTree() const;

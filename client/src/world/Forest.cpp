@@ -23,7 +23,7 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 	: screen(screen),
 		assetLoader(assetLoader),
 		world(b2Vec2_zero),
-		finder(assetLoader)
+		finder(screen.getLogger(), assetLoader)
 {
     nutCount = 0;
     squirrelCount = 0;
@@ -66,6 +66,24 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 		spawnSquirrel();
 
 	finder.initialize(objects);
+
+	for(Entity* entity : objects) {
+		River* river = dynamic_cast<River*>(entity);
+
+		if(!river)
+			continue;
+
+		const std::vector<b2Vec2>& path = river->getPath();
+		for(size_t i = 1; i < path.size(); i++) {
+
+			float dst1 = b2DistanceSquared(path[i - 1], b2Vec2(50.0f, 50.0f));
+			float dst2 = b2DistanceSquared(path[i], b2Vec2(50.0f, 50.0f));
+
+			if(dst1 < 60.0f * 60.0f && dst2 > 60.0f * 60.0f
+			   || dst1 > 60.0f * 60.0f && dst2 < 60.0f * 60.0f)
+				river->addBridge(new Bridge(*river, i, METAL));
+		}
+	}
 
     GenerateEnemyWave(20, 0.0);
     aliveTrees[1]->addSquirrelTurret(nullptr);
@@ -402,6 +420,10 @@ const ForestPathFinder& Forest::getPathFinder() const {
 	return finder;
 }
 
+ForestPathFinder& Forest::getPathFinder() {
+	return finder;
+}
+
 BigAssTree* Forest::getGreatOakTree() const {
     return greatOakTree;
 }
@@ -409,7 +431,6 @@ BigAssTree* Forest::getGreatOakTree() const {
 const std::vector<Enemy *> &Forest::getEnemies() const {
     return enemies;
 }
-
 
 void Forest::shootNut(NutShot *nut) {
     objects.push_back(nut);

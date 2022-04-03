@@ -24,6 +24,7 @@ protected:
 	Forest& forest;
 	std::vector<Squirrel*> squirrels;
 	float timeLeftForNut;
+	b2Fixture* fixture;
 
 public:
     Tree(Forest& forest, b2Vec2 position);
@@ -47,6 +48,8 @@ public:
 	float getZOrder() const override;
 
     void tick(float delta) override;
+
+	void damage(float attack) override;
 };
 
 

@@ -20,6 +20,7 @@ enum PathType {
 };
 
 class ForestPathFinder : public sf::Drawable {
+	const wiz::Logger& logger;
 
 	mutable sf::Sprite debugSprite;
 
@@ -27,7 +28,7 @@ class ForestPathFinder : public sf::Drawable {
 	std::unordered_map<uint32_t, ForestNode*> animalMap;
 	std::unordered_map<uint32_t, ForestNode*> enemyMap;
 public:
-	ForestPathFinder(const wiz::AssetLoader& assets);
+	ForestPathFinder(const wiz::Logger& logger, const wiz::AssetLoader& assets);
 
 	void initialize(const std::vector<Entity*>& vec);
 
@@ -44,6 +45,8 @@ public:
 	b2Vec2 tileToWorldCoordinates(sf::Vector2i worldCoords) const;
 
 	void draw(sf::RenderTarget& target, const sf::RenderStates& states) const override;
+
+	void addBridge(b2Vec2 start, b2Vec2 end);
 
 private:
 	ForestNode* animalNode(b2Vec2 position) const;
