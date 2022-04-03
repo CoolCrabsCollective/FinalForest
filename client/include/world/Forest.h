@@ -96,7 +96,7 @@ public:
 
 	void tick(float delta) override;
 
-    void GenerateEnemyWave(int numOfEnemies, float difficulty);
+    void generateEnemyWave(int numOfEnemies, float difficulty);
 
 	const ForestPathFinder& getPathFinder() const;
 
@@ -104,7 +104,9 @@ public:
 
 	const ForestScreen& getScreen() const;
 
-	BigAssTree* getGreatOakTree() const;
+	ForestScreen& getScreen();
+
+    BigAssTree* getGreatOakTree() const;
 
     const std::vector<Tree*> getAliveTrees() const;
 

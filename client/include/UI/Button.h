@@ -18,6 +18,12 @@ class Button : public sf::Drawable, public Tickable  {
 protected:
     sf::RectangleShape rectangleShape;
 
+    constexpr static const sf::Color unavailableColor = sf::Color(255, 255, 255, 100);
+    constexpr static const sf::Color availableColor = sf::Color(255, 255, 255, 255);
+    constexpr static const sf::Color gray = sf::Color(0, 0, 0, 100);
+
+    virtual void click();
+
 public:
     Forest& forest;
 

@@ -27,7 +27,7 @@ public:
 
     void setDamageStateSprite(sf::Sprite* sprite);
 
-    bool isDestroyed();
+    bool isDestroyed() const;
 };
 
 #endif //LD50_CLIENT_DAMAGEABLE_H

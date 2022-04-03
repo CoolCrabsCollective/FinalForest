@@ -11,6 +11,7 @@
 #include "SFML/Graphics/Drawable.hpp"
 #include "Physical.h"
 #include "Tickable.h"
+#include "Damager.h"
 #include "SFML/Graphics/Sprite.hpp"
 #include "PathFinder/AStar.h"
 #include "PathFinder/PathFinder.h"
@@ -20,7 +21,7 @@
 
 class SquirrelState;
 
-class Squirrel : public Renderable, public Physical, public Tickable {
+class Squirrel : public Renderable, public Physical, public Tickable, public Damager {
 
 	mutable sf::Sprite sprite, debugSprite;
 	b2Body* body;
@@ -58,6 +59,8 @@ public:
 	std::shared_ptr<SquirrelState> getState() const;
 
 	void setState(std::shared_ptr<SquirrelState> state);
+
+    void targetNearestEnemy();
 
 	float getZOrder() const override;
 };

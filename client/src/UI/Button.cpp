@@ -10,6 +10,7 @@
 Button::Button(sf::IntRect rectangle, Forest& forest, std::function<void(Button*)> onClick) : forest(forest), onClick(std::move(onClick)){
     rectangleShape.setSize(sf::Vector2f(rectangle.getSize().x, rectangle.getSize().y));
     rectangleShape.setOutlineColor(sf::Color::Black);
+    rectangleShape.setFillColor(unavailableColor);
     rectangleShape.setOutlineThickness(5);
     rectangleShape.setPosition({(float)rectangle.getPosition().x, (float)rectangle.getPosition().y});
 };
@@ -23,5 +24,9 @@ void Button::checkClick(sf::Vector2f clickVector) {
         clickVector.x < rectangleShape.getPosition().y + rectangleShape.getSize().x &&
         clickVector.y > rectangleShape.getPosition().y &&
         clickVector.y < rectangleShape.getPosition().y + rectangleShape.getSize().y)
-        onClick(this);
+        click();
+}
+
+void Button::click() {
+    onClick(this);
 }

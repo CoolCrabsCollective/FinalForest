@@ -12,6 +12,7 @@
 
 Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
 	sprite.setTexture(*forest.getAssets().get(GameAssets::TREE));
+	whiteTreeSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_TREE));
 
     setDestroyedTexture(forest.getAssets().get(GameAssets::TREE_STUMP));
     setDamageStateSprite(&sprite);
@@ -36,24 +37,24 @@ Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
 	timeLeftForNut = TIME_FOR_NUTSHOT;
 }
 
-
-
 void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
     sf::Vector2<int> rawMousePos = sf::Mouse::getPosition(getForest().getScreen().getWindow());
     sf::Vector2f worldMousePos = getForest().getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
 
 	sprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
 	sprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
-	sprite.setScale({getSize().x / sprite.getTexture()->getSize().x, getSize().y / sprite.getTexture()->getSize().y});
-	if((worldMousePos.x - sprite.getPosition().x)*(worldMousePos.x - sprite.getPosition().x) +
+
+	if(!this->isDestroyed() && (worldMousePos.x - sprite.getPosition().x)*(worldMousePos.x - sprite.getPosition().x) +
             (worldMousePos.y - sprite.getPosition().y)*(worldMousePos.y - sprite.getPosition().y) < 6)
     {
-	    sprite.setColor(sf::Color(250, 253, 15, 127));
+        whiteTreeSprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
+        whiteTreeSprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
+        whiteTreeSprite.setScale({1.2f * getSize().x / sprite.getTexture()->getSize().x, 1.2f * getSize().y / sprite.getTexture()->getSize().y});
+        target.draw(whiteTreeSprite);
     }
-	else
-    {
-        sprite.setColor(sf::Color(255, 255, 255, 255));
-    }
+
+    sprite.setColor(sf::Color(255, 255, 255, 255));
+    sprite.setScale({getSize().x / sprite.getTexture()->getSize().x, getSize().y / sprite.getTexture()->getSize().y});
 	target.draw(sprite);
 }
 
@@ -82,9 +83,20 @@ void Tree::tick(float delta) {
                 }
             }
 
-            getForest().shootNut(new NutShot(getForest(), {getPosition().x, getPosition().y}, closestEnemy));
-            this->timeLeftForNut = TIME_FOR_NUTSHOT;
+            if(closestDistance < 80)
+            {
+                getForest().shootNut(new NutShot(getForest(), {getPosition().x, getPosition().y}, closestEnemy));
+                this->timeLeftForNut = TIME_FOR_NUTSHOT;
+            }
         }
+    }
+
+    sf::Vector2<int> rawMousePos = sf::Mouse::getPosition(getForest().getScreen().getWindow());
+    sf::Vector2f worldMousePos = getForest().getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
+    if(!this->isDestroyed() && sf::Mouse::isButtonPressed(sf::Mouse::Left) && (worldMousePos.x - sprite.getPosition().x)*(worldMousePos.x - sprite.getPosition().x) +
+                               (worldMousePos.y - sprite.getPosition().y)*(worldMousePos.y - sprite.getPosition().y) < 61)
+    {
+        getForest().getScreen().setMenu(TURRET_MENU);
     }
 }
 

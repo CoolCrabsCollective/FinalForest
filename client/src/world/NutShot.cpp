@@ -22,7 +22,7 @@ void NutShot::tick(float delta) {
     }
     float diffX = this->target->getPosition().x - this->pos.x;
     float diffY = this->target->getPosition().y - this->pos.y;
-    if((diffX*diffX + diffY*diffY) < 3)
+    if((diffX*diffX + diffY*diffY) < 5)
     {
         this->attack(this->target);
         this->getForest().sendToCompost(this);
@@ -45,6 +45,7 @@ void NutShot::draw(sf::RenderTarget &target, const sf::RenderStates &states) con
 
     sprite.setScale({2.f / sprite.getTexture()->getSize().x,
                      2.f / sprite.getTexture()->getSize().y});
+    sprite.rotate(sf::degrees(7.f));
     target.draw(sprite);
 }
 

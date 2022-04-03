@@ -28,16 +28,23 @@ namespace GameAssets {
     ASSET(wiz::TextureAsset, NUT, ("gfx/nut.png"))
 
     ASSET(wiz::TextureAsset, TREE, ("gfx/tree.png"))
+    ASSET(wiz::TextureAsset, WHITE_TREE, ("gfx/tree_white.png"))
     ASSET(wiz::TextureAsset, TREE_STUMP, ("gfx/tree_stump.png"))
     ASSET(wiz::TextureAsset, MANA, ("gfx/mana.png"))
     ASSET(wiz::TextureAsset, LUMBERJACKAXE, ("gfx/lumber_jack_axe.png"))
+    ASSET(wiz::TextureAsset, LUMBERJACKAXE_SWING, ("gfx/lumber_jack_axe_swing.png"))
     ASSET(wiz::TextureAsset, LUMBERJACKCHAINSAW, ("gfx/lumber_jack_chainsaw.png"))
     ASSET(wiz::TextureAsset, GREAT_OAK, ("gfx/great_oak.png"))
+    ASSET(wiz::TextureAsset, WHITE_GREAT_OAK, ("gfx/great_oak_white.png"))
     ASSET(wiz::TextureAsset, GREAT_OAK_STUMP, ("gfx/great_oak_stump.png"))
 
     ASSET(wiz::TextureAsset, SQUIRREL, ("gfx/squirrel.png"))
     ASSET(wiz::TextureAsset, SQUIRREL_WITH_NUT, ("gfx/squirrel_with_nut.png"))
     ASSET(wiz::TextureAsset, SQUIRREL_IDLE, ("gfx/squirrel_idle.png"))
+
+    ASSET(wiz::TextureAsset, WOLF, ("gfx/wolf.png"))
+
+    ASSET(wiz::TextureAsset, BEAR, ("gfx/bear.png"))
 
 	ASSET(wiz::TextureAsset, RIVER_JOINT, ("gfx/river/river_joint.png"))
 	ASSET(wiz::TextureAsset, RIVER_LINE, ("gfx/river/river_line.png"))

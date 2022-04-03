@@ -3,37 +3,30 @@
 //
 
 #include "UI/Menu.h"
-#include "UI/IconButton.h"
+#include "UI/PurchaseButton.h"
 #include "GameAssets.h"
 
 Menu::Menu(const wiz::AssetLoader &assetLoader, Forest& forest) : assetLoader(assetLoader) {
-    // Squirrel Button
-    buttons.push_back(new IconButton(
-            sf::IntRect({50, 50}, {200, 100}),
-            forest,
-            [&](Button* button) {
-                IconButton* iconButton = dynamic_cast<IconButton*>(button);
 
-                if (iconButton->forest.nutCount < iconButton->price)
-                   return;
+}
 
-                iconButton->forest.nutCount -= iconButton->price;
-                iconButton->forest.spawnSquirrel();
-            },
-            assetLoader,
-            &GameAssets::SQUIRREL,
-            Nuts,
-            5
-            ));
+void Menu::show(bool isShown) {
+    hidden = !isShown;
 }
 
 void Menu::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
+    if(hidden)
+        return;
+
     for (int i = 0 ; i < buttons.size() ; i++) {
         buttons[i]->draw(target, states);
     }
 };
 
 void Menu::click(sf::Vector2f clickVector) {
+    if(hidden)
+        return;
+
     for (int i = 0 ; i < buttons.size() ; i++) {
         Button* b = buttons[i];
         b->checkClick(clickVector);
