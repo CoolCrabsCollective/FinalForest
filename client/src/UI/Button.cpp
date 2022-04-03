@@ -24,5 +24,9 @@ void Button::checkClick(sf::Vector2f clickVector) {
         clickVector.x < rectangleShape.getPosition().y + rectangleShape.getSize().x &&
         clickVector.y > rectangleShape.getPosition().y &&
         clickVector.y < rectangleShape.getPosition().y + rectangleShape.getSize().y)
-        onClick(this);
+        click();
+}
+
+void Button::click() {
+    onClick(this);
 }
