@@ -124,23 +124,17 @@ float River::getZOrder() const {
 }
 
 bool River::isBlocking(std::vector<b2Vec2> path, float width, b2Vec2 center, b2Vec2 size) {
-	b2Vec2 halfSize = size;
-	halfSize *= 0.5f;
-
-	b2Vec2 prev = path[0];
 	for(size_t i = 1; i < path.size(); i++) {
-		float dst = b2Distance(prev, path[i]);
-		b2Vec2 riverCenter = (prev + path[i]);
+		float dst = b2Distance(path[i - 1], path[i]);
+		b2Vec2 riverCenter = (path[i - 1] + path[i]);
 		riverCenter *= 0.5f;
 
-		b2Vec2 dir = path[i] - prev;
+		b2Vec2 dir = path[i] - path[i - 1];
 		sf::Vector2f vec = { dir.x, dir.y };
 
 		if(doOBBCollideWithOBB(center.x, center.y, size.x, size.y, 0.0f,
 							   riverCenter.x, riverCenter.y, dst, width, vec.angle().asDegrees()))
 			return true;
-
-		prev = path[i];
 	}
 
 	return false;
