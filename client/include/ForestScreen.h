@@ -61,8 +61,6 @@ public:
 
 	void setDebug(bool debug);
 
-    void mouseButtonReleased(const sf::Event::MouseButtonEvent &mouseButtonEvent) override;
-
     void keyPressed(const sf::Event::KeyEvent& keyEvent) override;
 };
 
