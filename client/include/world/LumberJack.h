@@ -19,16 +19,21 @@ class LumberJackState;
 class LumberJack : public sf::Drawable, public Physical, public Tickable {
 
     b2Body* body;
-	b2Vec2 destination = b2Vec2(50.f, 50.f);
+
+	std::vector<ForestNode*> path;
+	int pathIndex = -1;
+	b2Vec2 destination = b2Vec2(50.0f, 50.0f);
+	bool destinationChanged = false;
+
     Tree* target;
-	float speed = 10.0F;
+	float speed = 10.0f;
     int attack = 1;
 	bool facingRight = false;
 
     std::shared_ptr<LumberJackState> state;
 protected:
     Forest& forest;
-    mutable sf::Sprite sprite;
+    mutable sf::Sprite sprite, debugSprite;
 
 public:
     std::shared_ptr<LumberJackState> getState() const;
@@ -49,7 +54,9 @@ public:
 
     b2Vec2 getDestination() const;
 
-    float getSpeed() const;
+	void setDestination(const b2Vec2& destination);
+
+	float getSpeed() const;
 
     Tree* getTarget() const;
 

@@ -15,8 +15,11 @@ class LumberJackState {
     Forest* forest;
 public:
     LumberJackState(Forest* forest, LumberJack *lumberJack);
+
     virtual void tick(float delta) = 0;
+
     LumberJack* getLumberJack();
+
     Forest* getForest();
 };
 

@@ -13,9 +13,4 @@ void LumberJackGoAttackState::tick(float delta) {
         lumberJack->setState(std::make_shared<LumberJackAttackState>(this->getForest(), lumberJack));
         return;
     }
-
-    b2Vec2 direction = lumberJack->getDestination() - lumberJack->getPosition();
-    lumberJack->setFacingRight(direction.x > 0);
-    direction.Normalize();
-    lumberJack->getBody()->SetLinearVelocity(lumberJack->getSpeed() * direction);
 }

@@ -258,8 +258,7 @@ void Forest::generateLakeAndRivers() {
 
 	objects.push_back(new MagicLake(*this, b2Vec2(vec.x + 50.0f, vec.y + 50.0f)));
 
-	objects.push_back(new River(*this, { b2Vec2(-50.0f, -50.0f),
-										 b2Vec2(20.0f, 20.0f),
+	objects.push_back(new River(*this, {
 										 b2Vec2(20.0f, 25.0f),
 										 b2Vec2(25.0f, 30.0f),
 										 b2Vec2(30.0f, 25.0f),
@@ -271,8 +270,5 @@ void Forest::generateLakeAndRivers() {
 										 b2Vec2(65.0f, 20.0f),
 										 b2Vec2(70.0f, 15.0f),
 										 b2Vec2(75.0f, 10.0f),
-										 b2Vec2(75.0f, 5.0f),
-										 b2Vec2(80.0f, 0.0f),
-										 b2Vec2(85.0f, -5.0f),
-										 b2Vec2(120.0f, -40.0f)}, 2.0f));
+										 b2Vec2(75.0f, 5.0f)}, 2.0f));
 }
