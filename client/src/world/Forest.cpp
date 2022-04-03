@@ -17,6 +17,8 @@
 #include "GameAssets.h"
 #include "world/BigAssTree.h"
 #include "ForestScreen.h"
+#include "world/River.h"
+#include "world/MagicLake.h"
 
 Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 	: screen(screen),
@@ -47,7 +49,8 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
     this->greatOakTree = new BigAssTree(*this, b2Vec2(50.0f, 50.0f));
 	objects.push_back(this->greatOakTree);
 
-    createForest();
+	generateLakeAndRivers();
+	generateForest();
 
 	for(Entity* entity : objects)
 	{
@@ -62,7 +65,9 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 		return a_dis < b_dis;
 	});
 
-	for(int i = 0; i < 10; i++)
+    aliveTrees = std::vector<Tree*>(trees);
+
+	for(int i = 0; i < 8; i++)
 		spawnSquirrel();
 
 	finder.initialize(objects);
@@ -105,7 +110,7 @@ void Forest::unassignSquirrel(Squirrel *squirrel) {
 }
 
 Tree *Forest::getNextAvailableTree() {
-    for(Tree* tree : trees)
+    for(Tree* tree : aliveTrees)
         if(!dynamic_cast<BigAssTree*>(tree) && !treeSquirrelMap.contains(tree))
             return tree;
 
@@ -172,7 +177,7 @@ void Forest::draw(sf::RenderTarget& target, const sf::RenderStates& states) cons
 	}
 }
 
-void Forest::createForest() {
+void Forest::generateForest() {
     int totalTrees = 55;
 	int addedTrees = 0;
 
@@ -191,11 +196,20 @@ void Forest::createForest() {
 			if(!physical)
 				continue;
 
+			River* river = dynamic_cast<River*>(entity);
+			MagicLake* lake = dynamic_cast<MagicLake*>(entity);
+			if(river || lake) {
+				if(dynamic_cast<Obstacle*>(entity)->isBlocking(position, { 5.0f, 5.0f })) {
+					overlapping = true;
+					continue;
+				}
+			}
+
 			float minDistance;
 
 			if(dynamic_cast<BigAssTree*>(entity))
 				minDistance = (physical->getSize().x + physical->getSize().y) / 2.0f;
-			else
+			else if(dynamic_cast<Tree*>(entity))
 				minDistance = (physical->getSize().x + physical->getSize().y) * 3.0f / 4.0f;
 
             if(b2DistanceSquared(physical->getPosition(), position) < minDistance * minDistance) {
@@ -215,8 +229,8 @@ b2World& Forest::getB2World() {
 	return world;
 }
 
-const std::vector<Tree*> Forest::getTrees() const {
-    return trees;
+const std::vector<Tree*> Forest::getAliveTrees() const {
+    return aliveTrees;
 }
 
 const wiz::AssetLoader& Forest::getAssets() const {
@@ -233,4 +247,32 @@ const ForestPathFinder& Forest::getPathFinder() const {
 
 BigAssTree* Forest::getGreatOakTree() const {
     return greatOakTree;
+}
+
+void Forest::generateLakeAndRivers() {
+
+	float deg = (float) (rand() % 360);
+
+	sf::Vector2f vec(25.0f, 0.0f);
+	vec.rotatedBy(sf::degrees(deg));
+
+	objects.push_back(new MagicLake(*this, b2Vec2(vec.x + 50.0f, vec.y + 50.0f)));
+
+	objects.push_back(new River(*this, { b2Vec2(-50.0f, -50.0f),
+										 b2Vec2(20.0f, 20.0f),
+										 b2Vec2(20.0f, 25.0f),
+										 b2Vec2(25.0f, 30.0f),
+										 b2Vec2(30.0f, 25.0f),
+										 b2Vec2(40.0f, 25.0f),
+										 b2Vec2(45.0f, 30.0f),
+										 b2Vec2(50.0f, 30.0f),
+										 b2Vec2(55.0f, 25.0f),
+										 b2Vec2(60.0f, 25.0f),
+										 b2Vec2(65.0f, 20.0f),
+										 b2Vec2(70.0f, 15.0f),
+										 b2Vec2(75.0f, 10.0f),
+										 b2Vec2(75.0f, 5.0f),
+										 b2Vec2(80.0f, 0.0f),
+										 b2Vec2(85.0f, -5.0f),
+										 b2Vec2(120.0f, -40.0f)}, 2.0f));
 }

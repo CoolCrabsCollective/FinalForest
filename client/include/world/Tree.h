@@ -15,9 +15,10 @@
 
 class Tree : public sf::Drawable, public Obstacle {
 protected:
-    int health = 10;
+    float health = 10;
+    bool destroyed = false;
+    mutable sf::Sprite sprite;
 
-	mutable sf::Sprite sprite;
 	b2Body* body;
 	Forest& forest;
 public:
@@ -33,9 +34,11 @@ public:
 
 	Forest& getForest() const override;
 
-	void setHealth(int health);
+    bool isDestroyed() const;
 
-    void damage(int damage);
+	void setHealth(float health);
+
+    void damage(float damage);
 
 	bool isBlocking(b2Vec2 center, b2Vec2 size) override;
 };

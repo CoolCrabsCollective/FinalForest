@@ -12,22 +12,15 @@
 Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
 	sprite.setTexture(*forest.getAssets().get(GameAssets::TREE));
 
-	// Define the dynamic body. We set its position and call the body factory.
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_staticBody;
 	bodyDef.position.Set(position.x, position.y);
 
 	body = forest.getB2World().CreateBody(&bodyDef);
 
-	// Define another box shape for our dynamic body.
 	b2CircleShape circleShape;
 	circleShape.m_radius = getSize().x / 4;
 
-	// Define the dynamic body fixture.
-	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &circleShape;
-
-	// Add the shape to the body.
 	body->CreateFixture(&circleShape, 0.0f);
 }
 
@@ -54,12 +47,21 @@ Forest& Tree::getForest() const {
 	return forest;
 }
 
-void Tree::setHealth(int health) {
+bool Tree::isDestroyed() const {
+    return destroyed;
+}
+
+void Tree::setHealth(float health) {
 	this->health = health;
 }
 
-void Tree::damage(int damage) {
-    this->health -= damage;
+void Tree::damage(float damage) {
+    health -= damage;
+
+    if (health <= 0) {
+        sprite.setTexture(*forest.getAssets().get(GameAssets::TREE_STUMP));
+        destroyed = true;
+    }
 }
 
 bool Tree::isBlocking(b2Vec2 center, b2Vec2 size) {

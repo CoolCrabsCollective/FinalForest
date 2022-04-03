@@ -48,6 +48,8 @@ class Forest : public sf::Drawable, public Tickable {
     std::map<Squirrel*, Tree*> squirrelTreeMap;
     std::map<Tree*, Squirrel*> treeSquirrelMap;
 public:
+    std::vector<Tree*> aliveTrees;
+
     int nutCount;
     int squirrelCount;
     int mana;
@@ -58,7 +60,7 @@ public:
 
 	void draw(sf::RenderTarget& target, const sf::RenderStates& states) const override;
 
-	void createForest();
+	void generateForest();
 
 	void spawnSquirrel();
 
@@ -84,7 +86,9 @@ public:
 
 	BigAssTree* getGreatOakTree() const;
 
-    const std::vector<Tree*> getTrees() const;
+    const std::vector<Tree*> getAliveTrees() const;
+
+	void generateLakeAndRivers();
 };
 
 

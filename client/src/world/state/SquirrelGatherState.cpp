@@ -13,6 +13,7 @@ SquirrelGatherState::SquirrelGatherState(Forest *forest, Squirrel *squirrel, Tre
         this->harvestingTree = tree;
         squirrel->setDestination(squirrel->getPosition());
         timeLeftHarvesting = SQUIRREL_HARVESTING_TIME;
+        getForest()->getScreen().getLogger().debug("Harvest Start");
 }
 
 void SquirrelGatherState::tick(float delta) {
@@ -21,6 +22,7 @@ void SquirrelGatherState::tick(float delta) {
 
     if(timeLeftHarvesting <= 0)
     {
+        getForest()->getScreen().getLogger().debug("Harvest End");
         this->getSquirrel()->setState(std::make_shared<SquirrelReturnGatherState>(this->getForest(), this->getSquirrel(), this->harvestingTree));
     }
 }

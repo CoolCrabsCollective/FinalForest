@@ -4,7 +4,6 @@
 
 #include <world/state/LumberJackIdleState.h>
 #include <world/state/LumberJackGoAttackState.h>
-#include <world/state/LumberJackAttackState.h>
 
 #include "world/LumberJack.h"
 #include "world/Forest.h"
@@ -54,6 +53,11 @@ void LumberJack::draw(sf::RenderTarget& target, const sf::RenderStates& states) 
 }
 
 void LumberJack::tick(float delta) {
+    if (target->isDestroyed()) {
+        this->state = std::make_shared<LumberJackIdleState>(&this->forest, this);
+        targetNearestTree();
+    }
+
     this->state->tick(delta);
 }
 
@@ -85,7 +89,7 @@ Tree* LumberJack::getTarget() const {
     return target;
 }
 
-int LumberJack::getAttack() const {
+float LumberJack::getAttack() const {
     return attack;
 }
 
@@ -101,14 +105,24 @@ void LumberJack::setFacingRight(bool facingRight) {
     this->facingRight = facingRight;
 }
 
-void LumberJack::targetNearestTree() {
-    std::vector<Tree*> trees(forest.getTrees());
+void LumberJack::setDestination(b2Vec2 destination) {
+    this->destination = destination;
+}
 
-    std::sort(trees.begin(), trees.end(), [this](Tree* a, Tree* b){
-        float a_dis = b2DistanceSquared(a->getPosition(), body->GetPosition());
-        float b_dis = b2DistanceSquared(b->getPosition(), body->GetPosition());
-        return a_dis < b_dis;
-    });
+void LumberJack::targetNearestTree() {
+    if (forest.getAliveTrees().size() <= 0) {
+        return;
+    }
+
+    std::vector<Tree*> trees(forest.getAliveTrees());
+
+    if (trees.size() > 2) {
+        std::sort(trees.begin(), trees.end(), [this](Tree* a, Tree* b){
+            float a_dis = b2DistanceSquared(a->getPosition(), body->GetPosition());
+            float b_dis = b2DistanceSquared(b->getPosition(), body->GetPosition());
+            return a_dis < b_dis;
+        });
+    }
 
     target = trees.front();
     destination = target->getPosition();
