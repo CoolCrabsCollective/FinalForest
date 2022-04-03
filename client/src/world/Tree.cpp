@@ -12,6 +12,10 @@
 Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
 	sprite.setTexture(*forest.getAssets().get(GameAssets::TREE));
 
+    setDestroyedTexture(forest.getAssets().get(GameAssets::TREE_STUMP));
+    setDamageStateSprite(&sprite);
+    setHealth(10.0);
+
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_staticBody;
 	bodyDef.position.Set(position.x, position.y);
@@ -51,23 +55,6 @@ b2Vec2 Tree::getSize() const {
 
 Forest& Tree::getForest() const {
 	return forest;
-}
-
-bool Tree::isDestroyed() const {
-    return destroyed;
-}
-
-void Tree::setHealth(float health) {
-	this->health = health;
-}
-
-void Tree::damage(float damage) {
-    health -= damage;
-
-    if (health <= 0) {
-        sprite.setTexture(*forest.getAssets().get(GameAssets::TREE_STUMP));
-        destroyed = true;
-    }
 }
 
 bool Tree::isBlocking(b2Vec2 center, b2Vec2 size) {

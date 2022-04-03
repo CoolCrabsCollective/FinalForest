@@ -13,11 +13,10 @@
 #include "Forest.h"
 #include "Obstacle.h"
 #include "Renderable.h"
+#include "Damageable.h"
 
-class Tree : public Renderable, public Obstacle {
+class Tree : public Renderable, public Obstacle, public Damageable {
 protected:
-    float health = 10;
-    bool destroyed = false;
     mutable sf::Sprite sprite;
 
 	b2Body* body;
@@ -34,12 +33,6 @@ public:
 	b2Vec2 getSize() const override;
 
 	Forest& getForest() const override;
-
-    bool isDestroyed() const;
-
-	void setHealth(float health);
-
-    void damage(float damage);
 
 	bool isBlocking(b2Vec2 center, b2Vec2 size) override;
 

@@ -8,9 +8,16 @@
 #include "SquirrelState.h"
 
 class SquirrelAttackState : public SquirrelState {
-    private:
-        Entity* target;
+private:
+    Entity* target;
+public:
+    SquirrelAttackState(Forest* forest, Squirrel* squirrel, Entity* target);
+
+    void tick(float delta) override;
+
+    Entity* getTarget();
 };
+
 
 
 #endif //LD50_COMMON_SQUIRRELATTACKSTATE_H
