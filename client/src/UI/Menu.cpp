@@ -3,16 +3,16 @@
 //
 
 #include "UI/Menu.h"
-#include "UI/IconButton.h"
+#include "UI/PurchaseButton.h"
 #include "GameAssets.h"
 
 Menu::Menu(const wiz::AssetLoader &assetLoader, Forest& forest) : assetLoader(assetLoader) {
     // Squirrel Button
-    buttons.push_back(new IconButton(
+    buttons.push_back(new PurchaseButton(
             sf::IntRect({50, 50}, {200, 100}),
             forest,
             [&](Button* button) {
-                IconButton* iconButton = dynamic_cast<IconButton*>(button);
+                PurchaseButton* iconButton = dynamic_cast<PurchaseButton*>(button);
 
                 if (iconButton->forest.nutCount < iconButton->price)
                    return;
