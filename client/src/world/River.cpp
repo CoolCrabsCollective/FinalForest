@@ -121,7 +121,9 @@ bool River::isBlocking(b2Vec2 center, b2Vec2 size) {
 }
 
 void River::tick(float delta) {
-
+// Unfortunately the river animation causes graphical bugs on the switch
+#ifndef OS_SWITCH
 	textureOffset += 0.05f * delta * 60.0f / 1000.0f;
 	textureOffset = fmod(textureOffset, 24);
+#endif
 }
