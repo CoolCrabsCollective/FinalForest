@@ -2,6 +2,7 @@
 // Created by cedric on 2022-04-02.
 //
 
+#include <world/Enemy.h>
 #include "world/Tree.h"
 #include "GameAssets.h"
 #include "SFML/Graphics/RenderTarget.hpp"
@@ -32,8 +33,10 @@ Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
 	filter.maskBits = 0xFFFF;
 
 	fixture->SetFilterData(filter);
-    isTurret = false;
+	timeLeftForNut = TIME_FOR_NUTSHOT;
 }
+
+
 
 void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
     sf::Vector2<int> rawMousePos = sf::Mouse::getPosition(getForest().getScreen().getWindow());
@@ -52,6 +55,41 @@ void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const 
         sprite.setColor(sf::Color(255, 255, 255, 255));
     }
 	target.draw(sprite);
+}
+
+void Tree::tick(float delta) {
+
+    if(isDestroyed())
+    {
+        squirrels.clear();
+        return;
+    }
+
+    if(timeLeftForNut >= 0)
+    {
+        timeLeftForNut -= delta / 1000.f;
+    }
+    else if(getSquirrelCount() > 0)
+    {
+        if(getForest().getEnemies().size() > 0)
+        {
+            Enemy* closestEnemy = getForest().getEnemies()[0];
+            float closestDistance = b2DistanceSquared(getPosition(), closestEnemy->getPosition());
+            for(int i = 1; i < getForest().getEnemies().size(); i++)
+            {
+                Enemy* enemy = getForest().getEnemies()[i];
+                float dis = b2DistanceSquared(getPosition(), enemy->getPosition());
+                if(dis < closestDistance)
+                {
+                    closestDistance = dis;
+                    closestEnemy = enemy;
+                }
+            }
+
+            getForest().shootNut(new NutShot(getForest(), {getPosition().x, getPosition().y}, closestEnemy));
+            this->timeLeftForNut = TIME_FOR_NUTSHOT;
+        }
+    }
 }
 
 b2Body* Tree::getBody() const {
@@ -102,6 +140,10 @@ float Tree::getZOrder() const {
 	return getPosition().y + 100;
 }
 
-void Tree::setTurret(bool isTurret) {
-    this->isTurret = isTurret;
+int Tree::getSquirrelCount() {
+    return this->squirrels.size();
+}
+
+void Tree::addSquirrelTurret(Squirrel *squirrel) {
+    squirrels.push_back(squirrel);
 }

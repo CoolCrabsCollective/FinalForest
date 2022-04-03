@@ -15,6 +15,7 @@
 #include <math.h>
 #include <world/state/SquirrelGoGathertState.h>
 #include <world/state/SquirrelIdleState.h>
+#include <world/NutShot.h>
 #include "GameAssets.h"
 #include "world/BigAssTree.h"
 #include "ForestScreen.h"
@@ -74,6 +75,7 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 	finder.initialize(objects);
 
     GenerateEnemyWave(20, 0.0);
+    aliveTrees[1]->addSquirrelTurret(nullptr);
 }
 
 Forest::~Forest() {
@@ -155,6 +157,20 @@ void Forest::tick(float delta) {
 			tickable->tick(delta);
 	}
 
+	for(Entity* trash : toDelete)
+    {
+	    std::vector<Entity*>::iterator entity_it = std::find(objects.begin(), objects.end(), trash);
+	    objects.erase(entity_it);
+	    if(dynamic_cast<Enemy*>(*entity_it))
+        {
+            std::vector<Enemy*>::iterator enemy_it = std::find(enemies.begin(), enemies.end(), trash);
+	        enemies.erase(enemy_it);
+        }
+	    delete trash;
+    }
+
+	toDelete.clear();
+
 	world.Step(delta / 1000.0f, 6, 2);
 }
 
@@ -175,7 +191,9 @@ void Forest::GenerateEnemyWave(int numOfEnemies, float difficulty) {
 
         newYPos = (float) sin( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
 
-        objects.push_back(new LumberJack(*this, b2Vec2(newXPos, newYPos)));
+        LumberJack* lumberJack = new LumberJack(*this, b2Vec2(newXPos, newYPos));
+        objects.push_back(lumberJack);
+        enemies.push_back(lumberJack);
     }
 }
 
@@ -304,4 +322,17 @@ void Forest::generateLakeAndRivers() {
 										 b2Vec2(70.0f, 15.0f),
 										 b2Vec2(75.0f, 10.0f),
 										 b2Vec2(75.0f, 5.0f)}, 4.0f));
+}
+
+const std::vector<Enemy *> &Forest::getEnemies() const {
+    return enemies;
+}
+
+
+void Forest::shootNut(NutShot *nut) {
+    objects.push_back(nut);
+}
+
+void Forest::sendToCompost(Entity* entity) {
+    this->toDelete.push_back(entity);
 }

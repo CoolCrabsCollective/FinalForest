@@ -18,7 +18,8 @@ void Damageable::damage(float attack) {
     health -= attack;
     if (health <= 0) {
         destroyed = true;
-        sprite->setTexture(*destroyedTexture);
+        if(destroyedTexture)
+            sprite->setTexture(*destroyedTexture);
     }
 }
 

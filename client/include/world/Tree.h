@@ -15,16 +15,15 @@
 #include "Renderable.h"
 #include "Damageable.h"
 
-class Tree : public Renderable, public Obstacle, public Damageable {
+#define TIME_FOR_NUTSHOT 2.f
+class Tree : public Renderable, public Obstacle, public Damageable, public Tickable {
 protected:
     mutable sf::Sprite sprite;
 
 	b2Body* body;
 	Forest& forest;
-	bool isTurret;
-public:
-
-    void setTurret(bool hasTurret);
+	std::vector<Squirrel*> squirrels;
+	float timeLeftForNut;
 
 public:
     Tree(Forest& forest, b2Vec2 position);
@@ -39,9 +38,15 @@ public:
 
 	Forest& getForest() const override;
 
+	void addSquirrelTurret(Squirrel* squirrel);
+
+    int getSquirrelCount();
+
 	bool isBlocking(b2Vec2 center, b2Vec2 size) override;
 
 	float getZOrder() const override;
+
+    void tick(float delta) override;
 };
 
 

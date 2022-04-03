@@ -26,7 +26,7 @@ public:
 
     void setAttackStateSprite(sf::Sprite* sprite);
 
-    void attack(Damageable* target, float delta);
+    void attack(Damageable* target);
 };
 
 #endif //LD50_CLIENT_DAMAGER_H

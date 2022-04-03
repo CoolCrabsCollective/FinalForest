@@ -23,36 +23,44 @@
 #include <unordered_map>
 #include "world/pathfinding/ForestPathFinder.h"
 #include <math.h>
+#include "world/Enemy.h"
+#include "world/NutShot.h"
 
 class ForestScreen;
 class Tree;
 class Squirrel;
 class BigAssTree;
+class NutShot;
 
 #define TILES_WIDTH 75
 #define TILES_HEIGHT 50
 
 class Forest : public sf::Drawable, public Tickable {
-	const ForestScreen& screen;
-	const wiz::AssetLoader& assetLoader;
-	b2World world;
-
-	std::vector<Entity*> objects;
-	mutable std::vector<Renderable*> renderables;
-	std::vector<Tree*> trees;
-    std::vector<Tree*> aliveTrees;
-
-	ForestPathFinder finder;
+private:
+    ForestPathFinder finder;
 
     sf::Sprite grass_sprite[4];
     BigAssTree* greatOakTree;
     int grass_map[TILES_HEIGHT][TILES_WIDTH];
     std::map<Squirrel*, Tree*> squirrelTreeMap;
     std::map<Tree*, Squirrel*> treeSquirrelMap;
+
+    std::vector<Entity*> toDelete;
+
 public:
     int nutCount;
     int squirrelCount;
     int mana;
+
+    const ForestScreen& screen;
+    const wiz::AssetLoader& assetLoader;
+    b2World world;
+
+    std::vector<Entity*> objects;
+    mutable std::vector<Renderable*> renderables;
+    std::vector<Tree*> trees;
+    std::vector<Tree*> aliveTrees;
+    std::vector<Enemy*> enemies;
 
 	Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader);
 
@@ -78,6 +86,8 @@ public:
 
     void killTree(Tree* tree);
 
+    void shootNut(NutShot* nut);
+
 	b2World& getB2World();
 
 	const wiz::AssetLoader& getAssets() const;
@@ -95,6 +105,10 @@ public:
     const std::vector<Tree*> getAliveTrees() const;
 
 	void generateLakeAndRivers();
+
+    const std::vector<Enemy *> &getEnemies() const;
+
+    void sendToCompost(Entity* entity);
 };
 
 

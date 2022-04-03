@@ -118,21 +118,21 @@ void ForestPathFinder::draw(sf::RenderTarget& target, const sf::RenderStates& st
 }
 
 bool ForestPathFinder::findPath(PathType pathType, b2Vec2 start, b2Vec2 goal, std::vector<ForestNode*>& path) const {
-	pathFinder.setStart(pathType == Animal ? *animalNode(start) : *enemyNode(start));
+	pathFinder.setStart(pathType == ANIMAL_UNIT ? *animalNode(start) : *enemyNode(start));
 
-	ForestNode* processDest = pathType == Animal ? animalNode(goal) : enemyNode(goal);
+	ForestNode* processDest = pathType == ANIMAL_UNIT ? animalNode(goal) : enemyNode(goal);
 	ForestNode* originalDest = processDest;
 
 	while(processDest->isObstructed()) {
 		goal.y -= getTileSize().y / 4.0f;
-		processDest = pathType == Animal ? animalNode(goal) : enemyNode(goal);
+		processDest = pathType == ANIMAL_UNIT ? animalNode(goal) : enemyNode(goal);
 	}
 	pathFinder.setGoal(*processDest);
 
 	if(pathFinder.getStart() == pathFinder.getGoal())
 		return false;
 
-	for (const auto & [key, value] : pathType == Animal ? animalMap : enemyMap)
+	for (const auto & [key, value] : pathType == ANIMAL_UNIT ? animalMap : enemyMap)
 		value->release();
 
 	path.clear();

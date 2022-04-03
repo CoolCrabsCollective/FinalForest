@@ -110,6 +110,12 @@ void LumberJack::draw(sf::RenderTarget& target, const sf::RenderStates& states) 
 }
 
 void LumberJack::tick(float delta) {
+
+    if(this->isDestroyed())
+    {
+        this->getForest().sendToCompost(this);
+        return;
+    }
     if (target->isDestroyed()) {
         this->state = std::make_shared<LumberJackIdleState>(&this->forest, this);
         targetNearestTree();
@@ -124,7 +130,7 @@ void LumberJack::tick(float delta) {
 	}
 
 	if(destinationChanged) {
-		if(!getForest().getPathFinder().findPath(Enemy, getPosition(), destination, path))
+		if(!getForest().getPathFinder().findPath(ENEMY_UNIT, getPosition(), destination, path))
 			path.clear();
 		else
 			pathIndex = 1;
