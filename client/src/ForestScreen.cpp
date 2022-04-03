@@ -10,7 +10,7 @@
 #include "UI/Button.h"
 
 ForestScreen::ForestScreen(wiz::Game& game)
-		: Screen(game), forest(*this, game.getAssets()), menu() {
+		: Screen(game), forest(*this, game.getAssets()), menu(game.getAssets()) {
 }
 
 void ForestScreen::tick(float delta) {

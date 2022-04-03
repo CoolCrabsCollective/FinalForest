@@ -10,13 +10,14 @@
 #include "Button.h"
 
 class Menu : public sf::Drawable {
-    std::vector<Button> buttons;
+    std::vector<Button*> buttons;
+    const wiz::AssetLoader& assetLoader;
+    sf::Sprite sprite;
 
 public:
-    Menu();
+    Menu(const wiz::AssetLoader& assetLoader);
 
     void draw(sf::RenderTarget& target, const sf::RenderStates& states) const override;
-    void addButton(Button button);
 };
 
 

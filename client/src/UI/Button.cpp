@@ -16,3 +16,5 @@ Button::Button(sf::IntRect rectangle) {
 void Button::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
     target.draw(rectangleShape);
 }
+
+
