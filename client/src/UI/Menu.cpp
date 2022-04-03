@@ -11,12 +11,14 @@ Menu::Menu(const wiz::AssetLoader &assetLoader, Forest& forest) : assetLoader(as
     buttons.push_back(new IconButton(
             sf::IntRect({50, 50}, {200, 100}),
             forest,
-            [&]() {
-                if (forest.nutCount < 5)
+            [&](Button* button) {
+                IconButton* iconButton = dynamic_cast<IconButton*>(button);
+
+                if (iconButton->forest.nutCount < iconButton->price)
                    return;
 
-                forest.nutCount -= 5;
-                forest.spawnSquirrel();
+                iconButton->forest.nutCount -= iconButton->price;
+                iconButton->forest.spawnSquirrel();
             },
             assetLoader,
             &GameAssets::SQUIRREL,

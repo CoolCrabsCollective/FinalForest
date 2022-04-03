@@ -13,10 +13,11 @@ class IconButton : public Button {
     sf::Sprite sprite;
     sf::Sprite currencySprite;
     sf::Text priceText;
-    int price;
 
 public:
-    IconButton(sf::IntRect rectangle, Forest& forest, std::function<void()> onClick, const wiz::AssetLoader& assetLoader, const wiz::TextureAsset* textureType, const wiz::TextureAsset* currencyTextureType, int price);
+    int price;
+
+    IconButton(sf::IntRect rectangle, Forest& forest, std::function<void(Button*)> onClick, const wiz::AssetLoader& assetLoader, const wiz::TextureAsset* textureType, const wiz::TextureAsset* currencyTextureType, int price);
 
     void draw(sf::RenderTarget& target, const sf::RenderStates& states) const override;
 
