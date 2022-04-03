@@ -30,10 +30,6 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
 
 	Forest forest;
     Menu menu;
-public:
-    void mouseButtonReleased(const sf::Event::MouseButtonEvent &mouseButtonEvent) override;
-
-private:
 
     bool debug = false;
 public:
@@ -62,6 +58,8 @@ public:
 	void setDebug(bool debug);
 
     void keyPressed(const sf::Event::KeyEvent& keyEvent) override;
+
+	void mouseButtonReleased(const sf::Event::MouseButtonEvent &mouseButtonEvent) override;
 };
 
 

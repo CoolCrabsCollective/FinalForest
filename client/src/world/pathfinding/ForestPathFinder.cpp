@@ -16,11 +16,11 @@ ForestPathFinder::ForestPathFinder(const wiz::AssetLoader& assets) {
 
 void ForestPathFinder::initialize(const std::vector<Entity*>& vec) {
 
-	int16_t minX = floor(getTileStart().x / getTileSize().x);
-	int16_t minY = floor(getTileStart().y / getTileSize().y);
+	int16_t minX = 0;
+	int16_t minY = 0;
 
-	int16_t maxX = floor(getTileEnd().x / getTileSize().x);
-	int16_t maxY = floor(getTileEnd().y / getTileSize().y);
+	int16_t maxX = floor((getTileEnd().x - getTileStart().x) / getTileSize().x);
+	int16_t maxY = floor((getTileEnd().y - getTileStart().y) / getTileSize().y);
 
 	b2Vec2 halfSize = getTileSize();
 	halfSize *= 0.5f;
@@ -91,11 +91,11 @@ void ForestPathFinder::initialize(const std::vector<Entity*>& vec) {
 
 void ForestPathFinder::draw(sf::RenderTarget& target, const sf::RenderStates& states) const
 {
-	int16_t minX = floor(getTileStart().x / getTileSize().x);
-	int16_t minY = floor(getTileStart().y / getTileSize().y);
+	int16_t minX = 0;
+	int16_t minY = 0;
 
-	int16_t maxX = floor(getTileEnd().x / getTileSize().x);
-	int16_t maxY = floor(getTileEnd().y / getTileSize().y);
+	int16_t maxX = floor((getTileEnd().x - getTileStart().x) / getTileSize().x);
+	int16_t maxY = floor((getTileEnd().y - getTileStart().y) / getTileSize().y);
 
 	for(int16_t y = minY; y < maxY; y++) {
 		for(int16_t x = minX; x < maxX; x++) {
@@ -159,15 +159,15 @@ b2Vec2 ForestPathFinder::getTileEnd() const {
 }
 
 sf::Vector2i ForestPathFinder::worldToTileCoordinates(b2Vec2 worldCoords) const {
-	int16_t x = static_cast<int16_t>(floor((worldCoords.x + getTileStart().x) / getTileSize().x));
-	int16_t y = static_cast<int16_t>(floor((worldCoords.y + getTileStart().y) / getTileSize().y));
+	int16_t x = static_cast<int16_t>(floor((worldCoords.x - getTileStart().x) / getTileSize().x));
+	int16_t y = static_cast<int16_t>(floor((worldCoords.y - getTileStart().y) / getTileSize().y));
 
 	return { x, y };
 }
 
 b2Vec2 ForestPathFinder::tileToWorldCoordinates(sf::Vector2i worldCoords) const {
-	float x = worldCoords.x * getTileSize().x - getTileStart().x;
-	float y = worldCoords.y * getTileSize().y - getTileStart().y;
+	float x = worldCoords.x * getTileSize().x + getTileStart().x;
+	float y = worldCoords.y * getTileSize().y + getTileStart().y;
 
 	return { x, y };
 }
@@ -190,11 +190,11 @@ ForestNode* ForestPathFinder::animalNode(b2Vec2 position) const {
 
 	sf::Vector2i tile = worldToTileCoordinates(position);
 
-	int16_t minX = floor(getTileStart().x / getTileSize().x);
-	int16_t minY = floor(getTileStart().y / getTileSize().y);
+	int16_t minX = 0;
+	int16_t minY = 0;
 
-	int16_t maxX = floor(getTileEnd().x / getTileSize().x);
-	int16_t maxY = floor(getTileEnd().y / getTileSize().y);
+	int16_t maxX = floor((getTileEnd().x - getTileStart().x) / getTileSize().x);
+	int16_t maxY = floor((getTileEnd().y - getTileStart().y) / getTileSize().y);
 
 	if(tile.x > maxX - 1)
 		tile.x = maxX - 1;
@@ -215,11 +215,11 @@ ForestNode* ForestPathFinder::enemyNode(b2Vec2 position) const {
 
 	sf::Vector2i tile = worldToTileCoordinates(position);
 
-	int16_t minX = floor(getTileStart().x / getTileSize().x);
-	int16_t minY = floor(getTileStart().y / getTileSize().y);
+	int16_t minX = 0;
+	int16_t minY = 0;
 
-	int16_t maxX = floor(getTileEnd().x / getTileSize().x);
-	int16_t maxY = floor(getTileEnd().y / getTileSize().y);
+	int16_t maxX = floor((getTileEnd().x - getTileStart().x) / getTileSize().x);
+	int16_t maxY = floor((getTileEnd().y - getTileStart().y) / getTileSize().y);
 
 	if(tile.x > maxX - 1)
 		tile.x = maxX - 1;
