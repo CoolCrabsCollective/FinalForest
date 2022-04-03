@@ -20,6 +20,32 @@ Menu::Menu(const wiz::AssetLoader &assetLoader, Forest& forest) : assetLoader(as
             Nuts,
             5
             ));
+    // Wolf Button
+    buttons.push_back(new PurchaseButton(
+            sf::IntRect({50, 200}, {200, 200}),
+            forest,
+            [&](Button* button) {
+                PurchaseButton* iconButton = dynamic_cast<PurchaseButton*>(button);
+                // TODO: SPAWN WOLF
+            },
+            assetLoader,
+            &GameAssets::WOLF,
+            Nuts,
+            20
+    ));
+    // Bear Button
+    buttons.push_back(new PurchaseButton(
+            sf::IntRect({50, 450}, {200, 200}),
+            forest,
+            [&](Button* button) {
+                PurchaseButton* iconButton = dynamic_cast<PurchaseButton*>(button);
+                // TODO: SPAWN BEAR
+            },
+            assetLoader,
+            &GameAssets::BEAR,
+            Nuts,
+            50
+    ));
 }
 
 void Menu::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
