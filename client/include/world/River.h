@@ -10,8 +10,9 @@
 #include "SFML/Graphics/Sprite.hpp"
 #include "Obstacle.h"
 #include "Tickable.h"
+#include "Renderable.h"
 
-class River : public sf::Drawable, public Obstacle, public Tickable {
+class River : public Renderable, public Obstacle, public Tickable {
 	mutable sf::Sprite river_line, river_joint;
 	b2Body* body;
 	Forest& forest;
@@ -35,6 +36,8 @@ public:
 	Forest& getForest() const override;
 
 	bool isBlocking(b2Vec2 center, b2Vec2 size) override;
+
+	float getZOrder() const override;
 };
 
 

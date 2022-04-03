@@ -91,3 +91,7 @@ bool Tree::isBlocking(b2Vec2 center, b2Vec2 size) {
 
 	return false;
 }
+
+float Tree::getZOrder() const {
+	return getPosition().y + 100;
+}

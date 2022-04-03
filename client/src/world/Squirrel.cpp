@@ -194,3 +194,7 @@ std::shared_ptr<SquirrelState> Squirrel::getState() const {
 void Squirrel::setState(std::shared_ptr<SquirrelState> state) {
     Squirrel::state = state;
 }
+
+float Squirrel::getZOrder() const {
+	return getPosition().y + 100;
+}

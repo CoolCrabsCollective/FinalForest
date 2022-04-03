@@ -127,3 +127,7 @@ void River::tick(float delta) {
 	textureOffset = fmod(textureOffset, 24);
 #endif
 }
+
+float River::getZOrder() const {
+	return getPosition().y + 100;
+}

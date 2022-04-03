@@ -71,3 +71,7 @@ void MagicLake::draw(sf::RenderTarget& target, const sf::RenderStates& states) c
 	sprite.setScale({getSize().x / sprite.getTexture()->getSize().x, getSize().y / sprite.getTexture()->getSize().y});
 	target.draw(sprite);
 }
+
+float MagicLake::getZOrder() const {
+	return 0;
+}
