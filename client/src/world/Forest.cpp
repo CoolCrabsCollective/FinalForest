@@ -17,6 +17,7 @@
 #include "GameAssets.h"
 #include "world/GreatOakTree.h"
 #include "ForestScreen.h"
+#include "world/River.h"
 
 Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 	: screen(screen),
@@ -46,6 +47,24 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 
     this->greatOakTree = new GreatOakTree(*this, b2Vec2(50.0f, 50.0f));
 	objects.push_back(this->greatOakTree);
+
+	objects.push_back(new River(*this, { b2Vec2(-50.0f, -50.0f),
+										 b2Vec2(20.0f, 20.0f),
+										 b2Vec2(20.0f, 25.0f),
+										 b2Vec2(25.0f, 30.0f),
+										 b2Vec2(30.0f, 25.0f),
+										 b2Vec2(40.0f, 25.0f),
+										 b2Vec2(45.0f, 30.0f),
+										 b2Vec2(50.0f, 30.0f),
+										 b2Vec2(55.0f, 25.0f),
+										 b2Vec2(60.0f, 25.0f),
+										 b2Vec2(65.0f, 20.0f),
+										 b2Vec2(70.0f, 15.0f),
+										 b2Vec2(75.0f, 10.0f),
+										 b2Vec2(75.0f, 5.0f),
+										 b2Vec2(80.0f, 0.0f),
+										 b2Vec2(85.0f, -5.0f),
+										 b2Vec2(120.0f, -40.0f)}, 2.0f));
 
     createForest();
 
@@ -191,11 +210,19 @@ void Forest::createForest() {
 			if(!physical)
 				continue;
 
+			River* river = dynamic_cast<River*>(entity);
+			if(river) {
+				if(river->isBlocking(position, { 5.0f, 5.0f })) {
+					overlapping = true;
+					continue;
+				}
+			}
+
 			float minDistance;
 
 			if(dynamic_cast<GreatOakTree*>(entity))
 				minDistance = (physical->getSize().x + physical->getSize().y) / 2.0f;
-			else
+			else if(dynamic_cast<Tree*>(entity))
 				minDistance = (physical->getSize().x + physical->getSize().y) * 3.0f / 4.0f;
 
             if(b2DistanceSquared(physical->getPosition(), position) < minDistance * minDistance) {

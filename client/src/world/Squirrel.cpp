@@ -131,7 +131,12 @@ void Squirrel::tick(float delta) {
 	}
 
 	facingRight = direction.x > 0;
-	direction.Normalize();
+
+	float speed = this->speed;
+
+	if(direction.LengthSquared() > 1.0f)
+		direction.Normalize();
+
 	body->SetLinearVelocity(speed * direction);
 }
 

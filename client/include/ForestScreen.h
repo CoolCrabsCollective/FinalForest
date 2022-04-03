@@ -29,7 +29,7 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
 
 	Forest forest;
 
-	bool debug = true;
+	bool debug = false;
 public:
 	ForestScreen(wiz::Game& game);
 
