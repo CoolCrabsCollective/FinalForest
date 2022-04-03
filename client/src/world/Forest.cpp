@@ -232,7 +232,7 @@ void Forest::generateForest() {
 			River* river = dynamic_cast<River*>(entity);
 			MagicLake* lake = dynamic_cast<MagicLake*>(entity);
 			if(river || lake) {
-				if(dynamic_cast<Obstacle*>(entity)->isBlocking(position, { 5.0f, 5.0f })) {
+				if(dynamic_cast<Obstacle*>(entity)->isBlocking(position, { 5.0f, 10.0f })) {
 					overlapping = true;
 					continue;
 				}
