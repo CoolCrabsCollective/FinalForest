@@ -12,10 +12,12 @@
 #include "world/Forest.h"
 #include "SFML/Graphics/RectangleShape.hpp"
 
-class Button : public sf::Drawable {
+class Button : public sf::Drawable, public Tickable  {
+    std::function<void()> onClick;
+
+protected:
     sf::RectangleShape rectangleShape;
     Forest& forest;
-    std::function<void()> onClick;
 
 public:
     Button(sf::IntRect rectangle, Forest& forest, std::function<void()> onClick);

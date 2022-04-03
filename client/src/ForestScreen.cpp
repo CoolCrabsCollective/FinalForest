@@ -15,6 +15,7 @@ ForestScreen::ForestScreen(wiz::Game& game)
 
 void ForestScreen::tick(float delta) {
 	forest.tick(delta);
+    menu.tick(delta);
     updateSquirrelCount();
     updateNutCount();
     updateMana();
