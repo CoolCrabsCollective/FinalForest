@@ -17,3 +17,19 @@ void Damager::setPower(float power){
 void Damager::attack(Damageable* target) {
     target->damage(power);
 }
+
+float Damager::getMsAttackInterval() const {
+    return msAttackInterval;
+}
+
+void Damager::setMsAttackInterval(float msAttackInterval) {
+    this->msAttackInterval = msAttackInterval;
+}
+
+float Damager::getMsSinceLastAttack() const {
+    return msSinceLastAttack;
+}
+
+void Damager::setMsSinceLastAttack(float msSinceLastAttack) {
+    this->msSinceLastAttack = msSinceLastAttack;
+}

@@ -10,7 +10,7 @@
 class Anime {
 private:
     std::vector<sf::Texture*> animationFrames;
-    float msBetweenFrames = 1000.0f;
+    float msBetweenFrames = 300.0f;
     float timeSinceLastFrame = 0.0f;
     int currentFrame = 0;
     sf::Sprite* sprite;

@@ -16,6 +16,7 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "SFML/Window/Mouse.hpp"
 #include "ForestScreen.h"
+#include "world/state/SquirrelAttackState.h"
 
 Squirrel::Squirrel(Forest& forest, b2Vec2 position) : forest(forest) {
     setPower(1.0);
@@ -23,6 +24,7 @@ Squirrel::Squirrel(Forest& forest, b2Vec2 position) : forest(forest) {
     squirrelWalk = forest.getAssets().get(GameAssets::SQUIRREL);
     squirrelIdle = forest.getAssets().get(GameAssets::SQUIRREL_IDLE);
     squirrelNut = forest.getAssets().get(GameAssets::SQUIRREL_WITH_NUT);
+    squirrelAttack = forest.getAssets().get(GameAssets::SQUIRREL_ARMORED);
 	sprite.setTexture(*squirrelWalk);
 	debugSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_PIXEL));
 
@@ -123,6 +125,11 @@ void Squirrel::tick(float delta) {
     {
         sprite.setTexture(*squirrelNut);
     }
+    else if(dynamic_pointer_cast<SquirrelGoAttackState>(state).get() ||
+            dynamic_pointer_cast<SquirrelAttackState>(state).get())
+    {
+        sprite.setTexture(*squirrelAttack);
+    }
     else
     {
         sprite.setTexture(*squirrelWalk);
@@ -205,21 +212,27 @@ void Squirrel::setState(std::shared_ptr<SquirrelState> state) {
 }
 
 void Squirrel::targetNearestEnemy() {
-    if (forest.getEnemies().size() <= 0) {
+    if (forest.getEnemies().size() <= 1) {
+        forest.assignToNextAvailableTree(this);
         return;
     }
 
     std::vector enemies(forest.getEnemies());
 
     if (enemies.size() > 2) {
-        std::sort(enemies.begin(), enemies.end(), [this](Enemy* a, Enemy* b){
+        std::sort(enemies.begin(), enemies.end() - 1, [this](Enemy* a, Enemy* b){
             float a_dis = b2DistanceSquared(a->getPosition(), body->GetPosition());
             float b_dis = b2DistanceSquared(b->getPosition(), body->GetPosition());
             return a_dis < b_dis;
         });
     }
 
-    this->state = std::make_shared<SquirrelGoAttackState>(&this->forest, this, enemies.front());
+    for (Enemy* enemy : enemies) {
+        if (!enemy->isDestroyed()) {
+            this->state = std::make_shared<SquirrelGoAttackState>(&this->forest, this, enemy);
+            break;
+        }
+    }
 }
 
 float Squirrel::getZOrder() const {

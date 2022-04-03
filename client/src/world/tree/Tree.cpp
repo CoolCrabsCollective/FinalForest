@@ -90,18 +90,19 @@ void Tree::tick(float delta) {
     }
     else if(getSquirrelCount() > 0)
     {
-        if(getForest().getEnemies().size() > 0)
+        if(getForest().getEnemies().size() > 1)
         {
             Enemy* closestEnemy = getForest().getEnemies()[0];
             float closestDistance = b2DistanceSquared(getPosition(), closestEnemy->getPosition());
-            for(int i = 1; i < getForest().getEnemies().size(); i++)
+            for(int i = 1; i < getForest().getEnemies().size() - 1; i++) // There is an Enemy* in the last elem for some reason lol
             {
                 Enemy* enemy = getForest().getEnemies()[i];
-                float dis = b2DistanceSquared(getPosition(), enemy->getPosition());
-                if(dis < closestDistance)
-                {
-                    closestDistance = dis;
-                    closestEnemy = enemy;
+                if (!enemy->isDestroyed()) {
+                    float dis = b2DistanceSquared(getPosition(), enemy->getPosition());
+                    if (dis < closestDistance) {
+                        closestDistance = dis;
+                        closestEnemy = enemy;
+                    }
                 }
             }
 

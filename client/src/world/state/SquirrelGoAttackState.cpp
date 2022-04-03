@@ -11,7 +11,13 @@ SquirrelGoAttackState::SquirrelGoAttackState(Forest *forest, Squirrel *squirrel,
 }
 
 void SquirrelGoAttackState::tick(float delta) {
-    if(b2DistanceSquared(getSquirrel()->getDestination(), target->getPosition()) < MIN_DISTANCE_FOR_CONTACT) {
+    if (target->isDestroyed()) {
+        getSquirrel()->targetNearestEnemy();
+    }
+
+    getSquirrel()->setDestination(target->getPosition());
+
+    if(b2DistanceSquared(getSquirrel()->getPosition(), target->getPosition()) < MIN_DISTANCE_FOR_CONTACT) {
         getSquirrel()->setState(std::make_shared<SquirrelAttackState>(this->getForest(), getSquirrel(), target));
         return;
     }
