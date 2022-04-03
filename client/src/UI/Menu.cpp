@@ -22,8 +22,8 @@ Menu::Menu(const wiz::AssetLoader &assetLoader, Forest& forest) : assetLoader(as
             },
             assetLoader,
             &GameAssets::SQUIRREL,
-            &GameAssets::NUT,
-           5
+            Nuts,
+            5
             ));
 }
 

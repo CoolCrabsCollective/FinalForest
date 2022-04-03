@@ -11,6 +11,8 @@
 #include "Box2D/Box2D.h"
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "ForestScreen.h"
+#include "world/pathfinding/ForestPathFinder.h"
+#include "world/state/LumberJackLeaveState.h"
 
 LumberJack::LumberJack(Forest& forest, b2Vec2 position) : forest(forest) {
     sprite.setTexture(*forest.getAssets().get(GameAssets::LUMBERJACKAXE));
@@ -143,7 +145,8 @@ void LumberJack::tick(float delta) {
         this->getForest().sendToCompost(this);
         return;
     }
-    if (target->isDestroyed()) {
+
+    if(target != nullptr && target->isDestroyed()) {
         this->state = std::make_shared<LumberJackIdleState>(&this->forest, this);
         targetNearestTree();
         resetAnimationState();
@@ -231,7 +234,9 @@ void LumberJack::setFacingRight(bool facingRight) {
 }
 
 void LumberJack::targetNearestTree() {
-    if (forest.getAliveTrees().size() <= 0) {
+    if(forest.getAliveTrees().empty()) {
+		target = nullptr;
+		this->state = std::make_shared<LumberJackLeaveState>(&this->forest, this);
         return;
     }
 

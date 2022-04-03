@@ -4,6 +4,7 @@
 
 #include "world/state/LumberJackAttackState.h"
 #include "GameAssets.h"
+#include "world/state/LumberJackIdleState.h"
 
 LumberJackAttackState::LumberJackAttackState(Forest *forest, LumberJack *lumberJack) : LumberJackState(forest, lumberJack) {
     lumberJack->setDestination(lumberJack->getPosition());
@@ -19,5 +20,8 @@ void LumberJackAttackState::tick(float delta) {
 
     if (target->isDestroyed()) {
         getForest()->killTree(target);
+
+		lumberJack->setState(std::make_shared<LumberJackIdleState>(&lumberJack->getForest(), lumberJack));
+		lumberJack->targetNearestTree();
     }
 }

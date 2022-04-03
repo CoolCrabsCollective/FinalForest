@@ -8,6 +8,8 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "world/Obstacle.h"
 #include "world/River.h"
+#include "world/Tree.h"
+#include "world/BigAssTree.h"
 
 
 ForestPathFinder::ForestPathFinder(const wiz::AssetLoader& assets) {
@@ -40,7 +42,7 @@ void ForestPathFinder::initialize(const std::vector<Entity*>& vec) {
 			for(Entity* entity : vec) {
 				Obstacle* obstacle = dynamic_cast<Obstacle*>(entity);
 
-				if(!obstacle)
+				if(!obstacle || dynamic_cast<Tree*>(entity) && !dynamic_cast<BigAssTree*>(entity))
 					continue;
 
 				if(obstacle->isBlocking(worldPos + halfSize, getTileSize())) {
@@ -147,7 +149,7 @@ bool ForestPathFinder::findPath(PathType pathType, b2Vec2 start, b2Vec2 goal, st
 }
 
 b2Vec2 ForestPathFinder::getTileSize() const {
-	return { 2.5f, 2.5f };
+	return { 5.0f, 5.0f };
 }
 
 b2Vec2 ForestPathFinder::getTileStart() const {
