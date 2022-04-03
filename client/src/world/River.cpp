@@ -48,10 +48,10 @@ void River::draw(sf::RenderTarget& target, const sf::RenderStates& states) const
 	b2Vec2 prev = path[0];
 
 	river_joint.setPosition(sf::Vector2f(path[0].x, 100.0f - path[0].y));
-	river_joint.setOrigin({ 0.5f * river_line.getTexture()->getSize().x, 0.5f * river_line.getTexture()->getSize().y });
-	river_joint.setScale(sf::Vector2f(width / river_line.getTexture()->getSize().x, width / river_line.getTexture()->getSize().y));
+	river_joint.setOrigin({ 0.5f * river_joint.getTexture()->getSize().x, 0.5f * river_joint.getTexture()->getSize().y });
+	river_joint.setScale(sf::Vector2f(width / river_joint.getTexture()->getSize().x, width / river_joint.getTexture()->getSize().y));
 	river_joint.setRotation(sf::degrees(0.0f));
-	target.draw(river_joint);
+	target.draw(river_joint);;
 
 	for(size_t i = 1; i < path.size(); i++) {
 		float dst = b2Distance(prev, path[i]);
@@ -72,8 +72,9 @@ void River::draw(sf::RenderTarget& target, const sf::RenderStates& states) const
 		river_line.setScale(sf::Vector2f(width * 3.0f / river_line.getTexture()->getSize().x,
 										 width / river_line.getTexture()->getSize().y));
 		river_line.setRotation(vec.angle());
-		river_line.setTextureRect(sf::IntRect({0, 0},
+		river_line.setTextureRect(sf::IntRect({(int)textureOffset, 0},
 											  {(int)round(dst / width * 8.0f), 8}));
+
 		target.draw(river_line);
 
 		prev = path[i];
@@ -117,4 +118,10 @@ bool River::isBlocking(b2Vec2 center, b2Vec2 size) {
 	}
 
 	return false;
+}
+
+void River::tick(float delta) {
+
+	textureOffset += 0.05f * delta * 60.0f / 1000.0f;
+	textureOffset = fmod(textureOffset, 24);
 }

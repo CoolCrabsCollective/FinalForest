@@ -16,7 +16,7 @@ MagicLake::MagicLake(Forest& forest, b2Vec2 position) : forest(forest) {
 	body = forest.getB2World().CreateBody(&bodyDef);
 
 	b2PolygonShape polygonShape;
-	polygonShape.SetAsBox(getSize().x, getSize().y / 2.0f);
+	polygonShape.SetAsBox(getSize().x / 2.0f, getSize().y / 4.0f);
 
 	body->CreateFixture(&polygonShape, 0.0f);
 }
@@ -62,7 +62,7 @@ b2Vec2 MagicLake::getPosition() const {
 }
 
 b2Vec2 MagicLake::getSize() const {
-	return b2Vec2(15.0f, 15.0f);
+	return b2Vec2(20.0f, 20.0f);
 }
 
 void MagicLake::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {

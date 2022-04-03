@@ -270,5 +270,5 @@ void Forest::generateLakeAndRivers() {
 										 b2Vec2(65.0f, 20.0f),
 										 b2Vec2(70.0f, 15.0f),
 										 b2Vec2(75.0f, 10.0f),
-										 b2Vec2(75.0f, 5.0f)}, 2.0f));
+										 b2Vec2(75.0f, 5.0f)}, 4.0f));
 }
