@@ -17,13 +17,13 @@
 #include "PathFinder/PathFinder.h"
 #include "SFML/System/Vector2.hpp"
 #include "world/pathfinding/ForestNode.h"
-#include "Squirrel.h"
-#include "Tree.h"
+#include "world/animal/Squirrel.h"
+#include "world/tree/Tree.h"
 #include "WIZ/game/Screen.h"
 #include <unordered_map>
 #include "world/pathfinding/ForestPathFinder.h"
 #include <math.h>
-#include "world/Enemy.h"
+#include "world/enemy/Enemy.h"
 #include "world/NutShot.h"
 
 class ForestScreen;

@@ -8,9 +8,9 @@
 #include <vector>
 #include "SFML/Graphics/Drawable.hpp"
 #include "SFML/Graphics/Sprite.hpp"
-#include "Obstacle.h"
-#include "Tickable.h"
-#include "Renderable.h"
+#include "world/Obstacle.h"
+#include "world/Tickable.h"
+#include "world/Renderable.h"
 #include "Bridge.h"
 
 class River : public Renderable, public Obstacle, public Tickable {
@@ -38,7 +38,9 @@ public:
 
 	b2Vec2 getSize() const override;
 
-	Forest& getForest() const override;
+	Forest& getForest() override;
+
+	const Forest& getForest() const;
 
 	bool isBlocking(b2Vec2 center, b2Vec2 size) override;
 

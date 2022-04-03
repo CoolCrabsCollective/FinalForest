@@ -5,19 +5,19 @@
 #include "world/Forest.h"
 #include "world/Entity.h"
 #include "SFML/Graphics/RenderTarget.hpp"
-#include "world/Tree.h"
-#include "world/Squirrel.h"
-#include "world/LumberJack.h"
+#include "world/tree/Tree.h"
+#include "world/animal/Squirrel.h"
+#include "world/enemy/LumberJack.h"
 #include <iostream>
 #include <memory>
 #include <world/state/SquirrelGoGathertState.h>
 #include <world/state/SquirrelIdleState.h>
 #include <world/NutShot.h>
 #include "GameAssets.h"
-#include "world/BigAssTree.h"
+#include "world/tree/BigAssTree.h"
 #include "ForestScreen.h"
-#include "world/River.h"
-#include "world/MagicLake.h"
+#include "world/water/River.h"
+#include "world/water/MagicLake.h"
 
 Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 	: screen(screen),

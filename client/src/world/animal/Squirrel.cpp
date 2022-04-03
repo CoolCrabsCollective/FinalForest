@@ -2,14 +2,14 @@
 // Created by Alexander Winter on 2022-04-02.
 //
 
-#include <world/state/SquirrelIdleState.h>
+#include "world/state/SquirrelIdleState.h"
 
 #include <memory>
-#include <world/state/SquirrelGatherState.h>
-#include <world/state/SquirrelReturnGatherState.h>
-#include <world/state/SquirrelGoGathertState.h>
-#include <world/state/SquirrelGoAttackState.h>
-#include "world/Squirrel.h"
+#include "world/state/SquirrelGatherState.h"
+#include "world/state/SquirrelReturnGatherState.h"
+#include "world/state/SquirrelGoGathertState.h"
+#include "world/state/SquirrelGoAttackState.h"
+#include "world/animal/Squirrel.h"
 #include "world/Forest.h"
 #include "GameAssets.h"
 #include "Box2D/Box2D.h"
@@ -69,7 +69,7 @@ void Squirrel::draw(sf::RenderTarget& target, const sf::RenderStates& states) co
 					 getSize().y * 2.f / sprite.getTexture()->getSize().y});
 	target.draw(sprite);
 
-	if(!getForest().getScreen().isDebug())
+	if(!forest.getScreen().isDebug())
 		return;
 
 	b2Vec2 prev = getPosition();
@@ -183,7 +183,7 @@ b2Vec2 Squirrel::getSize() const {
 	return b2Vec2(1.5f, 1.5f);
 }
 
-Forest& Squirrel::getForest() const {
+Forest& Squirrel::getForest() {
 	return forest;
 }
 

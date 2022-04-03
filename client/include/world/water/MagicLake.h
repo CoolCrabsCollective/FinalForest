@@ -6,9 +6,9 @@
 #define LD50_CLIENT_MAGICLAKE_H
 
 #include "SFML/Graphics/Drawable.hpp"
-#include "Obstacle.h"
+#include "world/Obstacle.h"
 #include "SFML/Graphics/Sprite.hpp"
-#include "Renderable.h"
+#include "world/Renderable.h"
 
 
 class MagicLake : public Renderable, public Obstacle {
@@ -18,7 +18,7 @@ class MagicLake : public Renderable, public Obstacle {
 public:
 	MagicLake(Forest& forest, b2Vec2 position);
 
-	Forest& getForest() const override;
+	Forest& getForest() override;
 
 	bool isBlocking(b2Vec2 center, b2Vec2 size) override;
 

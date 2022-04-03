@@ -2,7 +2,7 @@
 // Created by Alexander Winter on 2022-04-02.
 //
 
-#include "world/MagicLake.h"
+#include "world/water/MagicLake.h"
 #include "world/Forest.h"
 #include "Box2D/Box2D.h"
 #include "GameAssets.h"
@@ -27,7 +27,7 @@ MagicLake::MagicLake(Forest& forest, b2Vec2 position) : forest(forest) {
 	fixture->SetFilterData(filter);
 }
 
-Forest& MagicLake::getForest() const {
+Forest& MagicLake::getForest() {
 	return forest;
 }
 

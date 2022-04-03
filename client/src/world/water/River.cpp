@@ -2,7 +2,7 @@
 // Created by Alexander Winter on 2022-04-02.
 //
 
-#include "world/River.h"
+#include "world/water/River.h"
 #include "world/Forest.h"
 #include "GameAssets.h"
 #include "Box2D/Collision/Shapes/b2PolygonShape.h"
@@ -107,7 +107,7 @@ b2Vec2 River::getSize() const {
 	return b2Vec2(10.0f, 10.0f);
 }
 
-Forest& River::getForest() const {
+Forest& River::getForest() {
 	return forest;
 }
 
@@ -165,4 +165,8 @@ void River::addBridge(Bridge* newBridge) {
 
 const std::vector<Bridge*>& River::getBridges() const {
 	return bridges;
+}
+
+const Forest& River::getForest() const {
+	return forest;
 }

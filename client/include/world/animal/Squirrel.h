@@ -6,18 +6,18 @@
 #define LD50_CLIENT_SQUIRREL_H
 
 
-#include <world/state/SquirrelState.h>
-#include <SFML/Graphics/Texture.hpp>
+#include "world/state/SquirrelState.h"
+#include "SFML/Graphics/Texture.hpp"
 #include "SFML/Graphics/Drawable.hpp"
-#include "Physical.h"
-#include "Tickable.h"
-#include "Damager.h"
+#include "world/Physical.h"
+#include "world/Tickable.h"
+#include "world/Damager.h"
 #include "SFML/Graphics/Sprite.hpp"
 #include "PathFinder/AStar.h"
 #include "PathFinder/PathFinder.h"
 #include "world/pathfinding/ForestNode.h"
 #include "memory.h"
-#include "Renderable.h"
+#include "world/Renderable.h"
 
 class SquirrelState;
 
@@ -38,9 +38,9 @@ class Squirrel : public Renderable, public Physical, public Tickable, public Dam
 
 	std::shared_ptr<SquirrelState> state;
 public:
-	Forest& getForest() const override;
-
 	Squirrel(Forest& forest, b2Vec2 position);
+
+	Forest& getForest() override;
 
 	void draw(sf::RenderTarget& target, const sf::RenderStates& states) const override;
 

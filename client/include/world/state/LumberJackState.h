@@ -5,7 +5,7 @@
 #ifndef LD50_CLIENT_LUMBERJACKSTATE_H
 #define LD50_CLIENT_LUMBERJACKSTATE_H
 
-#include "world/LumberJack.h"
+#include "world/enemy/LumberJack.h"
 #include "world/Forest.h"
 
 class LumberJack;

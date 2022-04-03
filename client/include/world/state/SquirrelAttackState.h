@@ -6,7 +6,7 @@
 #define LD50_COMMON_SQUIRRELATTACKSTATE_H
 
 #include "SquirrelState.h"
-#include "world/LumberJack.h"
+#include "world/enemy/LumberJack.h"
 
 class SquirrelAttackState : public SquirrelState {
 private:

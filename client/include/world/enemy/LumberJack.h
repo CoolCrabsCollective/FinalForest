@@ -5,13 +5,13 @@
 #ifndef LD50_CLIENT_LUMBERJACK_H
 #define LD50_CLIENT_LUMBERJACK_H
 
-#include <world/state/LumberJackState.h>
+#include "world/state/LumberJackState.h"
 #include "SFML/Graphics/Drawable.hpp"
-#include "Physical.h"
-#include "Tickable.h"
-#include "Tree.h"
-#include "Damager.h"
-#include "Anime.h"
+#include "world/Physical.h"
+#include "world/Tickable.h"
+#include "world/tree/Tree.h"
+#include "world/Damager.h"
+#include "world/Anime.h"
 #include "SFML/Graphics/Sprite.hpp"
 #include "Enemy.h"
 
@@ -41,7 +41,7 @@ public:
 
     void setState(std::shared_ptr<LumberJackState> state);
 
-	Forest& getForest() const override;
+	Forest& getForest() override;
 
     LumberJack(Forest& forest, b2Vec2 position);
 
