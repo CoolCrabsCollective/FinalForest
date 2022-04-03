@@ -57,7 +57,9 @@ void River::draw(sf::RenderTarget& target, const sf::RenderStates& states) const
 	river_joint.setOrigin({ 0.5f * river_joint.getTexture()->getSize().x, 0.5f * river_joint.getTexture()->getSize().y });
 	river_joint.setScale(sf::Vector2f(width / river_joint.getTexture()->getSize().x, width / river_joint.getTexture()->getSize().y));
 	river_joint.setRotation(sf::degrees(0.0f));
-	target.draw(river_joint);;
+	river_joint.setColor(sf::Color::Red);
+	target.draw(river_joint);
+	river_joint.setColor(sf::Color::White);
 
 	for(size_t i = 1; i < path.size(); i++) {
 		float dst = b2Distance(prev, path[i]);
@@ -104,6 +106,22 @@ Forest& River::getForest() const {
 }
 
 bool River::isBlocking(b2Vec2 center, b2Vec2 size) {
+	return isBlocking(path, width, center, size);
+}
+
+void River::tick(float delta) {
+// Unfortunately the river animation causes graphical bugs on the switch
+#ifndef OS_SWITCH
+	textureOffset += 0.05f * delta * 60.0f / 1000.0f;
+	textureOffset = fmod(textureOffset, 24);
+#endif
+}
+
+float River::getZOrder() const {
+	return getPosition().y + 100;
+}
+
+bool River::isBlocking(std::vector<b2Vec2> path, float width, b2Vec2 center, b2Vec2 size) {
 	b2Vec2 halfSize = size;
 	halfSize *= 0.5f;
 
@@ -124,16 +142,4 @@ bool River::isBlocking(b2Vec2 center, b2Vec2 size) {
 	}
 
 	return false;
-}
-
-void River::tick(float delta) {
-// Unfortunately the river animation causes graphical bugs on the switch
-#ifndef OS_SWITCH
-	textureOffset += 0.05f * delta * 60.0f / 1000.0f;
-	textureOffset = fmod(textureOffset, 24);
-#endif
-}
-
-float River::getZOrder() const {
-	return getPosition().y + 100;
 }

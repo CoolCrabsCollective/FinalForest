@@ -28,10 +28,15 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
     sf::Texture* manaTexture;
     sf::Sprite manaSprite;
 
+
+	sf::Text fpsText;
+	sf::Text mouseCoordText;
+
 	Forest forest;
     Menu menu;
 
     bool debug = false;
+	float fps = 0.0f;
 public:
 	ForestScreen(wiz::Game& game);
 

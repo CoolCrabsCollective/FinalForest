@@ -39,9 +39,7 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 
     float scale = grass_sprite->getScale().x / grass_sprite->getTexture()->getSize().x * 3;
     for(int i = 0; i < 4; i++)
-    {
         grass_sprite[i].setScale({scale, scale});
-    }
 
     for(int i = 0; i < TILES_HEIGHT; i++)
         for(int j = 0; j < TILES_WIDTH; j++)
@@ -82,7 +80,6 @@ Forest::~Forest() {
 	objects.clear();
 }
 
-
 void Forest::spawnSquirrel() {
     Squirrel* squirrel = new Squirrel(*this, {50, 50});
     objects.push_back(squirrel);
@@ -94,9 +91,8 @@ void Forest::assignToNextAvailableTree(Squirrel* squirrel) {
     if(tree) {
         assignSquirrel(squirrel, tree);
         squirrel->setState(std::make_shared<SquirrelGoGatherState>(this, squirrel, tree));
-    } else {
+    } else
         squirrel->setState(std::make_shared<SquirrelIdleState>(this, squirrel));
-    }
 }
 
 void Forest::assignSquirrel(Squirrel *squirrel, Tree *tree) {
@@ -140,7 +136,6 @@ Tree *Forest::getNextAvailableTree() {
 
     return nullptr;
 }
-
 
 void Forest::tick(float delta) {
     for(Entity* obj : objects) {
@@ -213,8 +208,13 @@ void Forest::draw(sf::RenderTarget& target, const sf::RenderStates& states) cons
 void Forest::generateForest() {
     int totalTrees = 55;
 	int addedTrees = 0;
+	int i = 1000;
 
     while (addedTrees < totalTrees) {
+		if(i-- < 0) {
+			getScreen().getLogger().error("Failed to generate entire forest after 1 000 iterations");
+			break;
+		}
         float x = (float) (rand() % 100);
         float y = (float) (rand() % 100);
         b2Vec2 position(x, y);
@@ -258,6 +258,80 @@ void Forest::generateForest() {
     }
 }
 
+void Forest::generateLakeAndRivers() {
+
+	float deg = (float) (rand() % 360);
+
+	sf::Vector2f vec(25.0f, 0.0f);
+	vec = vec.rotatedBy(sf::degrees(deg));
+
+	MagicLake* lake = new MagicLake(*this, b2Vec2(vec.x + 50.0f, vec.y + 50.0f));
+	objects.push_back(lake);
+
+	int countRiver = rand() % 3 + 1;
+
+	std::vector<River*> rivers;
+
+	for(int i = 0; i < 1; i++) {
+
+		float deg = (float) (rand() % 360);
+
+		sf::Vector2f vec(60.0f, 0.0f);
+		vec = vec.rotatedBy(sf::degrees(deg));
+
+		std::vector<b2Vec2> path;
+		b2Vec2 start(vec.x + 50.0f, vec.y + 50.0f);
+		path.push_back(start);
+
+		sf::Vector2f initialDir = vec.normalized() * 5.0f;
+
+		path.push_back(start - b2Vec2(initialDir.x, initialDir.y));
+		b2Vec2 current = path[path.size() - 1];
+
+		int tries = 1000;
+		while(current.x > -10.0f && current.y > -10.0f && current.x < 110.0f && current.y < 110.0f) {
+			if(tries-- < 0) {
+				getScreen().getLogger().error("Failed to generate river part after 1 000 iterations");
+				break;
+			}
+
+			float deg = (float) (rand() % 360);
+
+			sf::Vector2f vec(5.0f, 0.0f);
+			vec = vec.rotatedBy(sf::degrees(deg));
+
+			current += b2Vec2(vec.x, vec.y);
+
+			b2Vec2 dir = (current - path[path.size() - 1]);
+			dir.Normalize();
+
+			b2Vec2 prevDir = path[path.size() - 1] - path[path.size() - 2];
+			prevDir.Normalize();
+
+			float dot = b2Dot(dir, prevDir);
+
+			if(dot < 0.7f)
+				continue;
+
+			if(River::isBlocking(path, 4.0f, current, b2Vec2_zero))
+				continue;
+
+			if(lake->isBlocking(current, b2Vec2_zero)) {
+				current = lake->getPosition();
+				path.push_back(current);
+				break;
+			}
+
+			path.push_back(current);
+		}
+
+
+		getScreen().getLogger().info("Parts: " + std::to_string(path.size()));
+		objects.push_back(new River(*this, path, 4.0f));
+	}
+}
+
+
 b2World& Forest::getB2World() {
 	return world;
 }
@@ -280,28 +354,4 @@ const ForestPathFinder& Forest::getPathFinder() const {
 
 BigAssTree* Forest::getGreatOakTree() const {
     return greatOakTree;
-}
-
-void Forest::generateLakeAndRivers() {
-
-	float deg = (float) (rand() % 360);
-
-	sf::Vector2f vec(25.0f, 0.0f);
-	vec.rotatedBy(sf::degrees(deg));
-
-	objects.push_back(new MagicLake(*this, b2Vec2(vec.x + 50.0f, vec.y + 50.0f)));
-
-	objects.push_back(new River(*this, {
-										 b2Vec2(20.0f, 25.0f),
-										 b2Vec2(25.0f, 30.0f),
-										 b2Vec2(30.0f, 25.0f),
-										 b2Vec2(40.0f, 25.0f),
-										 b2Vec2(45.0f, 30.0f),
-										 b2Vec2(50.0f, 30.0f),
-										 b2Vec2(55.0f, 25.0f),
-										 b2Vec2(60.0f, 25.0f),
-										 b2Vec2(65.0f, 20.0f),
-										 b2Vec2(70.0f, 15.0f),
-										 b2Vec2(75.0f, 10.0f),
-										 b2Vec2(75.0f, 5.0f)}, 4.0f));
 }
