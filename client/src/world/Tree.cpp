@@ -11,8 +11,10 @@
 #include "ForestScreen.h"
 
 Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
+
 	sprite.setTexture(*forest.getAssets().get(GameAssets::TREE));
 	whiteTreeSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_TREE));
+    labelSquirrelCount.setFont(*forest.getAssets().get(GameAssets::SANS_TTF));
 
     setDestroyedTexture(forest.getAssets().get(GameAssets::TREE_STUMP));
     setDamageStateSprite(&sprite);
@@ -56,12 +58,21 @@ void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const 
     sprite.setColor(sf::Color(255, 255, 255, 255));
     sprite.setScale({getSize().x / sprite.getTexture()->getSize().x, getSize().y / sprite.getTexture()->getSize().y});
 	target.draw(sprite);
+
+	if(squirrels.size() > 0)
+    {
+        target.draw(labelSquirrelCount);
+    }
 }
 
 
 
 void Tree::tick(float delta) {
 
+    labelSquirrelCount.setString(std::to_string(squirrels.size()));
+    labelSquirrelCount.setPosition(sf::Vector2f(this->getPosition().x, this->getPosition().y));
+    labelSquirrelCount.setCharacterSize(20);
+    labelSquirrelCount.setFillColor(sf::Color::Black);
     if(timeLeftForNut >= 0)
     {
         timeLeftForNut -= delta / 1000.f;
