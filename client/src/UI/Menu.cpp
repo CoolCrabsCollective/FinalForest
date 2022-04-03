@@ -7,7 +7,17 @@
 #include "GameAssets.h"
 
 Menu::Menu(const wiz::AssetLoader &assetLoader, Forest& forest) : assetLoader(assetLoader) {
-    buttons.push_back(new IconButton(sf::IntRect({50, 50}, {200, 100}), forest, assetLoader, &GameAssets::SQUIRREL));
+    // Squirrel Button
+    std::function<void()> spawnS = [&]() {
+        forest.spawnSquirrel();
+    };
+    buttons.push_back(new IconButton(
+            sf::IntRect({50, 50}, {200, 100}),
+            forest,
+            spawnS,
+            assetLoader,
+            &GameAssets::SQUIRREL
+            ));
 }
 
 void Menu::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
