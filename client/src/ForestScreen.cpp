@@ -10,7 +10,7 @@
 #include "UI/Button.h"
 
 ForestScreen::ForestScreen(wiz::Game& game)
-		: Screen(game), forest(*this, game.getAssets()), menu(game.getAssets()) {
+		: Screen(game), forest(*this, game.getAssets()), menu(game.getAssets(), forest) {
 }
 
 void ForestScreen::tick(float delta) {
@@ -105,4 +105,9 @@ void ForestScreen::setDebug(bool debug) {
 void ForestScreen::keyPressed(const sf::Event::KeyEvent& keyEvent) {
 	if(keyEvent.code == sf::Keyboard::F12)
 		debug = !debug;
+}
+
+void ForestScreen::mouseButtonReleased(const sf::Event::MouseButtonEvent &mouseButtonEvent) {
+    sf::Vector2f clickVector = getWindow().mapPixelToCoords(sf::Vector2i(mouseButtonEvent.x, mouseButtonEvent.y), sf::View({800.0f, 450.0f}, {1600.0f, 900.0f}));
+    menu.click(clickVector);
 }

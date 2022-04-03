@@ -14,6 +14,8 @@ public:
 	b2Vec2 getSize() const override;
 
     void draw(sf::RenderTarget &target, const sf::RenderStates &states) const override;
+
+    float getZOrder() const override;
 };
 
 
