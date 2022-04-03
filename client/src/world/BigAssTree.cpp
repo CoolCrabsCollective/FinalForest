@@ -21,3 +21,7 @@ void BigAssTree::draw(sf::RenderTarget &target, const sf::RenderStates &states) 
         sprite.setTexture(*forest.getAssets().get(GameAssets::GREAT_OAK_STUMP));
     Tree::draw(target, states);
 }
+
+float BigAssTree::getZOrder() const {
+    return getPosition().y + 100 + .5f;
+}
