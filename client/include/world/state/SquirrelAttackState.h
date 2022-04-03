@@ -6,16 +6,15 @@
 #define LD50_COMMON_SQUIRRELATTACKSTATE_H
 
 #include "SquirrelState.h"
+#include "world/LumberJack.h"
 
 class SquirrelAttackState : public SquirrelState {
 private:
-    Entity* target;
+    Enemy* target;
 public:
-    SquirrelAttackState(Forest* forest, Squirrel* squirrel, Entity* target);
+    SquirrelAttackState(Forest* forest, Squirrel* squirrel, Enemy* target);
 
     void tick(float delta) override;
-
-    Entity* getTarget();
 };
 
 

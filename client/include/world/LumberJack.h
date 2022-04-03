@@ -11,6 +11,7 @@
 #include "Tickable.h"
 #include "Tree.h"
 #include "Damager.h"
+#include "Anime.h"
 #include "SFML/Graphics/Sprite.hpp"
 #include "Enemy.h"
 
@@ -19,7 +20,6 @@
 class LumberJackState;
 
 class LumberJack : public Enemy {
-
     b2Body* body;
 
 	std::vector<ForestNode*> path;
