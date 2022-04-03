@@ -2,6 +2,8 @@
 // Created by Alexander Winter on 2022-04-01.
 //
 
+#include <UI/AnimalMenu.h>
+#include <UI/TurretMenu.h>
 #include "ForestScreen.h"
 #include "Box2D/Dynamics/b2Body.h"
 #include "Box2D/Collision/Shapes/b2PolygonShape.h"
@@ -10,12 +12,16 @@
 #include "UI/Button.h"
 
 ForestScreen::ForestScreen(wiz::Game& game)
-		: Screen(game), forest(*this, game.getAssets()), menu(game.getAssets(), forest) {
+		: Screen(game), forest(*this, game.getAssets()), animalMenu(new AnimalMenu(
+                                                                             game.getAssets(), forest)),
+                                                            turretMenu(new TurretMenu(game.getAssets(), forest)){
+    animalMenu->show(false);
 }
 
 void ForestScreen::tick(float delta) {
 	forest.tick(delta);
-    menu.tick(delta);
+	animalMenu->tick(delta);
+	turretMenu->tick(delta);
     updateSquirrelCount();
     updateNutCount();
     updateMana();
@@ -33,7 +39,8 @@ void ForestScreen::render(sf::RenderTarget& target) {
     target.draw(squirrelSprite);
     target.draw(manaText);
     target.draw(manaSprite);
-    target.draw(menu);
+    target.draw(*animalMenu);
+    target.draw(*turretMenu);
 
 	if(debug) {
 		fpsText.setString("FPS: " + std::to_string(fps));
@@ -131,10 +138,10 @@ void ForestScreen::keyPressed(const sf::Event::KeyEvent& keyEvent) {
 
 void ForestScreen::mouseButtonReleased(const sf::Event::MouseButtonEvent &mouseButtonEvent) {
     sf::Vector2f clickVector = getWindow().mapPixelToCoords(sf::Vector2i(mouseButtonEvent.x, mouseButtonEvent.y), sf::View({800.0f, 450.0f}, {1600.0f, 900.0f}));
-    menu.click(clickVector);
+    animalMenu->click(clickVector);
 }
 
 void ForestScreen::touchBegan(const sf::Event::TouchEvent &touchScreenEvent) {
     sf::Vector2f touchVector = getWindow().mapPixelToCoords(sf::Vector2i(touchScreenEvent.x, touchScreenEvent.y), sf::View({800.0f, 450.0f}, {1600.0f, 900.0f}));
-    menu.click(touchVector);
+    animalMenu->click(touchVector);
 }

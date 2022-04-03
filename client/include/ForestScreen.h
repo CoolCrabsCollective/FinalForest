@@ -33,7 +33,8 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
 	sf::Text mouseCoordText;
 
 	Forest forest;
-    Menu menu;
+    Menu* animalMenu;
+    Menu* turretMenu;
 
     bool debug = false;
 	float fps = 0.0f;
