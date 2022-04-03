@@ -14,6 +14,7 @@ class IconButton : public Button {
     sf::Sprite currencySprite;
     Currency currency;
     sf::Text priceText;
+    sf::Text labelText;
 
 public:
     int price;
