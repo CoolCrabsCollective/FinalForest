@@ -31,6 +31,6 @@ void Damageable::setDamageStateSprite(sf::Sprite* sprite) {
     this -> sprite = sprite;
 }
 
-bool Damageable::isDestroyed() {
+bool Damageable::isDestroyed() const {
     return destroyed;
 }

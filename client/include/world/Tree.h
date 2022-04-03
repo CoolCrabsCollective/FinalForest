@@ -19,6 +19,7 @@
 class Tree : public Renderable, public Obstacle, public Damageable, public Tickable {
 protected:
     mutable sf::Sprite sprite;
+    mutable sf::Sprite whiteTreeSprite;
 
 	b2Body* body;
 	Forest& forest;
