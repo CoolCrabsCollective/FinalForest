@@ -12,7 +12,7 @@ class Entity {
 public:
 	virtual ~Entity() = default;
 
-	virtual Forest& getForest() const = 0;
+	virtual Forest& getForest() = 0;
 };
 
 

@@ -5,7 +5,7 @@
 #ifndef LD50_COMMON_SQUIRRELRETURNGATHERSTATE_H
 #define LD50_COMMON_SQUIRRELRETURNGATHERSTATE_H
 
-#include <world/Tree.h>
+#include "world/tree/Tree.h"
 #include "SquirrelState.h"
 
 #define MIN_GREAT_TREE_DISTANCE 6

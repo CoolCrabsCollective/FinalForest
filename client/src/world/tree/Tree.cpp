@@ -2,8 +2,8 @@
 // Created by cedric on 2022-04-02.
 //
 
-#include <world/Enemy.h>
-#include "world/Tree.h"
+#include "world/enemy/Enemy.h"
+#include "world/tree/Tree.h"
 #include "GameAssets.h"
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "Box2D/Box2D.h"
@@ -40,8 +40,8 @@ Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
 }
 
 void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
-    sf::Vector2<int> rawMousePos = sf::Mouse::getPosition(getForest().getScreen().getWindow());
-    sf::Vector2f worldMousePos = getForest().getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
+    sf::Vector2<int> rawMousePos = sf::Mouse::getPosition(forest.getScreen().getWindow());
+    sf::Vector2f worldMousePos = forest.getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
 
 	sprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
 	sprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
@@ -123,7 +123,7 @@ b2Vec2 Tree::getSize() const {
 	return {5.0f, 5.0f};
 }
 
-Forest& Tree::getForest() const {
+Forest& Tree::getForest() {
 	return forest;
 }
 

@@ -2,10 +2,10 @@
 // Created by Alexander Winter on 2022-04-03.
 //
 
-#include "world/Bridge.h"
+#include "world/water/Bridge.h"
 #include "world/Forest.h"
 #include "GameAssets.h"
-#include "world/River.h"
+#include "world/water/River.h"
 
 Bridge::Bridge(const River& river, int segmentIndex, BridgeType type)
 	: river(river), segmentIndex(segmentIndex), bridgeType(type)

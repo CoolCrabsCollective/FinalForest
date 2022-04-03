@@ -2,10 +2,10 @@
 // Created by William Wells on 2022-04-02.
 //
 
-#include <world/state/LumberJackIdleState.h>
-#include <world/state/LumberJackGoAttackState.h>
+#include "world/state/LumberJackIdleState.h"
+#include "world/state/LumberJackGoAttackState.h"
 
-#include "world/LumberJack.h"
+#include "world/enemy/LumberJack.h"
 #include "world/Forest.h"
 #include "GameAssets.h"
 #include "Box2D/Box2D.h"
@@ -71,8 +71,8 @@ void LumberJack::draw(sf::RenderTarget& target, const sf::RenderStates& states) 
 					 getSize().y * 2.f / sprite.getTexture()->getSize().y});
 
     // Highlight lumberjack
-    sf::Vector2i rawMousePos = sf::Mouse::getPosition(getForest().getScreen().getWindow());
-    sf::Vector2f worldMousePos = getForest().getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {213.33f, 120.0f}));
+    sf::Vector2i rawMousePos = sf::Mouse::getPosition(forest.getScreen().getWindow());
+    sf::Vector2f worldMousePos = forest.getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {213.33f, 120.0f}));
 
     sprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
     sprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
@@ -94,7 +94,7 @@ void LumberJack::draw(sf::RenderTarget& target, const sf::RenderStates& states) 
     target.draw(sprite);
 
 
-	if(!getForest().getScreen().isDebug())
+	if(!forest.getScreen().isDebug())
 		return;
 
 	b2Vec2 prev = getPosition();
@@ -213,7 +213,7 @@ b2Vec2 LumberJack::getDestination() const {
     return destination;
 }
 
-Forest& LumberJack::getForest() const {
+Forest& LumberJack::getForest() {
 	return forest;
 }
 

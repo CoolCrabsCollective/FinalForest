@@ -7,7 +7,7 @@
 #include <memory>
 #include "world/state/SquirrelReturnGatherState.h"
 #include "world/Forest.h"
-#include "world/BigAssTree.h"
+#include "world/tree/BigAssTree.h"
 #include "ForestScreen.h"
 
 SquirrelReturnGatherState::SquirrelReturnGatherState(Forest *forest, Squirrel *squirrel, Tree* previousTree) : SquirrelState(forest, squirrel) {

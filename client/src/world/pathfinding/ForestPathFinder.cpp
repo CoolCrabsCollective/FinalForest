@@ -7,9 +7,9 @@
 #include "GameAssets.h"
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "world/Obstacle.h"
-#include "world/River.h"
-#include "world/Tree.h"
-#include "world/BigAssTree.h"
+#include "world/water/River.h"
+#include "world/tree/Tree.h"
+#include "world/tree/BigAssTree.h"
 
 
 ForestPathFinder::ForestPathFinder(const wiz::Logger& logger, const wiz::AssetLoader& assets)

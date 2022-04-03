@@ -49,6 +49,6 @@ void NutShot::draw(sf::RenderTarget &target, const sf::RenderStates &states) con
     target.draw(sprite);
 }
 
-Forest &NutShot::getForest() const {
+Forest &NutShot::getForest() {
     return forest;
 }

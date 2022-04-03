@@ -3,7 +3,7 @@
 //
 
 #include "world/Forest.h"
-#include "world/LumberJackChainsaw.h"
+#include "world/enemy/LumberJackChainsaw.h"
 #include "GameAssets.h"
 #include "SFML/Graphics/RenderTarget.hpp"
 

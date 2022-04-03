@@ -2,7 +2,7 @@
 // Created by Alexander Winter on 2022-04-02.
 //
 
-#include "world/BigAssTree.h"
+#include "world/tree/BigAssTree.h"
 #include "GameAssets.h"
 #include "ForestScreen.h"
 
@@ -21,8 +21,8 @@ b2Vec2 BigAssTree::getSize() const {
 }
 
 void BigAssTree::draw(sf::RenderTarget &target, const sf::RenderStates &states) const {
-    sf::Vector2<int> rawMousePos = sf::Mouse::getPosition(getForest().getScreen().getWindow());
-    sf::Vector2f worldMousePos = getForest().getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
+    sf::Vector2<int> rawMousePos = sf::Mouse::getPosition(forest.getScreen().getWindow());
+    sf::Vector2f worldMousePos = forest.getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
 
     sprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
     sprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});

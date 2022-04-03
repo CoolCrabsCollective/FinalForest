@@ -10,10 +10,10 @@
 #include "SFML/Graphics/Sprite.hpp"
 #include "WIZ/asset/AssetLoader.h"
 #include "Box2D/Dynamics/b2Body.h"
-#include "Forest.h"
-#include "Obstacle.h"
-#include "Renderable.h"
-#include "Damageable.h"
+#include "world/Forest.h"
+#include "world/Obstacle.h"
+#include "world/Renderable.h"
+#include "world/Damageable.h"
 
 #define TIME_FOR_NUTSHOT 2.f
 class Tree : public Renderable, public Obstacle, public Damageable, public Tickable {
@@ -40,7 +40,7 @@ public:
 
 	b2Vec2 getSize() const override;
 
-	Forest& getForest() const override;
+	Forest& getForest() override;
 
 	void addSquirrelTurret(Squirrel* squirrel);
 

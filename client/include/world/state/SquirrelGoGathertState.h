@@ -6,7 +6,7 @@
 #define LD50_COMMON_GO_GATHER_STATE_H
 
 #include "SquirrelState.h"
-#include "world/Tree.h"
+#include "world/tree/Tree.h"
 
 #define MIN_TREE_DISTANCE 3.f
 class SquirrelGoGatherState : public SquirrelState {

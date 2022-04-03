@@ -6,7 +6,7 @@
 #define LD50_COMMON_SQUIRRELGATHERSTATE_H
 
 #include "SquirrelState.h"
-#include "world/Tree.h"
+#include "world/tree/Tree.h"
 
 #define SQUIRREL_HARVESTING_TIME 3000.f
 

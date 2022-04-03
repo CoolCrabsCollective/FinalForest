@@ -11,7 +11,7 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "Tickable.h"
 #include "Damageable.h"
-#include "Enemy.h"
+#include "world/enemy/Enemy.h"
 #include "Forest.h"
 
 class NutShot : public Renderable, public Tickable, public Damager, public Entity{
@@ -19,7 +19,7 @@ public:
     NutShot(Forest& forest, sf::Vector2f pos, Enemy* target);
     void tick(float delta) override;
 
-    Forest &getForest() const override;
+    Forest &getForest() override;
 
     float getZOrder() const override;
 

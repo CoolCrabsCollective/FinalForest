@@ -5,7 +5,7 @@
 #ifndef LD50_COMMON_SQUIRRELSTATE_H
 #define LD50_COMMON_SQUIRRELSTATE_H
 
-#include "world/Squirrel.h"
+#include "world/animal/Squirrel.h"
 #include "world/Forest.h"
 
 class Squirrel;
