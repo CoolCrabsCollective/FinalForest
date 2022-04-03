@@ -13,9 +13,11 @@
 #include "SFML/Graphics/RectangleShape.hpp"
 
 class Button : public sf::Drawable, public Tickable  {
+    std::function<void()> onClick;
+
+protected:
     sf::RectangleShape rectangleShape;
     Forest& forest;
-    std::function<void()> onClick;
 
 public:
     Button(sf::IntRect rectangle, Forest& forest, std::function<void()> onClick);
@@ -23,8 +25,6 @@ public:
     void draw(sf::RenderTarget& target, const sf::RenderStates& states) const override;
 
     void checkClick(sf::Vector2f clickVector);
-
-    void tick(float delta) override;
 };
 
 

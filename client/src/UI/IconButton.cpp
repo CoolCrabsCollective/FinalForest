@@ -6,7 +6,7 @@
 #include "UI/IconButton.h"
 #include "GameAssets.h"
 
-IconButton::IconButton(sf::IntRect rectangle, Forest& forest, std::function<void()> onClick, const wiz::AssetLoader& assetLoader, const wiz::TextureAsset* textureType, const wiz::TextureAsset* currencyTextureType, int price) : Button(rectangle, forest, onClick) {
+IconButton::IconButton(sf::IntRect rectangle, Forest& forest, std::function<void()> onClick, const wiz::AssetLoader& assetLoader, const wiz::TextureAsset* textureType, const wiz::TextureAsset* currencyTextureType, int price) : Button(rectangle, forest, onClick), price(price) {
     float scale = 3.0f;
     sprite = sf::Sprite(*assetLoader.get(*textureType));
     sprite.setPosition(sf::Vector2f(rectangle.getPosition().x + (rectangle.getSize().x / 2) - (scale * 16 / 2), rectangle.getPosition().y + (rectangle.getSize().y / 2) - (scale * 16 / 2)));
@@ -30,7 +30,10 @@ void IconButton::draw(sf::RenderTarget& target, const sf::RenderStates& states) 
     target.draw(priceText);
 }
 
-void Button::tick(float delta) {
-    std::cout << "penis" << std::endl;
+void IconButton::tick(float delta) {
+    if (forest.nutCount < price)
+        rectangleShape.setOutlineColor(sf::Color::Red);
+    else
+        rectangleShape.setOutlineColor(sf::Color::Black);
 }
 
