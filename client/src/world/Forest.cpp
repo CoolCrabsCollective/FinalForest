@@ -15,9 +15,10 @@
 #include <math.h>
 #include <world/state/SquirrelGoGathertState.h>
 #include "GameAssets.h"
-#include "world/AssTree.h"
+#include "world/BigAssTree.h"
 #include "ForestScreen.h"
 #include "world/River.h"
+#include "world/MagicLake.h"
 
 Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 	: screen(screen),
@@ -45,28 +46,11 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
         for(int j = 0; j < TILES_WIDTH; j++)
             grass_map[i][j] = rand() % 4;
 
-    this->greatOakTree = new AssTree(*this, b2Vec2(50.0f, 50.0f));
+    this->greatOakTree = new BigAssTree(*this, b2Vec2(50.0f, 50.0f));
 	objects.push_back(this->greatOakTree);
 
-	objects.push_back(new River(*this, { b2Vec2(-50.0f, -50.0f),
-										 b2Vec2(20.0f, 20.0f),
-										 b2Vec2(20.0f, 25.0f),
-										 b2Vec2(25.0f, 30.0f),
-										 b2Vec2(30.0f, 25.0f),
-										 b2Vec2(40.0f, 25.0f),
-										 b2Vec2(45.0f, 30.0f),
-										 b2Vec2(50.0f, 30.0f),
-										 b2Vec2(55.0f, 25.0f),
-										 b2Vec2(60.0f, 25.0f),
-										 b2Vec2(65.0f, 20.0f),
-										 b2Vec2(70.0f, 15.0f),
-										 b2Vec2(75.0f, 10.0f),
-										 b2Vec2(75.0f, 5.0f),
-										 b2Vec2(80.0f, 0.0f),
-										 b2Vec2(85.0f, -5.0f),
-										 b2Vec2(120.0f, -40.0f)}, 2.0f));
-
-    createForest();
+	generateLakeAndRivers();
+	generateForest();
 
 	for(Entity* entity : objects)
 	{
@@ -127,7 +111,7 @@ void Forest::unassignSquirrel(Squirrel *squirrel) {
 
 Tree *Forest::getNextAvailableTree() {
     for(Tree* tree : aliveTrees)
-        if(!dynamic_cast<AssTree*>(tree) && !treeSquirrelMap.contains(tree))
+        if(!dynamic_cast<BigAssTree*>(tree) && !treeSquirrelMap.contains(tree))
             return tree;
 
     return nullptr;
@@ -193,7 +177,7 @@ void Forest::draw(sf::RenderTarget& target, const sf::RenderStates& states) cons
 	}
 }
 
-void Forest::createForest() {
+void Forest::generateForest() {
     int totalTrees = 55;
 	int addedTrees = 0;
 
@@ -213,8 +197,9 @@ void Forest::createForest() {
 				continue;
 
 			River* river = dynamic_cast<River*>(entity);
-			if(river) {
-				if(river->isBlocking(position, { 5.0f, 5.0f })) {
+			MagicLake* lake = dynamic_cast<MagicLake*>(entity);
+			if(river || lake) {
+				if(dynamic_cast<Obstacle*>(entity)->isBlocking(position, { 5.0f, 5.0f })) {
 					overlapping = true;
 					continue;
 				}
@@ -222,7 +207,7 @@ void Forest::createForest() {
 
 			float minDistance;
 
-			if(dynamic_cast<AssTree*>(entity))
+			if(dynamic_cast<BigAssTree*>(entity))
 				minDistance = (physical->getSize().x + physical->getSize().y) / 2.0f;
 			else if(dynamic_cast<Tree*>(entity))
 				minDistance = (physical->getSize().x + physical->getSize().y) * 3.0f / 4.0f;
@@ -260,6 +245,34 @@ const ForestPathFinder& Forest::getPathFinder() const {
 	return finder;
 }
 
-AssTree* Forest::getGreatOakTree() const {
+BigAssTree* Forest::getGreatOakTree() const {
     return greatOakTree;
+}
+
+void Forest::generateLakeAndRivers() {
+
+	float deg = (float) (rand() % 360);
+
+	sf::Vector2f vec(25.0f, 0.0f);
+	vec.rotatedBy(sf::degrees(deg));
+
+	objects.push_back(new MagicLake(*this, b2Vec2(vec.x + 50.0f, vec.y + 50.0f)));
+
+	objects.push_back(new River(*this, { b2Vec2(-50.0f, -50.0f),
+										 b2Vec2(20.0f, 20.0f),
+										 b2Vec2(20.0f, 25.0f),
+										 b2Vec2(25.0f, 30.0f),
+										 b2Vec2(30.0f, 25.0f),
+										 b2Vec2(40.0f, 25.0f),
+										 b2Vec2(45.0f, 30.0f),
+										 b2Vec2(50.0f, 30.0f),
+										 b2Vec2(55.0f, 25.0f),
+										 b2Vec2(60.0f, 25.0f),
+										 b2Vec2(65.0f, 20.0f),
+										 b2Vec2(70.0f, 15.0f),
+										 b2Vec2(75.0f, 10.0f),
+										 b2Vec2(75.0f, 5.0f),
+										 b2Vec2(80.0f, 0.0f),
+										 b2Vec2(85.0f, -5.0f),
+										 b2Vec2(120.0f, -40.0f)}, 2.0f));
 }
