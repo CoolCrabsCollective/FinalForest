@@ -119,7 +119,7 @@ void LumberJack::tick(float delta) {
         return;
     }
 
-    if (target->isDestroyed()) {
+    if(target != nullptr && target->isDestroyed()) {
         this->state = std::make_shared<LumberJackIdleState>(&this->forest, this);
         targetNearestTree();
     }
@@ -207,6 +207,7 @@ void LumberJack::setFacingRight(bool facingRight) {
 
 void LumberJack::targetNearestTree() {
     if(forest.getAliveTrees().empty()) {
+		target = nullptr;
 		this->state = std::make_shared<LumberJackLeaveState>(&this->forest, this);
         return;
     }
