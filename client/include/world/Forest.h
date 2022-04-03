@@ -38,7 +38,9 @@ class Forest : public sf::Drawable, public Tickable {
 	b2World world;
 
 	std::vector<Entity*> objects;
+	mutable std::vector<Renderable*> renderables;
 	std::vector<Tree*> trees;
+    std::vector<Tree*> aliveTrees;
 
 	ForestPathFinder finder;
 
@@ -48,8 +50,6 @@ class Forest : public sf::Drawable, public Tickable {
     std::map<Squirrel*, Tree*> squirrelTreeMap;
     std::map<Tree*, Squirrel*> treeSquirrelMap;
 public:
-    std::vector<Tree*> aliveTrees;
-
     int nutCount;
     int squirrelCount;
     int mana;
@@ -64,13 +64,19 @@ public:
 
 	void spawnSquirrel();
 
+    void assignToNextAvailableTree(Squirrel* squirrel);
+
 	void assignSquirrel(Squirrel* squirrel, Tree* tree);
 
 	Tree* getNextAvailableTree();
 
+    void reAssignTree(Tree *tree);
+
     void unassignTree(Tree* tree);
 
     void unassignSquirrel(Squirrel* squirrel);
+
+    void killTree(Tree* tree);
 
 	b2World& getB2World();
 
@@ -78,7 +84,7 @@ public:
 
 	void tick(float delta) override;
 
-    void GenerateEnemyWave(int numOfEnemies);
+    void GenerateEnemyWave(int numOfEnemies, float difficulty);
 
 	const ForestPathFinder& getPathFinder() const;
 

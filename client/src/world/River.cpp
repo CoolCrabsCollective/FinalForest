@@ -5,8 +5,8 @@
 #include "world/River.h"
 #include "world/Forest.h"
 #include "GameAssets.h"
-#include "Collision/Shapes/b2PolygonShape.h"
-#include "Dynamics/b2Fixture.h"
+#include "Box2D/Collision/Shapes/b2PolygonShape.h"
+#include "Box2D/Dynamics/b2Fixture.h"
 #include "ForestScreen.h"
 #include "util/math_util.h"
 
@@ -38,7 +38,13 @@ River::River(Forest& forest, std::vector<b2Vec2> path, float width) : forest(for
 		rect.SetAsBox(dst / 2.0f, width / 2.0f, center, vec.angle().asRadians());
 
 		// Add the shape to the body.
-		body->CreateFixture(&rect, 0.0f);
+		b2Fixture* fixture = body->CreateFixture(&rect, 0.0f);
+
+		b2Filter filter;
+		filter.categoryBits = 0x2000;
+		filter.maskBits = 0xFFFF;
+
+		fixture->SetFilterData(filter);
 		prev = path[i];
 	}
 }
@@ -48,10 +54,10 @@ void River::draw(sf::RenderTarget& target, const sf::RenderStates& states) const
 	b2Vec2 prev = path[0];
 
 	river_joint.setPosition(sf::Vector2f(path[0].x, 100.0f - path[0].y));
-	river_joint.setOrigin({ 0.5f * river_line.getTexture()->getSize().x, 0.5f * river_line.getTexture()->getSize().y });
-	river_joint.setScale(sf::Vector2f(width / river_line.getTexture()->getSize().x, width / river_line.getTexture()->getSize().y));
+	river_joint.setOrigin({ 0.5f * river_joint.getTexture()->getSize().x, 0.5f * river_joint.getTexture()->getSize().y });
+	river_joint.setScale(sf::Vector2f(width / river_joint.getTexture()->getSize().x, width / river_joint.getTexture()->getSize().y));
 	river_joint.setRotation(sf::degrees(0.0f));
-	target.draw(river_joint);
+	target.draw(river_joint);;
 
 	for(size_t i = 1; i < path.size(); i++) {
 		float dst = b2Distance(prev, path[i]);
@@ -72,8 +78,9 @@ void River::draw(sf::RenderTarget& target, const sf::RenderStates& states) const
 		river_line.setScale(sf::Vector2f(width * 3.0f / river_line.getTexture()->getSize().x,
 										 width / river_line.getTexture()->getSize().y));
 		river_line.setRotation(vec.angle());
-		river_line.setTextureRect(sf::IntRect({0, 0},
+		river_line.setTextureRect(sf::IntRect({(int)textureOffset, 0},
 											  {(int)round(dst / width * 8.0f), 8}));
+
 		target.draw(river_line);
 
 		prev = path[i];
@@ -117,4 +124,16 @@ bool River::isBlocking(b2Vec2 center, b2Vec2 size) {
 	}
 
 	return false;
+}
+
+void River::tick(float delta) {
+// Unfortunately the river animation causes graphical bugs on the switch
+#ifndef OS_SWITCH
+	textureOffset += 0.05f * delta * 60.0f / 1000.0f;
+	textureOffset = fmod(textureOffset, 24);
+#endif
+}
+
+float River::getZOrder() const {
+	return getPosition().y + 100;
 }

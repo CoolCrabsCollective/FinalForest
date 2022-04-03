@@ -14,6 +14,7 @@
 #include <memory>
 #include <math.h>
 #include <world/state/SquirrelGoGathertState.h>
+#include <world/state/SquirrelIdleState.h>
 #include "GameAssets.h"
 #include "world/BigAssTree.h"
 #include "ForestScreen.h"
@@ -72,7 +73,7 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 
 	finder.initialize(objects);
 
-    GenerateEnemyWave(20);
+    GenerateEnemyWave(20, 0.0);
 }
 
 Forest::~Forest() {
@@ -85,16 +86,30 @@ Forest::~Forest() {
 void Forest::spawnSquirrel() {
     Squirrel* squirrel = new Squirrel(*this, {50, 50});
     objects.push_back(squirrel);
+    assignToNextAvailableTree(squirrel);
+}
+
+void Forest::assignToNextAvailableTree(Squirrel* squirrel) {
     Tree* tree = getNextAvailableTree();
     if(tree) {
         assignSquirrel(squirrel, tree);
         squirrel->setState(std::make_shared<SquirrelGoGatherState>(this, squirrel, tree));
+    } else {
+        squirrel->setState(std::make_shared<SquirrelIdleState>(this, squirrel));
     }
 }
 
 void Forest::assignSquirrel(Squirrel *squirrel, Tree *tree) {
     squirrelTreeMap.insert(std::pair<Squirrel*, Tree*> {squirrel, tree});
     treeSquirrelMap.insert(std::pair<Tree*, Squirrel*> {tree, squirrel});
+}
+
+void Forest::reAssignTree(Tree *tree) {
+    if (treeSquirrelMap.contains(tree)) {
+        Squirrel* squirrel = treeSquirrelMap[tree];
+        unassignTree(tree);
+        assignToNextAvailableTree(squirrel);
+    }
 }
 
 void Forest::unassignTree(Tree *tree) {
@@ -107,6 +122,15 @@ void Forest::unassignSquirrel(Squirrel *squirrel) {
     Tree* tree = squirrelTreeMap[squirrel];
     squirrelTreeMap.erase(squirrel);
     treeSquirrelMap.erase(tree);
+}
+
+void Forest::killTree(Tree* tree) {
+    for (int i = 0; i<aliveTrees.size(); i++) {
+        if (aliveTrees.at(i) == tree) {
+            aliveTrees.erase(aliveTrees.begin() + i);
+        }
+    }
+    reAssignTree(tree);
 }
 
 Tree *Forest::getNextAvailableTree() {
@@ -134,7 +158,7 @@ void Forest::tick(float delta) {
 	world.Step(delta / 1000.0f, 6, 2);
 }
 
-void Forest::GenerateEnemyWave(int numOfEnemies) {
+void Forest::GenerateEnemyWave(int numOfEnemies, float difficulty) {
     int spawnRadius;
     int screenCenter = 50;
 
@@ -151,7 +175,7 @@ void Forest::GenerateEnemyWave(int numOfEnemies) {
 
         newYPos = (float) sin( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
 
-        objects.push_back(new LumberJackChainsaw(*this, b2Vec2(newXPos, newYPos)));
+        objects.push_back(new LumberJack(*this, b2Vec2(newXPos, newYPos)));
     }
 }
 
@@ -170,11 +194,20 @@ void Forest::draw(sf::RenderTarget& target, const sf::RenderStates& states) cons
 	if(getScreen().isDebug())
 		finder.draw(target, states);
 
-    for(Entity* obj : objects) {
-		sf::Drawable* drawable = dynamic_cast<sf::Drawable*>(obj);
-		if(drawable)
-			target.draw(*drawable, states);
+	renderables.clear();
+
+	for(Entity* obj : objects) {
+		Renderable* renderable = dynamic_cast<Renderable*>(obj);
+		if(renderable)
+			renderables.push_back(renderable);
 	}
+
+	std::sort(renderables.begin(), renderables.end(), [&](Renderable* a, Renderable* b){
+		return a->getZOrder() > b->getZOrder();
+	});
+
+    for(Renderable* renderable : renderables)
+		target.draw(*renderable);
 }
 
 void Forest::generateForest() {
@@ -199,7 +232,7 @@ void Forest::generateForest() {
 			River* river = dynamic_cast<River*>(entity);
 			MagicLake* lake = dynamic_cast<MagicLake*>(entity);
 			if(river || lake) {
-				if(dynamic_cast<Obstacle*>(entity)->isBlocking(position, { 5.0f, 5.0f })) {
+				if(dynamic_cast<Obstacle*>(entity)->isBlocking(position, { 5.0f, 10.0f })) {
 					overlapping = true;
 					continue;
 				}
@@ -258,8 +291,7 @@ void Forest::generateLakeAndRivers() {
 
 	objects.push_back(new MagicLake(*this, b2Vec2(vec.x + 50.0f, vec.y + 50.0f)));
 
-	objects.push_back(new River(*this, { b2Vec2(-50.0f, -50.0f),
-										 b2Vec2(20.0f, 20.0f),
+	objects.push_back(new River(*this, {
 										 b2Vec2(20.0f, 25.0f),
 										 b2Vec2(25.0f, 30.0f),
 										 b2Vec2(30.0f, 25.0f),
@@ -271,8 +303,5 @@ void Forest::generateLakeAndRivers() {
 										 b2Vec2(65.0f, 20.0f),
 										 b2Vec2(70.0f, 15.0f),
 										 b2Vec2(75.0f, 10.0f),
-										 b2Vec2(75.0f, 5.0f),
-										 b2Vec2(80.0f, 0.0f),
-										 b2Vec2(85.0f, -5.0f),
-										 b2Vec2(120.0f, -40.0f)}, 2.0f));
+										 b2Vec2(75.0f, 5.0f)}, 4.0f));
 }

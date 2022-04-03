@@ -16,9 +16,15 @@ MagicLake::MagicLake(Forest& forest, b2Vec2 position) : forest(forest) {
 	body = forest.getB2World().CreateBody(&bodyDef);
 
 	b2PolygonShape polygonShape;
-	polygonShape.SetAsBox(getSize().x, getSize().y / 2.0f);
+	polygonShape.SetAsBox(getSize().x / 2.0f, getSize().y / 4.0f);
 
-	body->CreateFixture(&polygonShape, 0.0f);
+	b2Fixture* fixture = body->CreateFixture(&polygonShape, 0.0f);
+
+	b2Filter filter;
+	filter.categoryBits = 0x1000;
+	filter.maskBits = 0xFFFF;
+
+	fixture->SetFilterData(filter);
 }
 
 Forest& MagicLake::getForest() const {
@@ -62,7 +68,7 @@ b2Vec2 MagicLake::getPosition() const {
 }
 
 b2Vec2 MagicLake::getSize() const {
-	return b2Vec2(15.0f, 15.0f);
+	return b2Vec2(20.0f, 20.0f);
 }
 
 void MagicLake::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
@@ -70,4 +76,8 @@ void MagicLake::draw(sf::RenderTarget& target, const sf::RenderStates& states) c
 	sprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
 	sprite.setScale({getSize().x / sprite.getTexture()->getSize().x, getSize().y / sprite.getTexture()->getSize().y});
 	target.draw(sprite);
+}
+
+float MagicLake::getZOrder() const {
+	return 0;
 }

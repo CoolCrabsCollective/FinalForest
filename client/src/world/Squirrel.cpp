@@ -17,10 +17,10 @@
 #include "ForestScreen.h"
 
 Squirrel::Squirrel(Forest& forest, b2Vec2 position) : forest(forest) {
-    squirrelWalk = *forest.getAssets().get(GameAssets::SQUIRREL);
-    squirrelIdle = *forest.getAssets().get(GameAssets::SQUIRREL_IDLE);
-    squirrelNut = *forest.getAssets().get(GameAssets::SQUIRREL_WITH_NUT);
-	sprite.setTexture(squirrelWalk);
+    squirrelWalk = forest.getAssets().get(GameAssets::SQUIRREL);
+    squirrelIdle = forest.getAssets().get(GameAssets::SQUIRREL_IDLE);
+    squirrelNut = forest.getAssets().get(GameAssets::SQUIRREL_WITH_NUT);
+	sprite.setTexture(*squirrelWalk);
 	debugSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_PIXEL));
 
 	// Define the dynamic body. We set its position and call the body factory.
@@ -43,11 +43,17 @@ Squirrel::Squirrel(Forest& forest, b2Vec2 position) : forest(forest) {
 	fixtureDef.friction = 0.3f;
 
 	// Add the shape to the body.
-	body->CreateFixture(&fixtureDef);
+	b2Fixture* fixture = body->CreateFixture(&fixtureDef);
+
+	b2Filter filter;
+	filter.categoryBits = 0x0001;
+	filter.maskBits = 0x1000;
+
+	fixture->SetFilterData(filter);
 
 	this->state = std::make_shared<SquirrelIdleState>(&this->forest, this);
     // Update the squirrel count.
-    forest.squirrelCount ++;
+    forest.squirrelCount++;
 }
 
 void Squirrel::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
@@ -108,15 +114,15 @@ void Squirrel::tick(float delta) {
 
     if(dynamic_pointer_cast<SquirrelIdleState>(state).get() || dynamic_pointer_cast<SquirrelGatherState>(state).get())
     {
-        sprite.setTexture(squirrelIdle);
+        sprite.setTexture(*squirrelIdle);
     }
     else if(dynamic_pointer_cast<SquirrelReturnGatherState>(state).get())
     {
-        sprite.setTexture(squirrelNut);
+        sprite.setTexture(*squirrelNut);
     }
     else
     {
-        sprite.setTexture(squirrelWalk);
+        sprite.setTexture(*squirrelWalk);
     }
 
 	if(b2DistanceSquared(destination, getPosition()) < 1.f)
@@ -193,4 +199,8 @@ std::shared_ptr<SquirrelState> Squirrel::getState() const {
 
 void Squirrel::setState(std::shared_ptr<SquirrelState> state) {
     Squirrel::state = state;
+}
+
+float Squirrel::getZOrder() const {
+	return getPosition().y + 100;
 }

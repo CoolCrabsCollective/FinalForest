@@ -16,12 +16,7 @@ void LumberJackAttackState::tick(float delta) {
     target->damage(lumberJack->getAttack() * (delta / 1000));
 
     if (target->isDestroyed()) {
-        std::vector<Tree*> *aliveTrees = &getForest()->aliveTrees;
-        for (int i = 0; i<aliveTrees->size(); i++) {
-            if (aliveTrees->at(i) == target) {
-                aliveTrees->erase(aliveTrees->begin() + i);
-            }
-        }
+        getForest()->killTree(target);
     }
 
     lumberJack->getBody()->SetLinearVelocity(*(new b2Vec2(0.0, 0.0)));

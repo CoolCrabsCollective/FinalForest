@@ -15,3 +15,9 @@ BigAssTree::BigAssTree(Forest& forest, const b2Vec2& position)
 b2Vec2 BigAssTree::getSize() const {
 	return {15.0f, 15.0f};
 }
+
+void BigAssTree::draw(sf::RenderTarget &target, const sf::RenderStates &states) const {
+    if(isDestroyed())
+        sprite.setTexture(*forest.getAssets().get(GameAssets::GREAT_OAK_STUMP));
+    Tree::draw(target, states);
+}

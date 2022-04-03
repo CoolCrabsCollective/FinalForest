@@ -19,13 +19,13 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
 	std::string name = "ForestScreen";
 
     sf::Text nutCountText;
-    sf::Texture nutTexture;
+    sf::Texture* nutTexture;
     sf::Sprite nutSprite;
     sf::Text squirrelCountText;
-    sf::Texture squirrelTexture;
+    sf::Texture* squirrelTexture;
     sf::Sprite squirrelSprite;
     sf::Text manaText;
-    sf::Texture manaTexture;
+    sf::Texture* manaTexture;
     sf::Sprite manaSprite;
 
 	Forest forest;

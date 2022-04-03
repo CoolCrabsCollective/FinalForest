@@ -16,17 +16,18 @@
 #include "PathFinder/PathFinder.h"
 #include "world/pathfinding/ForestNode.h"
 #include "memory.h"
+#include "Renderable.h"
 
 class SquirrelState;
 
-class Squirrel : public sf::Drawable, public Physical, public Tickable {
+class Squirrel : public Renderable, public Physical, public Tickable {
 
 	mutable sf::Sprite sprite, debugSprite;
 	b2Body* body;
 	Forest& forest;
-	sf::Texture squirrelWalk;
-	sf::Texture squirrelIdle;
-	sf::Texture squirrelNut;
+	sf::Texture* squirrelWalk;
+	sf::Texture* squirrelIdle;
+	sf::Texture* squirrelNut;
 
 	std::vector<ForestNode*> path;
 	int pathIndex = -1;
@@ -57,6 +58,8 @@ public:
 	std::shared_ptr<SquirrelState> getState() const;
 
 	void setState(std::shared_ptr<SquirrelState> state);
+
+	float getZOrder() const override;
 };
 
 
