@@ -73,7 +73,7 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 
 	finder.initialize(objects);
 
-    GenerateEnemyWave(20, 0.0);
+    //GenerateEnemyWave(20, 0.0);
 }
 
 Forest::~Forest() {

@@ -106,3 +106,24 @@ void ForestScreen::keyPressed(const sf::Event::KeyEvent& keyEvent) {
 	if(keyEvent.code == sf::Keyboard::F12)
 		debug = !debug;
 }
+
+void ForestScreen::mouseButtonReleased(const sf::Event::MouseButtonEvent &mouseButtonEvent) {
+    sf::Vector2f pos = getWindow().mapPixelToCoords({mouseButtonEvent.x, mouseButtonEvent.y}, sf::View({50.0f, 50.0f}, {213.33f, 120.0f}));
+    pos.y = 100 - pos.y;
+//    getLogger().debug(std::to_string(pos.x));
+//    getLogger().debug(std::to_string(pos.y));
+//
+//    Tree* tree = this->forest.getAliveTrees()[1];
+//    getLogger().debug(std::to_string(tree->getPosition().x));
+//    getLogger().debug(std::to_string(tree->getPosition().y));
+//
+//    for(Tree* tree : this->forest.getAliveTrees())
+//    {
+//        if((abs(pos.x - tree->getPosition().x) < 2)
+//        && abs(pos.y - tree->getPosition().y) < 2)
+//        {
+//            getLogger().debug("Tree Selected!");
+//        }
+//    }
+
+}
