@@ -7,9 +7,9 @@
 
 #include "Tree.h"
 
-class BigAssTree : public Tree {
+class AssTree : public Tree {
 public:
-	BigAssTree(Forest& forest, const b2Vec2& position);
+	AssTree(Forest& forest, const b2Vec2& position);
 
 	b2Vec2 getSize() const override;
 };

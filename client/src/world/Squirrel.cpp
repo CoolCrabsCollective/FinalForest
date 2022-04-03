@@ -5,6 +5,9 @@
 #include <world/state/SquirrelIdleState.h>
 
 #include <memory>
+#include <world/state/SquirrelGatherState.h>
+#include <world/state/SquirrelReturnGatherState.h>
+#include <world/state/SquirrelGoGathertState.h>
 #include "world/Squirrel.h"
 #include "world/Forest.h"
 #include "GameAssets.h"
@@ -14,7 +17,10 @@
 #include "ForestScreen.h"
 
 Squirrel::Squirrel(Forest& forest, b2Vec2 position) : forest(forest) {
-	sprite.setTexture(*forest.getAssets().get(GameAssets::SQUIRREL));
+    squirrelWalk = *forest.getAssets().get(GameAssets::SQUIRREL);
+    squirrelIdle = *forest.getAssets().get(GameAssets::SQUIRREL_IDLE);
+    squirrelNut = *forest.getAssets().get(GameAssets::SQUIRREL_WITH_NUT);
+	sprite.setTexture(squirrelWalk);
 	debugSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_PIXEL));
 
 	// Define the dynamic body. We set its position and call the body factory.
@@ -99,6 +105,20 @@ void Squirrel::draw(sf::RenderTarget& target, const sf::RenderStates& states) co
 }
 
 void Squirrel::tick(float delta) {
+
+    if(dynamic_pointer_cast<SquirrelIdleState>(state).get() || dynamic_pointer_cast<SquirrelGatherState>(state).get())
+    {
+        sprite.setTexture(squirrelIdle);
+    }
+    else if(dynamic_pointer_cast<SquirrelReturnGatherState>(state).get())
+    {
+        sprite.setTexture(squirrelNut);
+    }
+    else
+    {
+        sprite.setTexture(squirrelWalk);
+    }
+
 	if(b2DistanceSquared(destination, getPosition()) < 1.f)
     {
         body->SetLinearVelocity({0.f, 0.f});
