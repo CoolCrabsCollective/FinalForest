@@ -39,6 +39,8 @@ public:
 
 	float getZOrder() const override;
 
+	const std::vector<b2Vec2>& getPath() const;
+
 	static bool isBlocking(std::vector<b2Vec2> path, float width, b2Vec2 center, b2Vec2 size);
 };
 

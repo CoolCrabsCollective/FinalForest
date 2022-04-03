@@ -8,11 +8,8 @@
 #include "world/Tree.h"
 #include "world/Squirrel.h"
 #include "world/LumberJack.h"
-#include "world/LumberJackChainsaw.h"
-#include <stdlib.h>
 #include <iostream>
 #include <memory>
-#include <math.h>
 #include <world/state/SquirrelGoGathertState.h>
 #include <world/state/SquirrelIdleState.h>
 #include "GameAssets.h"
@@ -52,10 +49,8 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 	generateForest();
 
 	for(Entity* entity : objects)
-	{
 		if(dynamic_cast<Tree*>(entity))
 			trees.push_back(dynamic_cast<Tree*>(entity));
-	}
 
 	std::sort(trees.begin(), trees.end(), [&](Tree* a, Tree* b){
 		b2Vec2 bigTree = {this->getGreatOakTree()->getPosition().x, this->getGreatOakTree()->getPosition().y};
@@ -167,7 +162,6 @@ void Forest::GenerateEnemyWave(int numOfEnemies, float difficulty) {
         spawnDirection = rand() % 360;
 
         newXPos = (float) cos( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
-
         newYPos = (float) sin( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
 
         objects.push_back(new LumberJack(*this, b2Vec2(newXPos, newYPos)));
@@ -198,7 +192,7 @@ void Forest::draw(sf::RenderTarget& target, const sf::RenderStates& states) cons
 	}
 
 	std::sort(renderables.begin(), renderables.end(), [&](Renderable* a, Renderable* b){
-		return a->getZOrder() > b->getZOrder();
+		return a->getZOrder() < b->getZOrder();
 	});
 
     for(Renderable* renderable : renderables)
@@ -206,15 +200,9 @@ void Forest::draw(sf::RenderTarget& target, const sf::RenderStates& states) cons
 }
 
 void Forest::generateForest() {
-    int totalTrees = 55;
-	int addedTrees = 0;
-	int i = 1000;
+	int noLuck = 0;
 
-    while (addedTrees < totalTrees) {
-		if(i-- < 0) {
-			getScreen().getLogger().error("Failed to generate entire forest after 1 000 iterations");
-			break;
-		}
+    while (noLuck < 50) {
         float x = (float) (rand() % 100);
         float y = (float) (rand() % 100);
         b2Vec2 position(x, y);
@@ -253,8 +241,9 @@ void Forest::generateForest() {
 
         if(!overlapping) {
 			objects.push_back(new Tree(*this, position));
-			addedTrees++;
+			noLuck = 0;
 		}
+		noLuck++;
     }
 }
 
@@ -272,12 +261,25 @@ void Forest::generateLakeAndRivers() {
 
 	std::vector<River*> rivers;
 
-	for(int i = 0; i < 1; i++) {
+	for(int i = 0; i < countRiver; i++) {
 
+		bool noInside = true;
 		float deg = (float) (rand() % 360);
 
-		sf::Vector2f vec(60.0f, 0.0f);
+		sf::Vector2f vec(100.0f, 0.0f);
 		vec = vec.rotatedBy(sf::degrees(deg));
+
+		if(abs(vec.x) > abs(vec.y)) {
+			if(vec.x > 0)
+				vec.x = 100.0f;
+			else
+				vec.x = -100.0f;
+		} else {
+			if(vec.y > 0)
+				vec.y = 100.0f;
+			else
+				vec.y = -100.0f;
+		}
 
 		std::vector<b2Vec2> path;
 		b2Vec2 start(vec.x + 50.0f, vec.y + 50.0f);
@@ -289,18 +291,22 @@ void Forest::generateLakeAndRivers() {
 		b2Vec2 current = path[path.size() - 1];
 
 		int tries = 1000;
-		while(current.x > -10.0f && current.y > -10.0f && current.x < 110.0f && current.y < 110.0f) {
+		while(current.x > -60.0f && current.y > -60.0f && current.x < 160.0f && current.y < 160.0f) {
 			if(tries-- < 0) {
 				getScreen().getLogger().error("Failed to generate river part after 1 000 iterations");
 				break;
 			}
+
+			float baseDst = b2DistanceSquared(path[path.size() - 1], b2Vec2(50.0f, 50.0f));
+			if(baseDst < 40.0f * 40.0f)
+				noInside = false;
 
 			float deg = (float) (rand() % 360);
 
 			sf::Vector2f vec(5.0f, 0.0f);
 			vec = vec.rotatedBy(sf::degrees(deg));
 
-			current += b2Vec2(vec.x, vec.y);
+			current = path[path.size() - 1] + b2Vec2(vec.x, vec.y);
 
 			b2Vec2 dir = (current - path[path.size() - 1]);
 			dir.Normalize();
@@ -313,21 +319,59 @@ void Forest::generateLakeAndRivers() {
 			if(dot < 0.7f)
 				continue;
 
-			if(River::isBlocking(path, 4.0f, current, b2Vec2_zero))
+			float treeDst = b2DistanceSquared(greatOakTree->getPosition(), current);
+			if(treeDst < 15.0f * 15.0f) {
+				//noInside = true; // cancel this river entirely
+				//break;
+				continue;
+			}
+
+			if(River::isBlocking(path, 4.0f, current, b2Vec2(4.0f, 4.0f)))
 				continue;
 
-			if(lake->isBlocking(current, b2Vec2_zero)) {
+			if(lake->isBlocking(current, b2Vec2(4.0f, 4.0f))) {
 				current = lake->getPosition();
 				path.push_back(current);
 				break;
 			}
 
+			for(River* river : rivers) {
+				bool blocking = false;
+
+				for(int i = 0; i <= 10; i++) {
+					b2Vec2 pos;
+					pos.x = current.x * (i / 10.0f) + path[path.size() - 1].x * (10 - i) / 10.0f;
+					pos.y = current.y * (i / 10.0f) + path[path.size() - 1].y * (10 - i) / 10.0f;
+					if(river->isBlocking(pos, b2Vec2(4.0f, 4.0f))) {
+						blocking = true;
+						break;
+					}
+				}
+
+				if(blocking) {
+					b2Vec2 closest = river->getPath()[0];
+
+					for(b2Vec2 node : river->getPath()) {
+						if(b2DistanceSquared(node, current) < b2DistanceSquared(closest, current)) {
+							closest = node;
+						}
+					}
+
+					current = closest;
+					path.push_back(current);
+					break;
+				}
+			}
+
 			path.push_back(current);
 		}
 
+		if(noInside) {
+			i--;
+			continue;
+		}
 
-		getScreen().getLogger().info("Parts: " + std::to_string(path.size()));
-		objects.push_back(new River(*this, path, 4.0f));
+		objects.push_back(new River(*this, path, path.size() < 10 ? 3.0f : 4.0f));
 	}
 }
 

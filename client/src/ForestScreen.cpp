@@ -23,7 +23,7 @@ void ForestScreen::tick(float delta) {
 
 void ForestScreen::render(sf::RenderTarget& target) {
 	target.clear();
-	target.setView(sf::View({50.0f, 50.0f}, {213.33f, 120.0f}));
+	target.setView(sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
     target.draw(forest);
     target.setView(sf::View({800.0f, 450.0f}, {1600.0f, 900.0f}));
     target.draw(nutCountText);
@@ -38,7 +38,7 @@ void ForestScreen::render(sf::RenderTarget& target) {
 		fpsText.setString("FPS: " + std::to_string(fps));
 		target.draw(fpsText);
 
-		sf::Vector2f pos = getWindow().mapPixelToCoords(sf::Mouse::getPosition(getWindow()), sf::View({50.0f, 50.0f}, {213.33f, 120.0f}));
+		sf::Vector2f pos = getWindow().mapPixelToCoords(sf::Mouse::getPosition(getWindow()), sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
 		pos.y = 100.0f - pos.y;
 		mouseCoordText.setString("Mouse pos: (" + std::to_string(pos.x) + ", " + std::to_string(pos.y) + ")");
 		target.draw(mouseCoordText);

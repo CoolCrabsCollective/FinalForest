@@ -23,5 +23,5 @@ void BigAssTree::draw(sf::RenderTarget &target, const sf::RenderStates &states) 
 }
 
 float BigAssTree::getZOrder() const {
-    return getPosition().y + 100 + .5f;
+    return -getPosition().y + 100 - .5f;
 }
