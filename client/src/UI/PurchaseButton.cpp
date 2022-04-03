@@ -69,3 +69,16 @@ void PurchaseButton::tick(float delta) {
     }
 }
 
+void PurchaseButton::click() {
+    int currencyCount;
+    if (currency == Nuts)
+        currencyCount = forest.nutCount;
+    else if (currency == Mana)
+        currencyCount = forest.mana;
+
+    if (currencyCount < price)
+        return;
+
+    forest.nutCount -= price;
+    Button::click();
+}

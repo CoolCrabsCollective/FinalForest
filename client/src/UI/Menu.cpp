@@ -13,11 +13,6 @@ Menu::Menu(const wiz::AssetLoader &assetLoader, Forest& forest) : assetLoader(as
             forest,
             [&](Button* button) {
                 PurchaseButton* iconButton = dynamic_cast<PurchaseButton*>(button);
-
-                if (iconButton->forest.nutCount < iconButton->price)
-                   return;
-
-                iconButton->forest.nutCount -= iconButton->price;
                 iconButton->forest.spawnSquirrel();
             },
             assetLoader,
