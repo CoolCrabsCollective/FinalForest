@@ -67,7 +67,7 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 
 	finder.initialize(objects);
 
-    GenerateEnemyWave(20, 0.0);
+    generateEnemyWave(20, 0.0);
     aliveTrees[1]->addSquirrelTurret(nullptr);
 }
 
@@ -164,7 +164,7 @@ void Forest::tick(float delta) {
 	world.Step(delta / 1000.0f, 6, 2);
 }
 
-void Forest::GenerateEnemyWave(int numOfEnemies, float difficulty) {
+void Forest::generateEnemyWave(int numOfEnemies, float difficulty) {
     int spawnRadius;
     int screenCenter = 50;
 

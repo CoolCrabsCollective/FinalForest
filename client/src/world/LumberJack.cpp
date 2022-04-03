@@ -19,8 +19,13 @@ LumberJack::LumberJack(Forest& forest, b2Vec2 position) : forest(forest) {
 	debugSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_PIXEL));
 
     setPower(1.0);
-    setAttackStateSprite(&sprite);
-    setAttackTexture(forest.getAssets().get(GameAssets::LUMBERJACKAXE));
+    setStateSprite(&sprite);
+    insertFrame(forest.getAssets().get(GameAssets::LUMBERJACKAXE));
+    insertFrame(forest.getAssets().get(GameAssets::LUMBERJACKAXE_SWING));
+
+    setDestroyedTexture(forest.getAssets().get(GameAssets::WHITE_PIXEL));
+    setDamageStateSprite(&sprite);
+    setHealth(3.0);
 
     // Define the dynamic body. We set its position and call the body factory.
 	b2BodyDef bodyDef;
@@ -64,7 +69,29 @@ void LumberJack::draw(sf::RenderTarget& target, const sf::RenderStates& states) 
 
 	sprite.setScale({flip * getSize().x * 2.f / sprite.getTexture()->getSize().x,
 					 getSize().y * 2.f / sprite.getTexture()->getSize().y});
-	target.draw(sprite);
+
+    // Highlight lumberjack
+    sf::Vector2i rawMousePos = sf::Mouse::getPosition(getForest().getScreen().getWindow());
+    sf::Vector2f worldMousePos = getForest().getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {213.33f, 120.0f}));
+
+    sprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
+    sprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
+//    sprite.setScale({getSize().x / sprite.getTexture()->getSize().x, getSize().y / sprite.getTexture()->getSize().y});
+    if((worldMousePos.x - sprite.getPosition().x)*(worldMousePos.x - sprite.getPosition().x) +
+       (worldMousePos.y - sprite.getPosition().y)*(worldMousePos.y - sprite.getPosition().y) < 6)
+    {
+        sprite.setColor(sf::Color(250, 253, 15, 127));
+
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+
+        }
+    }
+    else
+    {
+        sprite.setColor(sf::Color(255, 255, 255, 255));
+    }
+
+    target.draw(sprite);
 
 
 	if(!getForest().getScreen().isDebug())
@@ -122,6 +149,7 @@ void LumberJack::tick(float delta) {
     if(target != nullptr && target->isDestroyed()) {
         this->state = std::make_shared<LumberJackIdleState>(&this->forest, this);
         targetNearestTree();
+        resetAnimationState();
     }
 
     this->state->tick(delta);

@@ -11,8 +11,9 @@
 #include "Tickable.h"
 #include "Damageable.h"
 #include "Damager.h"
+#include "Anime.h"
 
-class Enemy : public Renderable, public Physical, public Tickable, public Damageable, public Damager {
+class Enemy : public Renderable, public Physical, public Tickable, public Damageable, public Damager, public Anime {
 
 };
 
