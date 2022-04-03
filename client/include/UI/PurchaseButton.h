@@ -16,6 +16,8 @@ class PurchaseButton : public Button {
     sf::Text priceText;
     sf::Text labelText;
 
+    int calculateCurrencyCount();
+
 protected:
     virtual void click() override;
 

@@ -46,11 +46,7 @@ void PurchaseButton::draw(sf::RenderTarget& target, const sf::RenderStates& stat
 }
 
 void PurchaseButton::tick(float delta) {
-    int currencyCount;
-    if (currency == Nuts)
-        currencyCount = forest.nutCount;
-    else if (currency == Mana)
-        currencyCount = forest.mana;
+    int currencyCount = calculateCurrencyCount();
 
     if (currencyCount < price) {
         sprite.setColor(unavailableColor);
@@ -70,15 +66,18 @@ void PurchaseButton::tick(float delta) {
 }
 
 void PurchaseButton::click() {
-    int currencyCount;
-    if (currency == Nuts)
-        currencyCount = forest.nutCount;
-    else if (currency == Mana)
-        currencyCount = forest.mana;
+    int currencyCount = calculateCurrencyCount();
 
     if (currencyCount < price)
         return;
 
     forest.nutCount -= price;
     Button::click();
+}
+
+int PurchaseButton::calculateCurrencyCount() {
+    if (currency == Nuts)
+        return forest.nutCount;
+    else if (currency == Mana)
+        return forest.mana;
 }
