@@ -84,7 +84,7 @@ public:
 
 	void tick(float delta) override;
 
-    void GenerateEnemyWave(int numOfEnemies);
+    void GenerateEnemyWave(int numOfEnemies, float difficulty);
 
 	const ForestPathFinder& getPathFinder() const;
 

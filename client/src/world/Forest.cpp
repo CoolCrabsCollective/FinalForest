@@ -14,6 +14,7 @@
 #include <memory>
 #include <math.h>
 #include <world/state/SquirrelGoGathertState.h>
+#include <world/state/SquirrelIdleState.h>
 #include "GameAssets.h"
 #include "world/BigAssTree.h"
 #include "ForestScreen.h"
@@ -72,7 +73,7 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 
 	finder.initialize(objects);
 
-    GenerateEnemyWave(20);
+    GenerateEnemyWave(20, 0.0);
 }
 
 Forest::~Forest() {
@@ -93,6 +94,8 @@ void Forest::assignToNextAvailableTree(Squirrel* squirrel) {
     if(tree) {
         assignSquirrel(squirrel, tree);
         squirrel->setState(std::make_shared<SquirrelGoGatherState>(this, squirrel, tree));
+    } else {
+        squirrel->setState(std::make_shared<SquirrelIdleState>(this, squirrel));
     }
 }
 
@@ -155,7 +158,7 @@ void Forest::tick(float delta) {
 	world.Step(delta / 1000.0f, 6, 2);
 }
 
-void Forest::GenerateEnemyWave(int numOfEnemies) {
+void Forest::GenerateEnemyWave(int numOfEnemies, float difficulty) {
     int spawnRadius;
     int screenCenter = 50;
 
