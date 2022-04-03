@@ -237,5 +237,5 @@ void LumberJack::setDestination(b2Vec2 destination) {
 }
 
 float LumberJack::getZOrder() const {
-	return getPosition().y + 100;
+	return -getPosition().y + 100;
 }

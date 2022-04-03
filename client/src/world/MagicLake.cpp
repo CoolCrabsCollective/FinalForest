@@ -79,5 +79,5 @@ void MagicLake::draw(sf::RenderTarget& target, const sf::RenderStates& states) c
 }
 
 float MagicLake::getZOrder() const {
-	return 0;
+	return 1;
 }

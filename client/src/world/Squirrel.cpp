@@ -202,5 +202,5 @@ void Squirrel::setState(std::shared_ptr<SquirrelState> state) {
 }
 
 float Squirrel::getZOrder() const {
-	return getPosition().y + 100;
+	return -getPosition().y + 100;
 }

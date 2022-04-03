@@ -40,7 +40,7 @@ Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
 
 void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
     sf::Vector2<int> rawMousePos = sf::Mouse::getPosition(getForest().getScreen().getWindow());
-    sf::Vector2f worldMousePos = getForest().getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {213.33f, 120.0f}));
+    sf::Vector2f worldMousePos = getForest().getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
 
 	sprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
 	sprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
@@ -137,7 +137,7 @@ bool Tree::isBlocking(b2Vec2 center, b2Vec2 size) {
 }
 
 float Tree::getZOrder() const {
-	return getPosition().y + 100;
+	return -getPosition().y + 100;
 }
 
 int Tree::getSquirrelCount() {

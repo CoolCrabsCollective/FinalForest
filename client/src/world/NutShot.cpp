@@ -31,11 +31,8 @@ void NutShot::tick(float delta) {
 
     sf::Vector2f direction = {diffX, diffY };
     direction = direction.normalized();
-//    this->pos.x += direction.x * speed * delta / 1000.f;
-//    this->pos.y += direction.y * speed * delta / 1000.f;
-    this->pos.x += direction.x * speed * (1/30.f); // / 1000.f;
-    this->pos.y += direction.y * speed * (1/30.f); // / 1000.f;
-
+    this->pos.x += direction.x * speed * delta / 1000.f;
+    this->pos.y += direction.y * speed * delta / 1000.f;
 }
 
 float NutShot::getZOrder() const {

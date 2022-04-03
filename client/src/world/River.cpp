@@ -57,7 +57,7 @@ void River::draw(sf::RenderTarget& target, const sf::RenderStates& states) const
 	river_joint.setOrigin({ 0.5f * river_joint.getTexture()->getSize().x, 0.5f * river_joint.getTexture()->getSize().y });
 	river_joint.setScale(sf::Vector2f(width / river_joint.getTexture()->getSize().x, width / river_joint.getTexture()->getSize().y));
 	river_joint.setRotation(sf::degrees(0.0f));
-	target.draw(river_joint);;
+	target.draw(river_joint);
 
 	for(size_t i = 1; i < path.size(); i++) {
 		float dst = b2Distance(prev, path[i]);
@@ -104,26 +104,7 @@ Forest& River::getForest() const {
 }
 
 bool River::isBlocking(b2Vec2 center, b2Vec2 size) {
-	b2Vec2 halfSize = size;
-	halfSize *= 0.5f;
-
-	b2Vec2 prev = path[0];
-	for(size_t i = 1; i < path.size(); i++) {
-		float dst = b2Distance(prev, path[i]);
-		b2Vec2 riverCenter = (prev + path[i]);
-		riverCenter *= 0.5f;
-
-		b2Vec2 dir = path[i] - prev;
-		sf::Vector2f vec = { dir.x, -dir.y };
-
-		if(doOBBCollideWithOBB(center.x, center.y, size.x, size.y, 0.0f,
-							   riverCenter.x, riverCenter.y, dst, width, vec.angle().asDegrees()))
-			return true;
-
-		prev = path[i];
-	}
-
-	return false;
+	return isBlocking(path, width, center, size);
 }
 
 void River::tick(float delta) {
@@ -134,6 +115,33 @@ void River::tick(float delta) {
 #endif
 }
 
+const std::vector<b2Vec2>& River::getPath() const {
+	return path;
+}
+
 float River::getZOrder() const {
-	return getPosition().y + 100;
+	return -1;
+}
+
+bool River::isBlocking(std::vector<b2Vec2> path, float width, b2Vec2 center, b2Vec2 size) {
+	b2Vec2 halfSize = size;
+	halfSize *= 0.5f;
+
+	b2Vec2 prev = path[0];
+	for(size_t i = 1; i < path.size(); i++) {
+		float dst = b2Distance(prev, path[i]);
+		b2Vec2 riverCenter = (prev + path[i]);
+		riverCenter *= 0.5f;
+
+		b2Vec2 dir = path[i] - prev;
+		sf::Vector2f vec = { dir.x, dir.y };
+
+		if(doOBBCollideWithOBB(center.x, center.y, size.x, size.y, 0.0f,
+							   riverCenter.x, riverCenter.y, dst, width, vec.angle().asDegrees()))
+			return true;
+
+		prev = path[i];
+	}
+
+	return false;
 }

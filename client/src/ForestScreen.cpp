@@ -15,14 +15,16 @@ ForestScreen::ForestScreen(wiz::Game& game)
 
 void ForestScreen::tick(float delta) {
 	forest.tick(delta);
+    menu.tick(delta);
     updateSquirrelCount();
     updateNutCount();
     updateMana();
+	fps = 1.0f / delta * 1000.0f;
 }
 
 void ForestScreen::render(sf::RenderTarget& target) {
 	target.clear();
-	target.setView(sf::View({50.0f, 50.0f}, {213.33f, 120.0f}));
+	target.setView(sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
     target.draw(forest);
     target.setView(sf::View({800.0f, 450.0f}, {1600.0f, 900.0f}));
     target.draw(nutCountText);
@@ -32,6 +34,16 @@ void ForestScreen::render(sf::RenderTarget& target) {
     target.draw(manaText);
     target.draw(manaSprite);
     target.draw(menu);
+
+	if(debug) {
+		fpsText.setString("FPS: " + std::to_string(fps));
+		target.draw(fpsText);
+
+		sf::Vector2f pos = getWindow().mapPixelToCoords(sf::Mouse::getPosition(getWindow()), sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
+		pos.y = 100.0f - pos.y;
+		mouseCoordText.setString("Mouse pos: (" + std::to_string(pos.x) + ", " + std::to_string(pos.y) + ")");
+		target.draw(mouseCoordText);
+	}
 }
 
 void ForestScreen::show() {
@@ -55,6 +67,16 @@ void ForestScreen::show() {
     manaSprite.setColor(sf::Color(255, 255, 255, 200));
     manaSprite.setPosition(sf::Vector2f(1500.0f, 125.0f));
     manaSprite.setScale({2.0f, 2.0f});
+
+	fpsText.setString("FPS: ");
+	fpsText.setPosition(sf::Vector2f(50, 875));
+	fpsText.setCharacterSize(20);
+	fpsText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+
+	mouseCoordText.setString("Mouse pos: ");
+	mouseCoordText.setPosition(sf::Vector2f(50, 850));
+	mouseCoordText.setCharacterSize(20);
+	mouseCoordText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
 
 	getGame().addWindowListener(this);
 
