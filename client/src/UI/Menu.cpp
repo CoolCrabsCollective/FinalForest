@@ -8,13 +8,16 @@
 
 Menu::Menu(const wiz::AssetLoader &assetLoader, Forest& forest) : assetLoader(assetLoader) {
     // Squirrel Button
-    std::function<void()> spawnS = [&]() {
-        forest.spawnSquirrel();
-    };
     buttons.push_back(new IconButton(
             sf::IntRect({50, 50}, {200, 100}),
             forest,
-            spawnS,
+            [&]() {
+                if (forest.nutCount < 5)
+                   return;
+
+                forest.nutCount -= 5;
+                forest.spawnSquirrel();
+            },
             assetLoader,
             &GameAssets::SQUIRREL
             ));
