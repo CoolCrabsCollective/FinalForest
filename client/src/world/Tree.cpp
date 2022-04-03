@@ -32,6 +32,7 @@ Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
 	filter.maskBits = 0xFFFF;
 
 	fixture->SetFilterData(filter);
+    isTurret = false;
 }
 
 void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
@@ -99,4 +100,8 @@ bool Tree::isBlocking(b2Vec2 center, b2Vec2 size) {
 
 float Tree::getZOrder() const {
 	return getPosition().y + 100;
+}
+
+void Tree::setTurret(bool isTurret) {
+    this->isTurret = isTurret;
 }

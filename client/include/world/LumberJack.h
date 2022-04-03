@@ -16,7 +16,7 @@
 
 class LumberJackState;
 
-class LumberJack : public Renderable, public Physical, public Tickable {
+class LumberJack : public Renderable, public Physical, public Tickable, public Damageable {
 
     b2Body* body;
 

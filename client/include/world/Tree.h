@@ -21,6 +21,11 @@ protected:
 
 	b2Body* body;
 	Forest& forest;
+	bool isTurret;
+public:
+
+    void setTurret(bool hasTurret);
+
 public:
     Tree(Forest& forest, b2Vec2 position);
 

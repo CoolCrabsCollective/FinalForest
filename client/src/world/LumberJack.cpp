@@ -47,6 +47,7 @@ LumberJack::LumberJack(Forest& forest, b2Vec2 position) : forest(forest) {
     this->state = std::make_shared<LumberJackIdleState>(&this->forest, this);
 
     targetNearestTree();
+    setHealth(3.f);
 }
 
 void LumberJack::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
