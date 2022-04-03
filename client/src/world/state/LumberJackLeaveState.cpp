@@ -7,8 +7,6 @@
 
 LumberJackLeaveState::LumberJackLeaveState(Forest* forest, LumberJack* lumberJack)
 		: LumberJackState(forest, lumberJack) {
-
-	getForest()->getScreen().getLogger().debug("LumberJack set into leave state");
 	b2Vec2 newPos = lumberJack->getPosition() - b2Vec2(50.0f, 50.0f);
 	newPos.Normalize();
 	newPos *= 200.0f;

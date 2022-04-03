@@ -62,13 +62,13 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 
     aliveTrees = std::vector<Tree*>(trees);
 
-	//for(int i = 0; i < 8; i++)
-	//	spawnSquirrel();
+	for(int i = 0; i < 8; i++)
+		spawnSquirrel();
 
 	finder.initialize(objects);
 
     GenerateEnemyWave(20, 0.0);
-    //aliveTrees[1]->addSquirrelTurret(nullptr);
+    aliveTrees[1]->addSquirrelTurret(nullptr);
 }
 
 Forest::~Forest() {
