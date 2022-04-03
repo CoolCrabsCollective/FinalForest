@@ -12,6 +12,8 @@ public:
 	BigAssTree(Forest& forest, const b2Vec2& position);
 
 	b2Vec2 getSize() const override;
+
+    void draw(sf::RenderTarget &target, const sf::RenderStates &states) const override;
 };
 
 

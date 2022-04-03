@@ -33,6 +33,7 @@ namespace GameAssets {
     ASSET(wiz::TextureAsset, LUMBERJACKAXE, ("gfx/lumber_jack_axe.png"))
     ASSET(wiz::TextureAsset, LUMBERJACKCHAINSAW, ("gfx/lumber_jack_chainsaw.png"))
     ASSET(wiz::TextureAsset, GREAT_OAK, ("gfx/great_oak.png"))
+    ASSET(wiz::TextureAsset, GREAT_OAK_STUMP, ("gfx/great_oak_stump.png"))
 
     ASSET(wiz::TextureAsset, SQUIRREL, ("gfx/squirrel.png"))
     ASSET(wiz::TextureAsset, SQUIRREL_WITH_NUT, ("gfx/squirrel_with_nut.png"))
