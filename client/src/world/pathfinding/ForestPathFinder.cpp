@@ -118,7 +118,7 @@ void ForestPathFinder::draw(sf::RenderTarget& target, const sf::RenderStates& st
 }
 
 bool ForestPathFinder::findPath(PathType pathType, b2Vec2 start, b2Vec2 goal, std::vector<ForestNode*>& path) const {
-	pathFinder.setStart(pathType == Animal ? *animalNode(start) : *enemyNode(goal));
+	pathFinder.setStart(pathType == Animal ? *animalNode(start) : *enemyNode(start));
 
 	ForestNode* processDest = pathType == Animal ? animalNode(goal) : enemyNode(goal);
 	ForestNode* originalDest = processDest;
