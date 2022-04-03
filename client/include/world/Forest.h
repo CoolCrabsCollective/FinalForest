@@ -35,6 +35,8 @@ class NutShot;
 #define TILES_WIDTH 75
 #define TILES_HEIGHT 50
 
+enum Currency {Nuts, Mana};
+
 class Forest : public sf::Drawable, public Tickable {
 private:
     ForestPathFinder finder;
@@ -94,7 +96,7 @@ public:
 
 	void tick(float delta) override;
 
-    void GenerateEnemyWave(int numOfEnemies, float difficulty);
+    void generateEnemyWave(int numOfEnemies, float difficulty);
 
 	const ForestPathFinder& getPathFinder() const;
 

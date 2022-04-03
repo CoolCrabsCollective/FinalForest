@@ -8,6 +8,7 @@
 #include <world/state/SquirrelGatherState.h>
 #include <world/state/SquirrelReturnGatherState.h>
 #include <world/state/SquirrelGoGathertState.h>
+#include <world/state/SquirrelGoAttackState.h>
 #include "world/Squirrel.h"
 #include "world/Forest.h"
 #include "GameAssets.h"
@@ -17,6 +18,8 @@
 #include "ForestScreen.h"
 
 Squirrel::Squirrel(Forest& forest, b2Vec2 position) : forest(forest) {
+    setPower(1.0);
+
     squirrelWalk = forest.getAssets().get(GameAssets::SQUIRREL);
     squirrelIdle = forest.getAssets().get(GameAssets::SQUIRREL_IDLE);
     squirrelNut = forest.getAssets().get(GameAssets::SQUIRREL_WITH_NUT);
@@ -199,6 +202,24 @@ std::shared_ptr<SquirrelState> Squirrel::getState() const {
 
 void Squirrel::setState(std::shared_ptr<SquirrelState> state) {
     Squirrel::state = state;
+}
+
+void Squirrel::targetNearestEnemy() {
+    if (forest.getEnemies().size() <= 0) {
+        return;
+    }
+
+    std::vector enemies(forest.getEnemies());
+
+    if (enemies.size() > 2) {
+        std::sort(enemies.begin(), enemies.end(), [this](Enemy* a, Enemy* b){
+            float a_dis = b2DistanceSquared(a->getPosition(), body->GetPosition());
+            float b_dis = b2DistanceSquared(b->getPosition(), body->GetPosition());
+            return a_dis < b_dis;
+        });
+    }
+
+    this->state = std::make_shared<SquirrelGoAttackState>(&this->forest, this, enemies.front());
 }
 
 float Squirrel::getZOrder() const {

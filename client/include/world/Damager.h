@@ -12,8 +12,6 @@ class Damager {
 private:
     float power = 1;
     bool destroyed = false;
-    sf::Texture* attackTexture;
-    sf::Sprite* sprite;
 
 public:
     Damager();
@@ -21,10 +19,6 @@ public:
     void setPower(float power);
 
     float getPower();
-
-    void setAttackTexture(sf::Texture* attackTexture);
-
-    void setAttackStateSprite(sf::Sprite* sprite);
 
     void attack(Damageable* target);
 };
