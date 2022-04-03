@@ -9,7 +9,7 @@
 #include "SFML/Graphics/Drawable.hpp"
 #include "Button.h"
 
-class Menu : public sf::Drawable {
+class Menu : public sf::Drawable, public Tickable {
     std::vector<Button*> buttons;
     const wiz::AssetLoader& assetLoader;
     sf::Sprite sprite;
@@ -20,6 +20,8 @@ public:
     void draw(sf::RenderTarget& target, const sf::RenderStates& states) const override;
 
     void click(sf::Vector2f clickVector);
+
+    void tick(float delta) override;
 };
 
 

@@ -37,3 +37,10 @@ void Menu::click(sf::Vector2f clickVector) {
         b->checkClick(clickVector);
     }
 }
+
+void Menu::tick(float delta) {
+    for (int i = 0 ; i < buttons.size() ; i++) {
+        Button* b = buttons[i];
+        b->tick(delta);
+    }
+}

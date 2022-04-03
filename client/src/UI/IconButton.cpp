@@ -2,6 +2,7 @@
 // Created by root on 2022-04-02.
 //
 
+#include <iostream>
 #include "UI/IconButton.h"
 #include "GameAssets.h"
 
@@ -28,3 +29,8 @@ void IconButton::draw(sf::RenderTarget& target, const sf::RenderStates& states) 
     target.draw(currencySprite);
     target.draw(priceText);
 }
+
+void Button::tick(float delta) {
+    std::cout << "penis" << std::endl;
+}
+
