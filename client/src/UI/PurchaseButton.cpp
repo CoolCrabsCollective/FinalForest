@@ -3,10 +3,10 @@
 //
 
 #include <iostream>
-#include "UI/IconButton.h"
+#include "UI/PurchaseButton.h"
 #include "GameAssets.h"
 
-IconButton::IconButton(sf::IntRect rectangle, Forest& forest, std::function<void(Button*)> onClick, const wiz::AssetLoader& assetLoader, const wiz::TextureAsset* textureType, Currency currency, int price) : Button(rectangle, forest, onClick), price(price), currency(currency) {
+PurchaseButton::PurchaseButton(sf::IntRect rectangle, Forest& forest, std::function<void(Button*)> onClick, const wiz::AssetLoader& assetLoader, const wiz::TextureAsset* textureType, Currency currency, int price) : Button(rectangle, forest, onClick), price(price), currency(currency) {
     float scale = 3.0f;
     sprite = sf::Sprite(*assetLoader.get(*textureType));
     sprite.setPosition(sf::Vector2f(rectangle.getPosition().x + (rectangle.getSize().x / 2) - (scale * 16 / 2), rectangle.getPosition().y + (rectangle.getSize().y / 2) - (scale * 16 / 2)));
@@ -37,7 +37,7 @@ IconButton::IconButton(sf::IntRect rectangle, Forest& forest, std::function<void
     labelText.setFillColor(sf::Color::Black);
 }
 
-void IconButton::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
+void PurchaseButton::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
     Button::draw(target, states);
     target.draw(sprite);
     target.draw(currencySprite);
@@ -45,7 +45,7 @@ void IconButton::draw(sf::RenderTarget& target, const sf::RenderStates& states) 
     target.draw(labelText);
 }
 
-void IconButton::tick(float delta) {
+void PurchaseButton::tick(float delta) {
     int currencyCount;
     if (currency == Nuts)
         currencyCount = forest.nutCount;
