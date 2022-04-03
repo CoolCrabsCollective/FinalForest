@@ -12,6 +12,8 @@ class Damager {
 private:
     float power = 1;
     bool destroyed = false;
+    float msAttackInterval = 1000;
+    float msSinceLastAttack = 0;
 
 public:
     Damager();
@@ -19,6 +21,14 @@ public:
     void setPower(float power);
 
     float getPower();
+
+    float getMsAttackInterval() const;
+
+    void setMsAttackInterval(float msAttackInterval);
+
+    float getMsSinceLastAttack() const;
+
+    void setMsSinceLastAttack(float msSinceLastAttack);
 
     void attack(Damageable* target);
 };

@@ -17,7 +17,7 @@
 #include "PathFinder/PathFinder.h"
 #include "world/pathfinding/ForestNode.h"
 #include "memory.h"
-#include "world/Renderable.h"
+#include "world/enemy/Enemy.h"
 
 class SquirrelState;
 
@@ -29,6 +29,7 @@ class Squirrel : public Renderable, public Physical, public Tickable, public Dam
 	sf::Texture* squirrelWalk;
 	sf::Texture* squirrelIdle;
 	sf::Texture* squirrelNut;
+    sf::Texture* squirrelAttack;
 
 	std::vector<ForestNode*> path;
 	int pathIndex = -1;

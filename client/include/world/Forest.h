@@ -115,6 +115,8 @@ public:
     const std::vector<Enemy *> &getEnemies() const;
 
     void sendToCompost(Entity* entity);
+
+    const std::vector<Entity *> &getToDelete() const;
 };
 
 
