@@ -10,7 +10,7 @@
 #include "UI/Button.h"
 
 ForestScreen::ForestScreen(wiz::Game& game)
-		: Screen(game), forest(*this, game.getAssets()) {
+		: Screen(game), forest(*this, game.getAssets()), menu() {
 }
 
 void ForestScreen::tick(float delta) {
@@ -31,9 +31,7 @@ void ForestScreen::render(sf::RenderTarget& target) {
     target.draw(squirrelSprite);
     target.draw(manaText);
     target.draw(manaSprite);
-
-    Button testButton = Button(sf::IntRect({50, 50}, {200, 100}));
-    target.draw(testButton);
+    target.draw(menu);
 }
 
 void ForestScreen::show() {
