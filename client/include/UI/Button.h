@@ -14,11 +14,14 @@
 
 class Button : public sf::Drawable {
     sf::RectangleShape rectangleShape;
+    Forest& forest;
 
 public:
-    Button(sf::IntRect rectangle);
+    Button(sf::IntRect rectangle, Forest& forest);
 
     void draw(sf::RenderTarget& target, const sf::RenderStates& states) const override;
+
+    void checkClick(sf::Vector2f clickVector);
 };
 
 

@@ -15,9 +15,11 @@ class Menu : public sf::Drawable {
     sf::Sprite sprite;
 
 public:
-    Menu(const wiz::AssetLoader& assetLoader);
+    Menu(const wiz::AssetLoader& assetLoader, Forest& forest);
 
     void draw(sf::RenderTarget& target, const sf::RenderStates& states) const override;
+
+    void click(sf::Vector2f clickVector);
 };
 
 

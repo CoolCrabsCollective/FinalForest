@@ -6,8 +6,8 @@
 #include "UI/IconButton.h"
 #include "GameAssets.h"
 
-Menu::Menu(const wiz::AssetLoader &assetLoader) : assetLoader(assetLoader) {
-    buttons.push_back(new IconButton(sf::IntRect({50, 50}, {200, 100}), assetLoader, &GameAssets::SQUIRREL));
+Menu::Menu(const wiz::AssetLoader &assetLoader, Forest& forest) : assetLoader(assetLoader) {
+    buttons.push_back(new IconButton(sf::IntRect({50, 50}, {200, 100}), forest, assetLoader, &GameAssets::SQUIRREL));
 }
 
 void Menu::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
@@ -15,3 +15,10 @@ void Menu::draw(sf::RenderTarget& target, const sf::RenderStates& states) const 
         buttons[i]->draw(target, states);
     }
 };
+
+void Menu::click(sf::Vector2f clickVector) {
+    for (int i = 0 ; i < buttons.size() ; i++) {
+        Button* b = buttons[i];
+        b->checkClick(clickVector);
+    }
+}

@@ -3,10 +3,9 @@
 //
 
 #include "UI/Button.h"
-#include "GameAssets.h"
 #include "SFML/Graphics/RectangleShape.hpp"
 
-Button::Button(sf::IntRect rectangle) {
+Button::Button(sf::IntRect rectangle, Forest& forest) : forest(forest){
     rectangleShape.setSize(sf::Vector2f(rectangle.getSize().x, rectangle.getSize().y));
     rectangleShape.setOutlineColor(sf::Color::Black);
     rectangleShape.setOutlineThickness(5);
@@ -17,4 +16,10 @@ void Button::draw(sf::RenderTarget& target, const sf::RenderStates& states) cons
     target.draw(rectangleShape);
 }
 
-
+void Button::checkClick(sf::Vector2f clickVector) {
+    if (clickVector.x > rectangleShape.getPosition().x &&
+        clickVector.x < rectangleShape.getPosition().y + rectangleShape.getSize().x &&
+        clickVector.y > rectangleShape.getPosition().y &&
+        clickVector.y < rectangleShape.getPosition().y + rectangleShape.getSize().y)
+        forest.spawnSquirrel();
+}

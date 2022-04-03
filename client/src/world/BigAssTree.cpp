@@ -21,3 +21,7 @@ b2Vec2 BigAssTree::getSize() const {
 void BigAssTree::draw(sf::RenderTarget &target, const sf::RenderStates &states) const {
     Tree::draw(target, states);
 }
+
+float BigAssTree::getZOrder() const {
+    return getPosition().y + 100 + .5f;
+}
