@@ -13,4 +13,4 @@ public:
     void tick(float delta) override;
 };
 
-#endif //LD50_CLIENT_LUMBERJACKIDLESTATE_H
+#endif //LD50_CLIENT_LUMBERJACKATTACKSTATE_H

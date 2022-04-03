@@ -54,12 +54,20 @@ Forest& Tree::getForest() const {
 	return forest;
 }
 
+bool Tree::isDestroyed() const {
+    return destroyed;
+}
+
 void Tree::setHealth(int health) {
 	this->health = health;
 }
 
 void Tree::damage(int damage) {
-    this->health -= damage;
+    health -= damage;
+
+    if (health <= 0) {
+        destroyed = true;
+    }
 }
 
 bool Tree::isBlocking(b2Vec2 center, b2Vec2 size) {

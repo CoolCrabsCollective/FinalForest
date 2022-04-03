@@ -62,6 +62,8 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 		return a_dis < b_dis;
 	});
 
+    aliveTrees = std::vector<Tree*>(trees);
+
 	for(int i = 0; i < 8; i++)
 		spawnSquirrel();
 
@@ -105,7 +107,7 @@ void Forest::unassignSquirrel(Squirrel *squirrel) {
 }
 
 Tree *Forest::getNextAvailableTree() {
-    for(Tree* tree : trees)
+    for(Tree* tree : aliveTrees)
         if(!dynamic_cast<AssTree*>(tree) && !treeSquirrelMap.contains(tree))
             return tree;
 
@@ -215,8 +217,8 @@ b2World& Forest::getB2World() {
 	return world;
 }
 
-const std::vector<Tree*> Forest::getTrees() const {
-    return trees;
+const std::vector<Tree*> Forest::getAliveTrees() const {
+    return aliveTrees;
 }
 
 const wiz::AssetLoader& Forest::getAssets() const {

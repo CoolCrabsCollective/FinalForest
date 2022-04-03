@@ -4,7 +4,6 @@
 
 #include <world/state/LumberJackIdleState.h>
 #include <world/state/LumberJackGoAttackState.h>
-#include <world/state/LumberJackAttackState.h>
 
 #include "world/LumberJack.h"
 #include "world/Forest.h"
@@ -54,6 +53,11 @@ void LumberJack::draw(sf::RenderTarget& target, const sf::RenderStates& states) 
 }
 
 void LumberJack::tick(float delta) {
+    if (target->isDestroyed()) {
+        this->state = std::make_shared<LumberJackIdleState>(&this->forest, this);
+        targetNearestTree();
+    }
+
     this->state->tick(delta);
 }
 
@@ -102,7 +106,7 @@ void LumberJack::setFacingRight(bool facingRight) {
 }
 
 void LumberJack::targetNearestTree() {
-    std::vector<Tree*> trees(forest.getTrees());
+    std::vector<Tree*> trees(forest.getAliveTrees());
 
     std::sort(trees.begin(), trees.end(), [this](Tree* a, Tree* b){
         float a_dis = b2DistanceSquared(a->getPosition(), body->GetPosition());

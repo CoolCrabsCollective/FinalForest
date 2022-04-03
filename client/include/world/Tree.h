@@ -16,6 +16,7 @@
 class Tree : public sf::Drawable, public Obstacle {
 protected:
     int health = 10;
+    bool destroyed = false;
 
 	mutable sf::Sprite sprite;
 	b2Body* body;
@@ -32,6 +33,8 @@ public:
 	b2Vec2 getSize() const override;
 
 	Forest& getForest() const override;
+
+    bool isDestroyed() const;
 
 	void setHealth(int health);
 

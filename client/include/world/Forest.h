@@ -48,6 +48,8 @@ class Forest : public sf::Drawable, public Tickable {
     std::map<Squirrel*, Tree*> squirrelTreeMap;
     std::map<Tree*, Squirrel*> treeSquirrelMap;
 public:
+    std::vector<Tree*> aliveTrees;
+
     int nutCount;
     int squirrelCount;
     int mana;
@@ -84,7 +86,7 @@ public:
 
 	AssTree* getGreatOakTree() const;
 
-    const std::vector<Tree*> getTrees() const;
+    const std::vector<Tree*> getAliveTrees() const;
 };
 
 

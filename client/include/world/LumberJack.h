@@ -12,7 +12,7 @@
 #include "Tree.h"
 #include "SFML/Graphics/Sprite.hpp"
 
-#define MIN_DISTANCE_FOR_CONTACT 1.f
+#define MIN_DISTANCE_FOR_CONTACT 8.f
 
 class LumberJackState;
 
