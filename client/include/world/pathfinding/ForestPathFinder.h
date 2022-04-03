@@ -15,8 +15,8 @@
 #include "WIZ/asset/AssetLoader.h"
 
 enum PathType {
-	Animal,
-	Enemy
+	ANIMAL_UNIT,
+	ENEMY_UNIT
 };
 
 class ForestPathFinder : public sf::Drawable {

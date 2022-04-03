@@ -22,6 +22,6 @@ void Damager::setAttackStateSprite(sf::Sprite* sprite) {
     this -> sprite = sprite;
 }
 
-void Damager::attack(Damageable* target, float delta) {
-    target->damage(power * (delta / 1000));
+void Damager::attack(Damageable* target) {
+    target->damage(power);
 }

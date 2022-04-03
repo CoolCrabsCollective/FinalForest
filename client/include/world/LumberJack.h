@@ -12,12 +12,13 @@
 #include "Tree.h"
 #include "Damager.h"
 #include "SFML/Graphics/Sprite.hpp"
+#include "Enemy.h"
 
 #define MIN_DISTANCE_FOR_CONTACT 8.f
 
 class LumberJackState;
 
-class LumberJack : public Renderable, public Physical, public Tickable, public Damager {
+class LumberJack : public Enemy {
 
     b2Body* body;
 

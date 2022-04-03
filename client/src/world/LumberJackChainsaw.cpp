@@ -15,4 +15,5 @@ LumberJackChainsaw::LumberJackChainsaw(Forest& forest, const b2Vec2& position)
     setAttackStateSprite(&sprite);
     setAttackTexture(forest.getAssets().get(GameAssets::LUMBERJACKAXE));
 	sprite.setTexture(*forest.getAssets().get(GameAssets::LUMBERJACKCHAINSAW), true);
+    setHealth(8.f);
 }

@@ -13,11 +13,10 @@ void LumberJackAttackState::tick(float delta) {
     LumberJack* lumberJack = getLumberJack();
     Tree* target = lumberJack->getTarget();
 
-    lumberJack->attack(target, delta);
+    lumberJack->getBody()->SetLinearVelocity(*(new b2Vec2(0.0, 0.0)));
+    lumberJack->attack(target);
 
     if (target->isDestroyed()) {
         getForest()->killTree(target);
     }
-
-    lumberJack->getBody()->SetLinearVelocity(*(new b2Vec2(0.0, 0.0)));
 }
