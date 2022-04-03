@@ -38,6 +38,7 @@ class Forest : public sf::Drawable, public Tickable {
 	b2World world;
 
 	std::vector<Entity*> objects;
+	mutable std::vector<Renderable*> renderables;
 	std::vector<Tree*> trees;
     std::vector<Tree*> aliveTrees;
 

@@ -194,11 +194,20 @@ void Forest::draw(sf::RenderTarget& target, const sf::RenderStates& states) cons
 	if(getScreen().isDebug())
 		finder.draw(target, states);
 
-    for(Entity* obj : objects) {
-		sf::Drawable* drawable = dynamic_cast<sf::Drawable*>(obj);
-		if(drawable)
-			target.draw(*drawable, states);
+	renderables.clear();
+
+	for(Entity* obj : objects) {
+		Renderable* renderable = dynamic_cast<Renderable*>(obj);
+		if(renderable)
+			renderables.push_back(renderable);
 	}
+
+	std::sort(renderables.begin(), renderables.end(), [&](Renderable* a, Renderable* b){
+		return a->getZOrder() > b->getZOrder();
+	});
+
+    for(Renderable* renderable : renderables)
+		target.draw(*renderable);
 }
 
 void Forest::generateForest() {
@@ -223,7 +232,7 @@ void Forest::generateForest() {
 			River* river = dynamic_cast<River*>(entity);
 			MagicLake* lake = dynamic_cast<MagicLake*>(entity);
 			if(river || lake) {
-				if(dynamic_cast<Obstacle*>(entity)->isBlocking(position, { 5.0f, 5.0f })) {
+				if(dynamic_cast<Obstacle*>(entity)->isBlocking(position, { 5.0f, 10.0f })) {
 					overlapping = true;
 					continue;
 				}

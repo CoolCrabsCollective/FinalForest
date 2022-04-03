@@ -16,7 +16,7 @@
 
 class LumberJackState;
 
-class LumberJack : public sf::Drawable, public Physical, public Tickable {
+class LumberJack : public Renderable, public Physical, public Tickable {
 
     b2Body* body;
 
@@ -71,6 +71,8 @@ public:
     void targetNearestTree();
 
     void tick(float delta) override;
+
+	float getZOrder() const override;
 };
 
 

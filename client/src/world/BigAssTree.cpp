@@ -9,6 +9,8 @@ BigAssTree::BigAssTree(Forest& forest, const b2Vec2& position)
 	: Tree(forest, position)
 {
 	setHealth(100);
+    setDestroyedTexture(forest.getAssets().get(GameAssets::GREAT_OAK_STUMP));
+    setDamageStateSprite(&sprite);
 	sprite.setTexture(*forest.getAssets().get(GameAssets::GREAT_OAK), true);
 }
 
@@ -17,7 +19,9 @@ b2Vec2 BigAssTree::getSize() const {
 }
 
 void BigAssTree::draw(sf::RenderTarget &target, const sf::RenderStates &states) const {
-    if(isDestroyed())
-        sprite.setTexture(*forest.getAssets().get(GameAssets::GREAT_OAK_STUMP));
     Tree::draw(target, states);
+}
+
+float BigAssTree::getZOrder() const {
+    return getPosition().y + 100 + .5f;
 }

@@ -43,11 +43,17 @@ Squirrel::Squirrel(Forest& forest, b2Vec2 position) : forest(forest) {
 	fixtureDef.friction = 0.3f;
 
 	// Add the shape to the body.
-	body->CreateFixture(&fixtureDef);
+	b2Fixture* fixture = body->CreateFixture(&fixtureDef);
+
+	b2Filter filter;
+	filter.categoryBits = 0x0001;
+	filter.maskBits = 0x1000;
+
+	fixture->SetFilterData(filter);
 
 	this->state = std::make_shared<SquirrelIdleState>(&this->forest, this);
     // Update the squirrel count.
-    forest.squirrelCount ++;
+    forest.squirrelCount++;
 }
 
 void Squirrel::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
@@ -193,4 +199,8 @@ std::shared_ptr<SquirrelState> Squirrel::getState() const {
 
 void Squirrel::setState(std::shared_ptr<SquirrelState> state) {
     Squirrel::state = state;
+}
+
+float Squirrel::getZOrder() const {
+	return getPosition().y + 100;
 }

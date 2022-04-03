@@ -8,9 +8,10 @@
 #include "SFML/Graphics/Drawable.hpp"
 #include "Obstacle.h"
 #include "SFML/Graphics/Sprite.hpp"
+#include "Renderable.h"
 
 
-class MagicLake : public sf::Drawable, public Obstacle {
+class MagicLake : public Renderable, public Obstacle {
 	mutable sf::Sprite sprite;
 	b2Body* body;
 	Forest& forest;
@@ -28,6 +29,8 @@ public:
 	b2Vec2 getSize() const override;
 
 	void draw(sf::RenderTarget& target, const sf::RenderStates& states) const override;
+
+	float getZOrder() const override;
 };
 
 

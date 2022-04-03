@@ -12,6 +12,10 @@
 Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
 	sprite.setTexture(*forest.getAssets().get(GameAssets::TREE));
 
+    setDestroyedTexture(forest.getAssets().get(GameAssets::TREE_STUMP));
+    setDamageStateSprite(&sprite);
+    setHealth(10.0);
+
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_staticBody;
 	bodyDef.position.Set(position.x, position.y);
@@ -21,7 +25,13 @@ Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
 	b2CircleShape circleShape;
 	circleShape.m_radius = getSize().x / 4;
 
-	body->CreateFixture(&circleShape, 0.0f);
+	b2Fixture* fixture = body->CreateFixture(&circleShape, 0.0f);
+
+	b2Filter filter;
+	filter.categoryBits = 0x1000;
+	filter.maskBits = 0xFFFF;
+
+	fixture->SetFilterData(filter);
 }
 
 void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
@@ -61,23 +71,6 @@ Forest& Tree::getForest() const {
 	return forest;
 }
 
-bool Tree::isDestroyed() const {
-    return destroyed;
-}
-
-void Tree::setHealth(float health) {
-	this->health = health;
-}
-
-void Tree::damage(float damage) {
-    health -= damage;
-
-    if (health <= 0) {
-        sprite.setTexture(*forest.getAssets().get(GameAssets::TREE_STUMP));
-        destroyed = true;
-    }
-}
-
 bool Tree::isBlocking(b2Vec2 center, b2Vec2 size) {
 	size *= 0.5f;
 	if(body->GetFixtureList()->GetShape()->TestPoint(body->GetTransform(), center))
@@ -104,4 +97,8 @@ bool Tree::isBlocking(b2Vec2 center, b2Vec2 size) {
 		return true;
 
 	return false;
+}
+
+float Tree::getZOrder() const {
+	return getPosition().y + 100;
 }

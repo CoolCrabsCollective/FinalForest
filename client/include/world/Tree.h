@@ -12,11 +12,11 @@
 #include "Box2D/Dynamics/b2Body.h"
 #include "Forest.h"
 #include "Obstacle.h"
+#include "Renderable.h"
+#include "Damageable.h"
 
-class Tree : public sf::Drawable, public Obstacle {
+class Tree : public Renderable, public Obstacle, public Damageable {
 protected:
-    float health = 10;
-    bool destroyed = false;
     mutable sf::Sprite sprite;
 
 	b2Body* body;
@@ -34,13 +34,9 @@ public:
 
 	Forest& getForest() const override;
 
-    bool isDestroyed() const;
-
-	void setHealth(float health);
-
-    void damage(float damage);
-
 	bool isBlocking(b2Vec2 center, b2Vec2 size) override;
+
+	float getZOrder() const override;
 };
 
 

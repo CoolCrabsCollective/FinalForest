@@ -24,7 +24,7 @@ LumberJack::LumberJack(Forest& forest, b2Vec2 position) : forest(forest) {
 	body = forest.getB2World().CreateBody(&bodyDef);
 
 	b2CircleShape circleShape;
-	circleShape.m_radius = getSize().x;
+	circleShape.m_radius = getSize().x / 2.0f;
 
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &circleShape;
@@ -36,7 +36,13 @@ LumberJack::LumberJack(Forest& forest, b2Vec2 position) : forest(forest) {
 	fixtureDef.friction = 0.3f;
 
 	// Add the shape to the body.
-	body->CreateFixture(&fixtureDef);
+	b2Fixture* fixture = body->CreateFixture(&fixtureDef);
+
+	b2Filter filter;
+	filter.categoryBits = 0x0002;
+	filter.maskBits = 0x3002;
+
+	fixture->SetFilterData(filter);
 
     this->state = std::make_shared<LumberJackIdleState>(&this->forest, this);
 
@@ -225,4 +231,8 @@ void LumberJack::setState(std::shared_ptr<LumberJackState> state) {
 void LumberJack::setDestination(b2Vec2 destination) {
 	LumberJack::destination = destination;
 	destinationChanged = true;
+}
+
+float LumberJack::getZOrder() const {
+	return getPosition().y + 100;
 }

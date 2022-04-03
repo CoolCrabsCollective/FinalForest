@@ -38,7 +38,13 @@ River::River(Forest& forest, std::vector<b2Vec2> path, float width) : forest(for
 		rect.SetAsBox(dst / 2.0f, width / 2.0f, center, vec.angle().asRadians());
 
 		// Add the shape to the body.
-		body->CreateFixture(&rect, 0.0f);
+		b2Fixture* fixture = body->CreateFixture(&rect, 0.0f);
+
+		b2Filter filter;
+		filter.categoryBits = 0x2000;
+		filter.maskBits = 0xFFFF;
+
+		fixture->SetFilterData(filter);
 		prev = path[i];
 	}
 }
@@ -126,4 +132,8 @@ void River::tick(float delta) {
 	textureOffset += 0.05f * delta * 60.0f / 1000.0f;
 	textureOffset = fmod(textureOffset, 24);
 #endif
+}
+
+float River::getZOrder() const {
+	return getPosition().y + 100;
 }

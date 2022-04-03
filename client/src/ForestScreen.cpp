@@ -10,7 +10,7 @@
 #include "UI/Button.h"
 
 ForestScreen::ForestScreen(wiz::Game& game)
-		: Screen(game), forest(*this, game.getAssets()), menu(game.getAssets()) {
+		: Screen(game), forest(*this, game.getAssets()), menu(game.getAssets(), forest) {
 }
 
 void ForestScreen::tick(float delta) {
@@ -108,22 +108,6 @@ void ForestScreen::keyPressed(const sf::Event::KeyEvent& keyEvent) {
 }
 
 void ForestScreen::mouseButtonReleased(const sf::Event::MouseButtonEvent &mouseButtonEvent) {
-    sf::Vector2f pos = getWindow().mapPixelToCoords({mouseButtonEvent.x, mouseButtonEvent.y}, sf::View({50.0f, 50.0f}, {213.33f, 120.0f}));
-    pos.y = 100 - pos.y;
-//    getLogger().debug(std::to_string(pos.x));
-//    getLogger().debug(std::to_string(pos.y));
-//
-//    Tree* tree = this->forest.getAliveTrees()[1];
-//    getLogger().debug(std::to_string(tree->getPosition().x));
-//    getLogger().debug(std::to_string(tree->getPosition().y));
-//
-//    for(Tree* tree : this->forest.getAliveTrees())
-//    {
-//        if((abs(pos.x - tree->getPosition().x) < 2)
-//        && abs(pos.y - tree->getPosition().y) < 2)
-//        {
-//            getLogger().debug("Tree Selected!");
-//        }
-//    }
-
+    sf::Vector2f clickVector = getWindow().mapPixelToCoords(sf::Vector2i(mouseButtonEvent.x, mouseButtonEvent.y), sf::View({800.0f, 450.0f}, {1600.0f, 900.0f}));
+    menu.click(clickVector);
 }
