@@ -5,7 +5,7 @@
 #include "UI/IconButton.h"
 #include "GameAssets.h"
 
-IconButton::IconButton(sf::IntRect rectangle, Forest& forest, const wiz::AssetLoader& assetLoader, const wiz::TextureAsset* textureType) : Button(rectangle, forest) {
+IconButton::IconButton(sf::IntRect rectangle, Forest& forest, std::function<void()> onClick, const wiz::AssetLoader& assetLoader, const wiz::TextureAsset* textureType) : Button(rectangle, forest, onClick) {
     float scale = 3.0f;
 
     sprite = sf::Sprite(*assetLoader.get(*textureType));

@@ -13,7 +13,7 @@ void LumberJackAttackState::tick(float delta) {
     LumberJack* lumberJack = getLumberJack();
     Tree* target = lumberJack->getTarget();
 
-    target->damage(lumberJack->getAttack() * (delta / 1000));
+    lumberJack->attack(target, delta);
 
     if (target->isDestroyed()) {
         getForest()->killTree(target);

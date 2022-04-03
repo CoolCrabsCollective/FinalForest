@@ -7,7 +7,20 @@
 #include "GameAssets.h"
 
 Menu::Menu(const wiz::AssetLoader &assetLoader, Forest& forest) : assetLoader(assetLoader) {
-    buttons.push_back(new IconButton(sf::IntRect({50, 50}, {200, 100}), forest, assetLoader, &GameAssets::SQUIRREL));
+    // Squirrel Button
+    buttons.push_back(new IconButton(
+            sf::IntRect({50, 50}, {200, 100}),
+            forest,
+            [&]() {
+                if (forest.nutCount < 5)
+                   return;
+
+                forest.nutCount -= 5;
+                forest.spawnSquirrel();
+            },
+            assetLoader,
+            &GameAssets::SQUIRREL
+            ));
 }
 
 void Menu::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {

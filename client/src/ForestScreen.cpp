@@ -111,3 +111,8 @@ void ForestScreen::mouseButtonReleased(const sf::Event::MouseButtonEvent &mouseB
     sf::Vector2f clickVector = getWindow().mapPixelToCoords(sf::Vector2i(mouseButtonEvent.x, mouseButtonEvent.y), sf::View({800.0f, 450.0f}, {1600.0f, 900.0f}));
     menu.click(clickVector);
 }
+
+void ForestScreen::touchBegan(const sf::Event::TouchEvent &touchScreenEvent) {
+    sf::Vector2f touchVector = getWindow().mapPixelToCoords(sf::Vector2i(touchScreenEvent.x, touchScreenEvent.y), sf::View({800.0f, 450.0f}, {1600.0f, 900.0f}));
+    menu.click(touchVector);
+}

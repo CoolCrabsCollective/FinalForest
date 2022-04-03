@@ -10,13 +10,14 @@
 #include "Physical.h"
 #include "Tickable.h"
 #include "Tree.h"
+#include "Damager.h"
 #include "SFML/Graphics/Sprite.hpp"
 
 #define MIN_DISTANCE_FOR_CONTACT 8.f
 
 class LumberJackState;
 
-class LumberJack : public Renderable, public Physical, public Tickable, public Damageable {
+class LumberJack : public Renderable, public Physical, public Tickable, public Damageable, Damager {
 
     b2Body* body;
 
@@ -27,7 +28,6 @@ class LumberJack : public Renderable, public Physical, public Tickable, public D
 
     Tree* target;
 	float speed = 10.0f;
-    float attack = 1.0;
 	bool facingRight = false;
 
     std::shared_ptr<LumberJackState> state;
@@ -60,11 +60,7 @@ public:
 
     Tree* getTarget() const;
 
-    float getAttack() const;
-
     void setSpeed(float speed);
-
-    void setAttack(float attack);
 
     void setFacingRight(bool facingRight);
 
