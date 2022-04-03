@@ -53,10 +53,10 @@ void LoadingScreen::show() {
 	message.setString("Deleting System32...");
 #endif
 #ifdef OS_UNIX
-	message.setString("sudo rm -rf /");
+	message.setString("Final Forest is loading...");
 #endif
 #ifdef OS_MAC
-	message.setString("sudo rm -rf /");
+	message.setString("Final Forest is loading...");
 #endif
 #ifdef OS_SWITCH
 	message.setString("Formatting SD card...");
