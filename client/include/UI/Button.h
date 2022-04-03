@@ -15,9 +15,10 @@
 class Button : public sf::Drawable {
     sf::RectangleShape rectangleShape;
     Forest& forest;
+    std::function<void()> onClick;
 
 public:
-    Button(sf::IntRect rectangle, Forest& forest);
+    Button(sf::IntRect rectangle, Forest& forest, std::function<void()> onClick);
 
     void draw(sf::RenderTarget& target, const sf::RenderStates& states) const override;
 
