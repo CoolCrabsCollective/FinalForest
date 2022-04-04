@@ -11,6 +11,7 @@
 #include "Box2D/Dynamics/b2Fixture.h"
 #include "GameAssets.h"
 #include "UI/Button.h"
+#include "world/tree/BigAssTree.h"
 
 ForestScreen::ForestScreen(wiz::Game& game)
 		: Screen(game), forest(*this, game.getAssets()), animalMenu(new AnimalMenu(
@@ -23,6 +24,9 @@ ForestScreen::ForestScreen(wiz::Game& game)
 }
 
 void ForestScreen::tick(float delta) {
+    if (gameOver)
+        return;
+
 	forest.tick(delta);
 	animalMenu->tick(delta);
 	turretMenu->tick(delta);
@@ -31,6 +35,10 @@ void ForestScreen::tick(float delta) {
     updateNutCount();
     updateMana();
 	fps = 1.0f / delta * 1000.0f;
+
+    if (forest.getGreatOakTree()->isDestroyed()) {
+        gameOver = true;
+    }
 }
 
 void ForestScreen::render(sf::RenderTarget& target) {
@@ -47,6 +55,9 @@ void ForestScreen::render(sf::RenderTarget& target) {
     target.draw(*animalMenu);
     target.draw(*turretMenu);
     target.draw(*enemyMenu);
+
+    if (gameOver)
+        target.draw(gameOverText);
 
 	if(debug) {
 		fpsText.setString("FPS: " + std::to_string(fps));
@@ -90,6 +101,11 @@ void ForestScreen::show() {
 	mouseCoordText.setPosition(sf::Vector2f(50, 850));
 	mouseCoordText.setCharacterSize(20);
 	mouseCoordText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+
+    gameOverText.setString("Game Over");
+    gameOverText.setPosition(sf::Vector2f(800, 450));
+    gameOverText.setCharacterSize(50);
+    gameOverText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
 
 	getGame().addWindowListener(this);
 
