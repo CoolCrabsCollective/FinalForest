@@ -29,8 +29,6 @@ namespace GameAssets {
 
 	ASSET(wiz::FontAsset, DEFAULT_FONT, ("font/pixellari.ttf"))
 
-	ASSET(wiz::TextureAsset, PLAYER, ("gfx/player.png"))
-	ASSET(wiz::TextureAsset, BACKGROUND, ("gfx/background.jpg"))
 	ASSET(wiz::TextureAsset, WHITE_PIXEL, ("gfx/white_pixel.png"))
 	ASSET(wiz::TextureAsset, LOGO, ("gfx/logo.png"))
     ASSET(wiz::TextureAsset, NUT, ("gfx/nut.png"))
