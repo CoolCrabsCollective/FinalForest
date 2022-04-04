@@ -10,7 +10,9 @@
 #include "Box2D/Collision/Shapes/b2CircleShape.h"
 #include "world/animal/state/AnimalAttackState.h"
 #include "world/animal/state/AnimalIdleState.h"
+#include "world/animal/state/AnimalPatrolState.h"
 
+#define COMBO_RADIUS 15.0f
 
 Animal::Animal(Forest& forest, b2Vec2 position)
 		: forest(forest), healthBar(this, this, forest.assetLoader)
@@ -210,7 +212,7 @@ void Animal::targetNearestEnemy() {
 			continue;
 		}
 
-		if (!enemy->isDestroyed()) {
+		if (!enemy->isDestroyed() && b2DistanceSquared(enemy->getPosition(), getPosition()) < COMBO_RADIUS * COMBO_RADIUS) {
 			this->state = std::make_shared<AnimalAttackState>(this, enemy);
 			return;
 		}
@@ -220,7 +222,8 @@ void Animal::targetNearestEnemy() {
 }
 
 void Animal::noEnemyLeft() {
-	this->state = std::make_shared<AnimalIdleState>(this);
+	if(!std::dynamic_pointer_cast<AnimalPatrolState>(state))
+		this->state = std::make_shared<AnimalIdleState>(this);
 }
 
 bool Animal::isAttacking() {
