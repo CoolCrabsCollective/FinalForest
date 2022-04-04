@@ -1,5 +1,5 @@
 //
-// Created by scrub on 2022-04-02.
+// Created by Cedric on 2022-04-02.
 //
 
 #ifndef LD50_COMMON_GO_GATHER_STATE_H

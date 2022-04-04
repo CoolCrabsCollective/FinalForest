@@ -1,5 +1,5 @@
 //
-// Created by Alexander Winter on 2022-04-02.
+// Created by blexander😩😩😩😩🤤 on 2022-04-02.
 //
 
 #include "world/tree/BigAssTree.h"
@@ -9,7 +9,8 @@
 BigAssTree::BigAssTree(Forest& forest, const b2Vec2& position)
 	: Tree(forest, position)
 {
-	setHealth(100);
+    maxHealth = 100;
+	setHealth(maxHealth);
     setDestroyedTexture(forest.getAssets().get(GameAssets::GREAT_OAK_STUMP));
     setDamageStateSprite(&sprite);
 	sprite.setTexture(*forest.getAssets().get(GameAssets::GREAT_OAK), true);
@@ -39,6 +40,8 @@ void BigAssTree::draw(sf::RenderTarget &target, const sf::RenderStates &states) 
     sprite.setColor(sf::Color(255, 255, 255, 255));
     sprite.setScale({getSize().x / sprite.getTexture()->getSize().x, getSize().y / sprite.getTexture()->getSize().y});
     target.draw(sprite);
+
+    target.draw(healthBar);
 }
 
 float BigAssTree::getZOrder() const {

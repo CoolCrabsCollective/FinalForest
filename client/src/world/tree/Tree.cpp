@@ -1,5 +1,5 @@
 //
-// Created by scrub on 2022-04-02.
+// Created by Cedric on 2022-04-02.
 //
 
 #include "world/enemy/Enemy.h"
@@ -62,7 +62,7 @@ void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const 
     sprite.setScale({getSize().x / sprite.getTexture()->getSize().x, getSize().y / sprite.getTexture()->getSize().y});
 	target.draw(sprite);
 
-	if(!squirrels.empty())
+	if(getSquirrelCount() > 0)
     {
         sf::View windowView = sf::View(sf::Vector2f(forest.getScreen().getWindow().getSize().x / 2.f, forest.getScreen().getWindow().getSize().y / 2.f), sf::Vector2f (forest.getScreen().getWindow().getSize()));
         target.setView(windowView);
@@ -77,7 +77,7 @@ void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const 
 
 void Tree::tick(float delta) {
 
-    labelSquirrelCount.setString(std::to_string(squirrels.size()));
+    labelSquirrelCount.setString(std::to_string(squirrels));
 
     sf::Vector2 v = forest.getScreen().getWindow().mapCoordsToPixel({this->getPosition().x + 2, 100.f - this->getPosition().y - 5}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
 
@@ -173,12 +173,12 @@ float Tree::getZOrder() const {
 	return -getPosition().y + 100;
 }
 
-int Tree::getSquirrelCount() {
-    return this->squirrels.size();
+int Tree::getSquirrelCount() const {
+    return squirrels;
 }
 
-void Tree::addSquirrelTurret(Squirrel *squirrel) {
-    squirrels.push_back(squirrel);
+void Tree::addSquirrelTurret() {
+    squirrels++;
 }
 
 void Tree::damage(float attack) {
@@ -187,11 +187,16 @@ void Tree::damage(float attack) {
 	Damageable::damage(attack);
 
 	if(isDestroyed() && !wasDestroyed) {
-		squirrels.clear();
+		squirrels = 0;
 		b2Filter filter;
 		filter.categoryBits = 0x1000;
 		filter.maskBits = 0;
 
 		fixture->SetFilterData(filter);
 	}
+}
+
+void Tree::removeSquirrelTurret() {
+    if(getSquirrelCount() > 0)
+        squirrels--;
 }

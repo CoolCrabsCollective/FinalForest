@@ -1,5 +1,5 @@
 //
-// Created by scrub on 2022-04-03.
+// Created by Cedric on 2022-04-03.
 //
 
 #include "UI/TurretMenu.h"
@@ -7,6 +7,13 @@
 #include <UI/PurchaseButton.h>
 #include <GameAssets.h>
 #include <UI/WordsButton.h>
+#include <world/animal/state/AnimalIdleState.h>
+#include <world/animal/state/SquirrelGatherState.h>
+#include <world/animal/state/SquirrelReturnGatherState.h>
+#include <world/animal/state/SquirrelGoGathertState.h>
+#include <world/animal/state/SquirrelGoDefendTheHomelandState.h>
+
+#include <memory>
 #include "UI/AnimalMenu.h"
 #include "ForestScreen.h"
 
@@ -32,17 +39,23 @@ TurretMenu::TurretMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Me
                                                       }
                                                       else
                                                       {
-                                                          float d = b2DistanceSquared(s->getPosition(), tree->getPosition());
-                                                          if(d < disClosest)
+
+                                                          if(dynamic_pointer_cast<AnimalIdleState>(closestSquirrel->getState()).get()
+                                                          || dynamic_pointer_cast<SquirrelGatherState>(closestSquirrel->getState()).get()
+                                                          || dynamic_pointer_cast<SquirrelGoGatherState>(closestSquirrel->getState()).get())
                                                           {
-                                                               disClosest = d;
-                                                               closestSquirrel = s;
+                                                              float d = b2DistanceSquared(s->getPosition(), tree->getPosition());
+                                                              if(d < disClosest)
+                                                              {
+                                                                  disClosest = d;
+                                                                  closestSquirrel = s;
+                                                              }
                                                           }
                                                       }
                                                   }
                                               }
                                               if(closestSquirrel)
-                                                tree->addSquirrelTurret(closestSquirrel);
+                                                closestSquirrel->setState(std::make_shared<SquirrelGoDefendTheHomelandState>(closestSquirrel, tree));
 
                                           }
                                       },

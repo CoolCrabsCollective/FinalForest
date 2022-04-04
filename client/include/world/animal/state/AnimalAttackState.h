@@ -1,5 +1,5 @@
 //
-// Created by william on 2022-04-03.
+// Created by WIZARDS on 2022-04-02.
 //
 
 #ifndef LD50_CLIENT_ANIMALATTACKSTATE_H
