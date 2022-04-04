@@ -1,5 +1,5 @@
 //
-// Created by cedric on 2022-04-02.
+// Created by scrub on 2022-04-02.
 //
 
 #ifndef LD50_COMMON_SQUIRRELGATHERSTATE_H
@@ -11,11 +11,10 @@
 #define SQUIRREL_HARVESTING_TIME 3000.f
 
 class SquirrelGatherState : public SquirrelState {
-private:
     float timeLeftHarvesting;
     Tree* harvestingTree;
 public:
-    SquirrelGatherState(Forest* forest, Squirrel* squirrel, Tree* tree);
+    SquirrelGatherState(Squirrel* squirrel, Tree* tree);
 
     void tick(float delta) override;
 };

@@ -1,5 +1,5 @@
 //
-// Created by cedric on 2022-04-02.
+// Created by scrub on 2022-04-02.
 //
 
 #ifndef LD50_COMMON_SQUIRRELRETURNGATHERSTATE_H
@@ -10,12 +10,11 @@
 
 #define MIN_GREAT_TREE_DISTANCE 6
 class SquirrelReturnGatherState : public SquirrelState {
-private:
   Tree* tree;
 public:
-    SquirrelReturnGatherState(Forest* forest, Squirrel* squirrel, Tree* previousTree);
+    SquirrelReturnGatherState(Squirrel* squirrel, Tree* previousTree);
 
-void tick(float delta) override;
+	void tick(float delta) override;
 };
 
 

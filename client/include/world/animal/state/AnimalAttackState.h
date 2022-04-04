@@ -1,18 +1,17 @@
 //
-// Created by cedric on 2022-04-02.
+// Created by scrub on 2022-04-02.
 //
 
 #ifndef LD50_COMMON_SQUIRRELATTACKSTATE_H
 #define LD50_COMMON_SQUIRRELATTACKSTATE_H
 
-#include "SquirrelState.h"
+#include "AnimalState.h"
 #include "world/enemy/LumberJack.h"
 
-class SquirrelAttackState : public SquirrelState {
-private:
+class AnimalAttackState : public AnimalState {
     Enemy* target;
 public:
-    SquirrelAttackState(Forest* forest, Squirrel* squirrel, Enemy* target);
+    AnimalAttackState(Animal* animal, Enemy* target);
 
     void tick(float delta) override;
 };

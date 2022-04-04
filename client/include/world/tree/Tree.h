@@ -1,5 +1,5 @@
 //
-// Created by cedric on 2022-04-02.
+// Created by scrub on 2022-04-02.
 //
 
 #ifndef LD50_TREE_H

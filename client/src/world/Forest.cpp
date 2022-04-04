@@ -10,8 +10,8 @@
 #include "world/enemy/LumberJack.h"
 #include <iostream>
 #include <memory>
-#include <world/state/SquirrelGoGathertState.h>
-#include <world/state/SquirrelIdleState.h>
+#include "world/animal/state/SquirrelGoGathertState.h"
+#include "world/animal/state/AnimalIdleState.h"
 #include <world/NutShot.h>
 #include "GameAssets.h"
 #include "world/tree/BigAssTree.h"
@@ -117,9 +117,9 @@ void Forest::assignToNextAvailableTree(Squirrel* squirrel) {
     Tree* tree = getNextAvailableTree();
     if(tree) {
         assignSquirrel(squirrel, tree);
-        squirrel->setState(std::make_shared<SquirrelGoGatherState>(this, squirrel, tree));
+        squirrel->setState(std::make_shared<SquirrelGoGatherState>(squirrel, tree));
     } else
-        squirrel->setState(std::make_shared<SquirrelIdleState>(this, squirrel));
+        squirrel->setState(std::make_shared<AnimalIdleState>(squirrel));
 }
 
 void Forest::assignSquirrel(Squirrel *squirrel, Tree *tree) {

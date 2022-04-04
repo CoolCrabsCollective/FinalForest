@@ -11,6 +11,8 @@
 #include "world/Renderable.h"
 #include "world/pathfinding/ForestNode.h"
 
+class AnimalState;
+
 class Animal : public Renderable, public Physical, public Tickable, public Damager {
 protected:
 	mutable sf::Sprite sprite, debugSprite;
@@ -22,6 +24,8 @@ protected:
 	b2Vec2 destination = b2Vec2(75.0f, 75.0f);
 	float speed = 8.0f;
 	bool facingRight = false, destinationChanged = false;
+
+	std::shared_ptr<AnimalState> state;
 public:
 	Animal(Forest& forest, b2Vec2 position);
 
@@ -39,9 +43,15 @@ public:
 
 	void tick(float delta) override;
 
-	virtual const b2Vec2& getDestination() const;
+	virtual b2Vec2 getDestination() const;
 
-	virtual void setDestination(const b2Vec2& destination);
+	virtual void setDestination(b2Vec2 destination);
+
+	virtual std::shared_ptr<AnimalState> getState() const;
+
+	virtual void setState(std::shared_ptr<AnimalState> state);
+
+	void targetNearestEnemy();
 };
 
 
