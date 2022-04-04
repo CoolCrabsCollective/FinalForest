@@ -25,10 +25,12 @@ void EnemyAttackState::tick(float delta) {
 
 		enemy->getBody()->SetLinearVelocity(*(new b2Vec2(0.0, 0.0)));
 
+        enemy->runAttackAnimation(delta);
+
 		enemy->setMsSinceLastAttack(enemy->getMsSinceLastAttack() + delta);
 		if (enemy->getMsSinceLastAttack() >= enemy->getMsAttackInterval()) {
 			enemy->attack(target);
-            enemy->tickAttackAnimation(delta);
+            enemy->startAttackAnimation();
 			enemy->setMsSinceLastAttack(0.0f);
 		}
     }
