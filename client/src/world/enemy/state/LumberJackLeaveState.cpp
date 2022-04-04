@@ -2,7 +2,7 @@
 // Created by Alexander Winter on 2022-04-03.
 //
 
-#include "world/state/LumberJackLeaveState.h"
+#include "world/enemy/state/LumberJackLeaveState.h"
 #include "ForestScreen.h"
 
 LumberJackLeaveState::LumberJackLeaveState(Forest* forest, LumberJack* lumberJack)

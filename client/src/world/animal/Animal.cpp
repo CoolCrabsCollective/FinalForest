@@ -63,6 +63,8 @@ float Animal::getZOrder() const {
 
 void Animal::tick(float delta) {
 
+	getState()->tick(delta);
+
 	if(b2DistanceSquared(destination, getPosition()) < 1.f)
 	{
 		body->SetLinearVelocity({0.f, 0.f});

@@ -11,6 +11,7 @@
 class Animal;
 
 class AnimalState : public Tickable {
+protected:
     Animal* animal;
 public:
     AnimalState(Animal* animal);

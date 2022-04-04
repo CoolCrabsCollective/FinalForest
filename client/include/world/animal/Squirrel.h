@@ -29,7 +29,7 @@ public:
 
 	b2Vec2 getSize() const override;
 
-    void tick(float delta) override;
+	void draw(sf::RenderTarget& target, const sf::RenderStates& states) const override;
 };
 
 

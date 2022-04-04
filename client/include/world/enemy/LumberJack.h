@@ -5,7 +5,7 @@
 #ifndef LD50_CLIENT_LUMBERJACK_H
 #define LD50_CLIENT_LUMBERJACK_H
 
-#include "world/state/LumberJackState.h"
+#include "world/enemy/state/LumberJackState.h"
 #include "SFML/Graphics/Drawable.hpp"
 #include "world/Physical.h"
 #include "world/Tickable.h"

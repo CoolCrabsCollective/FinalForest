@@ -21,7 +21,7 @@ protected:
 
 	std::vector<ForestNode*> path;
 	int pathIndex = -1;
-	b2Vec2 destination = b2Vec2(75.0f, 75.0f);
+	b2Vec2 destination = b2Vec2(50.0f, 45.0f);
 	float speed = 8.0f;
 	bool facingRight = false, destinationChanged = false;
 

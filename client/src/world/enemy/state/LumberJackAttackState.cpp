@@ -2,9 +2,9 @@
 // Created by william on 2022-04-02.
 //
 
-#include "world/state/LumberJackAttackState.h"
+#include "world/enemy/state/LumberJackAttackState.h"
 #include "GameAssets.h"
-#include "world/state/LumberJackIdleState.h"
+#include "world/enemy/state/LumberJackIdleState.h"
 
 LumberJackAttackState::LumberJackAttackState(Forest *forest, LumberJack *lumberJack) : LumberJackState(forest, lumberJack) {
     lumberJack->setDestination(lumberJack->getPosition());

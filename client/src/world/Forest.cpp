@@ -99,8 +99,7 @@ Forest::~Forest() {
 void Forest::spawnSquirrel() {
     Squirrel* squirrel = new Squirrel(*this, {50, 50});
     objects.push_back(squirrel);
-//    assignToNextAvailableTree(squirrel);
-    squirrel->targetNearestEnemy();
+    assignToNextAvailableTree(squirrel);
 }
 
 void Forest::spawnWolf() {
@@ -165,11 +164,6 @@ Tree *Forest::getNextAvailableTree() {
 }
 
 void Forest::tick(float delta) {
-    for(Entity* obj : objects) {
-        Squirrel* squirrel = dynamic_cast<Squirrel*>(obj);
-        if(squirrel)
-            squirrel->getState()->tick(delta);
-    }
 
 	for(Entity* obj : objects) {
 		Tickable* tickable = dynamic_cast<Tickable*>(obj);

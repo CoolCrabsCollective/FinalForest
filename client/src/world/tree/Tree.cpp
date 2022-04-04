@@ -37,7 +37,7 @@ Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest), healthBar(this, th
 
 	b2Filter filter;
 	filter.categoryBits = 0x1000;
-	filter.maskBits = 0xFFFF;
+	filter.maskBits = 0;
 
 	fixture->SetFilterData(filter);
 	timeLeftForNut = TIME_FOR_NUTSHOT;

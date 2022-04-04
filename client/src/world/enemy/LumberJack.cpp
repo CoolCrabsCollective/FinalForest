@@ -2,8 +2,8 @@
 // Created by William Wells on 2022-04-02.
 //
 
-#include "world/state/LumberJackIdleState.h"
-#include "world/state/LumberJackGoAttackState.h"
+#include "world/enemy/state/LumberJackIdleState.h"
+#include "world/enemy/state/LumberJackGoAttackState.h"
 
 #include "world/enemy/LumberJack.h"
 #include "world/Forest.h"
@@ -12,7 +12,7 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "ForestScreen.h"
 #include "world/pathfinding/ForestPathFinder.h"
-#include "world/state/LumberJackLeaveState.h"
+#include "world/enemy/state/LumberJackLeaveState.h"
 
 LumberJack::LumberJack(Forest& forest, b2Vec2 position) : forest(forest) {
     sprite.setTexture(*forest.getAssets().get(GameAssets::LUMBERJACKAXE));
