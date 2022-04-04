@@ -6,27 +6,16 @@
 #define LD50_CLIENT_ANIMEATTACK_H
 
 #include "SFML/Graphics.hpp"
+#include "Anime.h"
 
-class AnimeAttack {
-private:
-    std::vector<sf::Texture*> attackFrames;
-    float msBetweenAttackFrames = 500.0f;
-    float timeSinceLastAttackFrame = 0;
-    int currentAttackFrame = 0;
-
-    bool isAnimating = false;
-
-    sf::Sprite* sprite;
-
-protected:
-    void insertAttackFrame(sf::Texture* attackTexture);
-    void setStateSprite(sf::Sprite* sprite);
-
+class AnimeAttack: public Anime {
 public:
-    void tickAttackAnimation();
     void startAttackAnimation();
     void runAttackAnimation(float delta);
     void resetAttackAnimation();
+
+    void insertAttackFrame(sf::Texture* attackTexture);
+    void setAttackStateSprite(sf::Sprite* sprite);
 };
 
 #endif //LD50_CLIENT_ANIMEATTACK_H
