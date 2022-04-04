@@ -7,10 +7,16 @@
 #include "GameAssets.h"
 
 PurchaseButton::PurchaseButton(sf::IntRect rectangle, Forest& forest, std::function<void(Button*)> onClick, const wiz::AssetLoader& assetLoader, const wiz::TextureAsset* textureType, Currency currency, int price) : Button(rectangle, forest, onClick), price(price), currency(currency) {
+    sf::FloatRect bounds;
     float scale = 3.0f;
+
     sprite = sf::Sprite(*assetLoader.get(*textureType));
-    sprite.setPosition(sf::Vector2f(rectangle.getPosition().x + (rectangle.getSize().x / 2) - (scale * 16 / 2), rectangle.getPosition().y + (rectangle.getSize().y / 2) - (scale * 16 / 2)));
     sprite.setScale({scale, scale});
+    bounds = sf::FloatRect({0, 0} , {
+           sprite.getTexture()->getSize().x * sprite.getScale().x,
+           sprite.getTexture()->getSize().y * sprite.getScale().y
+    });
+    sprite.setPosition(sf::Vector2f(rectangle.getPosition().x + (rectangle.getSize().x / 2) - (bounds.width / 2), rectangle.getPosition().y + (rectangle.getSize().y / 2) - (bounds.height / 2)));
 
     const wiz::TextureAsset* currencyTextureAsset;
     if (currency == Nuts)
@@ -19,7 +25,7 @@ PurchaseButton::PurchaseButton(sf::IntRect rectangle, Forest& forest, std::funct
         currencyTextureAsset = &GameAssets::MANA;
 
     currencySprite = sf::Sprite(*assetLoader.get(*currencyTextureAsset));
-    currencySprite.setPosition(sf::Vector2f(rectangle.getPosition().x + (rectangle.getSize().x / 2) - 8, rectangle.getPosition().y + (rectangle.getSize().y) - 16));
+    currencySprite.setPosition(sf::Vector2f(rectangle.getPosition().x + (rectangle.getSize().x / 2) - 16, rectangle.getPosition().y + (rectangle.getSize().y) - 16));
     currencySprite.setScale({1.0, 1.0});
 
     priceText.setString(std::to_string(price));
@@ -31,10 +37,11 @@ PurchaseButton::PurchaseButton(sf::IntRect rectangle, Forest& forest, std::funct
     std::string productName = textureType->getName().substr(4, textureType->getName().size() - 8);
     productName[0] = toupper(productName[0]);
     labelText.setString("Buy " + productName);
-    labelText.setPosition(sf::Vector2f(rectangle.getPosition().x, rectangle.getPosition().y));
     labelText.setCharacterSize(20);
     labelText.setFont(*assetLoader.get(GameAssets::SANS_TTF));
     labelText.setFillColor(sf::Color::Black);
+    bounds = labelText.getLocalBounds();
+    labelText.setPosition(sf::Vector2f(rectangle.getPosition().x + (rectangle.width / 2) - (bounds.width / 2), rectangle.getPosition().y + 5));
 }
 
 void PurchaseButton::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
