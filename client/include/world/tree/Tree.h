@@ -1,5 +1,5 @@
 //
-// Created by scrub on 2022-04-02.
+// Created by Cedric on 2022-04-02.
 //
 
 #ifndef LD50_TREE_H
@@ -26,7 +26,7 @@ protected:
 
 	b2Body* body;
 	Forest& forest;
-	std::vector<Squirrel*> squirrels;
+	int squirrels = 0;
 	float timeLeftForNut;
 	b2Fixture* fixture;
 
@@ -45,9 +45,11 @@ public:
 
 	Forest& getForest() override;
 
-	void addSquirrelTurret(Squirrel* squirrel);
+	void addSquirrelTurret();
 
-    int getSquirrelCount();
+    void removeSquirrelTurret();
+
+    int getSquirrelCount() const;
 
 	bool isBlocking(b2Vec2 center, b2Vec2 size) override;
 

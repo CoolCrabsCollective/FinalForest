@@ -1,5 +1,5 @@
 //
-// Created by scrub on 2022-04-03.
+// Created by Cedric on 2022-04-03.
 //
 
 #include <GameAssets.h>
@@ -22,7 +22,7 @@ void NutShot::tick(float delta) {
     }
     float diffX = this->target->getPosition().x - this->pos.x;
     float diffY = this->target->getPosition().y - this->pos.y;
-    if((diffX*diffX + diffY*diffY) < 5)
+    if((diffX*diffX + diffY*diffY) < 50)
     {
         this->attack(this->target);
         this->getForest().sendToCompost(this);

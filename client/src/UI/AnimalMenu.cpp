@@ -1,5 +1,5 @@
 //
-// Created by scrub on 2022-04-03.
+// Created by Cedric on 2022-04-03.
 //
 
 #include <UI/PurchaseButton.h>
