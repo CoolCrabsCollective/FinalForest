@@ -1,5 +1,5 @@
 //
-// Created by blexander😩😩😩😩🤤 on 2022-04-02.
+// Created by Alexander Winter🤤 on 2022-04-02.
 //
 
 #include "world/Forest.h"
@@ -84,7 +84,7 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 		}
 	}
 
-    generateEnemyWave(20, 0.0);
+    generateEnemyWave(10, 0.0);
 
     for(int i = 0; i < 8; i++)
         spawnSquirrel();

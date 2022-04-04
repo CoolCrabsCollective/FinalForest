@@ -1,5 +1,5 @@
 //
-// Created by blexander😩😩😩😩🤤 on 2022-04-03.
+// Created by Alexander Winter🤤 on 2022-04-03.
 //
 
 #include "world/animal/Wolf.h"
@@ -13,6 +13,7 @@ Wolf::Wolf(Forest& forest, b2Vec2 position)
 {
 	setPower(1.0);
 	speed = 20.0f;
+	setMsAttackInterval(500);
 	sprite.setTexture(*forest.getAssets().get(GameAssets::WOLF));
 
 	this->state = std::make_shared<AnimalPatrolState>(this);

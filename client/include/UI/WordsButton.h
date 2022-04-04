@@ -1,5 +1,5 @@
 //
-// Created by cedric on 2022-04-03.
+// Created by Sir Dick on 2022-04-03.
 //
 
 #ifndef LD50_CLIENT_TEXTBUTTON_H

@@ -1,5 +1,5 @@
 //
-// Created by blexander😩😩😩😩🤤 on 2022-04-03.
+// Created by Alexander Winter🤤 on 2022-04-03.
 //
 
 #ifndef LD50_CLIENT_SQUIRRELSTATE_H

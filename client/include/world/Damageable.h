@@ -6,8 +6,9 @@
 #define LD50_CLIENT_DAMAGEABLE_H
 
 #include "SFML/Graphics.hpp"
+#include "Physical.h"
 
-class Damageable {
+class Damageable : virtual public Physical {
 private:
     float health;
     bool destroyed = false;

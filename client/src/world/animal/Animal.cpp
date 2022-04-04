@@ -1,5 +1,5 @@
 //
-// Created by blexander😩😩😩😩🤤 on 2022-04-03.
+// Created by Alexander Winter🤤 on 2022-04-03.
 //
 
 #include "world/animal/Animal.h"
@@ -10,7 +10,7 @@
 #include "Box2D/Collision/Shapes/b2CircleShape.h"
 #include "world/Physical.h"
 #include "world/animal/state/AnimalAttackState.h"
-#include "world/enemy/state/LumberJackLeaveState.h"
+#include "world/enemy/state/EnemyLeaveState.h"
 #include "world/animal/state/AnimalIdleState.h"
 
 
@@ -203,7 +203,7 @@ void Animal::targetNearestEnemy() {
 
 	for (Enemy* enemy : enemies) {
 		if(LumberJack* jack = dynamic_cast<LumberJack*>(enemy)) {
-			if(std::dynamic_pointer_cast<LumberJackLeaveState>(jack->getState())) {
+			if(std::dynamic_pointer_cast<EnemyLeaveState>(jack->getState())) {
 				continue;
 			}
 		}

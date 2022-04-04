@@ -5,7 +5,7 @@
 #ifndef LD50_CLIENT_LUMBERJACK_H
 #define LD50_CLIENT_LUMBERJACK_H
 
-#include "world/enemy/state/LumberJackState.h"
+#include "world/enemy/state/EnemyState.h"
 #include "SFML/Graphics/Drawable.hpp"
 #include "world/Physical.h"
 #include "world/Tickable.h"
@@ -15,9 +15,9 @@
 #include "SFML/Graphics/Sprite.hpp"
 #include "Enemy.h"
 
-#define MIN_DISTANCE_FOR_CONTACT 8.f
+#define MIN_DISTANCE_FOR_CONTACT 2.5f
 
-class LumberJackState;
+class EnemyState;
 
 class LumberJack : public Enemy {
     b2Body* body;
@@ -27,20 +27,19 @@ class LumberJack : public Enemy {
 	b2Vec2 destination = b2Vec2(50.0f, 50.0f);
 	bool destinationChanged = false;
 
-    Tree* target;
 	float speed = 10.0f;
 	bool facingRight = false;
 
-    std::shared_ptr<LumberJackState> state;
+    std::shared_ptr<EnemyState> state;
 protected:
     Forest& forest;
     mutable sf::Sprite sprite, debugSprite;
     HealthBar healthBar;
 
 public:
-    std::shared_ptr<LumberJackState> getState() const;
+    std::shared_ptr<EnemyState> getState() const;
 
-    void setState(std::shared_ptr<LumberJackState> state);
+    void setState(std::shared_ptr<EnemyState> state);
 
 	Forest& getForest() override;
 

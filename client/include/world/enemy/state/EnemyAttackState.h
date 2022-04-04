@@ -5,10 +5,12 @@
 #ifndef LD50_CLIENT_LUMBERJACKGoATTACKSTATE_H
 #define LD50_CLIENT_LUMBERJACKGoATTACKSTATE_H
 
-#include "LumberJackState.h"
-class LumberJackGoAttackState : public LumberJackState {
+#include "EnemyState.h"
+
+class EnemyAttackState : public EnemyState {
+	Damageable* target;
 public:
-    LumberJackGoAttackState(Forest* forest, LumberJack* lumberJack);
+    EnemyAttackState(LumberJack* lumberJack, Damageable* target);
 
     void tick(float delta) override;
 };

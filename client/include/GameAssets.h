@@ -1,5 +1,5 @@
 //
-// Created by blexander😩😩😩😩🤤 on 2022-02-13.
+// Created by Alexander Winter🤤 on 2022-02-13.
 //
 
 #ifndef GAMETEMPLATE_GAMEASSETS_H

@@ -1,5 +1,5 @@
 //
-// Created by blexander😩😩😩😩🤤 on 2022-04-02.
+// Created by Alexander Winter🤤 on 2022-04-02.
 //
 
 #ifndef LD50_CLIENT_PHYSICAL_H
@@ -9,7 +9,7 @@
 #include "Box2D/Dynamics/b2Body.h"
 #include "Entity.h"
 
-class Physical : public Entity {
+class Physical : virtual public Entity {
 public:
 	virtual ~Physical() = default;
 

@@ -2,19 +2,21 @@
 // Created by william on 2022-04-02.
 //
 
-#ifndef LD50_CLIENT_LUMBERJACKSTATE_H
-#define LD50_CLIENT_LUMBERJACKSTATE_H
+#ifndef LD50_CLIENT_ENEMYSTATE_H
+#define LD50_CLIENT_ENEMYSTATE_H
 
 #include "world/enemy/LumberJack.h"
 #include "world/Forest.h"
 
 class LumberJack;
 
-class LumberJackState {
+class EnemyState {
     LumberJack* lumberJack;
-    Forest* forest;
 public:
-    LumberJackState(Forest* forest, LumberJack *lumberJack);
+	EnemyState(LumberJack* lumberJack);
+
+	[[deprecated]]
+    EnemyState(Forest* forest, LumberJack* lumberJack);
 
     virtual void tick(float delta) = 0;
 
@@ -23,4 +25,4 @@ public:
     Forest* getForest();
 };
 
-#endif //LD50_CLIENT_LUMBERJACKSTATE_H
+#endif //LD50_CLIENT_ENEMYSTATE_H

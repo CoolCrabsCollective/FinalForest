@@ -2,8 +2,8 @@
 // Created by William Wells on 2022-04-02.
 //
 
-#include "world/enemy/state/LumberJackIdleState.h"
-#include "world/enemy/state/LumberJackGoAttackState.h"
+#include "world/enemy/state/EnemyIdleState.h"
+#include "world/enemy/state/EnemyAttackState.h"
 
 #include "world/enemy/LumberJack.h"
 #include "world/Forest.h"
@@ -12,14 +12,15 @@
 #include "SFML/Graphics/RenderTarget.hpp"
 #include "ForestScreen.h"
 #include "world/pathfinding/ForestPathFinder.h"
-#include "world/enemy/state/LumberJackLeaveState.h"
+#include "world/enemy/state/EnemyLeaveState.h"
 #include "world/animal/Bear.h"
 
 LumberJack::LumberJack(Forest& forest, b2Vec2 position) : forest(forest), healthBar(this, this, forest.assetLoader) {
     sprite.setTexture(*forest.getAssets().get(GameAssets::LUMBERJACKAXE));
 	debugSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_PIXEL));
 
-    setPower(1.0);
+    setPower(0.5);
+	setMsAttackInterval(2000);
     setStateSprite(&sprite);
     insertFrame(forest.getAssets().get(GameAssets::LUMBERJACKAXE));
     insertFrame(forest.getAssets().get(GameAssets::LUMBERJACKAXE_SWING));
@@ -55,7 +56,7 @@ LumberJack::LumberJack(Forest& forest, b2Vec2 position) : forest(forest), health
 
 	fixture->SetFilterData(filter);
 
-    this->state = std::make_shared<LumberJackIdleState>(&this->forest, this);
+    this->state = std::make_shared<EnemyIdleState>(this);
 
     targetNearestTree();
 
@@ -148,18 +149,12 @@ void LumberJack::tick(float delta) {
         return;
     }
 
-	if(target->isDestroyed()) {
-		this->state = std::make_shared<LumberJackIdleState>(&this->forest, this);
-		targetNearestTree();
-		resetAnimationState();
-	}
-
 	for(Entity* entity : getForest().getObjects()) {
 		Bear* bear = dynamic_cast<Bear*>(entity);
 
 		if(bear) {
 			if(b2DistanceSquared(bear->getPosition(), getPosition()) < 5.0f * 5.0f) {
-				this->state = std::make_shared<LumberJackLeaveState>(&this->forest, this);
+				this->state = std::make_shared<EnemyLeaveState>(this);
 				this->speed = 15.0f;
 				break;
 			}
@@ -235,10 +230,6 @@ float LumberJack::getSpeed() const {
     return speed;
 }
 
-Tree* LumberJack::getTarget() const {
-    return target;
-}
-
 void LumberJack::setSpeed(float speed) {
     this->speed = speed;
 }
@@ -249,8 +240,7 @@ void LumberJack::setFacingRight(bool facingRight) {
 
 void LumberJack::targetNearestTree() {
     if(forest.getAliveTrees().empty()) {
-		target = nullptr;
-		this->state = std::make_shared<LumberJackLeaveState>(&this->forest, this);
+		this->state = std::make_shared<EnemyLeaveState>(this);
         return;
     }
 
@@ -264,17 +254,17 @@ void LumberJack::targetNearestTree() {
         });
     }
 
-    target = trees.front();
+	Damageable* target = trees.front();
 	setDestination(target->getPosition());
 
-    this->state = std::make_shared<LumberJackGoAttackState>(&this->forest, this);
+    this->state = std::make_shared<EnemyAttackState>(this, target);
 }
 
-std::shared_ptr<LumberJackState> LumberJack::getState() const {
+std::shared_ptr<EnemyState> LumberJack::getState() const {
     return state;
 }
 
-void LumberJack::setState(std::shared_ptr<LumberJackState> state) {
+void LumberJack::setState(std::shared_ptr<EnemyState> state) {
     LumberJack::state = state;
 }
 
