@@ -6,11 +6,9 @@
 #include "GameAssets.h"
 
 PopUp::PopUp(const wiz::AssetLoader& assetLoader) {
-    popUpText.setCharacterSize(16);
-    popUpText.setFillColor(sf::Color::Black);
+    popUpText.setCharacterSize(28);
+    popUpText.setFillColor(sf::Color::White);
     popUpText.setFont(*assetLoader.get(GameAssets::DEFAULT_FONT));
-    sf::FloatRect bounds = popUpText.getLocalBounds();
-    popUpText.setPosition({(float) 800 + - (bounds.width / 2), (float) 450 - (bounds.height / 2)});
 }
 
 void PopUp::draw(sf::RenderTarget &target, const sf::RenderStates &states) const {
@@ -20,6 +18,8 @@ void PopUp::draw(sf::RenderTarget &target, const sf::RenderStates &states) const
 
 void PopUp::popUp(std::string text, int popUpTime) {
     popUpText.setString(text);
+    sf::FloatRect bounds = popUpText.getLocalBounds();
+    popUpText.setPosition({(float) 800 - (bounds.width / 2), (float) 450 - (bounds.height / 2)});
     timeLeft = popUpTime;
 }
 
