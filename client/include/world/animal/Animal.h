@@ -53,6 +53,8 @@ public:
 
 	void targetNearestEnemy();
 
+	virtual bool isAttacking();
+
 protected:
 	virtual void noEnemyLeft();
 };

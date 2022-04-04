@@ -220,3 +220,7 @@ void Animal::targetNearestEnemy() {
 void Animal::noEnemyLeft() {
 	this->state = std::make_shared<AnimalIdleState>(this);
 }
+
+bool Animal::isAttacking() {
+	return std::dynamic_pointer_cast<AnimalAttackState>(state) != nullptr;
+}
