@@ -28,8 +28,7 @@ void BigAssTree::draw(sf::RenderTarget &target, const sf::RenderStates &states) 
     sprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
     sprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
 
-    if(!this->isDestroyed() && (worldMousePos.x - sprite.getPosition().x)*(worldMousePos.x - sprite.getPosition().x) +
-                               (worldMousePos.y - sprite.getPosition().y)*(worldMousePos.y - sprite.getPosition().y) < 61)
+    if(this->forest.getScreen().getEntityClickSelection().getSelectedEntity() == this)
     {
         whiteTreeSprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
         whiteTreeSprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});

@@ -16,6 +16,9 @@ class HealthBar : public sf::Drawable {
     Physical* physicalTarget;
     Damageable* damageable;
     mutable sf::Sprite barSprite;
+    bool treeHealthBar;
+    sf::Color backgroundColor;
+    sf::Color foregroundColor;
 
     float barWidth = 5.0f;
     float barHeight = 0.5f;

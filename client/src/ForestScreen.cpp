@@ -60,6 +60,7 @@ void ForestScreen::tick(float delta) {
         forest.waveState.difficulty += 0.5;
         forest.waveState.round++;
         forest.generateEnemyWave();
+        wavePopUp.popUp("Wave " + std::to_string(forest.waveState.round), 1000);
     }
 
     // Game over detection.
@@ -171,7 +172,7 @@ void ForestScreen::show() {
 
 	music->play();
 
-    wavePopUp.popUp("penis", 5000);
+    wavePopUp.popUp("Wave " + std::to_string(forest.waveState.round), 1000);
 }
 
 void ForestScreen::hide() {

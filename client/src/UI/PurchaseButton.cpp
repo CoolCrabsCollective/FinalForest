@@ -6,7 +6,7 @@
 #include "UI/PurchaseButton.h"
 #include "GameAssets.h"
 
-PurchaseButton::PurchaseButton(sf::IntRect rectangle, Forest& forest, std::function<void(Button*)> onClick, const wiz::AssetLoader& assetLoader, const wiz::TextureAsset* textureType, Currency currency, int price) : Button(rectangle, forest, onClick), price(price), currency(currency) {
+PurchaseButton::PurchaseButton(sf::IntRect rectangle, Forest& forest, std::function<void(Button*)> onClick, const wiz::AssetLoader& assetLoader, const wiz::TextureAsset* textureType, Currency currency, int price, int yAnimalPadding) : Button(rectangle, forest, onClick), price(price), currency(currency) {
     sf::FloatRect bounds;
     float scale = 3.0f;
 
@@ -16,7 +16,7 @@ PurchaseButton::PurchaseButton(sf::IntRect rectangle, Forest& forest, std::funct
            sprite.getTexture()->getSize().x * sprite.getScale().x,
            sprite.getTexture()->getSize().y * sprite.getScale().y
     });
-    sprite.setPosition(sf::Vector2f(rectangle.getPosition().x + (rectangle.getSize().x / 2) - (bounds.width / 2), rectangle.getPosition().y + (rectangle.getSize().y / 2) - (bounds.height / 2)));
+    sprite.setPosition(sf::Vector2f(rectangle.getPosition().x + (rectangle.getSize().x / 2) - (bounds.width / 2), rectangle.getPosition().y + (rectangle.getSize().y / 2) - (bounds.height / 2) + yAnimalPadding));
 
     const wiz::TextureAsset* currencyTextureAsset;
     if (currency == Nuts)
@@ -25,7 +25,7 @@ PurchaseButton::PurchaseButton(sf::IntRect rectangle, Forest& forest, std::funct
         currencyTextureAsset = &GameAssets::MANA;
 
     currencySprite = sf::Sprite(*assetLoader.get(*currencyTextureAsset));
-    currencySprite.setPosition(sf::Vector2f(rectangle.getPosition().x + (rectangle.getSize().x / 2) - 16, rectangle.getPosition().y + (rectangle.getSize().y) - 16));
+    currencySprite.setPosition(sf::Vector2f(rectangle.getPosition().x + (rectangle.getSize().x / 2) - 20, rectangle.getPosition().y + (rectangle.getSize().y) - 20));
     currencySprite.setScale({1.0, 1.0});
 
     priceText.setString(std::to_string(price));
