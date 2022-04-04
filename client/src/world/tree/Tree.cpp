@@ -51,16 +51,18 @@ void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const 
     sf::Vector2<int> rawMousePos = sf::Mouse::getPosition(forest.getScreen().getWindow());
     sf::Vector2f worldMousePos = forest.getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
 
-    if(getSquirrelCount() > 0)
-    {
-        sf::View windowView = sf::View(sf::Vector2f(forest.getScreen().getWindow().getSize().x / 2.f, forest.getScreen().getWindow().getSize().y / 2.f), sf::Vector2f (forest.getScreen().getWindow().getSize()));
-        target.setView(windowView);
-        target.draw(labelSquirrelCount);
-        target.setView(sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
+    if (!isDestroyed()) {
+        if(getSquirrelCount() > 0)
+        {
+            sf::View windowView = sf::View(sf::Vector2f(forest.getScreen().getWindow().getSize().x / 2.f, forest.getScreen().getWindow().getSize().y / 2.f), sf::Vector2f (forest.getScreen().getWindow().getSize()));
+            target.setView(windowView);
+            target.draw(labelSquirrelCount);
+            target.setView(sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
 
-        sprite.setTexture(*turretTreeTexture);
-    } else {
-        sprite.setTexture(*normalTreeTexture);
+            sprite.setTexture(*turretTreeTexture);
+        } else {
+            sprite.setTexture(*normalTreeTexture);
+        }
     }
 
 	sprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
@@ -82,8 +84,6 @@ void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const 
     target.draw(healthBar);
 }
 
-
-
 void Tree::tick(float delta) {
 
     labelSquirrelCount.setString(std::to_string(squirrels));
@@ -92,19 +92,13 @@ void Tree::tick(float delta) {
 
     labelSquirrelCount.setPosition({(float)v.x, (float)v.y});
 
-
-    if(timeLeftForNut >= 0)
-    {
+    if(timeLeftForNut >= 0) {
         timeLeftForNut -= delta / 1000.f;
-    }
-    else if(getSquirrelCount() > 0)
-    {
-        if(getForest().getEnemies().size() > 1)
-        {
+    } else if(getSquirrelCount() > 0) {
+        if(getForest().getEnemies().size() > 1) {
             Enemy* closestEnemy = getForest().getEnemies()[0];
             float closestDistance = b2DistanceSquared(getPosition(), closestEnemy->getPosition());
-            for(int i = 1; i < getForest().getEnemies().size() - 1; i++) // There is an Enemy* in the last elem for some reason lol
-            {
+            for(int i = 1; i < getForest().getEnemies().size() - 1; i++) { // There is an Enemy* in the last elem for some reason lol
                 Enemy* enemy = getForest().getEnemies()[i];
                 if (!enemy->isDestroyed()) {
                     float dis = b2DistanceSquared(getPosition(), enemy->getPosition());
@@ -115,8 +109,7 @@ void Tree::tick(float delta) {
                 }
             }
 
-            if(closestDistance < 180 && forest.nutCount > 0)
-            {
+            if(closestDistance < 180 && forest.nutCount > 0) {
                 forest.nutCount--;
                 getForest().shootNut(new NutShot(getForest(), {getPosition().x, getPosition().y}, closestEnemy));
                 this->timeLeftForNut = TIME_FOR_NUTSHOT / this->getSquirrelCount();
