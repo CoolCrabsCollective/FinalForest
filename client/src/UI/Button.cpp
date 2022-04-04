@@ -5,7 +5,7 @@
 #include "UI/Button.h"
 
 #include <utility>
-#include "SFML/Graphics/RectangleShape.hpp"
+#include "ForestScreen.h"
 #include "ForestScreen.h"
 
 Button::Button(sf::IntRect rectangle, Forest& forest, std::function<void(Button*)> onClick) : forest(forest), onClick(std::move(onClick)){
@@ -17,7 +17,34 @@ Button::Button(sf::IntRect rectangle, Forest& forest, std::function<void(Button*
 };
 
 void Button::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
-    target.draw(rectangleShape);
+    sf::Vector2<int> rawMousePos = sf::Mouse::getPosition(forest.getScreen().getWindow());
+    sf::Vector2f clickVector = forest.getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({800.0f, 450.0f}, {1600.0f, 900.0f}));
+
+
+    if (rectangleShape.getFillColor() != unavailableColor
+        && clickVector.x > rectangleShape.getPosition().x &&
+        clickVector.x < rectangleShape.getPosition().x + rectangleShape.getSize().x &&
+        clickVector.y > rectangleShape.getPosition().y &&
+        clickVector.y < rectangleShape.getPosition().y + rectangleShape.getSize().y)
+    {
+
+        sf::Color fillC = rectangleShape.getFillColor();
+        sf::Color outlineC = rectangleShape.getOutlineColor();
+        if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+        {
+            rectangleShape.setFillColor(down);
+            target.draw(rectangleShape);
+        }
+        else{
+            rectangleShape.setFillColor(hover);
+            target.draw(rectangleShape);
+        }
+        rectangleShape.setFillColor(fillC);
+    }
+    else
+    {
+        target.draw(rectangleShape);
+    }
 }
 
 void Button::checkClick(sf::Vector2f clickVector) {

@@ -25,14 +25,25 @@ void BigAssTree::draw(sf::RenderTarget &target, const sf::RenderStates &states) 
     sf::Vector2<int> rawMousePos = sf::Mouse::getPosition(forest.getScreen().getWindow());
     sf::Vector2f worldMousePos = forest.getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
 
+    sf::Vector2f clickV = {worldMousePos.x, 100 - worldMousePos.y};
     sprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
     sprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
 
     if(this->forest.getScreen().getEntityClickSelection().getSelectedEntity() == this)
     {
         whiteTreeSprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
-        whiteTreeSprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
-        whiteTreeSprite.setScale({1.2f * getSize().x / sprite.getTexture()->getSize().x, 1.2f * getSize().y / sprite.getTexture()->getSize().y});
+        whiteTreeSprite.setOrigin({0.5f * whiteTreeSprite.getTexture()->getSize().x, 0.5f * whiteTreeSprite.getTexture()->getSize().y});
+        whiteTreeSprite.setScale({getSize().x / whiteTreeSprite.getTexture()->getSize().x, getSize().y / whiteTreeSprite.getTexture()->getSize().y});
+        whiteTreeSprite.setColor(sf::Color(255, 255, 255, 255));
+        target.draw(whiteTreeSprite);
+    }
+    else if(((clickV.x - this->getPosition().x)*(clickV.x - this->getPosition().x) +
+              (clickV.y - this->getPosition().y)*(clickV.y - this->getPosition().y)) < 61)
+    {
+        whiteTreeSprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
+        whiteTreeSprite.setOrigin({0.5f * whiteTreeSprite.getTexture()->getSize().x, 0.5f * whiteTreeSprite.getTexture()->getSize().y});
+        whiteTreeSprite.setScale({getSize().x / whiteTreeSprite.getTexture()->getSize().x, getSize().y / whiteTreeSprite.getTexture()->getSize().y});
+        whiteTreeSprite.setColor(sf::Color(255, 255, 255, 100));
         target.draw(whiteTreeSprite);
     }
 

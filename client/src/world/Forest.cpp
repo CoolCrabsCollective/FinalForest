@@ -222,7 +222,7 @@ void Forest::generateEnemyWave() {
     b2Vec2 randomSpawnPos;
 
     if (waveState.round <= waveSpawns->size()) {
-        WaveSpawn currentWaveSpawn = waveSpawns->at(waveState.round );
+        WaveSpawn currentWaveSpawn = waveSpawns->at(waveState.round - 1);
         for (int i = 0; i<currentWaveSpawn.LumberJacks; i++) {
             randomSpawnPos = getRandomEnemySpawn();
             newEnemy = new LumberJack(*this, randomSpawnPos);

@@ -11,14 +11,14 @@
 Wolf::Wolf(Forest& forest, b2Vec2 position)
 	: Animal(forest, position)
 {
-	setPower(1.0);
-	speed = 20.0f;
+	setPower(.5);
+	speed = 10.0f;
 	setMsAttackInterval(500);
 	sprite.setTexture(*forest.getAssets().get(GameAssets::WOLF));
 
 	this->state = std::make_shared<AnimalPatrolState>(this);
 
-	maxHealth = 5.0f;
+	maxHealth = 4.0f;
 	setHealth(maxHealth);
 }
 
