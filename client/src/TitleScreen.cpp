@@ -30,6 +30,10 @@ TitleScreen::TitleScreen(wiz::Game& game)
 	sf::FloatRect bounds2 = clickToPlay.getLocalBounds();
 	clickToPlay.setPosition(sf::Vector2f(game.getWindow().getView().getSize().x / 2.0f - bounds2.getSize().x / 2,
 										   game.getWindow().getView().getSize().y * 3.0f / 4.0f - bounds2.getSize().y / 2));
+
+
+	click.setBuffer(*getAssets().get(GameAssets::CLICK_SOUND));
+	click.setVolume(100.0f);
 }
 
 void TitleScreen::tick(float delta) {
@@ -43,8 +47,27 @@ void TitleScreen::tick(float delta) {
 	vec.y /= static_cast<float>(background.getTextureRect().getSize().y);
 	background.setScale(vec);
 
-	if(sf::Mouse::isButtonPressed(sf::Mouse::Left) || sf::Touch::isDown(1))
-		getGame().setScreen(std::make_shared<ForestScreen>(getGame()));
+	if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+		sf::Vector2i pos = sf::Mouse::getPosition(getWindow());
+
+		if(pos.x >= 0 && pos.y >= 0 && pos.x <= getWindow().getSize().x && pos.y <= getWindow().getSize().y) {
+
+			click.play();
+			getGame().setScreen(std::make_shared<ForestScreen>(getGame()));
+			return;
+		}
+	}
+
+	if(sf::Touch::isDown(1)) {
+		sf::Vector2i pos = sf::Touch::getPosition(1, getWindow());
+
+		if(pos.x >= 0 && pos.y >= 0 && pos.x <= getWindow().getSize().x && pos.y <= getWindow().getSize().y) {
+
+			click.play();
+			getGame().setScreen(std::make_shared<ForestScreen>(getGame()));
+			return;
+		}
+	}
 }
 
 void TitleScreen::render(sf::RenderTarget& target) {

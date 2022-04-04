@@ -5,6 +5,7 @@
 #include "world/enemy/state/EnemyAttackState.h"
 #include "world/enemy/state/EnemyIdleState.h"
 #include "world/enemy/LumberJack.h"
+#include "world/enemy/LumberJackChainsaw.h"
 
 EnemyAttackState::EnemyAttackState(Enemy* enemy, Damageable* target)
 	: EnemyState(enemy), target(target) {

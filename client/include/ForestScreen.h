@@ -48,6 +48,7 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
 
 	sf::Music* music;
 	sf::Sound gameoverSound, waveStartSound, waveClearedSound;
+	sf::Sound click;
 
 	Forest forest;
     Menu* animalMenu;
@@ -103,6 +104,8 @@ public:
     EntityClickSelection& getEntityClickSelection();
 
     void setEntityClickSelection(const EntityClickSelection &entityClickSelection);
+
+	sf::Sound& getClick();
 };
 
 

@@ -15,17 +15,22 @@
 #endif
 
 namespace GameAssets {
-	extern std::vector<const wiz::AssetBase*> ALL;
+	extern std::vector<const wiz::AssetBase*> ALL;;
 
 	ASSET(wiz::MusicAsset, NUTLIFE, ("music/nutlife.ogg"))
 
 	ASSET(wiz::SoundAsset, GAMEOVER, ("sfx/gameover.ogg"))
 	ASSET(wiz::SoundAsset, WAVE_CLEARED, ("sfx/wave_cleared.ogg"))
 	ASSET(wiz::SoundAsset, WAVE_START, ("sfx/wave_start.ogg"))
+	ASSET(wiz::SoundAsset, CLICK_SOUND, ("sfx/click.ogg"))
 
 	ASSET(wiz::SoundAsset, AXE_TREE1, ("sfx/axe_tree1.ogg"))
 	ASSET(wiz::SoundAsset, AXE_TREE2, ("sfx/axe_tree2.ogg"))
 	ASSET(wiz::SoundAsset, AXE_TREE3, ("sfx/axe_tree2.ogg"))
+
+	ASSET(wiz::SoundAsset, CHAINSAW_START, ("sfx/chainsaw_start.ogg"))
+	ASSET(wiz::SoundAsset, CHAINSAW_MID, ("sfx/chainsaw_mid.ogg"))
+	ASSET(wiz::SoundAsset, CHAINSAW_END, ("sfx/chainsaw_end.ogg"))
 
 	ASSET(wiz::FontAsset, DEFAULT_FONT, ("font/pixellari.ttf"))
 
@@ -43,6 +48,7 @@ namespace GameAssets {
     ASSET(wiz::TextureAsset, LUMBERJACKCHAINSAW, ("gfx/lumber_jack_chainsaw.png"))
     ASSET(wiz::TextureAsset, LUMBERJACKCHAINSAW_SWING, ("gfx/lumber_jack_chainsaw_swing.png"))
     ASSET(wiz::TextureAsset, WHITE_LUMBERJACK, ("gfx/white_lumber_jack.png"))
+	ASSET(wiz::TextureAsset, WHITE_LUMBERJACKSAW, ("gfx/white_lumber_jack_chainsaw.png"))
     ASSET(wiz::TextureAsset, GREAT_OAK, ("gfx/great_oak.png"))
     ASSET(wiz::TextureAsset, WHITE_GREAT_OAK, ("gfx/great_oak_white.png"))
     ASSET(wiz::TextureAsset, GREAT_OAK_STUMP, ("gfx/great_oak_stump.png"))
@@ -53,6 +59,7 @@ namespace GameAssets {
     ASSET(wiz::TextureAsset, SQUIRREL_ARMORED, ("gfx/squirrel_armored.png"))
 
 	ASSET(wiz::TextureAsset, BULLDOZER, ("gfx/bulldozer.png"))
+	ASSET(wiz::TextureAsset, WHITE_BULLDOZER, ("gfx/white_bulldozer.png"))
 
     ASSET(wiz::TextureAsset, WOLF, ("gfx/wolf.png"))
 

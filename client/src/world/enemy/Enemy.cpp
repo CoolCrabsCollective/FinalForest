@@ -58,6 +58,9 @@ Enemy::Enemy(Forest& forest, b2Vec2 position) : forest(forest), healthBar(this, 
 }
 
 void Enemy::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
+	if(this->isDestroyed())
+		return;
+
 	sf::Vector2<int> rawMousePos = sf::Mouse::getPosition(forest.getScreen().getWindow());
 	sf::Vector2f worldMousePos = forest.getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
 
@@ -65,12 +68,21 @@ void Enemy::draw(sf::RenderTarget& target, const sf::RenderStates& states) const
 
 	float flip = facingRight > 0 ? 1.0f : -1.0f;
 
-	if(!this->isDestroyed() && (worldMousePos.x - sprite.getPosition().x) * (worldMousePos.x - sprite.getPosition().x) +
+	if(this->forest.getScreen().getEntityClickSelection().getSelectedEntity() == this)
+	{
+		whiteSprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
+		whiteSprite.setOrigin({0.5f * whiteSprite.getTexture()->getSize().x, 0.5f * whiteSprite.getTexture()->getSize().y});
+		whiteSprite.setScale({flip * getSize().x / sprite.getTexture()->getSize().x, getSize().y / sprite.getTexture()->getSize().y});
+		whiteSprite.setColor(sf::Color(255, 255, 255, 255));
+		target.draw(whiteSprite);
+	}
+	else if((worldMousePos.x - sprite.getPosition().x) * (worldMousePos.x - sprite.getPosition().x) +
 							   (worldMousePos.y - sprite.getPosition().y) * (worldMousePos.y - sprite.getPosition().y) < 6)
 	{
 		whiteSprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
-		whiteSprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
-		whiteSprite.setScale({flip * getSize().x * 2.5f / sprite.getTexture()->getSize().x, getSize().y * 2.5f / sprite.getTexture()->getSize().y});
+		whiteSprite.setOrigin({0.5f * whiteSprite.getTexture()->getSize().x, 0.5f * whiteSprite.getTexture()->getSize().y});
+		whiteSprite.setScale({flip * getSize().x * 2.0f / sprite.getTexture()->getSize().x, getSize().y * 2.0f / sprite.getTexture()->getSize().y});
+		whiteSprite.setColor(sf::Color(220, 220, 220, 255));
 		target.draw(whiteSprite);
 	}
 

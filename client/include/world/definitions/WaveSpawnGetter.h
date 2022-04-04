@@ -16,7 +16,7 @@ struct WaveSpawn {
 
 class WaveSpawnGetter {
     std::vector<WaveSpawn> waveSpawns =
-            {{.round=1, .LumberJacks=3},
+            {{.round=1, .LumberJacks=3, /*.ChainSawLumberJacks=1, .Bulldozer=1*/},
              {.round=2, .LumberJacks=10},
              {.round=3, .LumberJacks=5, .ChainSawLumberJacks=1},
              {.round=4, .LumberJacks=6, .ChainSawLumberJacks=3},

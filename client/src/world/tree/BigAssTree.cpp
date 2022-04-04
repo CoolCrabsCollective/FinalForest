@@ -32,8 +32,8 @@ void BigAssTree::draw(sf::RenderTarget &target, const sf::RenderStates &states) 
     if(this->forest.getScreen().getEntityClickSelection().getSelectedEntity() == this)
     {
         whiteTreeSprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
-        whiteTreeSprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
-        whiteTreeSprite.setScale({1.2f * getSize().x / sprite.getTexture()->getSize().x, 1.2f * getSize().y / sprite.getTexture()->getSize().y});
+        whiteTreeSprite.setOrigin({0.5f * whiteTreeSprite.getTexture()->getSize().x, 0.5f * whiteTreeSprite.getTexture()->getSize().y});
+        whiteTreeSprite.setScale({getSize().x / sprite.getTexture()->getSize().x, getSize().y / sprite.getTexture()->getSize().y});
         whiteTreeSprite.setColor(sf::Color(255, 255, 255, 255));
         target.draw(whiteTreeSprite);
     }
@@ -41,12 +41,11 @@ void BigAssTree::draw(sf::RenderTarget &target, const sf::RenderStates &states) 
               (clickV.y - this->getPosition().y)*(clickV.y - this->getPosition().y)) < 61)
     {
         whiteTreeSprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
-        whiteTreeSprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
-        whiteTreeSprite.setScale({1.2f * getSize().x / sprite.getTexture()->getSize().x, 1.2f * getSize().y / sprite.getTexture()->getSize().y});
-        whiteTreeSprite.setColor(sf::Color(255, 255, 255, 100));
+        whiteTreeSprite.setOrigin({0.5f * whiteTreeSprite.getTexture()->getSize().x, 0.5f * whiteTreeSprite.getTexture()->getSize().y});
+        whiteTreeSprite.setScale({getSize().x / sprite.getTexture()->getSize().x, getSize().y / sprite.getTexture()->getSize().y});
+        whiteTreeSprite.setColor(sf::Color(220, 220, 220, 255));
         target.draw(whiteTreeSprite);
     }
-
 
     sprite.setColor(sf::Color(255, 255, 255, 255));
     sprite.setScale({getSize().x / sprite.getTexture()->getSize().x, getSize().y / sprite.getTexture()->getSize().y});

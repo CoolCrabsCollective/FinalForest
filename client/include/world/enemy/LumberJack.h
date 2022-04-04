@@ -14,6 +14,7 @@
 #include "world/anime/AnimeAttack.h"
 #include "SFML/Graphics/Sprite.hpp"
 #include "Enemy.h"
+#include "SFML/Audio/Sound.hpp"
 
 #define MIN_DISTANCE_FOR_CONTACT 2.5f
 
@@ -21,12 +22,15 @@ class EnemyState;
 class Enemy;
 
 class LumberJack : public Enemy {
+	sf::Sound sound1, sound2, sound3;
 public:
 	LumberJack(Forest& forest, b2Vec2 position);
 
 	b2Vec2 getSize() const override;
 
     void tick(float delta) override;
+
+	void attack(Damageable* target) override;
 };
 
 

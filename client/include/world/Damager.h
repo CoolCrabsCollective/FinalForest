@@ -32,7 +32,7 @@ public:
 
     void setMsSinceLastAttack(float msSinceLastAttack);
 
-    void attack(Damageable* target);
+    virtual void attack(Damageable* target);
 };
 
 #endif //LD50_CLIENT_DAMAGER_H

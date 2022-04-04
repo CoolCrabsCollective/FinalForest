@@ -6,6 +6,7 @@
 
 #include <utility>
 #include "ForestScreen.h"
+#include "ForestScreen.h"
 
 Button::Button(sf::IntRect rectangle, Forest& forest, std::function<void(Button*)> onClick) : forest(forest), onClick(std::move(onClick)){
     rectangleShape.setSize(sf::Vector2f(rectangle.getSize().x, rectangle.getSize().y));
@@ -59,5 +60,6 @@ void Button::tick(float delta) {
 }
 
 void Button::click() {
+	forest.getScreen().getClick().play();
     onClick(this);
 }
