@@ -88,10 +88,10 @@ void Tree::tick(float delta) {
     if(timeLeftForNut >= 0) {
         timeLeftForNut -= delta / 1000.f;
     } else if(getSquirrelCount() > 0) {
-        if(getForest().getEnemies().size() > 1) {
+        if(getForest().getEnemies().size() > 0) {
             Enemy* closestEnemy = getForest().getEnemies()[0];
             float closestDistance = b2DistanceSquared(getPosition(), closestEnemy->getPosition());
-            for(int i = 1; i < getForest().getEnemies().size() - 1; i++) { // There is an Enemy* in the last elem for some reason lol
+            for(int i = 1; i < getForest().getEnemies().size(); i++) { // There is an Enemy* in the last elem for some reason lol
                 Enemy* enemy = getForest().getEnemies()[i];
                 if (!enemy->isDestroyed()) {
                     float dis = b2DistanceSquared(getPosition(), enemy->getPosition());
@@ -102,7 +102,7 @@ void Tree::tick(float delta) {
                 }
             }
 
-            if(closestDistance < 180 && forest.nutCount > 0) {
+            if(closestDistance < 20*20 && forest.nutCount > 0) {
                 forest.nutCount--;
                 getForest().shootNut(new NutShot(getForest(), {getPosition().x, getPosition().y}, closestEnemy));
                 this->timeLeftForNut = TIME_FOR_NUTSHOT / this->getSquirrelCount();
