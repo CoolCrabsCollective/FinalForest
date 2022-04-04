@@ -178,10 +178,6 @@ void Forest::tick(float delta) {
 
 	for(Entity* trash : toDelete)
     {
-        if (trash->numberOfTicksAfterDeletion < 1) {
-            trash->numberOfTicksAfterDeletion++;
-            continue;
-        }
 	    std::vector<Entity*>::iterator entity_it = std::find(objects.begin(), objects.end(), trash);
 	    objects.erase(entity_it);
 	    if(dynamic_cast<Enemy*>(*entity_it))
