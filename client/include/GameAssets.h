@@ -15,17 +15,22 @@
 #endif
 
 namespace GameAssets {
-	extern std::vector<const wiz::AssetBase*> ALL;
+	extern std::vector<const wiz::AssetBase*> ALL;;
 
 	ASSET(wiz::MusicAsset, NUTLIFE, ("music/nutlife.ogg"))
 
 	ASSET(wiz::SoundAsset, GAMEOVER, ("sfx/gameover.ogg"))
 	ASSET(wiz::SoundAsset, WAVE_CLEARED, ("sfx/wave_cleared.ogg"))
 	ASSET(wiz::SoundAsset, WAVE_START, ("sfx/wave_start.ogg"))
+	ASSET(wiz::SoundAsset, CLICK_SOUND, ("sfx/click.ogg"))
 
 	ASSET(wiz::SoundAsset, AXE_TREE1, ("sfx/axe_tree1.ogg"))
 	ASSET(wiz::SoundAsset, AXE_TREE2, ("sfx/axe_tree2.ogg"))
 	ASSET(wiz::SoundAsset, AXE_TREE3, ("sfx/axe_tree2.ogg"))
+
+	ASSET(wiz::SoundAsset, CHAINSAW_START, ("sfx/chainsaw_start.ogg"))
+	ASSET(wiz::SoundAsset, CHAINSAW_MID, ("sfx/chainsaw_mid.ogg"))
+	ASSET(wiz::SoundAsset, CHAINSAW_END, ("sfx/chainsaw_end.ogg"))
 
 	ASSET(wiz::FontAsset, DEFAULT_FONT, ("font/pixellari.ttf"))
 

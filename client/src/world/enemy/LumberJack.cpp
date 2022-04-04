@@ -21,8 +21,28 @@ LumberJack::LumberJack(Forest& forest, b2Vec2 position) : Enemy(forest, position
     whiteSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_LUMBERJACK));
 	debugSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_PIXEL));
 
+	sound1.setBuffer(*forest.getAssets().get(GameAssets::AXE_TREE1));
+	sound1.setVolume(100.0f);
+	sound2.setBuffer(*forest.getAssets().get(GameAssets::AXE_TREE2));
+	sound2.setVolume(100.0f);
+	sound3.setBuffer(*forest.getAssets().get(GameAssets::AXE_TREE3));
+	sound3.setVolume(100.0f);
+
     insertAttackFrame(forest.getAssets().get(GameAssets::LUMBERJACKAXE));
     insertAttackFrame(forest.getAssets().get(GameAssets::LUMBERJACKAXE_SWING));
+}
+
+void LumberJack::attack(Damageable* target) {
+	Damager::attack(target);
+
+	int sound = rand() % 3;
+
+	if(sound == 0)
+		sound1.play();
+	else if(sound == 1)
+		sound2.play();
+	else if(sound == 2)
+		sound3.play();
 }
 
 void LumberJack::tick(float delta) {
@@ -31,7 +51,6 @@ void LumberJack::tick(float delta) {
         this->getForest().sendToCompost(this);
         return;
     }
-
 
 	for(Entity* entity : getForest().getObjects()) {
 		Bear* bear = dynamic_cast<Bear*>(entity);

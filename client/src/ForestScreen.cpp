@@ -30,7 +30,7 @@ ForestScreen::ForestScreen(wiz::Game& game)
     enemyMenu->show(false);
 
 	music = getGame().getAssets().get(GameAssets::NUTLIFE);
-	music->setVolume(50.0f);
+	music->setVolume(20.0f);
 	music->setLoop(true);
 
 	gameoverSound.setBuffer(*getGame().getAssets().get(GameAssets::GAMEOVER));
@@ -39,6 +39,8 @@ ForestScreen::ForestScreen(wiz::Game& game)
 	waveStartSound.setVolume(100.0f);
 	waveClearedSound.setBuffer(*getGame().getAssets().get(GameAssets::WAVE_CLEARED));
 	waveClearedSound.setVolume(100.0f);
+	click.setBuffer(*getGame().getAssets().get(GameAssets::CLICK_SOUND));
+	click.setVolume(100.0f);
 }
 
 void ForestScreen::tick(float delta) {
@@ -63,6 +65,7 @@ void ForestScreen::tick(float delta) {
             forest.waveState.round++;
             forest.generateEnemyWave();
             wavePopUp.popUp("Wave " + std::to_string(forest.waveState.round), 2000);
+			waveStartSound.play();
             waitingForNextWave = false;
         } else {
             timeTillNextWave -= delta;
@@ -71,6 +74,7 @@ void ForestScreen::tick(float delta) {
         waitingForNextWave = true;
         timeTillNextWave = forest.waveState.secondsBetweenWaves * 1000;
         wavePopUp.popUp("Wave " + std::to_string(forest.waveState.round) + " completed!", 2000);
+		waveClearedSound.play();
     }
 
     // Game over detection.
@@ -105,8 +109,8 @@ void ForestScreen::render(sf::RenderTarget& target) {
     target.draw(nutSprite);
     target.draw(squirrelCountText);
     target.draw(squirrelSprite);
-    target.draw(manaText);
-    target.draw(manaSprite);
+    //target.draw(manaText);
+    //target.draw(manaSprite);
     target.draw(waveText);
     target.draw(*animalMenu);
     target.draw(*turretMenu);
@@ -183,6 +187,7 @@ void ForestScreen::show() {
 	music->play();
 
     wavePopUp.popUp("Wave " + std::to_string(forest.waveState.round), 2000);
+	//waveStartSound.play();
 }
 
 void ForestScreen::hide() {
@@ -296,4 +301,8 @@ EntityClickSelection &ForestScreen::getEntityClickSelection() {
 
 void ForestScreen::setEntityClickSelection(const EntityClickSelection &entityClickSelection) {
     ForestScreen::entityClickSelection = entityClickSelection;
+}
+
+sf::Sound& ForestScreen::getClick() {
+	return click;
 }

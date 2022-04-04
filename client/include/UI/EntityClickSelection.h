@@ -8,8 +8,7 @@
 #include "world/Forest.h"
 
 class EntityClickSelection {
-
-    Entity* selectedEntity;
+    Entity* selectedEntity = nullptr;
 public:
 
     EntityClickSelection();
