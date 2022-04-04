@@ -100,6 +100,7 @@ void Forest::spawnSquirrel() {
     Squirrel* squirrel = new Squirrel(*this, {50, 50});
     objects.push_back(squirrel);
     assignToNextAvailableTree(squirrel);
+    squirrelCount++;
 }
 
 void Forest::spawnWolf() {
@@ -175,10 +176,6 @@ void Forest::tick(float delta) {
 
 	for(Entity* trash : toDelete)
     {
-        if (trash->numberOfTicksAfterDeletion < 1) {
-            trash->numberOfTicksAfterDeletion++;
-            continue;
-        }
 	    std::vector<Entity*>::iterator entity_it = std::find(objects.begin(), objects.end(), trash);
 	    objects.erase(entity_it);
 	    if(dynamic_cast<Enemy*>(*entity_it))
@@ -466,5 +463,11 @@ const std::vector<Entity *> &Forest::getToDelete() const {
 
 const std::vector<Entity *> &Forest::getObjects() const {
     return objects;
+}
+
+void Forest::respawnSquirrel(Tree *tree) {
+    Squirrel* squirrel = new Squirrel(*this,  tree->getPosition());
+    objects.push_back(squirrel);
+    assignToNextAvailableTree(squirrel);
 }
 

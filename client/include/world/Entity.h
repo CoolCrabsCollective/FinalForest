@@ -13,8 +13,6 @@ public:
 	virtual ~Entity() = default;
 
 	virtual Forest& getForest() = 0;
-
-    int numberOfTicksAfterDeletion = 0;
 };
 
 

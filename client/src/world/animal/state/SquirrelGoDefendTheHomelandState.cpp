@@ -13,7 +13,7 @@ SquirrelGoDefendTheHomelandState::SquirrelGoDefendTheHomelandState(Squirrel* squ
 
 void SquirrelGoDefendTheHomelandState::tick(float delta) {
 
-    if(b2Distance(this->getSquirrel()->getPosition(), this->tree->getPosition()) < 3.f)
+    if(b2DistanceSquared(this->getSquirrel()->getPosition(), this->tree->getPosition()) < 9.f)
     {
         this->getForest().sendToCompost(getSquirrel());
         tree->addSquirrelTurret();

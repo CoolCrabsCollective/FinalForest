@@ -4,6 +4,7 @@
 
 #include <UI/AnimalMenu.h>
 #include <UI/TurretMenu.h>
+#include <UI/EnemyMenu.h>
 #include "ForestScreen.h"
 #include "Box2D/Dynamics/b2Body.h"
 #include "Box2D/Collision/Shapes/b2PolygonShape.h"
@@ -14,17 +15,18 @@
 ForestScreen::ForestScreen(wiz::Game& game)
 		: Screen(game), forest(*this, game.getAssets()), animalMenu(new AnimalMenu(
                                                                              game.getAssets(), forest)),
-                                                            turretMenu(new TurretMenu(game.getAssets(), forest)){
+                                                            turretMenu(new TurretMenu(game.getAssets(), forest)),
+                                                                       enemyMenu(new EnemyMenu(game.getAssets(), forest)){
     animalMenu->show(true);
     turretMenu->show(false);
-    //enemyMenu->show(false);
+    enemyMenu->show(false);
 }
 
 void ForestScreen::tick(float delta) {
 	forest.tick(delta);
 	animalMenu->tick(delta);
 	turretMenu->tick(delta);
-//    enemyMenu->tick(delta);
+    enemyMenu->tick(delta);
     updateSquirrelCount();
     updateNutCount();
     updateMana();
@@ -44,6 +46,7 @@ void ForestScreen::render(sf::RenderTarget& target) {
     target.draw(manaSprite);
     target.draw(*animalMenu);
     target.draw(*turretMenu);
+    target.draw(*enemyMenu);
 
 	if(debug) {
 		fpsText.setString("FPS: " + std::to_string(fps));
@@ -160,7 +163,7 @@ void ForestScreen::clickActiveMenu(sf::Vector2f clickVector) {
             turretMenu->click(clickVector);
             break;
         case ENEMY_MENU:
-            //enemyMenu->click(clickVector);
+            enemyMenu->click(clickVector);
             break;
     }
 }
@@ -171,17 +174,17 @@ void ForestScreen::setMenu(MenuType menuType) {
         case ANIMAL_MENU:
             animalMenu->show(true);
             turretMenu->show(false);
-            //enemyMenu->show(false);
+            enemyMenu->show(false);
             break;
         case TURRET_MENU:
             animalMenu->show(false);
             turretMenu->show(true);
-            //enemyMenu->show(false);
+            enemyMenu->show(false);
             break;
         case ENEMY_MENU:
             animalMenu->show(false);
             turretMenu->show(false);
-            //enemyMenu->show(true);
+            enemyMenu->show(true);
             break;
     }
 }
@@ -190,6 +193,14 @@ Tree *ForestScreen::getSelectedTree() const {
     return selectedTree;
 }
 
+Enemy *ForestScreen::getSelectedEnemy() const {
+    return selectedEnemy;
+}
+
 void ForestScreen::setSelectedTree(Tree *selectedTree) {
     ForestScreen::selectedTree = selectedTree;
+}
+
+void ForestScreen::setSelectedEnemy(Enemy *selectedEnemy) {
+    ForestScreen::selectedEnemy = selectedEnemy;
 }
