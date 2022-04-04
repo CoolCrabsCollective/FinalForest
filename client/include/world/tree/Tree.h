@@ -22,6 +22,9 @@ protected:
     mutable sf::Sprite sprite;
     mutable sf::Sprite whiteTreeSprite;
 
+    sf::Texture normalTreeTexture;
+    sf::Texture turretTreeTexture;
+
     sf::Text labelSquirrelCount;
 
 	b2Body* body;
