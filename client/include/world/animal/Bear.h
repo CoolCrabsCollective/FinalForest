@@ -13,6 +13,9 @@ public:
 	Bear(Forest& forest, b2Vec2 position);
 
 	b2Vec2 getSize() const override;
+
+protected:
+	void noEnemyLeft() override;
 };
 
 

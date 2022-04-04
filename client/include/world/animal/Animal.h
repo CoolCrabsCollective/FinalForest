@@ -52,6 +52,9 @@ public:
 	virtual void setState(std::shared_ptr<AnimalState> state);
 
 	void targetNearestEnemy();
+
+protected:
+	virtual void noEnemyLeft();
 };
 
 

@@ -21,3 +21,7 @@ Wolf::Wolf(Forest& forest, b2Vec2 position)
 b2Vec2 Wolf::getSize() const {
 	return b2Vec2(2.0f, 2.0f);
 }
+
+void Wolf::noEnemyLeft() {
+	setState(std::make_shared<AnimalPatrolState>(this));
+}

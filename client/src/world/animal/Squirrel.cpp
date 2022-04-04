@@ -7,7 +7,7 @@
 #include <memory>
 #include "world/animal/state/SquirrelGatherState.h"
 #include "world/animal/state/SquirrelReturnGatherState.h"
-#include "world/animal/state/AnimalGoAttackState.h"
+#include "world/animal/state/AnimalAttackState.h"
 #include "world/animal/Squirrel.h"
 #include "world/Forest.h"
 #include "GameAssets.h"
@@ -39,12 +39,16 @@ void Squirrel::draw(sf::RenderTarget& target, const sf::RenderStates& states) co
 		sprite.setTexture(*squirrelIdle);
 	else if(dynamic_pointer_cast<SquirrelReturnGatherState>(state).get())
 		sprite.setTexture(*squirrelNut);
-	else if(dynamic_pointer_cast<AnimalGoAttackState>(state).get() ||
+	else if(dynamic_pointer_cast<AnimalAttackState>(state).get() ||
 			dynamic_pointer_cast<AnimalAttackState>(state).get())
 		sprite.setTexture(*squirrelAttack);
 	else
 		sprite.setTexture(*squirrelWalk);
 
 	Animal::draw(target, states);
+}
+
+void Squirrel::noEnemyLeft() {
+	getForest().assignToNextAvailableTree(this);
 }
 

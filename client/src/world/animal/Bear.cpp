@@ -20,3 +20,7 @@ Bear::Bear(Forest& forest, b2Vec2 position)
 b2Vec2 Bear::getSize() const {
 	return b2Vec2(3.0f, 3.0f);
 }
+
+void Bear::noEnemyLeft() {
+	setState(std::make_shared<AnimalPatrolState>(this));
+}

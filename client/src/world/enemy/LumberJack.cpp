@@ -13,6 +13,7 @@
 #include "ForestScreen.h"
 #include "world/pathfinding/ForestPathFinder.h"
 #include "world/enemy/state/LumberJackLeaveState.h"
+#include "world/animal/Bear.h"
 
 LumberJack::LumberJack(Forest& forest, b2Vec2 position) : forest(forest) {
     sprite.setTexture(*forest.getAssets().get(GameAssets::LUMBERJACKAXE));
@@ -144,11 +145,23 @@ void LumberJack::tick(float delta) {
         return;
     }
 
-    if(target->isDestroyed()) {
-        this->state = std::make_shared<LumberJackIdleState>(&this->forest, this);
-        targetNearestTree();
-        resetAnimationState();
-    }
+	if(target->isDestroyed()) {
+		this->state = std::make_shared<LumberJackIdleState>(&this->forest, this);
+		targetNearestTree();
+		resetAnimationState();
+	}
+
+	for(Entity* entity : getForest().getObjects()) {
+		Bear* bear = dynamic_cast<Bear*>(entity);
+
+		if(bear) {
+			if(b2DistanceSquared(bear->getPosition(), getPosition()) < 5.0f * 5.0f) {
+				this->state = std::make_shared<LumberJackLeaveState>(&this->forest, this);
+				this->speed = 15.0f;
+				break;
+			}
+		}
+	}
 
     this->state->tick(delta);
 

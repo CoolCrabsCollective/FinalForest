@@ -9,7 +9,9 @@
 #include "Dynamics/b2Fixture.h"
 #include "Box2D/Collision/Shapes/b2CircleShape.h"
 #include "world/Physical.h"
-#include "world/animal/state/AnimalGoAttackState.h"
+#include "world/animal/state/AnimalAttackState.h"
+#include "world/enemy/state/LumberJackLeaveState.h"
+#include "world/animal/state/AnimalIdleState.h"
 
 
 Animal::Animal(Forest& forest, b2Vec2 position)
@@ -184,8 +186,10 @@ void Animal::setState(std::shared_ptr<AnimalState> state) {
 }
 
 void Animal::targetNearestEnemy() {
-	if (forest.getEnemies().size() <= 1)
+	if(forest.getEnemies().size() <= 1){
+		noEnemyLeft();
 		return;
+	}
 
 	std::vector enemies(forest.getEnemies());
 
@@ -198,9 +202,21 @@ void Animal::targetNearestEnemy() {
 	}
 
 	for (Enemy* enemy : enemies) {
+		if(LumberJack* jack = dynamic_cast<LumberJack*>(enemy)) {
+			if(std::dynamic_pointer_cast<LumberJackLeaveState>(jack->getState())) {
+				continue;
+			}
+		}
+
 		if (!enemy->isDestroyed()) {
-			this->state = std::make_shared<AnimalGoAttackState>(this, enemy);
-			break;
+			this->state = std::make_shared<AnimalAttackState>(this, enemy);
+			return;
 		}
 	}
+
+	noEnemyLeft();
+}
+
+void Animal::noEnemyLeft() {
+	this->state = std::make_shared<AnimalIdleState>(this);
 }
