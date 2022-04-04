@@ -56,6 +56,9 @@ void ForestScreen::render(sf::RenderTarget& target) {
     target.draw(*turretMenu);
     target.draw(*enemyMenu);
 
+    if (gameOver)
+        target.draw(gameOverText);
+
 	if(debug) {
 		fpsText.setString("FPS: " + std::to_string(fps));
 		target.draw(fpsText);
@@ -98,6 +101,11 @@ void ForestScreen::show() {
 	mouseCoordText.setPosition(sf::Vector2f(50, 850));
 	mouseCoordText.setCharacterSize(20);
 	mouseCoordText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+
+    gameOverText.setString("Game Over");
+    gameOverText.setPosition(sf::Vector2f(800, 450));
+    gameOverText.setCharacterSize(50);
+    gameOverText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
 
 	getGame().addWindowListener(this);
 

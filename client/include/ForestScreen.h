@@ -32,6 +32,8 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
 	sf::Text fpsText;
 	sf::Text mouseCoordText;
 
+    sf::Text gameOverText;
+
 	Forest forest;
     Menu* animalMenu;
     Menu* turretMenu;
