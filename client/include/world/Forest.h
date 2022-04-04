@@ -59,6 +59,9 @@ public:
     b2World world;
 
     std::vector<Entity*> objects;
+
+    const std::vector<Entity *> &getObjects() const;
+
     mutable std::vector<Renderable*> renderables;
     std::vector<Tree*> trees;
     std::vector<Tree*> aliveTrees;

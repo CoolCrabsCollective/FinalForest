@@ -13,10 +13,12 @@
 #include "SFML/Graphics/RectangleShape.hpp"
 
 class Button : public sf::Drawable, public Tickable  {
-    std::function<void(Button*)> onClick;
+
 
 protected:
     sf::RectangleShape rectangleShape;
+
+    std::function<void(Button*)> onClick;
 
     constexpr static const sf::Color unavailableColor = sf::Color(255, 255, 255, 100);
     constexpr static const sf::Color availableColor = sf::Color(255, 255, 255, 255);
@@ -26,12 +28,13 @@ protected:
 
 public:
     Forest& forest;
-
     Button(sf::IntRect rectangle, Forest& forest, std::function<void(Button*)> onClick);
 
-    void draw(sf::RenderTarget& target, const sf::RenderStates& states) const override;
+    virtual void draw(sf::RenderTarget& target, const sf::RenderStates& states) const override;
 
     void checkClick(sf::Vector2f clickVector);
+
+    void tick(float delta);
 };
 
 

@@ -10,7 +10,7 @@
 #include "world/Forest.h"
 #include "ForestScreen.h"
 
-Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
+Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest), healthBar(this, this, forest.assetLoader) {
 
 	sprite.setTexture(*forest.getAssets().get(GameAssets::TREE));
 	whiteTreeSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_TREE));
@@ -65,12 +65,13 @@ void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const 
 
 	if(!squirrels.empty())
     {
-
         sf::View windowView = sf::View(sf::Vector2f(forest.getScreen().getWindow().getSize().x / 2.f, forest.getScreen().getWindow().getSize().y / 2.f), sf::Vector2f (forest.getScreen().getWindow().getSize()));
         target.setView(windowView);
         target.draw(labelSquirrelCount);
         target.setView(sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
     }
+
+    target.draw(healthBar);
 }
 
 
@@ -106,8 +107,9 @@ void Tree::tick(float delta) {
                 }
             }
 
-            if(closestDistance < 80)
+            if(closestDistance < 80 && forest.nutCount > 0)
             {
+                forest.nutCount--;
                 getForest().shootNut(new NutShot(getForest(), {getPosition().x, getPosition().y}, closestEnemy));
                 this->timeLeftForNut = TIME_FOR_NUTSHOT;
             }
@@ -119,6 +121,7 @@ void Tree::tick(float delta) {
     if(!this->isDestroyed() && sf::Mouse::isButtonPressed(sf::Mouse::Left) && (worldMousePos.x - sprite.getPosition().x)*(worldMousePos.x - sprite.getPosition().x) +
                                (worldMousePos.y - sprite.getPosition().y)*(worldMousePos.y - sprite.getPosition().y) < 61)
     {
+        getForest().getScreen().setSelectedTree(this);
         getForest().getScreen().setMenu(TURRET_MENU);
     }
 }

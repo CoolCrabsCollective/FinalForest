@@ -36,11 +36,19 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
 	Forest forest;
     Menu* animalMenu;
     Menu* turretMenu;
+    Menu* enemyMenu;
+    MenuType activeMenu = ANIMAL_MENU;
+    Tree* selectedTree;
 
     bool debug = false;
 	float fps = 0.0f;
+
 public:
 	ForestScreen(wiz::Game& game);
+
+    Tree *getSelectedTree() const;
+
+    void setSelectedTree(Tree *selectedTree);
 
 	void tick(float delta) override;
 
@@ -69,6 +77,8 @@ public:
 	void mouseButtonReleased(const sf::Event::MouseButtonEvent &mouseButtonEvent) override;
 
     void touchBegan(const sf::Event::TouchEvent& touchEvent) override;
+
+    void clickActiveMenu(sf::Vector2f clickVector);
 
     void setMenu(MenuType menuType);
 };

@@ -19,6 +19,12 @@ void AnimalAttackState::tick(float delta) {
 
     Animal* animal = getAnimal();
 
-    animal->attack(target);
+	animal->setMsSinceLastAttack(animal->getMsSinceLastAttack() + delta);
+
+	if(animal->getMsSinceLastAttack() >= animal->getMsAttackInterval()) {
+		animal->attack(target);
+		animal->setMsSinceLastAttack(0.0f);
+	}
+
     animal->getBody()->SetLinearVelocity(*(new b2Vec2(0.0, 0.0)));
 }

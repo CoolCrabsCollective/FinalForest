@@ -14,6 +14,7 @@
 #include "world/Obstacle.h"
 #include "world/Renderable.h"
 #include "world/Damageable.h"
+#include "world/HealthBar.h"
 
 #define TIME_FOR_NUTSHOT 2.f
 class Tree : public Renderable, public Obstacle, public Damageable, public Tickable {
@@ -28,6 +29,8 @@ protected:
 	std::vector<Squirrel*> squirrels;
 	float timeLeftForNut;
 	b2Fixture* fixture;
+
+    HealthBar healthBar;
 
 public:
     Tree(Forest& forest, b2Vec2 position);
