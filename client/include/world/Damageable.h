@@ -7,7 +7,8 @@
 
 #include "SFML/Graphics.hpp"
 #include "Physical.h"
-#include "Damager.h"
+
+class Damager;
 
 class Damageable : virtual public Physical {
 private:

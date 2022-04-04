@@ -87,4 +87,5 @@ int PurchaseButton::calculateCurrencyCount() {
         return forest.nutCount;
     else if (currency == Mana)
         return forest.mana;
+	throw std::runtime_error("Unknown currency");
 }

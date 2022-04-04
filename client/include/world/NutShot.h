@@ -14,7 +14,7 @@
 #include "world/enemy/Enemy.h"
 #include "Forest.h"
 
-class NutShot : public Renderable, public Tickable, public Damager, public Entity{
+class NutShot : virtual public Renderable, virtual public Tickable, virtual public Damager {
 public:
     NutShot(Forest& forest, sf::Vector2f pos, Enemy* target);
     void tick(float delta) override;

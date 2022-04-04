@@ -3,6 +3,7 @@
 //
 
 #include "world/Damager.h"
+#include "world/Damageable.h"
 
 Damager::Damager() {}
 

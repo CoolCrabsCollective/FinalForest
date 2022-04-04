@@ -60,7 +60,7 @@ public:
 
     void tick(float delta) override;
 
-	void damage(Damager attack) override;
+	void damage(Damager* attacker) override;
 
     const sf::Sprite &getSprite() const;
 };
