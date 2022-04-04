@@ -12,7 +12,7 @@
 #include "world/Forest.h"
 
 Enemy::Enemy(Forest& forest, b2Vec2 position) : forest(forest), healthBar(this, this, forest.assetLoader) {
-	setPower(0.5);
+	setPower(500);
 	setMsAttackInterval(2000);
 	setStateSprite(&sprite);
 

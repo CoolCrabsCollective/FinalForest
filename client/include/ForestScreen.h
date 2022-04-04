@@ -29,9 +29,10 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
     sf::Texture* manaTexture;
     sf::Sprite manaSprite;
 
-
 	sf::Text fpsText;
 	sf::Text mouseCoordText;
+
+    sf::Text gameOverText;
 
 	Forest forest;
     Menu* animalMenu;
@@ -43,6 +44,7 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
 
     bool debug = false;
 	float fps = 0.0f;
+    bool gameOver = false;
 
 public:
 	ForestScreen(wiz::Game& game);

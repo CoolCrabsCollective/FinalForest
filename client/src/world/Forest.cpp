@@ -226,7 +226,7 @@ void Forest::generateEnemyWave() {
     Enemy* newEnemy;
     int enemyMagicNum;
     for (int i = 0; i < numOfEnemies; i++) {
-        enemyMagicNum = rand() % (int) ceil(waveState.difficulty);
+        enemyMagicNum = rand() % 3;
 
         spawnRadius = rand() % 150 + 80;
 
@@ -237,7 +237,7 @@ void Forest::generateEnemyWave() {
 
 		newEnemy = new Bulldozer(*this, b2Vec2(newXPos, newYPos));
 
-        //if (numOfChainSaw<maxNumOfChainSaw && enemyMagicNum>=5) {
+        //if (numOfChainSaw<maxNumOfChainSaw && enemyMagicNum==2) {
         //    newEnemy = new LumberJackChainsaw(*this, b2Vec2(newXPos, newYPos));
         //    numOfChainSaw++;
         //} else {
