@@ -6,7 +6,7 @@
 #define LD50_CLIENT_SQUIRREL_H
 
 
-#include "world/state/SquirrelState.h"
+#include "world/animal/state/AnimalState.h"
 #include "SFML/Graphics/Texture.hpp"
 #include "SFML/Graphics/Drawable.hpp"
 #include "SFML/Graphics/Sprite.hpp"
@@ -17,27 +17,19 @@
 #include "Animal.h"
 #include "world/enemy/Enemy.h"
 
-class SquirrelState;
+class AnimalState;
 
 class Squirrel : public Animal {
 	sf::Texture* squirrelWalk;
 	sf::Texture* squirrelIdle;
 	sf::Texture* squirrelNut;
     sf::Texture* squirrelAttack;
-
-	std::shared_ptr<SquirrelState> state;
 public:
 	Squirrel(Forest& forest, b2Vec2 position);
 
 	b2Vec2 getSize() const override;
 
     void tick(float delta) override;
-
-	std::shared_ptr<SquirrelState> getState() const;
-
-	void setState(std::shared_ptr<SquirrelState> state);
-
-    void targetNearestEnemy();
 };
 
 

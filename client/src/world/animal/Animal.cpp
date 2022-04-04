@@ -9,6 +9,7 @@
 #include "Dynamics/b2Fixture.h"
 #include "Box2D/Collision/Shapes/b2CircleShape.h"
 #include "world/Physical.h"
+#include "world/animal/state/AnimalGoAttackState.h"
 
 
 Animal::Animal(Forest& forest, b2Vec2 position)
@@ -159,15 +160,45 @@ void Animal::draw(sf::RenderTarget& target, const sf::RenderStates& states) cons
 	target.draw(debugSprite);
 }
 
-const b2Vec2 &Animal::getDestination() const {
+b2Vec2 Animal::getDestination() const {
 	return destination;
 }
 
-void Animal::setDestination(const b2Vec2 &destination) {
+void Animal::setDestination(b2Vec2 destination) {
 	Animal::destination = destination;
 	destinationChanged = true;
 }
 
 b2Vec2 Animal::getSize() const {
 	return b2Vec2(2.0f, 2.0f);
+}
+
+std::shared_ptr<AnimalState> Animal::getState() const {
+	return state;
+}
+
+void Animal::setState(std::shared_ptr<AnimalState> state) {
+	this->state = state;
+}
+
+void Animal::targetNearestEnemy() {
+	if (forest.getEnemies().size() <= 1)
+		return;
+
+	std::vector enemies(forest.getEnemies());
+
+	if (enemies.size() > 2) {
+		std::sort(enemies.begin(), enemies.end() - 1, [this](Enemy* a, Enemy* b){
+			float a_dis = b2DistanceSquared(a->getPosition(), body->GetPosition());
+			float b_dis = b2DistanceSquared(b->getPosition(), body->GetPosition());
+			return a_dis < b_dis;
+		});
+	}
+
+	for (Enemy* enemy : enemies) {
+		if (!enemy->isDestroyed()) {
+			this->state = std::make_shared<AnimalGoAttackState>(this, enemy);
+			break;
+		}
+	}
 }
