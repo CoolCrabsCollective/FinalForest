@@ -7,8 +7,14 @@
 
 #include "UI/Menu.h"
 class TurretMenu  : public Menu {
+
+private:
+    sf::Sprite turretMenu;
+
 public:
     TurretMenu(const wiz::AssetLoader &assetLoader, Forest &forest);
+
+    void draw(sf::RenderTarget &target, const sf::RenderStates &states) const override;
 };
 
 

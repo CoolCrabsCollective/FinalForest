@@ -18,6 +18,12 @@
 #include "ForestScreen.h"
 
 TurretMenu::TurretMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu(assetLoader, forest) {
+
+    turretMenu.setTexture(*assetLoader.get(GameAssets::TURRET_MENU));
+    turretMenu.setPosition({25, 20});
+    turretMenu.setColor(sf::Color::White);
+    turretMenu.setScale({4.f, 4.f});
+
     buttons.push_back(
     new WordsButton(
         sf::IntRect({50, 50}, {200, 100}),
@@ -85,4 +91,10 @@ TurretMenu::TurretMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Me
             },
             "Unassign Squirrel Archer"
     ));
+}
+
+void TurretMenu::draw(sf::RenderTarget &target, const sf::RenderStates &states) const {
+    if(!hidden)
+        target.draw(turretMenu);
+    Menu::draw(target, states);
 }

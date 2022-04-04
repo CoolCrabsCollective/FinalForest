@@ -12,7 +12,12 @@
 #include "world/animal/Bear.h"
 
 EnemyMenu::EnemyMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu(assetLoader, forest) {
-    // Squirrel Button
+
+    enemyMenu.setTexture(*assetLoader.get(GameAssets::ENEMY_MENU));
+    enemyMenu.setPosition({25, 20});
+    enemyMenu.setColor(sf::Color::White);
+    enemyMenu.setScale({4.f, 4.f});
+
     buttons.push_back(new WordsButton(sf::IntRect({50, 50}, {200, 100}),
                                       forest,
                                       [&](Button* button) {
@@ -129,4 +134,10 @@ EnemyMenu::EnemyMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu
                                       },
                                       "Bear Attack"
     ));
+}
+
+void EnemyMenu::draw(sf::RenderTarget &target, const sf::RenderStates &states) const {
+    if(!hidden)
+        target.draw(enemyMenu);
+    Menu::draw(target, states);
 }
