@@ -44,12 +44,14 @@ void LumberJack::attack(Damageable* target) {
 
 	int sound = rand() % 3;
 
-	if(sound == 0)
-		sound1.play();
-	else if(sound == 1)
-		sound2.play();
-	else if(sound == 2)
-		sound3.play();
+	if(dynamic_cast<Tree*>(target)) {
+		if(sound == 0)
+			sound1.play();
+		else if(sound == 1)
+			sound2.play();
+		else if(sound == 2)
+			sound3.play();
+	}
 }
 
 void LumberJack::tick(float delta) {
