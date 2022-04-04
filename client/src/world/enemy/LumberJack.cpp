@@ -16,6 +16,7 @@
 
 LumberJack::LumberJack(Forest& forest, b2Vec2 position) : forest(forest), healthBar(this, this, forest.assetLoader) {
     sprite.setTexture(*forest.getAssets().get(GameAssets::LUMBERJACKAXE));
+    whiteSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_LUMBERJACK));
 	debugSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_PIXEL));
 
     setPower(1.0);
@@ -63,35 +64,25 @@ LumberJack::LumberJack(Forest& forest, b2Vec2 position) : forest(forest), health
 }
 
 void LumberJack::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
-	sprite.setPosition({getPosition().x, 100.0f - getPosition().y});
-	sprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
-
-	float flip = facingRight > 0 ? 1.0f : -1.0f;
-
-	sprite.setScale({flip * getSize().x * 2.f / sprite.getTexture()->getSize().x,
-					 getSize().y * 2.f / sprite.getTexture()->getSize().y});
-
-    // Highlight lumberjack
-    sf::Vector2i rawMousePos = sf::Mouse::getPosition(forest.getScreen().getWindow());
-    sf::Vector2f worldMousePos = forest.getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {213.33f, 120.0f}));
+    sf::Vector2<int> rawMousePos = sf::Mouse::getPosition(forest.getScreen().getWindow());
+    sf::Vector2f worldMousePos = forest.getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
 
     sprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
     sprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
-//    sprite.setScale({getSize().x / sprite.getTexture()->getSize().x, getSize().y / sprite.getTexture()->getSize().y});
-    if((worldMousePos.x - sprite.getPosition().x)*(worldMousePos.x - sprite.getPosition().x) +
-       (worldMousePos.y - sprite.getPosition().y)*(worldMousePos.y - sprite.getPosition().y) < 6)
-    {
-        sprite.setColor(sf::Color(250, 253, 15, 127));
 
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-
-        }
-    }
-    else
+    if(!this->isDestroyed() && (worldMousePos.x - sprite.getPosition().x)*(worldMousePos.x - sprite.getPosition().x) +
+                               (worldMousePos.y - sprite.getPosition().y)*(worldMousePos.y - sprite.getPosition().y) < 6)
     {
-        sprite.setColor(sf::Color(255, 255, 255, 255));
+        whiteSprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
+        whiteSprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
+        whiteSprite.setScale({1.2f * getSize().x / sprite.getTexture()->getSize().x, 1.2f * getSize().y / sprite.getTexture()->getSize().y});
+        target.draw(whiteSprite);
     }
 
+    sprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
+    float flip = facingRight > 0 ? 1.0f : -1.0f;
+    sprite.setScale({flip * getSize().x * 2.f / sprite.getTexture()->getSize().x,
+                     getSize().y * 2.f / sprite.getTexture()->getSize().y});
     target.draw(sprite);
 
     target.draw(healthBar);
@@ -196,6 +187,15 @@ void LumberJack::tick(float delta) {
 		direction.Normalize();
 
 	body->SetLinearVelocity(speed * direction);
+
+    sf::Vector2<int> rawMousePos = sf::Mouse::getPosition(getForest().getScreen().getWindow());
+    sf::Vector2f worldMousePos = getForest().getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
+    if(!this->isDestroyed() && sf::Mouse::isButtonPressed(sf::Mouse::Left) && (worldMousePos.x - sprite.getPosition().x)*(worldMousePos.x - sprite.getPosition().x) +
+                                                                              (worldMousePos.y - sprite.getPosition().y)*(worldMousePos.y - sprite.getPosition().y) < 61)
+    {
+        getForest().getScreen().setSelectedEnemy(this);
+        getForest().getScreen().setMenu(ENEMY_MENU);
+    }
 }
 
 b2Body* LumberJack::getBody() const {
