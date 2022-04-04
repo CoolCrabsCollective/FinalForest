@@ -23,7 +23,9 @@ TurretMenu::TurretMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Me
         sf::IntRect({50, 50}, {200, 100}),
         forest,
         [&](Button* button) {
-            Tree* tree = forest.getScreen().getSelectedTree();
+            if (!dynamic_cast<Tree*>(forest.getScreen().getEntityClickSelection().getSelectedEntity()))
+                return;
+            Tree* tree = dynamic_cast<Tree*>(forest.getScreen().getEntityClickSelection().getSelectedEntity());
             if(tree != nullptr)
             {
                 Squirrel* closestSquirrel = nullptr;
@@ -40,7 +42,6 @@ TurretMenu::TurretMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Me
                         }
                         else
                         {
-
                             if(dynamic_pointer_cast<AnimalIdleState>(closestSquirrel->getState()).get()
                                || dynamic_pointer_cast<SquirrelGatherState>(closestSquirrel->getState()).get()
                                || dynamic_pointer_cast<SquirrelGoGatherState>(closestSquirrel->getState()).get())
@@ -70,7 +71,9 @@ TurretMenu::TurretMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Me
             sf::IntRect({50, 200}, {200, 100}),
             forest,
             [&](Button* button) {
-                Tree* tree = forest.getScreen().getSelectedTree();
+                if (!dynamic_cast<Tree*>(forest.getScreen().getEntityClickSelection().getSelectedEntity()))
+                    return;
+                Tree* tree = dynamic_cast<Tree*>(forest.getScreen().getEntityClickSelection().getSelectedEntity());
                 if(tree != nullptr)
                 {
                     if(tree->getSquirrelCount() > 0)

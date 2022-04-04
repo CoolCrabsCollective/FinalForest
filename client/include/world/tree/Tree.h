@@ -61,6 +61,8 @@ public:
     void tick(float delta) override;
 
 	void damage(float attack) override;
+
+    const sf::Sprite &getSprite() const;
 };
 
 

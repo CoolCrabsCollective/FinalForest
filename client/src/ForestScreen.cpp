@@ -191,6 +191,9 @@ void ForestScreen::mouseButtonReleased(const sf::Event::MouseButtonEvent &mouseB
     clickActiveMenu(clickVector);
     if (gameOver)
         resetButton->checkClick(clickVector);
+
+    clickVector = getWindow().mapPixelToCoords(sf::Vector2i(mouseButtonEvent.x, mouseButtonEvent.y), sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
+    entityClickSelection.clickScan(clickVector, forest);
 }
 
 void ForestScreen::touchBegan(const sf::Event::TouchEvent &touchScreenEvent) {
@@ -198,6 +201,9 @@ void ForestScreen::touchBegan(const sf::Event::TouchEvent &touchScreenEvent) {
     clickActiveMenu(touchVector);
     if (gameOver)
         resetButton->checkClick(touchVector);
+
+    touchVector = getWindow().mapPixelToCoords(sf::Vector2i(touchScreenEvent.x, touchScreenEvent.y), sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
+    entityClickSelection.clickScan(touchVector, forest);
 }
 
 void ForestScreen::clickActiveMenu(sf::Vector2f clickVector) {
@@ -235,18 +241,10 @@ void ForestScreen::setMenu(MenuType menuType) {
     }
 }
 
-Tree *ForestScreen::getSelectedTree() const {
-    return selectedTree;
+EntityClickSelection &ForestScreen::getEntityClickSelection() {
+    return entityClickSelection;
 }
 
-Enemy *ForestScreen::getSelectedEnemy() const {
-    return selectedEnemy;
-}
-
-void ForestScreen::setSelectedTree(Tree *selectedTree) {
-    ForestScreen::selectedTree = selectedTree;
-}
-
-void ForestScreen::setSelectedEnemy(Enemy *selectedEnemy) {
-    ForestScreen::selectedEnemy = selectedEnemy;
+void ForestScreen::setEntityClickSelection(const EntityClickSelection &entityClickSelection) {
+    ForestScreen::entityClickSelection = entityClickSelection;
 }

@@ -192,8 +192,8 @@ void Forest::tick(float delta) {
             }
         }
 
-	    if(trash == getScreen().getSelectedTree())
-	        getScreen().setSelectedTree(nullptr);
+	    if(trash == getScreen().getEntityClickSelection().getSelectedEntity())
+            getScreen().getEntityClickSelection().setSelectedEntity(nullptr);
 
 	    //delete trash;
     }

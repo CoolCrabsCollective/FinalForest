@@ -16,6 +16,7 @@
 #include "../cmake-build-debug/_deps/sfml-src/include/SFML/Window/Event.hpp"
 #include "UI/Menu.h"
 #include "UI/WordsButton.h"
+#include "UI/EntityClickSelection.h"
 
 class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz::InputListener {
 	std::string name = "ForestScreen";
@@ -42,8 +43,8 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
     Menu* turretMenu;
     Menu* enemyMenu;
     MenuType activeMenu = ANIMAL_MENU;
-    Tree* selectedTree;
-    Enemy* selectedEnemy;
+
+    EntityClickSelection entityClickSelection;
 
     bool debug = false;
 	float fps = 0.0f;
@@ -51,14 +52,6 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
 
 public:
 	ForestScreen(wiz::Game& game);
-
-    Tree *getSelectedTree() const;
-
-    Enemy *getSelectedEnemy() const;
-
-    void setSelectedTree(Tree *selectedTree);
-
-    void setSelectedEnemy(Enemy *selectedEnemy);
 
 	void tick(float delta) override;
 
@@ -93,6 +86,10 @@ public:
     void clickActiveMenu(sf::Vector2f clickVector);
 
     void setMenu(MenuType menuType);
+
+    EntityClickSelection& getEntityClickSelection();
+
+    void setEntityClickSelection(const EntityClickSelection &entityClickSelection);
 };
 
 
