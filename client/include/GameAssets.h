@@ -66,10 +66,7 @@ namespace GameAssets {
 	ASSET(wiz::TextureAsset, WOOD_BRIDGE, ("gfx/bridge/wood.png"))
 	ASSET(wiz::TextureAsset, METAL_BRIDGE, ("gfx/bridge/metal.png"))
 
-    ASSET(wiz::TextureAsset, GRASS1, ("gfx/grass/grass1.png"))
-    ASSET(wiz::TextureAsset, GRASS2, ("gfx/grass/grass2.png"))
-    ASSET(wiz::TextureAsset, GRASS3, ("gfx/grass/grass3.png"))
-    ASSET(wiz::TextureAsset, GRASS4, ("gfx/grass/grass4.png"))
+	ASSET(wiz::TextureAsset, GRASS, ("gfx/grass.png"))
 
 
 }
