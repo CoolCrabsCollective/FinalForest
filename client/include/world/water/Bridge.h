@@ -7,7 +7,7 @@
 
 
 #include "SFML/Graphics/Drawable.hpp"
-#include "Common/b2Math.h"
+#include "Box2D/Common/b2Math.h"
 #include "SFML/Graphics/Sprite.hpp"
 
 class River;

@@ -23,6 +23,7 @@ void ForestScreen::tick(float delta) {
 	forest.tick(delta);
 	animalMenu->tick(delta);
 	turretMenu->tick(delta);
+//    enemyMenu->tick(delta);
     updateSquirrelCount();
     updateNutCount();
     updateMana();
@@ -141,12 +142,26 @@ void ForestScreen::keyPressed(const sf::Event::KeyEvent& keyEvent) {
 
 void ForestScreen::mouseButtonReleased(const sf::Event::MouseButtonEvent &mouseButtonEvent) {
     sf::Vector2f clickVector = getWindow().mapPixelToCoords(sf::Vector2i(mouseButtonEvent.x, mouseButtonEvent.y), sf::View({800.0f, 450.0f}, {1600.0f, 900.0f}));
-    animalMenu->click(clickVector);
+    clickActiveMenu(clickVector);
 }
 
 void ForestScreen::touchBegan(const sf::Event::TouchEvent &touchScreenEvent) {
     sf::Vector2f touchVector = getWindow().mapPixelToCoords(sf::Vector2i(touchScreenEvent.x, touchScreenEvent.y), sf::View({800.0f, 450.0f}, {1600.0f, 900.0f}));
-    animalMenu->click(touchVector);
+    clickActiveMenu(touchVector);
+}
+
+void ForestScreen::clickActiveMenu(sf::Vector2f clickVector) {
+    switch (activeMenu) {
+        case ANIMAL_MENU:
+            animalMenu->click(clickVector);
+            break;
+        case TURRET_MENU:
+            turretMenu->click(clickVector);
+            break;
+        case ENEMY_MENU:
+            enemyMenu->click(clickVector);
+            break;
+    }
 }
 
 void ForestScreen::setMenu(MenuType menuType) {
@@ -154,10 +169,17 @@ void ForestScreen::setMenu(MenuType menuType) {
         case ANIMAL_MENU:
             animalMenu->show(true);
             turretMenu->show(false);
+            enemyMenu->show(false);
             break;
         case TURRET_MENU:
             animalMenu->show(false);
             turretMenu->show(true);
+            enemyMenu->show(false);
+            break;
+        case ENEMY_MENU:
+            animalMenu->show(false);
+            turretMenu->show(false);
+            enemyMenu->show(true);
             break;
     }
 }

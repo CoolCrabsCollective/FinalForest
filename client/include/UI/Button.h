@@ -33,6 +33,8 @@ public:
     virtual void draw(sf::RenderTarget& target, const sf::RenderStates& states) const override;
 
     void checkClick(sf::Vector2f clickVector);
+
+    void tick(float delta);
 };
 
 

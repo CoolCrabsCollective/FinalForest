@@ -58,7 +58,7 @@ void Squirrel::setState(std::shared_ptr<SquirrelState> state) {
 }
 
 void Squirrel::targetNearestEnemy() {
-    if (forest.getEnemies().size() <= 1) {
+    if (forest.getEnemies().size() <= 1)
         return;
 
     std::vector enemies(forest.getEnemies());

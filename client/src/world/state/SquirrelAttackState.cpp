@@ -17,7 +17,12 @@ void SquirrelAttackState::tick(float delta) {
 
     Squirrel* squirrel = getSquirrel();
 
-    squirrel->attack(target);
+    squirrel->setMsSinceLastAttack(squirrel->getMsSinceLastAttack() + delta);
+    if (squirrel->getMsSinceLastAttack() >= squirrel->getMsAttackInterval()) {
+        squirrel->attack(target);
+//        squirrel->animate(delta);
+        squirrel->setMsSinceLastAttack(0.0f);
+    }
 
     squirrel->getBody()->SetLinearVelocity(*(new b2Vec2(0.0, 0.0)));
 }

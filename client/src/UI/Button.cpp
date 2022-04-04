@@ -27,6 +27,10 @@ void Button::checkClick(sf::Vector2f clickVector) {
         click();
 }
 
+void Button::tick(float delta) {
+
+}
+
 void Button::click() {
     onClick(this);
 }
