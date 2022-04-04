@@ -221,56 +221,51 @@ void Forest::generateEnemyWave() {
     Enemy* newEnemy;
     b2Vec2 randomSpawnPos;
 
-    randomSpawnPos = getRandomEnemySpawn();
-    newEnemy = new LumberJack(*this, randomSpawnPos);
-    objects.push_back(newEnemy);
-    enemies.push_back(newEnemy);
-//
-//    if (waveState.round <= waveSpawns->size()) {
-//        WaveSpawn currentWaveSpawn = waveSpawns->at(waveState.round );
-//        for (int i = 0; i<currentWaveSpawn.LumberJacks; i++) {
-//            randomSpawnPos = getRandomEnemySpawn();
-//            newEnemy = new LumberJack(*this, randomSpawnPos);
-//            objects.push_back(newEnemy);
-//            enemies.push_back(newEnemy);
-//        }
-//
-//        for (int i = 0; i<currentWaveSpawn.ChainSawLumberJacks; i++) {
-//            randomSpawnPos = getRandomEnemySpawn();
-//            newEnemy = new LumberJackChainsaw(*this, randomSpawnPos);
-//            objects.push_back(newEnemy);
-//            enemies.push_back(newEnemy);
-//        }
-//
-//        for (int i = 0; i<currentWaveSpawn.Bulldozer; i++) {
-//            randomSpawnPos = getRandomEnemySpawn();
-//            newEnemy = new Bulldozer(*this, randomSpawnPos);
-//            objects.push_back(newEnemy);
-//            enemies.push_back(newEnemy);
-//        }
-//    } else {
-//        int numOfEnemies = ceil(3 * waveState.difficulty);
-//        int maxNumOfChainSaw = 0;
-//
-//        maxNumOfChainSaw += waveState.round - 3;
-//        int numOfChainSaw = 0;
-//
-//        int enemyMagicNum;
-//        for (int i = 0; i < numOfEnemies; i++) {
-//            enemyMagicNum = rand() % 3;
-//
-//            randomSpawnPos = getRandomEnemySpawn();
-//
-//            if (numOfChainSaw<maxNumOfChainSaw && enemyMagicNum==2) {
-//                newEnemy = new LumberJackChainsaw(*this, randomSpawnPos);
-//                numOfChainSaw++;
-//            } else {
-//                newEnemy = new LumberJack(*this, randomSpawnPos);
-//            }
-//            objects.push_back(newEnemy);
-//            enemies.push_back(newEnemy);
-//        }
-//    }
+    if (waveState.round <= waveSpawns->size()) {
+        WaveSpawn currentWaveSpawn = waveSpawns->at(waveState.round );
+        for (int i = 0; i<currentWaveSpawn.LumberJacks; i++) {
+            randomSpawnPos = getRandomEnemySpawn();
+            newEnemy = new LumberJack(*this, randomSpawnPos);
+            objects.push_back(newEnemy);
+            enemies.push_back(newEnemy);
+        }
+
+        for (int i = 0; i<currentWaveSpawn.ChainSawLumberJacks; i++) {
+            randomSpawnPos = getRandomEnemySpawn();
+            newEnemy = new LumberJackChainsaw(*this, randomSpawnPos);
+            objects.push_back(newEnemy);
+            enemies.push_back(newEnemy);
+        }
+
+        for (int i = 0; i<currentWaveSpawn.Bulldozer; i++) {
+            randomSpawnPos = getRandomEnemySpawn();
+            newEnemy = new Bulldozer(*this, randomSpawnPos);
+            objects.push_back(newEnemy);
+            enemies.push_back(newEnemy);
+        }
+    } else {
+        int numOfEnemies = ceil(3 * waveState.difficulty);
+        int maxNumOfChainSaw = 0;
+
+        maxNumOfChainSaw += waveState.round - 3;
+        int numOfChainSaw = 0;
+
+        int enemyMagicNum;
+        for (int i = 0; i < numOfEnemies; i++) {
+            enemyMagicNum = rand() % 3;
+
+            randomSpawnPos = getRandomEnemySpawn();
+
+            if (numOfChainSaw<maxNumOfChainSaw && enemyMagicNum==2) {
+                newEnemy = new LumberJackChainsaw(*this, randomSpawnPos);
+                numOfChainSaw++;
+            } else {
+                newEnemy = new LumberJack(*this, randomSpawnPos);
+            }
+            objects.push_back(newEnemy);
+            enemies.push_back(newEnemy);
+        }
+    }
 }
 
 b2Vec2 Forest::getRandomEnemySpawn() {
