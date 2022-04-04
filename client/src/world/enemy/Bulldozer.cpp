@@ -65,8 +65,8 @@ void Bulldozer::draw(sf::RenderTarget& target, const sf::RenderStates& states) c
 	{
 		whiteSprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
 		whiteSprite.setOrigin({0.5f * whiteSprite.getTexture()->getSize().x, 0.5f * whiteSprite.getTexture()->getSize().y});
-		whiteSprite.setScale({flip * getSize().x / sprite.getTexture()->getSize().x,
-							  getSize().y / sprite.getTexture()->getSize().y});
+		whiteSprite.setScale({flip * getSize().x * 2.0f  / sprite.getTexture()->getSize().x,
+							  getSize().y * 2.0f / sprite.getTexture()->getSize().y});
 		whiteSprite.setColor(sf::Color(255, 255, 255, 255));
 		target.draw(whiteSprite);
 	}
