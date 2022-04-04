@@ -15,6 +15,7 @@
 #include "SFML/Graphics/Texture.hpp"
 #include "../cmake-build-debug/_deps/sfml-src/include/SFML/Window/Event.hpp"
 #include "UI/Menu.h"
+#include "UI/WordsButton.h"
 
 class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz::InputListener {
 	std::string name = "ForestScreen";
@@ -33,6 +34,7 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
 	sf::Text mouseCoordText;
 
     sf::Text gameOverText;
+    WordsButton* resetButton;
 
 	Forest forest;
     Menu* animalMenu;

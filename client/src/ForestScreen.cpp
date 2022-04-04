@@ -45,6 +45,14 @@ void ForestScreen::tick(float delta) {
         sf::FloatRect bounds = gameOverText.getLocalBounds();
         gameOverText.setPosition(sf::Vector2f(800 - bounds.getSize().x / 2, 450 - bounds.getSize().y / 2));
 
+        resetButton = new WordsButton(
+            sf::IntRect({800 - 100, 450 - 25 + 150}, {200, 50}),
+            forest,
+            [&](Button* button) {
+                // TODO: CEDRIC RESET
+            },
+            "Restart"
+            );
         gameOver = true;
     }
 }
@@ -64,8 +72,10 @@ void ForestScreen::render(sf::RenderTarget& target) {
     target.draw(*turretMenu);
     target.draw(*enemyMenu);
 
-    if (gameOver)
+    if (gameOver) {
         target.draw(gameOverText);
+        target.draw(*resetButton);
+    }
 
 	if(debug) {
 		fpsText.setString("FPS: " + std::to_string(fps));
@@ -166,11 +176,15 @@ void ForestScreen::keyPressed(const sf::Event::KeyEvent& keyEvent) {
 void ForestScreen::mouseButtonReleased(const sf::Event::MouseButtonEvent &mouseButtonEvent) {
     sf::Vector2f clickVector = getWindow().mapPixelToCoords(sf::Vector2i(mouseButtonEvent.x, mouseButtonEvent.y), sf::View({800.0f, 450.0f}, {1600.0f, 900.0f}));
     clickActiveMenu(clickVector);
+    if (gameOver)
+        resetButton->checkClick(clickVector);
 }
 
 void ForestScreen::touchBegan(const sf::Event::TouchEvent &touchScreenEvent) {
     sf::Vector2f touchVector = getWindow().mapPixelToCoords(sf::Vector2i(touchScreenEvent.x, touchScreenEvent.y), sf::View({800.0f, 450.0f}, {1600.0f, 900.0f}));
     clickActiveMenu(touchVector);
+    if (gameOver)
+        resetButton->checkClick(touchVector);
 }
 
 void ForestScreen::clickActiveMenu(sf::Vector2f clickVector) {
