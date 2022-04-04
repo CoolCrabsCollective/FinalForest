@@ -3,34 +3,16 @@
 //
 
 #include "world/animal/Wolf.h"
+#include "world/Forest.h"
+#include "GameAssets.h"
 
 
 Wolf::Wolf(Forest& forest, b2Vec2 position)
-	: forest(forest)
+	: Animal(forest, position)
 {
-
-}
-
-Forest& Wolf::getForest() const {
-	return forest;
-}
-
-b2Body* Wolf::getBody() const {
-	return nullptr;
-}
-
-b2Vec2 Wolf::getPosition() const {
-	return b2Vec2();
+	sprite.setTexture(*forest.getAssets().get(GameAssets::WOLF));
 }
 
 b2Vec2 Wolf::getSize() const {
-	return b2Vec2();
-}
-
-float Wolf::getZOrder() const {
-	return 0;
-}
-
-void Wolf::tick(float delta) {
-
+	return b2Vec2(2.0f, 2.0f);
 }

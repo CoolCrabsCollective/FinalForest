@@ -26,7 +26,7 @@ AnimalMenu::AnimalMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Me
             forest,
             [&](Button* button) {
                 PurchaseButton* iconButton = dynamic_cast<PurchaseButton*>(button);
-                // TODO: SPAWN WOLF
+				iconButton->forest.spawnWolf();
             },
             assetLoader,
             &GameAssets::WOLF,
@@ -39,7 +39,7 @@ AnimalMenu::AnimalMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Me
             forest,
             [&](Button* button) {
                 PurchaseButton* iconButton = dynamic_cast<PurchaseButton*>(button);
-                // TODO: SPAWN BEAR
+				iconButton->forest.spawnBear();
             },
             assetLoader,
             &GameAssets::BEAR,

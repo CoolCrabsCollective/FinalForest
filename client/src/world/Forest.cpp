@@ -18,6 +18,8 @@
 #include "ForestScreen.h"
 #include "world/water/River.h"
 #include "world/water/MagicLake.h"
+#include "world/animal/Wolf.h"
+#include "world/animal/Bear.h"
 
 Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 	: screen(screen),
@@ -99,6 +101,16 @@ void Forest::spawnSquirrel() {
     Squirrel* squirrel = new Squirrel(*this, {50, 50});
     objects.push_back(squirrel);
     assignToNextAvailableTree(squirrel);
+}
+
+void Forest::spawnWolf() {
+	Wolf* wolf = new Wolf(*this, {50, 50});
+	objects.push_back(wolf);
+}
+
+void Forest::spawnBear() {
+	Bear* bear = new Bear(*this, {50, 50});
+	objects.push_back(bear);
 }
 
 void Forest::assignToNextAvailableTree(Squirrel* squirrel) {
