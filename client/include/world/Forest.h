@@ -25,6 +25,7 @@
 #include <math.h>
 #include "world/enemy/Enemy.h"
 #include "world/NutShot.h"
+#include "world/definitions/WaveSpawnGetter.h"
 
 class ForestScreen;
 class Tree;
@@ -49,6 +50,8 @@ class Forest : public sf::Drawable, public Tickable {
     std::map<Tree*, Squirrel*> treeSquirrelMap;
 
     std::vector<Entity*> toDelete;
+
+    WaveSpawnGetter waveSpawnGetter;
 
 public:
     int nutCount;
@@ -110,6 +113,8 @@ public:
 	void tick(float delta) override;
 
     void generateEnemyWave();
+
+    b2Vec2 getRandomEnemySpawn();
 
 	const ForestPathFinder& getPathFinder() const;
 
