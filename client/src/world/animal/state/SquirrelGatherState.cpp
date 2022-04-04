@@ -1,5 +1,5 @@
 //
-// Created by Sir Dick on 2022-04-02.
+// Created by Cedric on 2022-04-02.
 //
 
 #include "world/animal/state/SquirrelReturnGatherState.h"

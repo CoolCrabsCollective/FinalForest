@@ -3,37 +3,59 @@
 //
 
 #include "TitleScreen.h"
+
+#include <memory>
 #include "GameAssets.h"
 #include "SFML/Window/Touch.hpp"
 #include "ForestScreen.h"
 
 TitleScreen::TitleScreen(wiz::Game& game)
-	: Screen(game) {}
+	: Screen(game) {
+
+	logo.setTexture(*getAssets().get(GameAssets::LOGO));
+	background.setTexture(*getAssets().get(GameAssets::GRASS));
+
+	playWithMouse.setFont(*getAssets().get(GameAssets::DEFAULT_FONT));
+	clickToPlay.setFont(*getAssets().get(GameAssets::DEFAULT_FONT));
+
+	playWithMouse.setString("Play with Mouse or Touchscreen");
+	clickToPlay.setString("Click to start!");
+	playWithMouse.setCharacterSize(50);
+	clickToPlay.setCharacterSize(50);
+
+	sf::FloatRect bounds = playWithMouse.getLocalBounds();
+	playWithMouse.setPosition(sf::Vector2f(game.getWindow().getView().getSize().x / 2.0f - bounds.getSize().x / 2,
+										   game.getWindow().getView().getSize().y / 2.0f - bounds.getSize().y / 2));
+
+	sf::FloatRect bounds2 = clickToPlay.getLocalBounds();
+	clickToPlay.setPosition(sf::Vector2f(game.getWindow().getView().getSize().x / 2.0f - bounds2.getSize().x / 2,
+										   game.getWindow().getView().getSize().y * 3.0f / 4.0f - bounds2.getSize().y / 2));
+}
 
 void TitleScreen::tick(float delta) {
 	sf::Vector2f vec(getGame().getWindow().getView().getSize());
 
 	logo.setOrigin(sf::Vector2f(logo.getTextureRect().getSize() / 2));
-	logo.setPosition(vec / 2.0f);
-	//logo.setScale(sf::Vector2f(0.25f, 0.25f));
+	logo.setPosition({vec.x / 2.0f, vec.y / 4.0f});
+	logo.setScale(sf::Vector2f(6.0f, 6.0f));
 
 	vec.x /= static_cast<float>(background.getTextureRect().getSize().x);
 	vec.y /= static_cast<float>(background.getTextureRect().getSize().y);
 	background.setScale(vec);
 
 	if(sf::Mouse::isButtonPressed(sf::Mouse::Left) || sf::Touch::isDown(1))
-		getGame().setScreen(std::shared_ptr<ForestScreen>(new ForestScreen(getGame())));
+		getGame().setScreen(std::make_shared<ForestScreen>(getGame()));
 }
 
 void TitleScreen::render(sf::RenderTarget& target) {
 	target.clear();
 	target.draw(background);
 	target.draw(logo);
+	target.draw(playWithMouse);
+	target.draw(clickToPlay);
 }
 
 void TitleScreen::show() {
-	logo.setTexture(*getAssets().get(GameAssets::LOGO));
-	background.setTexture(*getAssets().get(GameAssets::BACKGROUND));
 
 	getGame().addWindowListener(this);
 
