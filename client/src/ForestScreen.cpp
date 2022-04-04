@@ -29,8 +29,15 @@ ForestScreen::ForestScreen(wiz::Game& game)
     enemyMenu->show(false);
 
 	music = getGame().getAssets().get(GameAssets::NUTLIFE);
-	music->setVolume(100.0f);
+	music->setVolume(50.0f);
 	music->setLoop(true);
+
+	gameoverSound.setBuffer(*getGame().getAssets().get(GameAssets::GAMEOVER));
+	gameoverSound.setVolume(100.0f);
+	waveStartSound.setBuffer(*getGame().getAssets().get(GameAssets::WAVE_START));
+	waveStartSound.setVolume(100.0f);
+	waveClearedSound.setBuffer(*getGame().getAssets().get(GameAssets::WAVE_CLEARED));
+	waveClearedSound.setVolume(100.0f);
 }
 
 void ForestScreen::tick(float delta) {
@@ -64,7 +71,10 @@ void ForestScreen::tick(float delta) {
             },
             "Restart"
             );
+
         gameOver = true;
+		music->stop();
+		gameoverSound.play();
     }
 }
 

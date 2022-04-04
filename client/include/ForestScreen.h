@@ -19,6 +19,7 @@
 #include "UI/WordsButton.h"
 #include "UI/EntityClickSelection.h"
 #include "UI/PopUp.h"
+#include "SFML/Audio/Sound.hpp"
 
 class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz::InputListener {
 	const sf::View UI_VIEW = sf::View({800.0f, 450.0f}, {1600.0f, 900.0f});
@@ -46,6 +47,7 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
     WordsButton* resetButton;
 
 	sf::Music* music;
+	sf::Sound gameoverSound, waveStartSound, waveClearedSound;
 
 	Forest forest;
     Menu* animalMenu;
