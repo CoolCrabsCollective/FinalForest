@@ -5,19 +5,19 @@
 #include "world/enemy/state/EnemyLeaveState.h"
 #include "ForestScreen.h"
 
-EnemyLeaveState::EnemyLeaveState(LumberJack* lumberJack)
-		: EnemyState(lumberJack) {
-	b2Vec2 newPos = lumberJack->getPosition() - b2Vec2(50.0f, 50.0f);
+EnemyLeaveState::EnemyLeaveState(Enemy* enemy)
+		: EnemyState(enemy) {
+	b2Vec2 newPos = enemy->getPosition() - b2Vec2(50.0f, 50.0f);
 	newPos.Normalize();
 	newPos *= 200.0f;
-	newPos += lumberJack->getPosition();
+	newPos += enemy->getPosition();
 
-	lumberJack->setDestination(newPos);
+	enemy->setDestination(newPos);
 }
 
 void EnemyLeaveState::tick(float delta) {
-	if(b2DistanceSquared(getLumberJack()->getPosition(), b2Vec2(50.0f, 50.0f)) > 100.0f * 100.0f)
+	if(b2DistanceSquared(getEnemy()->getPosition(), b2Vec2(50.0f, 50.0f)) > 100.0f * 100.0f)
 	{
-		getForest()->sendToCompost(getLumberJack());
+		getForest()->sendToCompost(getEnemy());
 	}
 }

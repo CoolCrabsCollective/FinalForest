@@ -4,31 +4,32 @@
 
 #include "world/enemy/state/EnemyAttackState.h"
 #include "world/enemy/state/EnemyIdleState.h"
+#include "world/enemy/LumberJack.h"
 
-EnemyAttackState::EnemyAttackState(LumberJack* lumberJack, Damageable* target)
-	: EnemyState(lumberJack), target(target) {
+EnemyAttackState::EnemyAttackState(Enemy* enemy, Damageable* target)
+	: EnemyState(enemy), target(target) {
 
 }
 
 void EnemyAttackState::tick(float delta) {
-    LumberJack* lumberJack = getLumberJack();
+	Enemy* enemy = getEnemy();
 
 	if(target == nullptr || target->isDestroyed()) {
-		lumberJack->setState(std::make_shared<EnemyIdleState>(lumberJack));
-		lumberJack->resetAnimationState();
-		lumberJack->targetNearestTree();
+		enemy->setState(std::make_shared<EnemyIdleState>(enemy));
+		enemy->resetAnimationState();
+		enemy->targetNearestTree();
 		return;
 	}
 
-    if(b2DistanceSquared(lumberJack->getDestination(), lumberJack->getPosition()) < MIN_DISTANCE_FOR_CONTACT * MIN_DISTANCE_FOR_CONTACT) {
+    if(b2DistanceSquared(enemy->getDestination(), enemy->getPosition()) < MIN_DISTANCE_FOR_CONTACT * MIN_DISTANCE_FOR_CONTACT) {
 
-		lumberJack->getBody()->SetLinearVelocity(*(new b2Vec2(0.0, 0.0)));
+		enemy->getBody()->SetLinearVelocity(*(new b2Vec2(0.0, 0.0)));
 
-		lumberJack->setMsSinceLastAttack(lumberJack->getMsSinceLastAttack() + delta);
-		if (lumberJack->getMsSinceLastAttack() >= lumberJack->getMsAttackInterval()) {
-			lumberJack->attack(target);
-			lumberJack->animate(delta);
-			lumberJack->setMsSinceLastAttack(0.0f);
+		enemy->setMsSinceLastAttack(enemy->getMsSinceLastAttack() + delta);
+		if (enemy->getMsSinceLastAttack() >= enemy->getMsAttackInterval()) {
+			enemy->attack(target);
+			enemy->animate(delta);
+			enemy->setMsSinceLastAttack(0.0f);
 		}
     }
 
@@ -37,9 +38,9 @@ void EnemyAttackState::tick(float delta) {
 		if(tree)
 			getForest()->killTree(tree);
 
-		lumberJack->setState(std::make_shared<EnemyIdleState>(lumberJack));
-		lumberJack->targetNearestTree();
+		enemy->setState(std::make_shared<EnemyIdleState>(enemy));
+		enemy->targetNearestTree();
 
-		lumberJack->resetAnimationState();
+		enemy->resetAnimationState();
 	}
 }

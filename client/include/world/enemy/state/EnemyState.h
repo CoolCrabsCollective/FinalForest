@@ -5,22 +5,17 @@
 #ifndef LD50_CLIENT_ENEMYSTATE_H
 #define LD50_CLIENT_ENEMYSTATE_H
 
-#include "world/enemy/LumberJack.h"
-#include "world/Forest.h"
-
-class LumberJack;
+class Enemy;
+class Forest;
 
 class EnemyState {
-    LumberJack* lumberJack;
+    Enemy* enemy;
 public:
-	EnemyState(LumberJack* lumberJack);
-
-	[[deprecated]]
-    EnemyState(Forest* forest, LumberJack* lumberJack);
+	EnemyState(Enemy* enemy);
 
     virtual void tick(float delta) = 0;
 
-    LumberJack* getLumberJack();
+	Enemy* getEnemy();
 
     Forest* getForest();
 };

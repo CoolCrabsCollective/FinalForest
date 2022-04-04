@@ -37,6 +37,11 @@ class NutShot;
 
 enum Currency {Nuts, Mana};
 
+struct WaveState {
+    unsigned int round = 0;
+    float difficulty = 1.0;
+};
+
 class Forest : public sf::Drawable, public Tickable {
 private:
     ForestPathFinder finder;
@@ -48,6 +53,8 @@ private:
     std::map<Tree*, Squirrel*> treeSquirrelMap;
 
     std::vector<Entity*> toDelete;
+
+    WaveState waveState;
 
 public:
     int nutCount;
@@ -105,7 +112,7 @@ public:
 
 	void tick(float delta) override;
 
-    void generateEnemyWave(int numOfEnemies, float difficulty);
+    void generateEnemyWave();
 
 	const ForestPathFinder& getPathFinder() const;
 

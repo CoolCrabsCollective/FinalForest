@@ -18,58 +18,15 @@
 #define MIN_DISTANCE_FOR_CONTACT 2.5f
 
 class EnemyState;
+class Enemy;
 
 class LumberJack : public Enemy {
-    b2Body* body;
-
-	std::vector<ForestNode*> path;
-	int pathIndex = -1;
-	b2Vec2 destination = b2Vec2(50.0f, 50.0f);
-	bool destinationChanged = false;
-
-	float speed = 10.0f;
-	bool facingRight = false;
-
-    std::shared_ptr<EnemyState> state;
-protected:
-    Forest& forest;
-    mutable sf::Sprite sprite, whiteSprite, debugSprite;
-    HealthBar healthBar;
-
 public:
-    std::shared_ptr<EnemyState> getState() const;
-
-    void setState(std::shared_ptr<EnemyState> state);
-
-	Forest& getForest() override;
-
-    LumberJack(Forest& forest, b2Vec2 position);
-
-	void draw(sf::RenderTarget& target, const sf::RenderStates& states) const override;
-
-	b2Body* getBody() const override;
-
-	b2Vec2 getPosition() const override;
+	LumberJack(Forest& forest, b2Vec2 position);
 
 	b2Vec2 getSize() const override;
 
-    b2Vec2 getDestination() const;
-
-	void setDestination(b2Vec2 destination);
-
-	float getSpeed() const;
-
-    Tree* getTarget() const;
-
-    void setSpeed(float speed);
-
-    void setFacingRight(bool facingRight);
-
-    void targetNearestTree();
-
     void tick(float delta) override;
-
-	float getZOrder() const override;
 };
 
 

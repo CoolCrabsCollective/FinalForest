@@ -20,6 +20,7 @@
 #include "world/water/MagicLake.h"
 #include "world/animal/Wolf.h"
 #include "world/animal/Bear.h"
+#include "world/enemy/LumberJackChainsaw.h"
 
 Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 	: screen(screen),
@@ -84,7 +85,7 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 		}
 	}
 
-    generateEnemyWave(10, 0.0);
+    generateEnemyWave();
 
     for(int i = 0; i < 8; i++)
         spawnSquirrel();
@@ -176,12 +177,18 @@ void Forest::tick(float delta) {
 
 	for(Entity* trash : toDelete)
     {
-	    std::vector<Entity*>::iterator entity_it = std::find(objects.begin(), objects.end(), trash);
-	    objects.erase(entity_it);
-	    if(dynamic_cast<Enemy*>(*entity_it))
+        for (int i = 0; i<objects.size(); i++) {
+            if (objects.at(i) == trash) {
+                objects.erase(objects.begin() + i);
+            }
+        }
+	    if(dynamic_cast<Enemy*>(trash))
         {
-            std::vector<Enemy*>::iterator enemy_it = std::find(enemies.begin(), enemies.end(), trash);
-	        enemies.erase(enemy_it);
+            for (int i = 0; i<enemies.size(); i++) {
+                if (enemies.at(i) == trash) {
+                    enemies.erase(enemies.begin() + i);
+                }
+            }
         }
 
 	    if(trash == getScreen().getSelectedTree())
@@ -192,10 +199,22 @@ void Forest::tick(float delta) {
 
 	toDelete.clear();
 
+    if (enemies.empty()) {
+        waveState.difficulty += 0.5;
+        waveState.round++;
+        generateEnemyWave();
+    }
+
 	world.Step(delta / 1000.0f, 6, 2);
 }
 
-void Forest::generateEnemyWave(int numOfEnemies, float difficulty) {
+void Forest::generateEnemyWave() {
+    int numOfEnemies = ceil(1.5 * waveState.difficulty);
+    int maxNumOfChainSaw = 0;
+
+    maxNumOfChainSaw += waveState.round - 3;
+    int numOfChainSaw = 0;
+
     int spawnRadius;
     int screenCenter = 50;
 
@@ -203,7 +222,11 @@ void Forest::generateEnemyWave(int numOfEnemies, float difficulty) {
     float newXPos;
     float newYPos;
 
+    Enemy* newEnemy;
+    int enemyMagicNum;
     for (int i = 0; i<numOfEnemies; i++) {
+        enemyMagicNum = rand() % (int) ceil(waveState.difficulty);
+
         spawnRadius = rand() % 150 + 80;
 
         spawnDirection = rand() % 360;
@@ -211,9 +234,14 @@ void Forest::generateEnemyWave(int numOfEnemies, float difficulty) {
         newXPos = (float) cos( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
         newYPos = (float) sin( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
 
-        LumberJack* lumberJack = new LumberJack(*this, b2Vec2(newXPos, newYPos));
-        objects.push_back(lumberJack);
-        enemies.push_back(lumberJack);
+        if (numOfChainSaw<maxNumOfChainSaw && enemyMagicNum>=5) {
+            newEnemy = new LumberJackChainsaw(*this, b2Vec2(newXPos, newYPos));
+            numOfChainSaw++;
+        } else {
+            newEnemy = new LumberJack(*this, b2Vec2(newXPos, newYPos));
+        }
+        objects.push_back(newEnemy);
+        enemies.push_back(newEnemy);
     }
 }
 

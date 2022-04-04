@@ -9,7 +9,7 @@
 
 class EnemyIdleState : public EnemyState {
 public:
-    EnemyIdleState(LumberJack* lumberJack);
+    EnemyIdleState(Enemy* enemy);
 
     void tick(float delta) override;
 };

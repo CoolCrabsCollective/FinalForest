@@ -3,13 +3,14 @@
 //
 
 #include "world/enemy/state/EnemyIdleState.h"
+#include "world/enemy/Enemy.h"
 
-EnemyIdleState::EnemyIdleState(LumberJack *lumberJack)
-	: EnemyState(lumberJack)
+EnemyIdleState::EnemyIdleState(Enemy* enemy)
+	: EnemyState(enemy)
 {
-    lumberJack->setDestination(lumberJack->getPosition());
+	enemy->setDestination(enemy->getPosition());
 }
 
 void EnemyIdleState::tick(float delta) {
-    getLumberJack()->getBody()->SetLinearVelocity(*(new b2Vec2(0.0, 0.0)));
+	getEnemy()->getBody()->SetLinearVelocity(*(new b2Vec2(0.0, 0.0)));
 }
