@@ -200,12 +200,6 @@ void Forest::tick(float delta) {
 
 	toDelete.clear();
 
-    if (enemies.empty()) {
-        waveState.difficulty += 0.5;
-        waveState.round++;
-        generateEnemyWave();
-    }
-
 	world.Step(delta / 1000.0f, 6, 2);
 }
 
