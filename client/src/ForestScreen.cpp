@@ -163,8 +163,6 @@ void ForestScreen::show() {
 	getGame().addInputListener(this);
 
 	music->play();
-
-    wavePopUp.popUp("penis", 5000);
 }
 
 void ForestScreen::hide() {
