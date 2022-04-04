@@ -106,8 +106,9 @@ void Tree::tick(float delta) {
                 }
             }
 
-            if(closestDistance < 80)
+            if(closestDistance < 80 && forest.nutCount > 0)
             {
+                forest.nutCount--;
                 getForest().shootNut(new NutShot(getForest(), {getPosition().x, getPosition().y}, closestEnemy));
                 this->timeLeftForNut = TIME_FOR_NUTSHOT;
             }

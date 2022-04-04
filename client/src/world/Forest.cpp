@@ -83,7 +83,6 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 	}
 
     generateEnemyWave(20, 0.0);
-    aliveTrees[1]->addSquirrelTurret(nullptr);
 
     for(int i = 0; i < 8; i++)
         spawnSquirrel();
@@ -179,6 +178,10 @@ void Forest::tick(float delta) {
             std::vector<Enemy*>::iterator enemy_it = std::find(enemies.begin(), enemies.end(), trash);
 	        enemies.erase(enemy_it);
         }
+
+	    if(trash == getScreen().getSelectedTree())
+	        getScreen().setSelectedTree(nullptr);
+
 	    delete trash;
     }
 
@@ -451,5 +454,9 @@ void Forest::sendToCompost(Entity* entity) {
 
 const std::vector<Entity *> &Forest::getToDelete() const {
     return toDelete;
+}
+
+const std::vector<Entity *> &Forest::getObjects() const {
+    return objects;
 }
 

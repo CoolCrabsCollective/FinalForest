@@ -159,3 +159,11 @@ void ForestScreen::setMenu(MenuType menuType) {
             break;
     }
 }
+
+Tree *ForestScreen::getSelectedTree() const {
+    return selectedTree;
+}
+
+void ForestScreen::setSelectedTree(Tree *selectedTree) {
+    ForestScreen::selectedTree = selectedTree;
+}

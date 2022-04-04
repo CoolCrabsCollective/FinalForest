@@ -36,6 +36,13 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
 	Forest forest;
     Menu* animalMenu;
     Menu* turretMenu;
+    Tree* selectedTree;
+public:
+    Tree *getSelectedTree() const;
+
+    void setSelectedTree(Tree *selectedTree);
+
+private:
 
     bool debug = false;
 	float fps = 0.0f;
