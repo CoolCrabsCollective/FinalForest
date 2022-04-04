@@ -210,7 +210,7 @@ void Forest::tick(float delta) {
 }
 
 void Forest::generateEnemyWave() {
-    int numOfEnemies = ceil(1.5 * waveState.difficulty);
+    int numOfEnemies = ceil(3 * waveState.difficulty);
     int maxNumOfChainSaw = 0;
 
     maxNumOfChainSaw += waveState.round - 3;
