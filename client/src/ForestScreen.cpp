@@ -36,7 +36,13 @@ void ForestScreen::tick(float delta) {
     updateMana();
 	fps = 1.0f / delta * 1000.0f;
 
+    // Game over detection.
     if (forest.getGreatOakTree()->isDestroyed()) {
+        gameOverText.setString("Game Over!\nYou survived " + std::to_string(forest.waveState.round) + " waves!");
+        gameOverText.setPosition(sf::Vector2f(800, 450));
+        gameOverText.setCharacterSize(50);
+        gameOverText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+
         gameOver = true;
     }
 }
@@ -101,11 +107,6 @@ void ForestScreen::show() {
 	mouseCoordText.setPosition(sf::Vector2f(50, 850));
 	mouseCoordText.setCharacterSize(20);
 	mouseCoordText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
-
-    gameOverText.setString("Game Over");
-    gameOverText.setPosition(sf::Vector2f(800, 450));
-    gameOverText.setCharacterSize(50);
-    gameOverText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
 
 	getGame().addWindowListener(this);
 

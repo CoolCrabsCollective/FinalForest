@@ -54,8 +54,6 @@ private:
 
     std::vector<Entity*> toDelete;
 
-    WaveState waveState;
-
 public:
     int nutCount;
     int squirrelCount;
@@ -73,6 +71,8 @@ public:
     std::vector<Tree*> trees;
     std::vector<Tree*> aliveTrees;
     std::vector<Enemy*> enemies;
+
+    WaveState waveState;
 
 	Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader);
 
