@@ -29,8 +29,6 @@ TurretMenu::TurretMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Me
         sf::IntRect({50, 125}, {200, 100}),
         forest,
         [&](Button* button) {
-            if (!dynamic_cast<Tree*>(forest.getScreen().getEntityClickSelection().getSelectedEntity()))
-                return;
             Tree* tree = dynamic_cast<Tree*>(forest.getScreen().getEntityClickSelection().getSelectedEntity());
             if(tree != nullptr)
             {
@@ -39,7 +37,10 @@ TurretMenu::TurretMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Me
                 for(Entity* e : forest.getObjects())
                 {
                     Squirrel* s = dynamic_cast<Squirrel*>(e);
-                    if(s)
+                    if(s && (dynamic_pointer_cast<AnimalIdleState>(s->getState()).get()
+                       || dynamic_pointer_cast<SquirrelGatherState>(s->getState()).get()
+                       || dynamic_pointer_cast<SquirrelGoGatherState>(s->getState()).get()
+                       || dynamic_pointer_cast<SquirrelReturnGatherState>(s->getState()).get()))
                     {
                         if(closestSquirrel == nullptr)
                         {
@@ -48,16 +49,11 @@ TurretMenu::TurretMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Me
                         }
                         else
                         {
-                            if(dynamic_pointer_cast<AnimalIdleState>(closestSquirrel->getState()).get()
-                               || dynamic_pointer_cast<SquirrelGatherState>(closestSquirrel->getState()).get()
-                               || dynamic_pointer_cast<SquirrelGoGatherState>(closestSquirrel->getState()).get())
+                            float d = b2DistanceSquared(s->getPosition(), tree->getPosition());
+                            if(d < disClosest)
                             {
-                                float d = b2DistanceSquared(s->getPosition(), tree->getPosition());
-                                if(d < disClosest)
-                                {
-                                    disClosest = d;
-                                    closestSquirrel = s;
-                                }
+                                disClosest = d;
+                                closestSquirrel = s;
                             }
                         }
                     }

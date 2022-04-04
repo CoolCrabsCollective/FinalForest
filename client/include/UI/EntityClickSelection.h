@@ -9,7 +9,7 @@
 
 class EntityClickSelection {
 
-    Entity* selectedEntity;
+    Entity* selectedEntity = nullptr;
 public:
 
     EntityClickSelection();
