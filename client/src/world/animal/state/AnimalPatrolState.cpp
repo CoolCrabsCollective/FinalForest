@@ -22,4 +22,5 @@ void AnimalPatrolState::tick(float delta) {
 		animal->setDestination(b2Vec2(50.0f + x, 50.0f + y));
 		timeWaiting = 0.0f;
 	}
+	animal->targetNearestEnemy();
 }
