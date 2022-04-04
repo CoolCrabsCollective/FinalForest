@@ -6,6 +6,7 @@
 #include <UI/TurretMenu.h>
 #include <UI/EnemyMenu.h>
 #include <iostream>
+#include <memory>
 #include "ForestScreen.h"
 #include "Box2D/Dynamics/b2Body.h"
 #include "Box2D/Collision/Shapes/b2PolygonShape.h"
@@ -13,6 +14,7 @@
 #include "GameAssets.h"
 #include "UI/Button.h"
 #include "world/tree/BigAssTree.h"
+#include "WIZ/game/BasicGame.h"
 
 ForestScreen::ForestScreen(wiz::Game& game)
 		: Screen(game), forest(*this, game.getAssets()), animalMenu(new AnimalMenu(
@@ -25,7 +27,7 @@ ForestScreen::ForestScreen(wiz::Game& game)
 
 	music = getGame().getAssets().get(GameAssets::NUTLIFE);
 	music->setVolume(100.0f);
-	music->setLoop(true);;
+	music->setLoop(true);
 }
 
 void ForestScreen::tick(float delta) {
@@ -44,7 +46,7 @@ void ForestScreen::tick(float delta) {
 
     // Game over detection.
     if (forest.getGreatOakTree()->isDestroyed()) {
-        gameOverText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+        gameOverText.setFont(*getGame().getAssets().get(GameAssets::DEFAULT_FONT));
         gameOverText.setCharacterSize(50);
         gameOverText.setString("          Game Over!\nYou survived " + std::to_string(forest.waveState.round - 1) + " waves!");
         sf::FloatRect bounds = gameOverText.getLocalBounds();
@@ -54,7 +56,7 @@ void ForestScreen::tick(float delta) {
             sf::IntRect({800 - 100, 450 - 25 + 150}, {200, 50}),
             forest,
             [&](Button* button) {
-                // TODO: CEDRIC RESET
+				getGame().setScreen(std::make_shared<ForestScreen>(getGame()));
             },
             "Restart"
             );
@@ -119,31 +121,30 @@ void ForestScreen::show() {
 	fpsText.setString("FPS: ");
 	fpsText.setPosition(sf::Vector2f(50, 875));
 	fpsText.setCharacterSize(20);
-	fpsText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+	fpsText.setFont(*getGame().getAssets().get(GameAssets::DEFAULT_FONT));
 
 	mouseCoordText.setString("Mouse pos: ");
 	mouseCoordText.setPosition(sf::Vector2f(50, 850));
 	mouseCoordText.setCharacterSize(20);
-	mouseCoordText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+	mouseCoordText.setFont(*getGame().getAssets().get(GameAssets::DEFAULT_FONT));
 
     squirrelCountText.setPosition(sf::Vector2f(1550, 25));
     squirrelCountText.setCharacterSize(20);
-    squirrelCountText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+    squirrelCountText.setFont(*getGame().getAssets().get(GameAssets::DEFAULT_FONT));
 
     nutCountText.setPosition(sf::Vector2f(1550, 75));
     nutCountText.setCharacterSize(20);
-    nutCountText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+    nutCountText.setFont(*getGame().getAssets().get(GameAssets::DEFAULT_FONT));
 
     manaText.setPosition(sf::Vector2f(1550, 125));
     manaText.setCharacterSize(20);
-    manaText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+    manaText.setFont(*getGame().getAssets().get(GameAssets::DEFAULT_FONT));
 
     waveText.setPosition(sf::Vector2f(1500, 175));
     waveText.setCharacterSize(20);
-    waveText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+    waveText.setFont(*getGame().getAssets().get(GameAssets::DEFAULT_FONT));
 
 	getGame().addWindowListener(this);
-
 	getGame().addInputListener(this);
 
 	music->play();
@@ -151,6 +152,7 @@ void ForestScreen::show() {
 
 void ForestScreen::hide() {
 	getGame().removeWindowListener(this);
+	getGame().removeInputListener(this);
 }
 
 const std::string& ForestScreen::getName() const {
@@ -193,22 +195,28 @@ void ForestScreen::keyPressed(const sf::Event::KeyEvent& keyEvent) {
 }
 
 void ForestScreen::mouseButtonReleased(const sf::Event::MouseButtonEvent &mouseButtonEvent) {
-    sf::Vector2f clickVector = getWindow().mapPixelToCoords(sf::Vector2i(mouseButtonEvent.x, mouseButtonEvent.y), sf::View({800.0f, 450.0f}, {1600.0f, 900.0f}));
-    clickActiveMenu(clickVector);
-    if (gameOver)
-        resetButton->checkClick(clickVector);
+	sf::Vector2f clickVector = getWindow().mapPixelToCoords(sf::Vector2i(mouseButtonEvent.x, mouseButtonEvent.y), UI_VIEW);
 
-    clickVector = getWindow().mapPixelToCoords(sf::Vector2i(mouseButtonEvent.x, mouseButtonEvent.y), sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
+	if(gameOver) {
+		resetButton->checkClick(clickVector);
+		return;
+	}
+    clickActiveMenu(clickVector);
+
+    clickVector = getWindow().mapPixelToCoords(sf::Vector2i(mouseButtonEvent.x, mouseButtonEvent.y), GAME_VIEW);
     entityClickSelection.clickScan(clickVector, forest);
 }
 
 void ForestScreen::touchBegan(const sf::Event::TouchEvent &touchScreenEvent) {
-    sf::Vector2f touchVector = getWindow().mapPixelToCoords(sf::Vector2i(touchScreenEvent.x, touchScreenEvent.y), sf::View({800.0f, 450.0f}, {1600.0f, 900.0f}));
-    clickActiveMenu(touchVector);
-    if (gameOver)
-        resetButton->checkClick(touchVector);
+    sf::Vector2f touchVector = getWindow().mapPixelToCoords(sf::Vector2i(touchScreenEvent.x, touchScreenEvent.y), UI_VIEW);
 
-    touchVector = getWindow().mapPixelToCoords(sf::Vector2i(touchScreenEvent.x, touchScreenEvent.y), sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
+	if(gameOver) {
+		resetButton->checkClick(touchVector);
+		return;
+	}
+
+	clickActiveMenu(touchVector);
+    touchVector = getWindow().mapPixelToCoords(sf::Vector2i(touchScreenEvent.x, touchScreenEvent.y), GAME_VIEW);
     entityClickSelection.clickScan(touchVector, forest);
 }
 

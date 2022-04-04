@@ -31,14 +31,14 @@ PurchaseButton::PurchaseButton(sf::IntRect rectangle, Forest& forest, std::funct
     priceText.setString(std::to_string(price));
     priceText.setPosition(sf::Vector2f(currencySprite.getPosition().x + 20, currencySprite.getPosition().y - 5));
     priceText.setCharacterSize(20);
-    priceText.setFont(*assetLoader.get(GameAssets::SANS_TTF));
+    priceText.setFont(*assetLoader.get(GameAssets::DEFAULT_FONT));
     priceText.setFillColor(sf::Color::Black);
 
     std::string productName = textureType->getName().substr(4, textureType->getName().size() - 8);
     productName[0] = toupper(productName[0]);
     labelText.setString("Buy " + productName);
     labelText.setCharacterSize(20);
-    labelText.setFont(*assetLoader.get(GameAssets::SANS_TTF));
+    labelText.setFont(*assetLoader.get(GameAssets::DEFAULT_FONT));
     labelText.setFillColor(sf::Color::Black);
     bounds = labelText.getLocalBounds();
     labelText.setPosition(sf::Vector2f(rectangle.getPosition().x + (rectangle.width / 2) - (bounds.width / 2), rectangle.getPosition().y + 5));

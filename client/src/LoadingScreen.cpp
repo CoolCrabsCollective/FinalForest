@@ -44,7 +44,7 @@ void LoadingScreen::render(sf::RenderTarget& target) {
 void LoadingScreen::show() {
 
 	getGame().getAssets().loadAll(GameAssets::ALL);
-	getGame().getAssets().finishLoading(GameAssets::SANS_TTF);
+	getGame().getAssets().finishLoading(GameAssets::DEFAULT_FONT);
 	getGame().getAssets().finishLoading(GameAssets::WHITE_PIXEL);
 
 	sprite.setTexture(*getGame().getAssets().get(GameAssets::WHITE_PIXEL));
@@ -62,7 +62,7 @@ void LoadingScreen::show() {
 	message.setString("Formatting SD card...");
 #endif
 
-	message.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+	message.setFont(*getGame().getAssets().get(GameAssets::DEFAULT_FONT));
 
 	getGame().addWindowListener(this);
 }

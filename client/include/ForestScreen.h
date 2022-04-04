@@ -20,6 +20,9 @@
 #include "UI/EntityClickSelection.h"
 
 class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz::InputListener {
+	const sf::View UI_VIEW = sf::View({800.0f, 450.0f}, {1600.0f, 900.0f});
+	const sf::View GAME_VIEW = sf::View({50.0f, 50.0f}, {195.56f, 110.0f});
+
 	std::string name = "ForestScreen";
 
     sf::Text nutCountText;

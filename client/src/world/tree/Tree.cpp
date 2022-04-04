@@ -16,7 +16,7 @@ Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest), healthBar(this, th
 
 	sprite.setTexture(normalTreeTexture);
 	whiteTreeSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_TREE));
-    labelSquirrelCount.setFont(*forest.getAssets().get(GameAssets::SANS_TTF));
+    labelSquirrelCount.setFont(*forest.getAssets().get(GameAssets::DEFAULT_FONT));
 
     labelSquirrelCount.setCharacterSize(24);
     labelSquirrelCount.setFillColor(sf::Color::Black);
