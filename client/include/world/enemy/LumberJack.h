@@ -11,7 +11,7 @@
 #include "world/Tickable.h"
 #include "world/tree/Tree.h"
 #include "world/Damager.h"
-#include "world/Anime.h"
+#include "world/anime/AnimeAttack.h"
 #include "SFML/Graphics/Sprite.hpp"
 #include "Enemy.h"
 

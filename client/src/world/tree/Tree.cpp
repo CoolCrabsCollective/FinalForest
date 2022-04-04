@@ -54,12 +54,22 @@ void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const 
 	sprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
 	sprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
 
+	sf::Vector2f clickV = {worldMousePos.x, 100 - worldMousePos.y};
+
 	if(this->forest.getScreen().getEntityClickSelection().getSelectedEntity() == this)
     {
         whiteTreeSprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
         whiteTreeSprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
         whiteTreeSprite.setScale({1.2f * getSize().x / sprite.getTexture()->getSize().x, 1.2f * getSize().y / sprite.getTexture()->getSize().y});
-
+        whiteTreeSprite.setColor(sf::Color(255, 255, 255, 255));
+        target.draw(whiteTreeSprite);
+    }else if(((clickV.x - this->getPosition().x)*(clickV.x - this->getPosition().x) +
+              (clickV.y - this->getPosition().y)*(clickV.y - this->getPosition().y)) < 14)
+    {
+        whiteTreeSprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
+        whiteTreeSprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
+        whiteTreeSprite.setScale({1.2f * getSize().x / sprite.getTexture()->getSize().x, 1.2f * getSize().y / sprite.getTexture()->getSize().y});
+        whiteTreeSprite.setColor(sf::Color(255, 255, 255, 100));
         target.draw(whiteTreeSprite);
     }
 
@@ -105,7 +115,6 @@ void Tree::tick(float delta) {
             }
 
             if(closestDistance < 30*30 && forest.nutCount > 0) {
-                forest.nutCount--;
                 getForest().shootNut(new NutShot(getForest(), {getPosition().x, getPosition().y}, closestEnemy));
                 this->timeLeftForNut = TIME_FOR_NUTSHOT / this->getSquirrelCount();
             }
