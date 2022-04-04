@@ -50,8 +50,10 @@ EnemyMenu::EnemyMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu
                                                   }
                                               }
                                               if(closestSquirrel)
+                                              {
                                                   closestSquirrel->setState(std::make_shared<AnimalAttackState>(closestSquirrel, enemy));
-
+                                                  forest.unassignSquirrel(closestSquirrel);
+                                              }
                                           }
                                       },
                                       [&](){ return forest.getSquirrelCount() > 0; },
