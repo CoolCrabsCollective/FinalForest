@@ -3,6 +3,7 @@
 //
 
 #include "world/Damageable.h"
+#include "world/Damager.h"
 
 Damageable::Damageable() {}
 
@@ -14,8 +15,8 @@ void Damageable::setHealth(float health){
     this->health = health;
 }
 
-void Damageable::damage(float attack) {
-    health -= attack;
+void Damageable::damage(Damager* attacker) {
+    health -= attacker->getPower();
     if (health <= 0) {
 		health = 0;
         destroyed = true;

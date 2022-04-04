@@ -6,9 +6,11 @@
 #define LD50_CLIENT_DAMAGER_H
 
 #include "SFML/Graphics.hpp"
-#include "Damageable.h"
+#include "Entity.h"
 
-class Damager {
+class Damageable;
+
+class Damager : virtual public Entity {
 private:
     float power = 1;
     bool destroyed = false;

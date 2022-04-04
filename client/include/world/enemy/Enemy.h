@@ -61,15 +61,21 @@ public:
 
 	void targetNearestTree();
 
+    void targetNearestAnimal();
+
 	void tick(float delta) override;
 
 	float getZOrder() const override;
 
 	bool isLeaving();
 
+    bool isAttacking();
+
 	void drawDebug(sf::RenderTarget& target, const sf::RenderStates& states) const;
 
     const sf::Sprite &getSprite() const;
+
+    void damage(Damager* attacker) override;
 };
 
 
