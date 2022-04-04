@@ -77,6 +77,8 @@ public:
 
 	void spawnSquirrel();
 
+	void respawnSquirrel(Tree* tree);
+
 	void spawnWolf();
 
 	void spawnBear();

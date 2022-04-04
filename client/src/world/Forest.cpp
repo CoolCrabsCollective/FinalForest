@@ -100,6 +100,7 @@ void Forest::spawnSquirrel() {
     Squirrel* squirrel = new Squirrel(*this, {50, 50});
     objects.push_back(squirrel);
     assignToNextAvailableTree(squirrel);
+    squirrelCount++;
 }
 
 void Forest::spawnWolf() {
@@ -465,5 +466,11 @@ const std::vector<Entity *> &Forest::getToDelete() const {
 
 const std::vector<Entity *> &Forest::getObjects() const {
     return objects;
+}
+
+void Forest::respawnSquirrel(Tree *tree) {
+    Squirrel* squirrel = new Squirrel(*this,  tree->getPosition());
+    objects.push_back(squirrel);
+    assignToNextAvailableTree(squirrel);
 }
 

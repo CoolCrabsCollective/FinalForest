@@ -55,8 +55,10 @@ TurretMenu::TurretMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Me
                                                   }
                                               }
                                               if(closestSquirrel)
-                                                closestSquirrel->setState(std::make_shared<SquirrelGoDefendTheHomelandState>(closestSquirrel, tree));
-
+                                              {
+                                                  closestSquirrel->setState(std::make_shared<SquirrelGoDefendTheHomelandState>(closestSquirrel, tree));
+                                                  forest.unassignSquirrel(closestSquirrel);
+                                              }
                                           }
                                       },
                                       "Assign Squirrel Archer"
@@ -65,8 +67,15 @@ TurretMenu::TurretMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Me
     buttons.push_back(new WordsButton(sf::IntRect({50, 200}, {200, 100}),
                                       forest,
                                       [&](Button* button) {
-                                          PurchaseButton* iconButton = dynamic_cast<PurchaseButton*>(button);
-                                          // TODO: UNASSIGN SQUIRREL
+                                          Tree* tree = forest.getScreen().getSelectedTree();
+                                          if(tree != nullptr)
+                                          {
+                                              if(tree->getSquirrelCount() > 0)
+                                              {
+                                                  tree->removeSquirrelTurret();
+                                                  forest.respawnSquirrel(tree);
+                                              }
+                                          }
                                       },
                                       "Unassign Squirrel Archer"
     ));

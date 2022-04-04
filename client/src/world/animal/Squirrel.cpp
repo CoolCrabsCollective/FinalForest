@@ -25,8 +25,6 @@ Squirrel::Squirrel(Forest& forest, b2Vec2 position) : Animal(forest, position) {
 	sprite.setTexture(*squirrelWalk);
 
 	this->state = std::make_shared<AnimalIdleState>(this);
-    // Update the squirrel count.
-    forest.squirrelCount++;
 }
 
 
