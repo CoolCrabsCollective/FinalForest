@@ -23,6 +23,13 @@ LumberJack::LumberJack(Forest& forest, b2Vec2 position) : Enemy(forest, position
 
     insertAttackFrame(forest.getAssets().get(GameAssets::LUMBERJACKAXE));
     insertAttackFrame(forest.getAssets().get(GameAssets::LUMBERJACKAXE_SWING));
+
+    setPower(.5);
+    speed = 10.0f;
+    setMsAttackInterval(1000);
+
+    maxHealth = 3.0f;
+    setHealth(maxHealth);
 }
 
 void LumberJack::tick(float delta) {
