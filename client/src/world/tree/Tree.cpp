@@ -120,6 +120,7 @@ void Tree::tick(float delta) {
     if(!this->isDestroyed() && sf::Mouse::isButtonPressed(sf::Mouse::Left) && (worldMousePos.x - sprite.getPosition().x)*(worldMousePos.x - sprite.getPosition().x) +
                                (worldMousePos.y - sprite.getPosition().y)*(worldMousePos.y - sprite.getPosition().y) < 61)
     {
+        getForest().getScreen().setSelectedTree(this);
         getForest().getScreen().setMenu(TURRET_MENU);
     }
 }

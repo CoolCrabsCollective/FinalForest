@@ -58,23 +58,24 @@ void Squirrel::setState(std::shared_ptr<SquirrelState> state) {
 }
 
 void Squirrel::targetNearestEnemy() {
-    if (forest.getEnemies().size() <= 1)
+    if (forest.getEnemies().size() <= 1) {
         return;
-
+    }
     std::vector enemies(forest.getEnemies());
 
     if (enemies.size() > 2) {
-        std::sort(enemies.begin(), enemies.end() - 1, [this](Enemy* a, Enemy* b){
+        std::sort(enemies.begin(), enemies.end() - 1, [this](Enemy *a, Enemy *b) {
             float a_dis = b2DistanceSquared(a->getPosition(), body->GetPosition());
             float b_dis = b2DistanceSquared(b->getPosition(), body->GetPosition());
             return a_dis < b_dis;
         });
     }
 
-    for (Enemy* enemy : enemies) {
+    for (Enemy *enemy : enemies) {
         if (!enemy->isDestroyed()) {
             this->state = std::make_shared<SquirrelGoAttackState>(&this->forest, this, enemy);
             break;
         }
     }
 }
+
