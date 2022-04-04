@@ -18,7 +18,7 @@ Wolf::Wolf(Forest& forest, b2Vec2 position)
 
 	this->state = std::make_shared<AnimalPatrolState>(this);
 
-	maxHealth = 3.5f;
+	maxHealth = 4.0f;
 	setHealth(maxHealth);
 }
 
