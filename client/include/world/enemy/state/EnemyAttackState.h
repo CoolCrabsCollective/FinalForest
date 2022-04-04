@@ -11,7 +11,7 @@
 class EnemyAttackState : public EnemyState {
 	Damageable* target;
 public:
-    EnemyAttackState(Enemy* lumberJack, Damageable* target);
+    EnemyAttackState(Enemy* enemy, Damageable* target);
 
     void tick(float delta) override;
 };

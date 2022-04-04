@@ -15,6 +15,9 @@ Bear::Bear(Forest& forest, b2Vec2 position)
 	sprite.setTexture(*forest.getAssets().get(GameAssets::BEAR));
 
 	this->state = std::make_shared<AnimalPatrolState>(this);
+
+	maxHealth = 30.0f;
+	setHealth(maxHealth);
 }
 
 b2Vec2 Bear::getSize() const {

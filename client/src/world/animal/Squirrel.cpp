@@ -25,6 +25,9 @@ Squirrel::Squirrel(Forest& forest, b2Vec2 position) : Animal(forest, position) {
 	sprite.setTexture(*squirrelWalk);
 
 	this->state = std::make_shared<AnimalIdleState>(this);
+
+	maxHealth = 3.0f;
+	setHealth(maxHealth);
 }
 
 b2Vec2 Squirrel::getSize() const {

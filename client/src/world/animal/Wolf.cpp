@@ -17,6 +17,9 @@ Wolf::Wolf(Forest& forest, b2Vec2 position)
 	sprite.setTexture(*forest.getAssets().get(GameAssets::WOLF));
 
 	this->state = std::make_shared<AnimalPatrolState>(this);
+
+	maxHealth = 5.0f;
+	setHealth(maxHealth);
 }
 
 b2Vec2 Wolf::getSize() const {

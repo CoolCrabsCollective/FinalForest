@@ -66,6 +66,8 @@ public:
 	float getZOrder() const override;
 
 	bool isLeaving();
+
+	void drawDebug(sf::RenderTarget& target, const sf::RenderStates& states) const;
 };
 
 

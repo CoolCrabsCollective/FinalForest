@@ -44,6 +44,8 @@ namespace GameAssets {
     ASSET(wiz::TextureAsset, SQUIRREL_IDLE, ("gfx/squirrel_idle.png"))
     ASSET(wiz::TextureAsset, SQUIRREL_ARMORED, ("gfx/squirrel_armored.png"))
 
+	ASSET(wiz::TextureAsset, BULLDOZER, ("gfx/bulldozer.png"))
+
     ASSET(wiz::TextureAsset, WOLF, ("gfx/wolf.png"))
 
     ASSET(wiz::TextureAsset, BEAR, ("gfx/bear.png"))

@@ -8,14 +8,12 @@
 #include "ForestScreen.h"
 #include "Dynamics/b2Fixture.h"
 #include "Box2D/Collision/Shapes/b2CircleShape.h"
-#include "world/Physical.h"
 #include "world/animal/state/AnimalAttackState.h"
-#include "world/enemy/state/EnemyLeaveState.h"
 #include "world/animal/state/AnimalIdleState.h"
 
 
 Animal::Animal(Forest& forest, b2Vec2 position)
-		: forest(forest)
+		: forest(forest), healthBar(this, this, forest.assetLoader)
 {
 	debugSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_PIXEL));
 
@@ -119,6 +117,7 @@ void Animal::draw(sf::RenderTarget& target, const sf::RenderStates& states) cons
 	sprite.setScale({flip * getSize().x * 2.f / sprite.getTexture()->getSize().x,
 					 getSize().y * 2.f / sprite.getTexture()->getSize().y});
 	target.draw(sprite);
+	target.draw(healthBar);
 
 	if(!forest.getScreen().isDebug())
 		return;

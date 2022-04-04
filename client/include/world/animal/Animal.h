@@ -10,10 +10,11 @@
 #include "world/Damager.h"
 #include "world/Renderable.h"
 #include "world/pathfinding/ForestNode.h"
+#include "world/HealthBar.h"
 
 class AnimalState;
 
-class Animal : public Renderable, public Physical, public Tickable, public Damager {
+class Animal : virtual public Renderable, virtual public Physical, virtual public Tickable, virtual public Damager, virtual public Damageable {
 protected:
 	mutable sf::Sprite sprite, debugSprite;
 	b2Body* body;
@@ -26,6 +27,7 @@ protected:
 	bool facingRight = false, destinationChanged = false;
 
 	std::shared_ptr<AnimalState> state;
+	HealthBar healthBar;
 public:
 	Animal(Forest& forest, b2Vec2 position);
 

@@ -13,6 +13,9 @@ void Anime::setStateSprite(sf::Sprite* sprite) {
 }
 
 void Anime::animate(float delta) {
+	if(animationFrames.empty())
+		return;
+
     timeSinceLastFrame += delta;
     if (currentFrame >= animationFrames.size()) {
         currentFrame = 0;
@@ -25,5 +28,7 @@ void Anime::animate(float delta) {
 }
 
 void Anime::resetAnimationState() {
+	if(animationFrames.empty())
+		return;
     sprite->setTexture(*animationFrames.at(0));
 }

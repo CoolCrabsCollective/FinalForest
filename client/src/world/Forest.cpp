@@ -21,6 +21,7 @@
 #include "world/animal/Wolf.h"
 #include "world/animal/Bear.h"
 #include "world/enemy/LumberJackChainsaw.h"
+#include "world/enemy/Bulldozer.h"
 
 Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 	: screen(screen),
@@ -224,7 +225,7 @@ void Forest::generateEnemyWave() {
 
     Enemy* newEnemy;
     int enemyMagicNum;
-    for (int i = 0; i<numOfEnemies; i++) {
+    for (int i = 0; i < numOfEnemies; i++) {
         enemyMagicNum = rand() % (int) ceil(waveState.difficulty);
 
         spawnRadius = rand() % 150 + 80;
@@ -234,12 +235,14 @@ void Forest::generateEnemyWave() {
         newXPos = (float) cos( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
         newYPos = (float) sin( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
 
-        if (numOfChainSaw<maxNumOfChainSaw && enemyMagicNum>=5) {
-            newEnemy = new LumberJackChainsaw(*this, b2Vec2(newXPos, newYPos));
-            numOfChainSaw++;
-        } else {
-            newEnemy = new LumberJack(*this, b2Vec2(newXPos, newYPos));
-        }
+		newEnemy = new Bulldozer(*this, b2Vec2(newXPos, newYPos));
+
+        //if (numOfChainSaw<maxNumOfChainSaw && enemyMagicNum>=5) {
+        //    newEnemy = new LumberJackChainsaw(*this, b2Vec2(newXPos, newYPos));
+        //    numOfChainSaw++;
+        //} else {
+        //    newEnemy = new LumberJack(*this, b2Vec2(newXPos, newYPos));
+        //}
         objects.push_back(newEnemy);
         enemies.push_back(newEnemy);
     }
