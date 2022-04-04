@@ -56,8 +56,10 @@ void LoadingScreen::show() {
 	message.setFont(*getGame().getAssets().get(GameAssets::DEFAULT_FONT));
 
 	sf::Texture* iconTex = getGame().getAssets().get(GameAssets::TREE_TURRET);
+#ifndef OS_SWITCH
 	sf::Image image = iconTex->copyToImage();
 	getWindow().setIcon(image.getSize().x, image.getSize().y, image.getPixelsPtr());
+#endif
 
 	getGame().addWindowListener(this);
 }
