@@ -148,7 +148,7 @@ b2Vec2 Enemy::getPosition() const {
 }
 
 b2Vec2 Enemy::getSize() const {
-	return b2Vec2(1.5f, 1.5f);
+	return b2Vec2(3.0f, 3.0f);
 }
 
 b2Vec2 Enemy::getDestination() const {
