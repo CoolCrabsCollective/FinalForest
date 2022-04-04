@@ -18,7 +18,7 @@ void HealthBar::draw(sf::RenderTarget &target, const sf::RenderStates &states) c
     if (damageable->getHealth() <= 0)
         return;
 
-    barSprite.setPosition({physicalTarget->getPosition().x, 100 - physicalTarget->getPosition().y});
+    barSprite.setPosition({physicalTarget->getPosition().x - (barWidth / 2), 100 - physicalTarget->getPosition().y - 5});
     // draw background
     barSprite.setColor(sf::Color(sf::Color::Red));
     barSprite.setScale({barWidth, barHeight});

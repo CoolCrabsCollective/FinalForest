@@ -14,7 +14,7 @@
 #include "world/pathfinding/ForestPathFinder.h"
 #include "world/state/LumberJackLeaveState.h"
 
-LumberJack::LumberJack(Forest& forest, b2Vec2 position) : forest(forest) {
+LumberJack::LumberJack(Forest& forest, b2Vec2 position) : forest(forest), healthBar(this, this, forest.assetLoader) {
     sprite.setTexture(*forest.getAssets().get(GameAssets::LUMBERJACKAXE));
 	debugSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_PIXEL));
 
@@ -57,7 +57,9 @@ LumberJack::LumberJack(Forest& forest, b2Vec2 position) : forest(forest) {
     this->state = std::make_shared<LumberJackIdleState>(&this->forest, this);
 
     targetNearestTree();
-    setHealth(3.f);
+
+    maxHealth = 3.0f;
+    setHealth(maxHealth);
 }
 
 void LumberJack::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
@@ -92,6 +94,7 @@ void LumberJack::draw(sf::RenderTarget& target, const sf::RenderStates& states) 
 
     target.draw(sprite);
 
+    target.draw(healthBar);
 
 	if(!forest.getScreen().isDebug())
 		return;
