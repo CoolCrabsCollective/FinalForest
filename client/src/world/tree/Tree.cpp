@@ -51,13 +51,6 @@ void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const 
     sf::Vector2<int> rawMousePos = sf::Mouse::getPosition(forest.getScreen().getWindow());
     sf::Vector2f worldMousePos = forest.getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
 
-    if(getSquirrelCount() > 0) {
-        sf::View windowView = sf::View(sf::Vector2f(forest.getScreen().getWindow().getSize().x / 2.f, forest.getScreen().getWindow().getSize().y / 2.f), sf::Vector2f (forest.getScreen().getWindow().getSize()));
-        target.setView(windowView);
-        target.draw(labelSquirrelCount);
-        target.setView(sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
-    }
-
 	sprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
 	sprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
 
@@ -73,6 +66,13 @@ void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const 
     sprite.setColor(sf::Color(255, 255, 255, 255));
     sprite.setScale({getSize().x / sprite.getTexture()->getSize().x, getSize().y / sprite.getTexture()->getSize().y});
 	target.draw(sprite);
+
+    if(getSquirrelCount() > 0) {
+        sf::View windowView = sf::View(sf::Vector2f(forest.getScreen().getWindow().getSize().x / 2.f, forest.getScreen().getWindow().getSize().y / 2.f), sf::Vector2f (forest.getScreen().getWindow().getSize()));
+        target.setView(windowView);
+        target.draw(labelSquirrelCount);
+        target.setView(sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
+    }
 
     target.draw(healthBar);
 }

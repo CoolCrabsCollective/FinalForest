@@ -18,34 +18,39 @@ void EntityClickSelection::clickScan(sf::Vector2f clickVector, Forest& forest) {
         Enemy* enemy = dynamic_cast<Enemy *>(entity);
         Tree* tree = dynamic_cast<Tree *>(entity);
 
-        if (enemy &&
-            (clickV.x > enemy->getPosition().x - (enemy->getSize().x / 2) &&
+        if(!tree && !enemy)
+            continue;
+
+        if (enemy && (clickV.x > enemy->getPosition().x - (enemy->getSize().x / 2) &&
                       clickV.x < enemy->getPosition().x + (enemy->getSize().x / 2) &&
                       clickV.y > enemy->getPosition().y - (enemy->getSize().y) &&
                       clickV.y < enemy->getPosition().y + (enemy->getSize().y))) {
             selectedEnemy = enemy;
             break;
-        } else if (tree && selectedTree == nullptr &&
+        }
+        else if (tree && dynamic_cast<BigAssTree*>(entity) &&
+                 ((clickV.x - tree->getPosition().x)*(clickV.x - tree->getPosition().x) +
+                  (clickV.y - tree->getPosition().y)*(clickV.y - tree->getPosition().y)) < 61) {
+            selectedTree = tree;
+            break;
+        } else if (tree &&
                 ((clickV.x - tree->getPosition().x)*(clickV.x - tree->getPosition().x) +
                 (clickV.y - tree->getPosition().y)*(clickV.y - tree->getPosition().y)) < 14) {
             selectedTree = tree;
             break;
         }
-        else if (tree && selectedTree == nullptr && dynamic_cast<BigAssTree*>(entity) &&
-                ((clickV.x - tree->getPosition().x)*(clickV.x - tree->getPosition().x) +
-                 (clickV.y - tree->getPosition().y)*(clickV.y - tree->getPosition().y)) < 61) {
-            selectedTree = tree;
-            break;
-        }
+
     }
     if (selectedEnemy != nullptr) {
         selectedEntity = selectedEnemy;
         forest.getScreen().setMenu(ENEMY_MENU);
-    } else if (selectedTree != nullptr  && dynamic_cast<Tree*>(selectedTree)) {
+    }  else if (selectedTree != nullptr && dynamic_cast<BigAssTree*>(selectedTree)) {
+        selectedEntity = selectedTree;
+        forest.getScreen().setMenu(ANIMAL_MENU);
+    }
+    else if (selectedTree != nullptr  && dynamic_cast<Tree*>(selectedTree)) {
         selectedEntity = selectedTree;
         forest.getScreen().setMenu(TURRET_MENU);
-    } else if (selectedTree != nullptr && dynamic_cast<BigAssTree*>(selectedTree)) {
-        forest.getScreen().setMenu(ANIMAL_MENU);
     }
 }
 
