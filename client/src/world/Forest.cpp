@@ -101,14 +101,12 @@ void Forest::spawnWolf() {
 	Wolf* wolf = new Wolf(*this, {50, 50});
 	objects.push_back(wolf);
     animals.push_back(wolf);
-	wolf->targetNearestEnemy();
 }
 
 void Forest::spawnBear() {
 	Bear* bear = new Bear(*this, {50, 50});
 	objects.push_back(bear);
     animals.push_back(bear);
-	bear->targetNearestEnemy();
 }
 
 void Forest::assignToNextAvailableTree(Squirrel* squirrel) {
@@ -222,7 +220,7 @@ void Forest::generateEnemyWave() {
     b2Vec2 randomSpawnPos;
 
     if (waveState.round <= waveSpawns->size()) {
-        WaveSpawn currentWaveSpawn = waveSpawns->at(waveState.round );
+        WaveSpawn currentWaveSpawn = waveSpawns->at(waveState.round - 1);
         for (int i = 0; i<currentWaveSpawn.LumberJacks; i++) {
             randomSpawnPos = getRandomEnemySpawn();
             newEnemy = new LumberJack(*this, randomSpawnPos);
