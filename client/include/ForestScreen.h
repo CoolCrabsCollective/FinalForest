@@ -18,6 +18,7 @@
 #include "SFML/Audio/Music.hpp"
 #include "UI/WordsButton.h"
 #include "UI/EntityClickSelection.h"
+#include "UI/PopUp.h"
 
 class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz::InputListener {
 	std::string name = "ForestScreen";
@@ -32,6 +33,8 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
     sf::Texture* manaTexture;
     sf::Sprite manaSprite;
     sf::Text waveText;
+
+    PopUp wavePopUp;
 
 	sf::Text fpsText;
 	sf::Text mouseCoordText;
