@@ -11,12 +11,12 @@
 #include "world/Tickable.h"
 #include "world/Damageable.h"
 #include "world/Damager.h"
-#include "world/Anime.h"
+#include "world/anime/AnimeAttack.h"
 #include "world/pathfinding/ForestNode.h"
 #include "world/enemy/state/EnemyState.h"
 #include "world/HealthBar.h"
 
-class Enemy : virtual public Renderable, virtual public Physical, virtual public Tickable, virtual public Damageable, virtual public Damager, virtual public Anime {
+class Enemy : virtual public Renderable, virtual public Physical, virtual public Tickable, virtual public Damageable, virtual public Damager, virtual public AnimeAttack {
 protected:
 	b2Body* body;
 
