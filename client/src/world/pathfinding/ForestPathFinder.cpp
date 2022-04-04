@@ -33,10 +33,10 @@ void ForestPathFinder::initialize(const std::vector<Entity*>& vec) {
 		for(int16_t x = minX; x < maxX; x++) {
 			uint32_t key = x & 0x0000FFFF | (static_cast<uint32_t>(y << 16) & 0xFFFF0000);
 
-			b2Vec2 worldPos = tileToWorldCoordinates({x, y});
+			b2Vec2 worldPos = tileToWorldCoordinates({x, y}) + halfSize;
 
-			ForestNode* animalNode = new ForestNode(*this);
-			ForestNode* enemyNode = new ForestNode(*this);
+			ForestNode* animalNode = new ForestNode(*this, worldPos);
+			ForestNode* enemyNode = new ForestNode(*this, worldPos);
 
 			animalNode->setPosition(x, y);
 			enemyNode->setPosition(x, y);
@@ -47,7 +47,7 @@ void ForestPathFinder::initialize(const std::vector<Entity*>& vec) {
 				if(!obstacle || dynamic_cast<Tree*>(entity) && !dynamic_cast<BigAssTree*>(entity))
 					continue;
 
-				if(obstacle->isBlocking(worldPos + halfSize, getTileSize())) {
+				if(obstacle->isBlocking(worldPos, getTileSize())) {
 					if(dynamic_cast<River*>(entity)) {
 						enemyNode->setObstructed(true);
 					} else {
@@ -151,7 +151,7 @@ bool ForestPathFinder::findPath(PathType pathType, b2Vec2 start, b2Vec2 goal, st
 }
 
 b2Vec2 ForestPathFinder::getTileSize() const {
-	return { 5.0f, 5.0f };
+	return { 2.5f, 2.5f };
 }
 
 b2Vec2 ForestPathFinder::getTileStart() const {
@@ -251,11 +251,11 @@ void ForestPathFinder::addBridge(b2Vec2 start, b2Vec2 end) {
 	sf::Vector2i startIndex = worldToTileCoordinates(start);
 	sf::Vector2i endIndex = worldToTileCoordinates(end);
 
-	ForestNode* startNode = new ForestNode(*this);
+	ForestNode* startNode = new ForestNode(*this, start);
 	startNode->setPosition(startIndex.x, startIndex.y);
 	startNode->setObstructed(false);
 
-	ForestNode* endNode = new ForestNode(*this);
+	ForestNode* endNode = new ForestNode(*this, end);
 	endNode->setPosition(endIndex.x, endIndex.y);
 	endNode->setObstructed(false);
 

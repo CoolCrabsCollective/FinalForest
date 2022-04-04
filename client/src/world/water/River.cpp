@@ -160,7 +160,13 @@ void River::addBridge(Bridge* newBridge) {
 	filter.maskBits = 0;
 	fixtures[newBridge->getSegmentIndex()]->SetFilterData(filter);
 
-	getForest().getPathFinder().addBridge(path.at(newBridge->getSegmentIndex()), path.at(newBridge->getSegmentIndex() + 1));
+	b2Vec2 center = path.at(newBridge->getSegmentIndex()) + path.at(newBridge->getSegmentIndex() + 1);
+	center *= 0.5f;
+	b2Vec2 dir = path.at(newBridge->getSegmentIndex() + 1) - path.at(newBridge->getSegmentIndex());
+	b2Vec2 dir90 = { dir.y, -dir.x };
+	dir90 *= 0.5f;
+
+	getForest().getPathFinder().addBridge(center + dir90, center - dir90);
 }
 
 const std::vector<Bridge*>& River::getBridges() const {
