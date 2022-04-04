@@ -10,8 +10,7 @@ EntityClickSelection::EntityClickSelection() {
 }
 
 void EntityClickSelection::clickScan(sf::Vector2f clickVector, Forest& forest) {
-    Enemy* selectedEnemy = nullptr;
-    Tree* selectedTree = nullptr;
+    Entity* selectedEntity = nullptr;
     sf::Vector2f clickV = {clickVector.x, 100.f - clickVector.y};
 
     for (Entity* entity : forest.getObjects()) {
@@ -25,31 +24,22 @@ void EntityClickSelection::clickScan(sf::Vector2f clickVector, Forest& forest) {
                       clickV.x < enemy->getPosition().x + (enemy->getSize().x / 2) &&
                       clickV.y > enemy->getPosition().y - (enemy->getSize().y) &&
                       clickV.y < enemy->getPosition().y + (enemy->getSize().y))) {
-            selectedEnemy = enemy;
+            selectedEntity = enemy;
             break;
         }
         else if (tree && dynamic_cast<BigAssTree*>(entity) &&
                  ((clickV.x - tree->getPosition().x)*(clickV.x - tree->getPosition().x) +
                   (clickV.y - tree->getPosition().y)*(clickV.y - tree->getPosition().y)) < 61) {
-            selectedTree = tree;
+            selectedEntity = tree;
         } else if (tree &&
                 ((clickV.x - tree->getPosition().x)*(clickV.x - tree->getPosition().x) +
                 (clickV.y - tree->getPosition().y)*(clickV.y - tree->getPosition().y)) < 14) {
-            selectedTree = tree;
+            selectedEntity = tree;
         }
 
     }
-    if (selectedEnemy != nullptr) {
-        selectedEntity = selectedEnemy;
-        forest.getScreen().setMenu(ENEMY_MENU);
-    }  else if (selectedTree != nullptr && dynamic_cast<BigAssTree*>(selectedTree)) {
-        selectedEntity = selectedTree;
-        forest.getScreen().setMenu(ANIMAL_MENU);
-    }
-    else if (selectedTree != nullptr  && dynamic_cast<Tree*>(selectedTree)) {
-        selectedEntity = selectedTree;
-        forest.getScreen().setMenu(TURRET_MENU);
-    }
+
+    this->setSelectedEntity(selectedEntity);
 }
 
 Entity *EntityClickSelection::getSelectedEntity() const {
@@ -58,4 +48,17 @@ Entity *EntityClickSelection::getSelectedEntity() const {
 
 void EntityClickSelection::setSelectedEntity(Entity *selectedEntity) {
     EntityClickSelection::selectedEntity = selectedEntity;
+
+    if(selectedEntity == nullptr)
+        return;
+
+    ForestScreen& screen = selectedEntity->getForest().getScreen();
+    if (dynamic_cast<Enemy*>(selectedEntity)) {
+        screen.setMenu(ENEMY_MENU);
+    }  else if (dynamic_cast<BigAssTree*>(selectedEntity)) {
+        screen.setMenu(ANIMAL_MENU);
+    }
+    else if (dynamic_cast<Tree*>(selectedEntity)) {
+        screen.setMenu(TURRET_MENU);
+    }
 }

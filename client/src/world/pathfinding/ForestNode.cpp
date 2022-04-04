@@ -7,7 +7,11 @@
 #include "world/pathfinding/ForestPathFinder.h"
 
 
-ForestNode::ForestNode(ForestPathFinder& pathFinder) : pathFinder(pathFinder) {}
+ForestNode::ForestNode(ForestPathFinder& pathFinder, b2Vec2 worldPos)
+	: pathFinder(pathFinder), worldPos(worldPos)
+{
+
+}
 
 float ForestNode::distanceTo(pf::AStarNode* node) const {
 	ForestNode* forestNode = dynamic_cast<ForestNode*>(node);
@@ -19,7 +23,7 @@ float ForestNode::distanceTo(pf::AStarNode* node) const {
 }
 
 b2Vec2 ForestNode::getWorldPosition() const {
-	return pathFinder.tileToWorldCoordinates(sf::Vector2i(getX(), getY()));
+	return worldPos;
 }
 
 bool ForestNode::isObstructed() const {

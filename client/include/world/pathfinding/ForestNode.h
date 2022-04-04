@@ -15,8 +15,9 @@ class ForestNode : public pf::AStarNode {
 	ForestPathFinder& pathFinder;
 
 	bool obstructed = false;
+	b2Vec2 worldPos;
 public:
-	ForestNode(ForestPathFinder& pathFinder);
+	ForestNode(ForestPathFinder& pathFinder, b2Vec2 worldPos);
 
 	float distanceTo(AStarNode* node) const override;
 
