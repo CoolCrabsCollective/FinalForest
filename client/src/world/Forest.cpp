@@ -194,7 +194,7 @@ void Forest::tick(float delta) {
 	    if(trash == getScreen().getSelectedTree())
 	        getScreen().setSelectedTree(nullptr);
 
-	    delete trash;
+	    //delete trash;
     }
 
 	toDelete.clear();
