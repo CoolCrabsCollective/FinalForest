@@ -101,6 +101,7 @@ Forest::~Forest() {
 void Forest::spawnSquirrel() {
     Squirrel* squirrel = new Squirrel(*this, {50, 50});
     objects.push_back(squirrel);
+    animals.push_back(squirrel);
     assignToNextAvailableTree(squirrel);
     squirrelCount++;
 }
@@ -108,12 +109,14 @@ void Forest::spawnSquirrel() {
 void Forest::spawnWolf() {
 	Wolf* wolf = new Wolf(*this, {50, 50});
 	objects.push_back(wolf);
+    animals.push_back(wolf);
 	wolf->targetNearestEnemy();
 }
 
 void Forest::spawnBear() {
 	Bear* bear = new Bear(*this, {50, 50});
 	objects.push_back(bear);
+    animals.push_back(bear);
 	bear->targetNearestEnemy();
 }
 
@@ -188,6 +191,15 @@ void Forest::tick(float delta) {
             for (int i = 0; i<enemies.size(); i++) {
                 if (enemies.at(i) == trash) {
                     enemies.erase(enemies.begin() + i);
+                }
+            }
+        }
+
+        if(dynamic_cast<Animal*>(trash))
+        {
+            for (int i = 0; i<animals.size(); i++) {
+                if (animals.at(i) == trash) {
+                    animals.erase(animals.begin() + i);
                 }
             }
         }
@@ -500,5 +512,9 @@ void Forest::respawnSquirrel(Tree *tree) {
     Squirrel* squirrel = new Squirrel(*this,  tree->getPosition());
     objects.push_back(squirrel);
     assignToNextAvailableTree(squirrel);
+}
+
+const std::vector<Animal *> &Forest::getAnimals() const {
+    return animals;
 }
 

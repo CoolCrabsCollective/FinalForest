@@ -15,7 +15,7 @@ void Damager::setPower(float power){
 }
 
 void Damager::attack(Damageable* target) {
-    target->damage(power);
+    target->damage(this);
 }
 
 float Damager::getMsAttackInterval() const {
