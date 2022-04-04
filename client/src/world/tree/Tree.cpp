@@ -11,18 +11,17 @@
 #include "ForestScreen.h"
 
 Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest), healthBar(this, this, forest.assetLoader) {
-
 	sprite.setTexture(*forest.getAssets().get(GameAssets::TREE));
 	whiteTreeSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_TREE));
     labelSquirrelCount.setFont(*forest.getAssets().get(GameAssets::SANS_TTF));
-
 
     labelSquirrelCount.setCharacterSize(24);
     labelSquirrelCount.setFillColor(sf::Color::Black);
 
     setDestroyedTexture(forest.getAssets().get(GameAssets::TREE_STUMP));
     setDamageStateSprite(&sprite);
-    setHealth(10.0);
+    maxHealth = 10.0f;
+    setHealth(maxHealth);
 
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_staticBody;

@@ -9,12 +9,14 @@
 
 class Damageable {
 private:
-    float health = 0;
+    float health;
     bool destroyed = false;
     sf::Texture* destroyedTexture = nullptr;
     sf::Sprite* sprite;
 
 public:
+    float maxHealth;
+
     Damageable();
 
     float getHealth();
