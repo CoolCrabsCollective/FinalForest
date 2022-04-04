@@ -12,13 +12,14 @@ struct WaveSpawn {
     unsigned int LumberJacks = 0;
     unsigned int ChainSawLumberJacks = 0;
     unsigned int Bulldozer = 0;
+	bool singleDir = false;
 };
 
 class WaveSpawnGetter {
     std::vector<WaveSpawn> waveSpawns =
-            {{.round=1, .LumberJacks=3, /*.ChainSawLumberJacks=1, .Bulldozer=1*/},
-             {.round=2, .LumberJacks=10},
-             {.round=3, .LumberJacks=5, .ChainSawLumberJacks=1},
+            {{.round=1, .LumberJacks=3, .singleDir=true},
+             {.round=2, .LumberJacks=10, .singleDir=true},
+             {.round=3, .LumberJacks=5, .ChainSawLumberJacks=1, .singleDir=true},
              {.round=4, .LumberJacks=6, .ChainSawLumberJacks=3},
              {.round=5, .LumberJacks=6, .ChainSawLumberJacks=6},
              {.round=6, .LumberJacks=10, .ChainSawLumberJacks=10},
