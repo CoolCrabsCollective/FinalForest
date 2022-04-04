@@ -41,9 +41,18 @@ ForestScreen::ForestScreen(wiz::Game& game)
 	waveClearedSound.setVolume(100.0f);
 	click.setBuffer(*getGame().getAssets().get(GameAssets::CLICK_SOUND));
 	click.setVolume(100.0f);
+
+	pausedText.setFont(*getGame().getAssets().get(GameAssets::DEFAULT_FONT));
+	pausedText.setCharacterSize(50);
+	pausedText.setString("Game paused (Escape to resume)");
+	sf::FloatRect bounds = pausedText.getLocalBounds();
+	pausedText.setPosition(sf::Vector2f(800 - bounds.getSize().x / 2, 450 - bounds.getSize().y / 2));
 }
 
 void ForestScreen::tick(float delta) {
+	if(paused)
+		return;
+
     if (gameOver)
         return;
 
@@ -122,6 +131,10 @@ void ForestScreen::render(sf::RenderTarget& target) {
         target.draw(gameOverText);
         target.draw(*resetButton);
     }
+
+	if(paused) {
+		target.draw(pausedText);
+	}
 
 	if(debug) {
 		fpsText.setString("FPS: " + std::to_string(fps));
@@ -231,11 +244,16 @@ void ForestScreen::setDebug(bool debug) {
 void ForestScreen::keyPressed(const sf::Event::KeyEvent& keyEvent) {
 	if(keyEvent.code == sf::Keyboard::F12)
 		debug = !debug;
-	if(keyEvent.code == sf::Keyboard::F7)
-		forest.nutCount += 100;
+	//if(keyEvent.code == sf::Keyboard::F7)
+	//	forest.nutCount += 100;
+	if(keyEvent.code == sf::Keyboard::Escape)
+		paused = !paused;
 }
 
 void ForestScreen::mouseButtonReleased(const sf::Event::MouseButtonEvent &mouseButtonEvent) {
+	if(paused)
+		return;
+
 	sf::Vector2f clickVector = getWindow().mapPixelToCoords(sf::Vector2i(mouseButtonEvent.x, mouseButtonEvent.y), UI_VIEW);
 
 	if(gameOver) {
@@ -249,6 +267,8 @@ void ForestScreen::mouseButtonReleased(const sf::Event::MouseButtonEvent &mouseB
 }
 
 void ForestScreen::touchBegan(const sf::Event::TouchEvent &touchScreenEvent) {
+	if(paused)
+		return;
     sf::Vector2f touchVector = getWindow().mapPixelToCoords(sf::Vector2i(touchScreenEvent.x, touchScreenEvent.y), UI_VIEW);
 
 	if(gameOver) {
