@@ -21,8 +21,8 @@ LumberJack::LumberJack(Forest& forest, b2Vec2 position) : Enemy(forest, position
     whiteSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_LUMBERJACK));
 	debugSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_PIXEL));
 
-    insertFrame(forest.getAssets().get(GameAssets::LUMBERJACKAXE));
-    insertFrame(forest.getAssets().get(GameAssets::LUMBERJACKAXE_SWING));
+    insertAttackFrame(forest.getAssets().get(GameAssets::LUMBERJACKAXE));
+    insertAttackFrame(forest.getAssets().get(GameAssets::LUMBERJACKAXE_SWING));
 }
 
 void LumberJack::tick(float delta) {
