@@ -70,23 +70,23 @@ void LumberJack::draw(sf::RenderTarget& target, const sf::RenderStates& states) 
     sf::Vector2f worldMousePos = forest.getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
 
     sprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
-    sprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
 
-    if(!this->isDestroyed() && (worldMousePos.x - sprite.getPosition().x)*(worldMousePos.x - sprite.getPosition().x) +
-                               (worldMousePos.y - sprite.getPosition().y)*(worldMousePos.y - sprite.getPosition().y) < 6)
+	float flip = facingRight > 0 ? 1.0f : -1.0f;
+
+    if(!this->isDestroyed() && (worldMousePos.x - sprite.getPosition().x) * (worldMousePos.x - sprite.getPosition().x) +
+                               (worldMousePos.y - sprite.getPosition().y) * (worldMousePos.y - sprite.getPosition().y) < 6)
     {
         whiteSprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
         whiteSprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
-        whiteSprite.setScale({1.2f * getSize().x / sprite.getTexture()->getSize().x, 1.2f * getSize().y / sprite.getTexture()->getSize().y});
+        whiteSprite.setScale({flip * getSize().x * 2.5f / sprite.getTexture()->getSize().x, getSize().y * 2.5f / sprite.getTexture()->getSize().y});
         target.draw(whiteSprite);
     }
 
     sprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
-    float flip = facingRight > 0 ? 1.0f : -1.0f;
     sprite.setScale({flip * getSize().x * 2.f / sprite.getTexture()->getSize().x,
                      getSize().y * 2.f / sprite.getTexture()->getSize().y});
-    target.draw(sprite);
 
+    target.draw(sprite);
     target.draw(healthBar);
 
 	if(!forest.getScreen().isDebug())

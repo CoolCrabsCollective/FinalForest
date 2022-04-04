@@ -7,7 +7,7 @@
 #include "UI/EnemyMenu.h"
 #include "ForestScreen.h"
 #include "world/tree/BigAssTree.h"
-#include "world/animal/state/AnimalGoAttackState.h"
+#include "world/animal/state/AnimalAttackState.h"
 #include "world/animal/Wolf.h"
 #include "world/animal/Bear.h"
 
@@ -24,7 +24,7 @@ EnemyMenu::EnemyMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu
                                               for(Entity* e : forest.getObjects())
                                               {
                                                   Squirrel* s = dynamic_cast<Squirrel*>(e);
-                                                  if(s)
+                                                  if(s && !s->isAttacking())
                                                   {
                                                       if(closestSquirrel == nullptr)
                                                       {
@@ -43,7 +43,7 @@ EnemyMenu::EnemyMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu
                                                   }
                                               }
                                               if(closestSquirrel)
-                                                  closestSquirrel->setState(std::make_shared<AnimalGoAttackState>(closestSquirrel, enemy));
+                                                  closestSquirrel->setState(std::make_shared<AnimalAttackState>(closestSquirrel, enemy));
 
                                           }
                                       },
@@ -61,7 +61,7 @@ EnemyMenu::EnemyMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu
                                               for(Entity* e : forest.getObjects())
                                               {
                                                   Wolf* s = dynamic_cast<Wolf*>(e);
-                                                  if(s)
+                                                  if(s && !s->isAttacking())
                                                   {
                                                       if(closestWolf == nullptr)
                                                       {
@@ -80,7 +80,7 @@ EnemyMenu::EnemyMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu
                                                   }
                                               }
                                               if(closestWolf)
-                                                  closestWolf->setState(std::make_shared<AnimalGoAttackState>(closestWolf, enemy));
+                                                  closestWolf->setState(std::make_shared<AnimalAttackState>(closestWolf, enemy));
 
                                           }
                                       },
@@ -98,7 +98,7 @@ EnemyMenu::EnemyMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu
                                               for(Entity* e : forest.getObjects())
                                               {
                                                   Bear* s = dynamic_cast<Bear*>(e);
-                                                  if(s)
+                                                  if(s && !s->isAttacking())
                                                   {
                                                       if(closestBear == nullptr)
                                                       {
@@ -117,7 +117,7 @@ EnemyMenu::EnemyMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu
                                                   }
                                               }
                                               if(closestBear)
-                                                  closestBear->setState(std::make_shared<AnimalGoAttackState>(closestBear, enemy));
+                                                  closestBear->setState(std::make_shared<AnimalAttackState>(closestBear, enemy));
 
                                           }
                                       },
