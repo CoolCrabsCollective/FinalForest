@@ -62,6 +62,11 @@ float Animal::getZOrder() const {
 }
 
 void Animal::tick(float delta) {
+    if(this->isDestroyed())
+    {
+        this->getForest().sendToCompost(this);
+        return;
+    }
 
 	getState()->tick(delta);
 

@@ -235,6 +235,10 @@ bool Enemy::isLeaving() {
 	return std::dynamic_pointer_cast<EnemyLeaveState>(state) != nullptr;
 }
 
+bool Enemy::isAttacking() {
+    return std::dynamic_pointer_cast<EnemyAttackState>(state) != nullptr;
+}
+
 void Enemy::drawDebug(sf::RenderTarget& target, const sf::RenderStates& states) const {
 
 	b2Vec2 prev = getPosition();
