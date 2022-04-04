@@ -6,9 +6,8 @@
 #include "UI/PurchaseButton.h"
 #include "GameAssets.h"
 
-Menu::Menu(const wiz::AssetLoader &assetLoader, Forest& forest) : assetLoader(assetLoader) {
-
-}
+Menu::Menu(const wiz::AssetLoader &assetLoader, Forest& forest)
+	: assetLoader(assetLoader) {}
 
 void Menu::show(bool isShown) {
     hidden = !isShown;

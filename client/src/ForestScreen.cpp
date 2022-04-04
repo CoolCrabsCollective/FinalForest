@@ -15,6 +15,7 @@
 #include "UI/Button.h"
 #include "world/tree/BigAssTree.h"
 #include "WIZ/game/BasicGame.h"
+#include "TitleScreen.h"
 
 ForestScreen::ForestScreen(wiz::Game& game)
 		: Screen(game),
@@ -75,7 +76,7 @@ void ForestScreen::tick(float delta) {
             sf::IntRect({800 - 100, 450 - 25 + 150}, {200, 50}),
             forest,
             [&](Button* button) {
-				getGame().setScreen(std::make_shared<ForestScreen>(getGame()));
+				getGame().setScreen(std::make_shared<TitleScreen>(getGame()));
             },
             "Restart"
             );
