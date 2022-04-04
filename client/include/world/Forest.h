@@ -38,7 +38,7 @@ class NutShot;
 enum Currency {Nuts, Mana};
 
 struct WaveState {
-    unsigned int round = 0;
+    unsigned int round = 1;
     float difficulty = 1.0;
 };
 

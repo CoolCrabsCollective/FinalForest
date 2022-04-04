@@ -16,6 +16,8 @@
 #include "../cmake-build-debug/_deps/sfml-src/include/SFML/Window/Event.hpp"
 #include "UI/Menu.h"
 #include "SFML/Audio/Music.hpp"
+#include "UI/WordsButton.h"
+#include "UI/EntityClickSelection.h"
 
 class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz::InputListener {
 	std::string name = "ForestScreen";
@@ -29,11 +31,13 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
     sf::Text manaText;
     sf::Texture* manaTexture;
     sf::Sprite manaSprite;
+    sf::Text waveText;
 
 	sf::Text fpsText;
 	sf::Text mouseCoordText;
 
     sf::Text gameOverText;
+    WordsButton* resetButton;
 
 	sf::Music* music;
 
@@ -42,8 +46,8 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
     Menu* turretMenu;
     Menu* enemyMenu;
     MenuType activeMenu = ANIMAL_MENU;
-    Tree* selectedTree;
-    Enemy* selectedEnemy;
+
+    EntityClickSelection entityClickSelection;
 
     bool debug = false;
 	float fps = 0.0f;
@@ -51,14 +55,6 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
 
 public:
 	ForestScreen(wiz::Game& game);
-
-    Tree *getSelectedTree() const;
-
-    Enemy *getSelectedEnemy() const;
-
-    void setSelectedTree(Tree *selectedTree);
-
-    void setSelectedEnemy(Enemy *selectedEnemy);
 
 	void tick(float delta) override;
 
@@ -78,6 +74,8 @@ public:
 
     void updateMana();
 
+    void updateWave();
+
 	bool isDebug() const;
 
 	void setDebug(bool debug);
@@ -91,6 +89,10 @@ public:
     void clickActiveMenu(sf::Vector2f clickVector);
 
     void setMenu(MenuType menuType);
+
+    EntityClickSelection& getEntityClickSelection();
+
+    void setEntityClickSelection(const EntityClickSelection &entityClickSelection);
 };
 
 

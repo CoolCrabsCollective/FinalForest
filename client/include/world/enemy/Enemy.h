@@ -68,6 +68,8 @@ public:
 	bool isLeaving();
 
 	void drawDebug(sf::RenderTarget& target, const sf::RenderStates& states) const;
+
+    const sf::Sprite &getSprite() const;
 };
 
 

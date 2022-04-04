@@ -12,7 +12,7 @@
 #include "world/Forest.h"
 
 Enemy::Enemy(Forest& forest, b2Vec2 position) : forest(forest), healthBar(this, this, forest.assetLoader) {
-	setPower(500);
+	setPower(0.5);
 	setMsAttackInterval(2000);
 	setStateSprite(&sprite);
 
@@ -135,14 +135,14 @@ void Enemy::tick(float delta) {
 
 	body->SetLinearVelocity(speed * direction);
 
-	sf::Vector2<int> rawMousePos = sf::Mouse::getPosition(getForest().getScreen().getWindow());
-	sf::Vector2f worldMousePos = getForest().getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
-	if(!this->isDestroyed() && sf::Mouse::isButtonPressed(sf::Mouse::Left) && (worldMousePos.x - sprite.getPosition().x)*(worldMousePos.x - sprite.getPosition().x) +
-																			  (worldMousePos.y - sprite.getPosition().y)*(worldMousePos.y - sprite.getPosition().y) < 61)
-	{
-		getForest().getScreen().setSelectedEnemy(this);
-		getForest().getScreen().setMenu(ENEMY_MENU);
-	}
+//	sf::Vector2<int> rawMousePos = sf::Mouse::getPosition(getForest().getScreen().getWindow());
+//	sf::Vector2f worldMousePos = getForest().getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
+//	if(!this->isDestroyed() && sf::Mouse::isButtonPressed(sf::Mouse::Left) && (worldMousePos.x - sprite.getPosition().x)*(worldMousePos.x - sprite.getPosition().x) +
+//																			  (worldMousePos.y - sprite.getPosition().y)*(worldMousePos.y - sprite.getPosition().y) < 61)
+//	{
+//		getForest().getScreen().setSelectedEnemy(this);
+//		getForest().getScreen().setMenu(ENEMY_MENU);
+//	}
 }
 
 b2Body* Enemy::getBody() const {
@@ -261,4 +261,8 @@ void Enemy::drawDebug(sf::RenderTarget& target, const sf::RenderStates& states) 
 	debugSprite.setColor(sf::Color::Cyan);
 
 	target.draw(debugSprite);
+}
+
+const sf::Sprite &Enemy::getSprite() const {
+    return sprite;
 }

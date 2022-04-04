@@ -16,7 +16,9 @@ EnemyMenu::EnemyMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu
     buttons.push_back(new WordsButton(sf::IntRect({50, 50}, {200, 100}),
                                       forest,
                                       [&](Button* button) {
-                                          Enemy* enemy = forest.getScreen().getSelectedEnemy();
+                                          if (!dynamic_cast<Enemy*>(forest.getScreen().getEntityClickSelection().getSelectedEntity()))
+                                              return;
+                                          Enemy* enemy = dynamic_cast<Enemy*>(forest.getScreen().getEntityClickSelection().getSelectedEntity());
                                           if(enemy != nullptr)
                                           {
                                               Squirrel* closestSquirrel = nullptr;
@@ -53,7 +55,9 @@ EnemyMenu::EnemyMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu
     buttons.push_back(new WordsButton(sf::IntRect({50, 200}, {200, 100}),
                                       forest,
                                       [&](Button* button) {
-                                          Enemy* enemy = forest.getScreen().getSelectedEnemy();
+                                          if (!dynamic_cast<Enemy*>(forest.getScreen().getEntityClickSelection().getSelectedEntity()))
+                                              return;
+                                          Enemy* enemy = dynamic_cast<Enemy*>(forest.getScreen().getEntityClickSelection().getSelectedEntity());
                                           if(enemy != nullptr)
                                           {
                                               Wolf* closestWolf = nullptr;
@@ -90,7 +94,9 @@ EnemyMenu::EnemyMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu
     buttons.push_back(new WordsButton(sf::IntRect({50, 350}, {200, 100}),
                                       forest,
                                       [&](Button* button) {
-                                          Enemy* enemy = forest.getScreen().getSelectedEnemy();
+                                          if (!dynamic_cast<Enemy*>(forest.getScreen().getEntityClickSelection().getSelectedEntity()))
+                                              return;
+                                          Enemy* enemy = dynamic_cast<Enemy*>(forest.getScreen().getEntityClickSelection().getSelectedEntity());
                                           if(enemy != nullptr)
                                           {
                                               Bear* closestBear = nullptr;

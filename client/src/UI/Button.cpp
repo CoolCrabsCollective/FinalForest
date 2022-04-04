@@ -21,7 +21,7 @@ void Button::draw(sf::RenderTarget& target, const sf::RenderStates& states) cons
 
 void Button::checkClick(sf::Vector2f clickVector) {
     if (clickVector.x > rectangleShape.getPosition().x &&
-        clickVector.x < rectangleShape.getPosition().y + rectangleShape.getSize().x &&
+        clickVector.x < rectangleShape.getPosition().x + rectangleShape.getSize().x &&
         clickVector.y > rectangleShape.getPosition().y &&
         clickVector.y < rectangleShape.getPosition().y + rectangleShape.getSize().y)
         click();

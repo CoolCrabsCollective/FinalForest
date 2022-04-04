@@ -11,7 +11,10 @@
 #include "ForestScreen.h"
 
 Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest), healthBar(this, this, forest.assetLoader) {
-	sprite.setTexture(*forest.getAssets().get(GameAssets::TREE));
+    normalTreeTexture = *forest.getAssets().get(GameAssets::TREE);
+    turretTreeTexture = *forest.getAssets().get(GameAssets::TREE_TURRET);
+
+	sprite.setTexture(normalTreeTexture);
 	whiteTreeSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_TREE));
     labelSquirrelCount.setFont(*forest.getAssets().get(GameAssets::SANS_TTF));
 
@@ -46,6 +49,18 @@ void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const 
     sf::Vector2<int> rawMousePos = sf::Mouse::getPosition(forest.getScreen().getWindow());
     sf::Vector2f worldMousePos = forest.getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
 
+    if(getSquirrelCount() > 0)
+    {
+        sf::View windowView = sf::View(sf::Vector2f(forest.getScreen().getWindow().getSize().x / 2.f, forest.getScreen().getWindow().getSize().y / 2.f), sf::Vector2f (forest.getScreen().getWindow().getSize()));
+        target.setView(windowView);
+        target.draw(labelSquirrelCount);
+        target.setView(sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
+
+        sprite.setTexture(turretTreeTexture);
+    } else {
+        sprite.setTexture(normalTreeTexture);
+    }
+
 	sprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
 	sprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
 
@@ -61,14 +76,6 @@ void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const 
     sprite.setColor(sf::Color(255, 255, 255, 255));
     sprite.setScale({getSize().x / sprite.getTexture()->getSize().x, getSize().y / sprite.getTexture()->getSize().y});
 	target.draw(sprite);
-
-	if(getSquirrelCount() > 0)
-    {
-        sf::View windowView = sf::View(sf::Vector2f(forest.getScreen().getWindow().getSize().x / 2.f, forest.getScreen().getWindow().getSize().y / 2.f), sf::Vector2f (forest.getScreen().getWindow().getSize()));
-        target.setView(windowView);
-        target.draw(labelSquirrelCount);
-        target.setView(sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
-    }
 
     target.draw(healthBar);
 }
@@ -113,15 +120,6 @@ void Tree::tick(float delta) {
                 this->timeLeftForNut = TIME_FOR_NUTSHOT / this->getSquirrelCount();
             }
         }
-    }
-
-    sf::Vector2<int> rawMousePos = sf::Mouse::getPosition(getForest().getScreen().getWindow());
-    sf::Vector2f worldMousePos = getForest().getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
-    if(!this->isDestroyed() && sf::Mouse::isButtonPressed(sf::Mouse::Left) && (worldMousePos.x - sprite.getPosition().x)*(worldMousePos.x - sprite.getPosition().x) +
-                               (worldMousePos.y - sprite.getPosition().y)*(worldMousePos.y - sprite.getPosition().y) < 61)
-    {
-        getForest().getScreen().setSelectedTree(this);
-        getForest().getScreen().setMenu(TURRET_MENU);
     }
 }
 
@@ -199,4 +197,8 @@ void Tree::damage(float attack) {
 void Tree::removeSquirrelTurret() {
     if(getSquirrelCount() > 0)
         squirrels--;
+}
+
+const sf::Sprite &Tree::getSprite() const {
+    return sprite;
 }

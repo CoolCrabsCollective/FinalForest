@@ -22,6 +22,9 @@ protected:
     mutable sf::Sprite sprite;
     mutable sf::Sprite whiteTreeSprite;
 
+    sf::Texture normalTreeTexture;
+    sf::Texture turretTreeTexture;
+
     sf::Text labelSquirrelCount;
 
 	b2Body* body;
@@ -58,6 +61,8 @@ public:
     void tick(float delta) override;
 
 	void damage(float attack) override;
+
+    const sf::Sprite &getSprite() const;
 };
 
 
