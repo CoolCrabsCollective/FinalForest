@@ -2,8 +2,8 @@
 // Created by blexander😩😩😩😩🤤 on 2022-04-02.
 //
 
-#ifndef LD50_CLIENT_MAGICLAKE_H
-#define LD50_CLIENT_MAGICLAKE_H
+#ifndef LD50_CLIENT_MAGIC_LAKE_H
+#define LD50_CLIENT_MAGIC_LAKE_H
 
 #include "SFML/Graphics/Drawable.hpp"
 #include "world/Obstacle.h"
@@ -34,4 +34,4 @@ public:
 };
 
 
-#endif //LD50_CLIENT_MAGICLAKE_H
+#endif //LD50_CLIENT_MAGIC_LAKE_H
