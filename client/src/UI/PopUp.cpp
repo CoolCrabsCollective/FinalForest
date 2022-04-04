@@ -8,7 +8,7 @@
 PopUp::PopUp(const wiz::AssetLoader& assetLoader) {
     popUpText.setCharacterSize(16);
     popUpText.setFillColor(sf::Color::Black);
-    popUpText.setFont(*assetLoader.get(GameAssets::SANS_TTF));
+    popUpText.setFont(*assetLoader.get(GameAssets::DEFAULT_FONT));
     sf::FloatRect bounds = popUpText.getLocalBounds();
     popUpText.setPosition({(float) 800 + - (bounds.width / 2), (float) 450 - (bounds.height / 2)});
 }
