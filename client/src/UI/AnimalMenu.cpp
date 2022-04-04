@@ -9,7 +9,7 @@
 AnimalMenu::AnimalMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu(assetLoader, forest) {
     // Squirrel Button
     buttons.push_back(new PurchaseButton(
-            sf::IntRect({50, 50}, {200, 100}),
+            sf::IntRect({50, 50}, {200, 115}),
             forest,
             [&](Button* button) {
                 PurchaseButton* iconButton = dynamic_cast<PurchaseButton*>(button);
@@ -18,11 +18,12 @@ AnimalMenu::AnimalMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Me
             assetLoader,
             &GameAssets::SQUIRREL,
             Nuts,
-            5
+            5,
+            0
     ));
     // Wolf Button
     buttons.push_back(new PurchaseButton(
-            sf::IntRect({50, 200}, {200, 200}),
+            sf::IntRect({50, 215}, {200, 120}),
             forest,
             [&](Button* button) {
                 PurchaseButton* iconButton = dynamic_cast<PurchaseButton*>(button);
@@ -31,11 +32,12 @@ AnimalMenu::AnimalMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Me
             assetLoader,
             &GameAssets::WOLF,
             Nuts,
-            20
+            20,
+            -15
     ));
     // Bear Button
     buttons.push_back(new PurchaseButton(
-            sf::IntRect({50, 450}, {200, 200}),
+            sf::IntRect({50, 395}, {200, 140}),
             forest,
             [&](Button* button) {
                 PurchaseButton* iconButton = dynamic_cast<PurchaseButton*>(button);
@@ -44,6 +46,7 @@ AnimalMenu::AnimalMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Me
             assetLoader,
             &GameAssets::BEAR,
             Nuts,
-            50
+            50,
+            -8
     ));
 }
