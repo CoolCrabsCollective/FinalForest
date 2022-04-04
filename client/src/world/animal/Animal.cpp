@@ -6,7 +6,7 @@
 #include "world/Forest.h"
 #include "GameAssets.h"
 #include "ForestScreen.h"
-#include "Dynamics/b2Fixture.h"
+#include "Box2D/Dynamics/b2Fixture.h"
 #include "Box2D/Collision/Shapes/b2CircleShape.h"
 #include "world/animal/state/AnimalAttackState.h"
 #include "world/animal/state/AnimalIdleState.h"
