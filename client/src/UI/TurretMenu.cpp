@@ -26,7 +26,7 @@ TurretMenu::TurretMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Me
 
     buttons.push_back(
     new WordsButton(
-        sf::IntRect({50, 50}, {200, 100}),
+        sf::IntRect({50, 125}, {200, 100}),
         forest,
         [&](Button* button) {
             if (!dynamic_cast<Tree*>(forest.getScreen().getEntityClickSelection().getSelectedEntity()))
@@ -74,7 +74,7 @@ TurretMenu::TurretMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Me
 
     buttons.push_back(
     new WordsButton(
-            sf::IntRect({50, 200}, {200, 100}),
+            sf::IntRect({50, 270}, {200, 100}),
             forest,
             [&](Button* button) {
                 if (!dynamic_cast<Tree*>(forest.getScreen().getEntityClickSelection().getSelectedEntity()))

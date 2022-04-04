@@ -81,6 +81,8 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 
     for(int i = 0; i < 8; i++)
         spawnSquirrel();
+
+    getScreen().getEntityClickSelection().setSelectedEntity(this->getGreatOakTree());
 }
 
 Forest::~Forest() {
