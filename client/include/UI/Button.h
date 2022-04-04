@@ -16,12 +16,14 @@ class Button : public sf::Drawable, public Tickable  {
 
 
 protected:
-    sf::RectangleShape rectangleShape;
+    mutable sf::RectangleShape rectangleShape;
 
     std::function<void(Button*)> onClick;
 
     constexpr static const sf::Color unavailableColor = sf::Color(255, 255, 255, 100);
     constexpr static const sf::Color availableColor = sf::Color(255, 255, 255, 255);
+    constexpr static const sf::Color hover = sf::Color(200, 200, 200, 255);
+    constexpr static const sf::Color down = sf::Color(120, 120, 120, 255);
     constexpr static const sf::Color gray = sf::Color(0, 0, 0, 100);
 
     virtual void click();
