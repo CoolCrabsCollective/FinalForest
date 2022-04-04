@@ -17,6 +17,9 @@ class HealthBar : public sf::Drawable {
     Damageable* damageable;
     mutable sf::Sprite barSprite;
 
+    float barWidth = 5.0f;
+    float barHeight = 0.5f;
+
 public:
     HealthBar(Physical* physicalTarget, Damageable* damageable, const wiz::AssetLoader& assetLoader);
 
