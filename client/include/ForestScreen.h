@@ -29,6 +29,7 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
     sf::Text manaText;
     sf::Texture* manaTexture;
     sf::Sprite manaSprite;
+    sf::Text waveText;
 
 	sf::Text fpsText;
 	sf::Text mouseCoordText;
@@ -76,6 +77,8 @@ public:
     void updateSquirrelCount();
 
     void updateMana();
+
+    void updateWave();
 
 	bool isDebug() const;
 

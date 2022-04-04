@@ -35,13 +35,14 @@ void ForestScreen::tick(float delta) {
     updateSquirrelCount();
     updateNutCount();
     updateMana();
+    updateWave();
 	fps = 1.0f / delta * 1000.0f;
 
     // Game over detection.
     if (forest.getGreatOakTree()->isDestroyed()) {
         gameOverText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
         gameOverText.setCharacterSize(50);
-        gameOverText.setString("          Game Over!\nYou survived " + std::to_string(forest.waveState.round) + " waves!");
+        gameOverText.setString("          Game Over!\nYou survived " + std::to_string(forest.waveState.round - 1) + " waves!");
         sf::FloatRect bounds = gameOverText.getLocalBounds();
         gameOverText.setPosition(sf::Vector2f(800 - bounds.getSize().x / 2, 450 - bounds.getSize().y / 2));
 
@@ -68,6 +69,7 @@ void ForestScreen::render(sf::RenderTarget& target) {
     target.draw(squirrelSprite);
     target.draw(manaText);
     target.draw(manaSprite);
+    target.draw(waveText);
     target.draw(*animalMenu);
     target.draw(*turretMenu);
     target.draw(*enemyMenu);
@@ -120,6 +122,22 @@ void ForestScreen::show() {
 	mouseCoordText.setCharacterSize(20);
 	mouseCoordText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
 
+    squirrelCountText.setPosition(sf::Vector2f(1550, 25));
+    squirrelCountText.setCharacterSize(20);
+    squirrelCountText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+
+    nutCountText.setPosition(sf::Vector2f(1550, 75));
+    nutCountText.setCharacterSize(20);
+    nutCountText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+
+    manaText.setPosition(sf::Vector2f(1550, 125));
+    manaText.setCharacterSize(20);
+    manaText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+
+    waveText.setPosition(sf::Vector2f(1500, 175));
+    waveText.setCharacterSize(20);
+    waveText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+
 	getGame().addWindowListener(this);
 
 	getGame().addInputListener(this);
@@ -139,23 +157,18 @@ void ForestScreen::windowClosed() {
 
 void ForestScreen::updateNutCount() {
     squirrelCountText.setString(std::to_string(forest.nutCount));
-    squirrelCountText.setPosition(sf::Vector2f(1550, 25));
-    squirrelCountText.setCharacterSize(20);
-    squirrelCountText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
 }
 
 void ForestScreen::updateSquirrelCount() {
     nutCountText.setString(std::to_string(forest.squirrelCount));
-    nutCountText.setPosition(sf::Vector2f(1550, 75));
-    nutCountText.setCharacterSize(20);
-    nutCountText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
 }
 
 void ForestScreen::updateMana() {
     manaText.setString(std::to_string(forest.mana));
-    manaText.setPosition(sf::Vector2f(1550, 125));
-    manaText.setCharacterSize(20);
-    manaText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+}
+
+void ForestScreen::updateWave() {
+    waveText.setString("Wave: " + std::to_string(forest.waveState.round));
 }
 
 bool ForestScreen::isDebug() const {
