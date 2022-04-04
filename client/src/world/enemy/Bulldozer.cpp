@@ -16,7 +16,9 @@ Bulldozer::Bulldozer(Forest& forest, const b2Vec2& position)
 	debugSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_PIXEL));
 	whiteSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_BULLDOZER));
 
-	maxHealth = 20.0f;
+    speed = 5;
+
+	maxHealth = 40.0f;
 	setHealth(maxHealth);
 
 	setPower(0.1f);
