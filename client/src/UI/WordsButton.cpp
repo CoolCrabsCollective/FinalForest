@@ -10,11 +10,12 @@
 WordsButton::WordsButton(sf::IntRect rectangle, Forest &forest, std::function<void(Button *)> onClick,
                          std::string str) : Button(rectangle, forest, onClick) {
         lblText.setString(str);
-        lblText.setPosition({(float)rectangle.getPosition().x, (float)rectangle.getPosition().y});
-        lblText.setFont(*forest.getAssets().get(GameAssets::SANS_TTF));
-
         lblText.setCharacterSize(16);
         lblText.setFillColor(sf::Color::Black);
+        lblText.setFont(*forest.getAssets().get(GameAssets::SANS_TTF));
+        sf::FloatRect bounds = lblText.getLocalBounds();
+        lblText.setPosition({(float)rectangle.getPosition().x + (rectangle.width / 2) - (bounds.width / 2), (float)rectangle.getPosition().y + (rectangle.height / 2) - (bounds.height / 2)});
+
 
         rectangleShape.setSize(sf::Vector2f(rectangle.getSize().x, rectangle.getSize().y));
         rectangleShape.setOutlineColor(sf::Color::Black);
