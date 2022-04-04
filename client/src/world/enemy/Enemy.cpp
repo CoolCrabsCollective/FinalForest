@@ -15,8 +15,6 @@
 #include "world/animal/Animal.h"
 
 Enemy::Enemy(Forest& forest, b2Vec2 position) : forest(forest), healthBar(this, this, forest.assetLoader) {
-	setPower(0.5);
-	setMsAttackInterval(2000);
 	setStateSprite(&sprite);
 
 	setDamageStateSprite(&sprite);
