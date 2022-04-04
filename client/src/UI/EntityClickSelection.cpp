@@ -20,8 +20,8 @@ void EntityClickSelection::clickScan(sf::Vector2f clickVector, Forest& forest) {
         if(!tree && !enemy)
             continue;
 
-        if (enemy && (clickV.x > enemy->getPosition().x - (enemy->getSize().x / 2) &&
-                      clickV.x < enemy->getPosition().x + (enemy->getSize().x / 2) &&
+        if (enemy && (clickV.x > enemy->getPosition().x - (enemy->getSize().x) &&
+                      clickV.x < enemy->getPosition().x + (enemy->getSize().x) &&
                       clickV.y > enemy->getPosition().y - (enemy->getSize().y) &&
                       clickV.y < enemy->getPosition().y + (enemy->getSize().y))) {
             selectedEntity = enemy;
