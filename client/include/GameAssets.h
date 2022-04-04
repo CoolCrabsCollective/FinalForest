@@ -41,6 +41,7 @@ namespace GameAssets {
     ASSET(wiz::TextureAsset, LUMBERJACKAXE, ("gfx/lumber_jack_axe.png"))
     ASSET(wiz::TextureAsset, LUMBERJACKAXE_SWING, ("gfx/lumber_jack_axe_swing.png"))
     ASSET(wiz::TextureAsset, LUMBERJACKCHAINSAW, ("gfx/lumber_jack_chainsaw.png"))
+    ASSET(wiz::TextureAsset, LUMBERJACKCHAINSAW_SWING, ("gfx/lumber_jack_chainsaw_swing.png"))
     ASSET(wiz::TextureAsset, WHITE_LUMBERJACK, ("gfx/white_lumber_jack.png"))
     ASSET(wiz::TextureAsset, GREAT_OAK, ("gfx/great_oak.png"))
     ASSET(wiz::TextureAsset, WHITE_GREAT_OAK, ("gfx/great_oak_white.png"))
@@ -65,6 +66,8 @@ namespace GameAssets {
 	ASSET(wiz::TextureAsset, METAL_BRIDGE, ("gfx/bridge/metal.png"))
 
     ASSET(wiz::TextureAsset, ANIMAL_MENU, ("gfx/animal_menu.png"))
+    ASSET(wiz::TextureAsset, ENEMY_MENU, ("gfx/enemy_menu.png"))
+    ASSET(wiz::TextureAsset, TURRET_MENU, ("gfx/turret_menu.png"))
 
 	ASSET(wiz::TextureAsset, GRASS, ("gfx/grass.png"))
 

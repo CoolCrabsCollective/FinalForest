@@ -16,7 +16,7 @@ void EnemyAttackState::tick(float delta) {
 
 	if(target == nullptr || target->isDestroyed()) {
 		enemy->setState(std::make_shared<EnemyIdleState>(enemy));
-		enemy->resetAnimationState();
+        enemy->resetAttackAnimation();
 		enemy->targetNearestTree();
 		return;
 	}
@@ -28,7 +28,7 @@ void EnemyAttackState::tick(float delta) {
 		enemy->setMsSinceLastAttack(enemy->getMsSinceLastAttack() + delta);
 		if (enemy->getMsSinceLastAttack() >= enemy->getMsAttackInterval()) {
 			enemy->attack(target);
-			enemy->animate(delta);
+            enemy->tickAttackAnimation(delta);
 			enemy->setMsSinceLastAttack(0.0f);
 		}
     }
@@ -41,6 +41,6 @@ void EnemyAttackState::tick(float delta) {
 		enemy->setState(std::make_shared<EnemyIdleState>(enemy));
 		enemy->targetNearestTree();
 
-		enemy->resetAnimationState();
+        enemy->resetAttackAnimation();
 	}
 }

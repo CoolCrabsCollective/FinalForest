@@ -38,6 +38,7 @@ enum Currency {Nuts, Mana};
 struct WaveState {
     unsigned int round = 1;
     float difficulty = 1.0;
+    int secondsBetweenWaves = 5;
 };
 
 class Forest : public sf::Drawable, public Tickable {

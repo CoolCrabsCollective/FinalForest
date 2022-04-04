@@ -4,31 +4,31 @@
 
 #include "world/Anime.h"
 
-void Anime::insertFrame(sf::Texture* attackTexture) {
-    animationFrames.push_back(attackTexture);
+void Anime::insertAttackFrame(sf::Texture* attackTexture) {
+    attackFrames.push_back(attackTexture);
 }
 
 void Anime::setStateSprite(sf::Sprite* sprite) {
     this->sprite = sprite;
 }
 
-void Anime::animate(float delta) {
-	if(animationFrames.empty())
+void Anime::tickAttackAnimation(float delta) {
+	if(attackFrames.empty())
 		return;
 
-    timeSinceLastFrame += delta;
-    if (currentFrame >= animationFrames.size()) {
-        currentFrame = 0;
+    timeSinceLastAttackFrame += delta;
+    if (currentAttackFrame >= attackFrames.size()) {
+        currentAttackFrame = 0;
     }
 
-    sprite->setTexture(*animationFrames.at(currentFrame));
+    sprite->setTexture(*attackFrames.at(currentAttackFrame));
 
-    currentFrame++;
-    timeSinceLastFrame = 0;
+    currentAttackFrame++;
+    timeSinceLastAttackFrame = 0;
 }
 
-void Anime::resetAnimationState() {
-	if(animationFrames.empty())
+void Anime::resetAttackAnimation() {
+	if(attackFrames.empty())
 		return;
-    sprite->setTexture(*animationFrames.at(0));
+    sprite->setTexture(*attackFrames.at(0));
 }

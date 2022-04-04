@@ -287,9 +287,10 @@ const sf::Sprite &Enemy::getSprite() const {
 }
 
 void Enemy::damage(Damager* attacker)  {
+    Damageable::damage(attacker);
+
     if (!dynamic_cast<Animal*>(attacker))
         return;
 
-    Damageable::damage(attacker);
     this->state = std::make_shared<EnemyAttackState>(this, dynamic_cast<Animal*>(attacker));
 }

@@ -9,19 +9,21 @@
 
 class Anime {
 private:
-    std::vector<sf::Texture*> animationFrames;
-    float msBetweenFrames = 300.0f;
-    float timeSinceLastFrame = 0.0f;
-    int currentFrame = 0;
+    std::vector<sf::Texture*> attackFrames;
+    float msBetweenAttackFrames = 300.0f;
+    float timeSinceLastAttackFrame = 0.0f;
+    int currentAttackFrame = 0;
+
     sf::Sprite* sprite;
 
 protected:
-    void insertFrame(sf::Texture* attackTexture);
+    void insertAttackFrame(sf::Texture* attackTexture);
     void setStateSprite(sf::Sprite* sprite);
 
 public:
-    void animate(float delta);
-    void resetAnimationState();
+    void tickAttackAnimation(float delta);
+    void resetAttackAnimation();
+    void runFullAttackAnimation();
 
 };
 

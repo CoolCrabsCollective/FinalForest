@@ -196,7 +196,7 @@ void Forest::tick(float delta) {
         }
 
 	    if(trash == getScreen().getEntityClickSelection().getSelectedEntity())
-            getScreen().getEntityClickSelection().setSelectedEntity(nullptr);
+            getScreen().getEntityClickSelection().setSelectedEntity(getGreatOakTree());
 
 	    //delete trash;
     }
@@ -204,6 +204,16 @@ void Forest::tick(float delta) {
 	toDelete.clear();
 
 	world.Step(delta / 1000.0f, 6, 2);
+
+	Entity* selectedEntity = getScreen().getEntityClickSelection().getSelectedEntity();
+	if(selectedEntity && dynamic_cast<Tree*>(selectedEntity) && !dynamic_cast<BigAssTree*>(selectedEntity))
+    {
+	    Tree* tree = dynamic_cast<Tree*>(selectedEntity);
+	    if(tree->isDestroyed())
+        {
+	        getScreen().getEntityClickSelection().setSelectedEntity(getGreatOakTree());
+        }
+    }
 }
 
 void Forest::generateEnemyWave() {

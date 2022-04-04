@@ -57,11 +57,20 @@ void ForestScreen::tick(float delta) {
 	fps = 1.0f / delta * 1000.0f;
 
     // Next wave detection
-    if (forest.enemies.empty()) {
-        forest.waveState.difficulty += 0.5;
-        forest.waveState.round++;
-        forest.generateEnemyWave();
-        wavePopUp.popUp("Wave " + std::to_string(forest.waveState.round), 1000);
+    if (waitingForNextWave) {
+        if (timeTillNextWave < 0) {
+            forest.waveState.difficulty += 0.5;
+            forest.waveState.round++;
+            forest.generateEnemyWave();
+            wavePopUp.popUp("Wave " + std::to_string(forest.waveState.round), 2000);
+            waitingForNextWave = false;
+        } else {
+            timeTillNextWave -= delta;
+        }
+    } else if (forest.enemies.empty()) {
+        waitingForNextWave = true;
+        timeTillNextWave = forest.waveState.secondsBetweenWaves * 1000;
+        wavePopUp.popUp("Wave " + std::to_string(forest.waveState.round) + " completed!", 2000);
     }
 
     // Game over detection.
@@ -173,7 +182,7 @@ void ForestScreen::show() {
 
 	music->play();
 
-    wavePopUp.popUp("Wave " + std::to_string(forest.waveState.round), 1000);
+    wavePopUp.popUp("Wave " + std::to_string(forest.waveState.round), 2000);
 }
 
 void ForestScreen::hide() {
