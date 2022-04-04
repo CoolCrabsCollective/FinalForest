@@ -43,7 +43,7 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
 	sf::Text fpsText;
 	sf::Text mouseCoordText;
 
-    sf::Text gameOverText;
+    sf::Text gameOverText, pausedText;
     WordsButton* resetButton;
 
 	sf::Music* music;
@@ -60,7 +60,7 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
 
     bool debug = false;
 	float fps = 0.0f;
-    bool gameOver = false;
+    bool gameOver = false, paused = false;
     bool waitingForNextWave = false;
     float timeTillNextWave = 0.0f;
 
