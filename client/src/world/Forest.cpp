@@ -29,23 +29,14 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 		world(b2Vec2_zero),
 		finder(screen.getLogger(), assetLoader)
 {
+	grassSprite.setTexture(*assetLoader.get(GameAssets::GRASS));
+	grassSprite.setPosition({50.0f, 50.0f});
+	grassSprite.setOrigin({0.5f * grassSprite.getTexture()->getSize().x, 0.5f * grassSprite.getTexture()->getSize().y});
+	grassSprite.setScale({250.0f / grassSprite.getTexture()->getSize().x, 160.0f / grassSprite.getTexture()->getSize().y});
+
     nutCount = 0;
     squirrelCount = 0;
     mana = 0;
-
-    grass_sprite[0] = sf::Sprite(*assetLoader.get(GameAssets::GRASS1));
-    grass_sprite[1] = sf::Sprite(*assetLoader.get(GameAssets::GRASS2));
-    grass_sprite[2] = sf::Sprite(*assetLoader.get(GameAssets::GRASS3));
-    grass_sprite[3] = sf::Sprite(*assetLoader.get(GameAssets::GRASS4));
-
-
-    float scale = grass_sprite->getScale().x / grass_sprite->getTexture()->getSize().x * 3;
-    for(int i = 0; i < 4; i++)
-        grass_sprite[i].setScale({scale, scale});
-
-    for(int i = 0; i < TILES_HEIGHT; i++)
-        for(int j = 0; j < TILES_WIDTH; j++)
-            grass_map[i][j] = rand() % 4;
 
     this->greatOakTree = new BigAssTree(*this, b2Vec2(50.0f, 50.0f));
 	objects.push_back(this->greatOakTree);
@@ -101,6 +92,7 @@ Forest::~Forest() {
 void Forest::spawnSquirrel() {
     Squirrel* squirrel = new Squirrel(*this, {50, 50});
     objects.push_back(squirrel);
+    animals.push_back(squirrel);
     assignToNextAvailableTree(squirrel);
     squirrelCount++;
 }
@@ -108,12 +100,14 @@ void Forest::spawnSquirrel() {
 void Forest::spawnWolf() {
 	Wolf* wolf = new Wolf(*this, {50, 50});
 	objects.push_back(wolf);
+    animals.push_back(wolf);
 	wolf->targetNearestEnemy();
 }
 
 void Forest::spawnBear() {
 	Bear* bear = new Bear(*this, {50, 50});
 	objects.push_back(bear);
+    animals.push_back(bear);
 	bear->targetNearestEnemy();
 }
 
@@ -192,6 +186,15 @@ void Forest::tick(float delta) {
             }
         }
 
+        if(dynamic_cast<Animal*>(trash))
+        {
+            for (int i = 0; i<animals.size(); i++) {
+                if (animals.at(i) == trash) {
+                    animals.erase(animals.begin() + i);
+                }
+            }
+        }
+
 	    if(trash == getScreen().getEntityClickSelection().getSelectedEntity())
             getScreen().getEntityClickSelection().setSelectedEntity(nullptr);
 
@@ -199,12 +202,6 @@ void Forest::tick(float delta) {
     }
 
 	toDelete.clear();
-
-    if (enemies.empty()) {
-        waveState.difficulty += 0.5;
-        waveState.round++;
-        generateEnemyWave();
-    }
 
 	world.Step(delta / 1000.0f, 6, 2);
 }
@@ -249,16 +246,7 @@ void Forest::generateEnemyWave() {
 }
 
 void Forest::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
-
-	for(int i = 0; i < TILES_HEIGHT; i++)
-    {
-	    for(int j = 0; j < TILES_WIDTH; j++)
-        {
-            sf::Sprite grass = grass_sprite[grass_map[i][j]];
-            grass.setPosition({-60 + j * 16.f * grass_sprite->getScale().x, -10 + i * 16.f * grass_sprite->getScale().y});
-	        target.draw(grass, states);
-        }
-    }
+	target.draw(grassSprite, states);
 
 	if(getScreen().isDebug())
 		finder.draw(target, states);
@@ -500,5 +488,9 @@ void Forest::respawnSquirrel(Tree *tree) {
     Squirrel* squirrel = new Squirrel(*this,  tree->getPosition());
     objects.push_back(squirrel);
     assignToNextAvailableTree(squirrel);
+}
+
+const std::vector<Animal *> &Forest::getAnimals() const {
+    return animals;
 }
 

@@ -3,6 +3,7 @@
 //
 
 #include "world/Damager.h"
+#include "world/Damageable.h"
 
 Damager::Damager() {}
 
@@ -15,7 +16,7 @@ void Damager::setPower(float power){
 }
 
 void Damager::attack(Damageable* target) {
-    target->damage(power);
+    target->damage(this);
 }
 
 float Damager::getMsAttackInterval() const {

@@ -32,9 +32,6 @@ class Squirrel;
 class BigAssTree;
 class NutShot;
 
-#define TILES_WIDTH 75
-#define TILES_HEIGHT 50
-
 enum Currency {Nuts, Mana};
 
 struct WaveState {
@@ -43,12 +40,11 @@ struct WaveState {
 };
 
 class Forest : public sf::Drawable, public Tickable {
-private:
     ForestPathFinder finder;
 
-    sf::Sprite grass_sprite[4];
+	sf::Sprite grassSprite;
+
     BigAssTree* greatOakTree;
-    int grass_map[TILES_HEIGHT][TILES_WIDTH];
     std::map<Squirrel*, Tree*> squirrelTreeMap;
     std::map<Tree*, Squirrel*> treeSquirrelMap;
 
@@ -71,6 +67,7 @@ public:
     std::vector<Tree*> trees;
     std::vector<Tree*> aliveTrees;
     std::vector<Enemy*> enemies;
+    std::vector<Animal*> animals;
 
     WaveState waveState;
 
@@ -133,6 +130,8 @@ public:
     void sendToCompost(Entity* entity);
 
     const std::vector<Entity *> &getToDelete() const;
+
+    const std::vector<Animal *> &getAnimals() const;
 };
 
 

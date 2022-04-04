@@ -172,10 +172,10 @@ void Tree::addSquirrelTurret() {
     squirrels++;
 }
 
-void Tree::damage(float attack) {
+void Tree::damage(Damager* attacker) {
 	bool wasDestroyed = isDestroyed();
 
-	Damageable::damage(attack);
+	Damageable::damage(attacker);
 
 	if(isDestroyed() && !wasDestroyed) {
 		squirrels = 0;

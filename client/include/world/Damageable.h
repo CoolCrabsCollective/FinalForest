@@ -8,6 +8,8 @@
 #include "SFML/Graphics.hpp"
 #include "Physical.h"
 
+class Damager;
+
 class Damageable : virtual public Physical {
 private:
     float health;
@@ -24,7 +26,7 @@ public:
 
     void setHealth(float health);
 
-    virtual void damage(float attack);
+    virtual void damage(Damager* attacker);
 
     void setDestroyedTexture(sf::Texture* destroyedTexture);
 

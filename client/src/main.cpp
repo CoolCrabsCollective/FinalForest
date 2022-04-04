@@ -76,6 +76,7 @@ int main(int argc, char* argv[])
 	srand(seed);
 
 	std::shared_ptr<sf::RenderWindow> window = std::make_shared<sf::RenderWindow>(mode, "Final Forest - Ludum Dare 50");
+	window->setFramerateLimit(60);
 
 	ForestGame game(window, logger, loader);
 
