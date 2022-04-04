@@ -5,6 +5,7 @@
 #include <UI/AnimalMenu.h>
 #include <UI/TurretMenu.h>
 #include <UI/EnemyMenu.h>
+#include <iostream>
 #include "ForestScreen.h"
 #include "Box2D/Dynamics/b2Body.h"
 #include "Box2D/Collision/Shapes/b2PolygonShape.h"
@@ -38,10 +39,11 @@ void ForestScreen::tick(float delta) {
 
     // Game over detection.
     if (forest.getGreatOakTree()->isDestroyed()) {
-        gameOverText.setString("Game Over!\nYou survived " + std::to_string(forest.waveState.round) + " waves!");
-        gameOverText.setPosition(sf::Vector2f(800, 450));
-        gameOverText.setCharacterSize(50);
         gameOverText.setFont(*getGame().getAssets().get(GameAssets::SANS_TTF));
+        gameOverText.setCharacterSize(50);
+        gameOverText.setString("          Game Over!\nYou survived " + std::to_string(forest.waveState.round) + " waves!");
+        sf::FloatRect bounds = gameOverText.getLocalBounds();
+        gameOverText.setPosition(sf::Vector2f(800 - bounds.getSize().x / 2, 450 - bounds.getSize().y / 2));
 
         gameOver = true;
     }
