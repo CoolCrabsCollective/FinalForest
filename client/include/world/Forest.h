@@ -77,6 +77,10 @@ public:
 
 	void spawnSquirrel();
 
+	void spawnWolf();
+
+	void spawnBear();
+
     void assignToNextAvailableTree(Squirrel* squirrel);
 
 	void assignSquirrel(Squirrel* squirrel, Tree* tree);

@@ -135,6 +135,8 @@ void ForestScreen::setDebug(bool debug) {
 void ForestScreen::keyPressed(const sf::Event::KeyEvent& keyEvent) {
 	if(keyEvent.code == sf::Keyboard::F12)
 		debug = !debug;
+	if(keyEvent.code == sf::Keyboard::F7)
+		forest.nutCount += 100;
 }
 
 void ForestScreen::mouseButtonReleased(const sf::Event::MouseButtonEvent &mouseButtonEvent) {
