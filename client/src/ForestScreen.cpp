@@ -21,6 +21,10 @@ ForestScreen::ForestScreen(wiz::Game& game)
     animalMenu->show(true);
     turretMenu->show(false);
     enemyMenu->show(false);
+
+	music = getGame().getAssets().get(GameAssets::NUTLIFE);
+	music->setVolume(100.0f);
+	music->setLoop(true);;
 }
 
 void ForestScreen::tick(float delta) {
@@ -111,6 +115,8 @@ void ForestScreen::show() {
 	getGame().addWindowListener(this);
 
 	getGame().addInputListener(this);
+
+	music->play();
 }
 
 void ForestScreen::hide() {
