@@ -1,5 +1,5 @@
 //
-// Created by Sir Dick on 2022-04-02.
+// Created by Cedric on 2022-04-02.
 //
 
 #include "world/enemy/Enemy.h"
@@ -51,22 +51,15 @@ void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const 
     sf::Vector2<int> rawMousePos = sf::Mouse::getPosition(forest.getScreen().getWindow());
     sf::Vector2f worldMousePos = forest.getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
 
-    if(getSquirrelCount() > 0) {
-        sf::View windowView = sf::View(sf::Vector2f(forest.getScreen().getWindow().getSize().x / 2.f, forest.getScreen().getWindow().getSize().y / 2.f), sf::Vector2f (forest.getScreen().getWindow().getSize()));
-        target.setView(windowView);
-        target.draw(labelSquirrelCount);
-        target.setView(sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
-    }
-
 	sprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
 	sprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
 
-	if(!this->isDestroyed() && (worldMousePos.x - sprite.getPosition().x)*(worldMousePos.x - sprite.getPosition().x) +
-            (worldMousePos.y - sprite.getPosition().y)*(worldMousePos.y - sprite.getPosition().y) < 6)
+	if(this->forest.getScreen().getEntityClickSelection().getSelectedEntity() == this)
     {
         whiteTreeSprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
         whiteTreeSprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
         whiteTreeSprite.setScale({1.2f * getSize().x / sprite.getTexture()->getSize().x, 1.2f * getSize().y / sprite.getTexture()->getSize().y});
+
         target.draw(whiteTreeSprite);
     }
 
@@ -74,10 +67,19 @@ void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const 
     sprite.setScale({getSize().x / sprite.getTexture()->getSize().x, getSize().y / sprite.getTexture()->getSize().y});
 	target.draw(sprite);
 
+    if(getSquirrelCount() > 0) {
+        sf::View windowView = sf::View(sf::Vector2f(forest.getScreen().getWindow().getSize().x / 2.f, forest.getScreen().getWindow().getSize().y / 2.f), sf::Vector2f (forest.getScreen().getWindow().getSize()));
+        target.setView(windowView);
+        target.draw(labelSquirrelCount);
+        target.setView(sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
+    }
+
     target.draw(healthBar);
 }
 
 void Tree::tick(float delta) {
+    sf::Vector2<int> rawMousePos = sf::Mouse::getPosition(forest.getScreen().getWindow());
+    sf::Vector2f worldMousePos = forest.getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
 
     labelSquirrelCount.setString(std::to_string(squirrels));
 
@@ -91,7 +93,7 @@ void Tree::tick(float delta) {
         if(getForest().getEnemies().size() > 0) {
             Enemy* closestEnemy = getForest().getEnemies()[0];
             float closestDistance = b2DistanceSquared(getPosition(), closestEnemy->getPosition());
-            for(int i = 1; i < getForest().getEnemies().size(); i++) { // There is an Enemy* in the last elem for some reason lol
+            for(int i = 1; i < getForest().getEnemies().size(); i++) {
                 Enemy* enemy = getForest().getEnemies()[i];
                 if (!enemy->isDestroyed()) {
                     float dis = b2DistanceSquared(getPosition(), enemy->getPosition());
@@ -102,7 +104,7 @@ void Tree::tick(float delta) {
                 }
             }
 
-            if(closestDistance < 20*20 && forest.nutCount > 0) {
+            if(closestDistance < 30*30 && forest.nutCount > 0) {
                 forest.nutCount--;
                 getForest().shootNut(new NutShot(getForest(), {getPosition().x, getPosition().y}, closestEnemy));
                 this->timeLeftForNut = TIME_FOR_NUTSHOT / this->getSquirrelCount();

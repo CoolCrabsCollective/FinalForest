@@ -24,7 +24,7 @@ protected:
 public:
     int price;
 
-    PurchaseButton(sf::IntRect rectangle, Forest& forest, std::function<void(Button*)> onClick, const wiz::AssetLoader& assetLoader, const wiz::TextureAsset* textureType, Currency currency, int price);
+    PurchaseButton(sf::IntRect rectangle, Forest& forest, std::function<void(Button*)> onClick, const wiz::AssetLoader& assetLoader, const wiz::TextureAsset* textureType, Currency currency, int price, int yAnimalPadding);
 
     void draw(sf::RenderTarget& target, const sf::RenderStates& states) const override;
 
