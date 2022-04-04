@@ -10,9 +10,12 @@
 LumberJackChainsaw::LumberJackChainsaw(Forest& forest, const b2Vec2& position)
 	: LumberJack(forest, position)
 {
-    setSpeed(15.0f);
+	whiteSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_LUMBERJACKSAW));
+    setSpeed(4.0f);
     setPower(1.0);
     setStateSprite(&sprite);
+
+	frames.clear();
     insertAttackFrame(forest.getAssets().get(GameAssets::LUMBERJACKCHAINSAW));
     insertAttackFrame(forest.getAssets().get(GameAssets::LUMBERJACKCHAINSAW_SWING));
 	sprite.setTexture(*forest.getAssets().get(GameAssets::LUMBERJACKCHAINSAW), true);

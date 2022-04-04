@@ -8,7 +8,7 @@
 #include "SFML/Graphics.hpp"
 
 class Anime {
-private:
+protected:
     std::vector<sf::Texture*> frames;
     float msBetweenFrames = 500.0f;
     float timeSinceLastFrame = 0;

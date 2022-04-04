@@ -14,6 +14,7 @@ Bulldozer::Bulldozer(Forest& forest, const b2Vec2& position)
 
 	sprite.setTexture(*forest.getAssets().get(GameAssets::BULLDOZER));
 	debugSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_PIXEL));
+	whiteSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_BULLDOZER));
 
 	maxHealth = 20.0f;
 	setHealth(maxHealth);
@@ -50,19 +51,33 @@ void Bulldozer::tick(float delta) {
 }
 
 void Bulldozer::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
+	if(this->isDestroyed())
+		return;
+
 	sf::Vector2<int> rawMousePos = sf::Mouse::getPosition(forest.getScreen().getWindow());
 	sf::Vector2f worldMousePos = forest.getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
 
 	sprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
 
-	float flip = facingRight ? -1.0f : 1.0f;
+	float flip = facingRight > 0 ? -1.0f : 1.0f;
 
-	if(!this->isDestroyed() && (worldMousePos.x - sprite.getPosition().x) * (worldMousePos.x - sprite.getPosition().x) +
-							   (worldMousePos.y - sprite.getPosition().y) * (worldMousePos.y - sprite.getPosition().y) < 6)
+	if(this->forest.getScreen().getEntityClickSelection().getSelectedEntity() == this)
 	{
 		whiteSprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
-		whiteSprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
-		whiteSprite.setScale({flip * getSize().x * 2.5f / sprite.getTexture()->getSize().x, getSize().y * 2.5f / sprite.getTexture()->getSize().y});
+		whiteSprite.setOrigin({0.5f * whiteSprite.getTexture()->getSize().x, 0.5f * whiteSprite.getTexture()->getSize().y});
+		whiteSprite.setScale({flip * getSize().x / sprite.getTexture()->getSize().x,
+							  getSize().y / sprite.getTexture()->getSize().y});
+		whiteSprite.setColor(sf::Color(255, 255, 255, 255));
+		target.draw(whiteSprite);
+	}
+	else if((worldMousePos.x - sprite.getPosition().x) * (worldMousePos.x - sprite.getPosition().x) +
+			(worldMousePos.y - sprite.getPosition().y) * (worldMousePos.y - sprite.getPosition().y) < 6)
+	{
+		whiteSprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
+		whiteSprite.setOrigin({0.5f * whiteSprite.getTexture()->getSize().x, 0.5f * whiteSprite.getTexture()->getSize().y});
+		whiteSprite.setScale({flip * getSize().x * 2.0f / sprite.getTexture()->getSize().x,
+							  getSize().y * 2.0f / sprite.getTexture()->getSize().y});
+		whiteSprite.setColor(sf::Color(220, 220, 220, 255));
 		target.draw(whiteSprite);
 	}
 

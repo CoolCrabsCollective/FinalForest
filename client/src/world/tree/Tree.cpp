@@ -59,17 +59,17 @@ void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const 
 	if(this->forest.getScreen().getEntityClickSelection().getSelectedEntity() == this)
     {
         whiteTreeSprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
-        whiteTreeSprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
-        whiteTreeSprite.setScale({1.2f * getSize().x / sprite.getTexture()->getSize().x, 1.2f * getSize().y / sprite.getTexture()->getSize().y});
+        whiteTreeSprite.setOrigin({0.5f * whiteTreeSprite.getTexture()->getSize().x, 0.5f * whiteTreeSprite.getTexture()->getSize().y});
+        whiteTreeSprite.setScale({getSize().x / sprite.getTexture()->getSize().x, getSize().y / sprite.getTexture()->getSize().y});
         whiteTreeSprite.setColor(sf::Color(255, 255, 255, 255));
         target.draw(whiteTreeSprite);
-    }else if(((clickV.x - this->getPosition().x)*(clickV.x - this->getPosition().x) +
+    }else if(!isDestroyed() && ((clickV.x - this->getPosition().x)*(clickV.x - this->getPosition().x) +
               (clickV.y - this->getPosition().y)*(clickV.y - this->getPosition().y)) < 14)
     {
         whiteTreeSprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
-        whiteTreeSprite.setOrigin({0.5f * sprite.getTexture()->getSize().x, 0.5f * sprite.getTexture()->getSize().y});
-        whiteTreeSprite.setScale({1.2f * getSize().x / sprite.getTexture()->getSize().x, 1.2f * getSize().y / sprite.getTexture()->getSize().y});
-        whiteTreeSprite.setColor(sf::Color(255, 255, 255, 100));
+        whiteTreeSprite.setOrigin({0.5f * whiteTreeSprite.getTexture()->getSize().x, 0.5f * whiteTreeSprite.getTexture()->getSize().y});
+        whiteTreeSprite.setScale({getSize().x / sprite.getTexture()->getSize().x, getSize().y / sprite.getTexture()->getSize().y});
+        whiteTreeSprite.setColor(sf::Color(220, 220, 220, 255));
         target.draw(whiteTreeSprite);
     }
 

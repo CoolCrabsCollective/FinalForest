@@ -33,7 +33,7 @@ void BigAssTree::draw(sf::RenderTarget &target, const sf::RenderStates &states) 
     {
         whiteTreeSprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
         whiteTreeSprite.setOrigin({0.5f * whiteTreeSprite.getTexture()->getSize().x, 0.5f * whiteTreeSprite.getTexture()->getSize().y});
-        whiteTreeSprite.setScale({getSize().x / whiteTreeSprite.getTexture()->getSize().x, getSize().y / whiteTreeSprite.getTexture()->getSize().y});
+        whiteTreeSprite.setScale({getSize().x / sprite.getTexture()->getSize().x, getSize().y / sprite.getTexture()->getSize().y});
         whiteTreeSprite.setColor(sf::Color(255, 255, 255, 255));
         target.draw(whiteTreeSprite);
     }
@@ -42,8 +42,8 @@ void BigAssTree::draw(sf::RenderTarget &target, const sf::RenderStates &states) 
     {
         whiteTreeSprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
         whiteTreeSprite.setOrigin({0.5f * whiteTreeSprite.getTexture()->getSize().x, 0.5f * whiteTreeSprite.getTexture()->getSize().y});
-        whiteTreeSprite.setScale({getSize().x / whiteTreeSprite.getTexture()->getSize().x, getSize().y / whiteTreeSprite.getTexture()->getSize().y});
-        whiteTreeSprite.setColor(sf::Color(255, 255, 255, 100));
+        whiteTreeSprite.setScale({getSize().x / sprite.getTexture()->getSize().x, getSize().y / sprite.getTexture()->getSize().y});
+        whiteTreeSprite.setColor(sf::Color(220, 220, 220, 255));
         target.draw(whiteTreeSprite);
     }
 
