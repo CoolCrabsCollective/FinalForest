@@ -50,7 +50,7 @@ EnemyMenu::EnemyMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu
                                       "Squirrel Attack"
     ));
     // Wolf Button
-    buttons.push_back(new WordsButton(sf::IntRect({50, 50}, {200, 100}),
+    buttons.push_back(new WordsButton(sf::IntRect({50, 200}, {200, 100}),
                                       forest,
                                       [&](Button* button) {
                                           Enemy* enemy = forest.getScreen().getSelectedEnemy();
@@ -87,7 +87,7 @@ EnemyMenu::EnemyMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu
                                       "Wolf Attack"
     ));
     // Bear Button
-    buttons.push_back(new WordsButton(sf::IntRect({50, 50}, {200, 100}),
+    buttons.push_back(new WordsButton(sf::IntRect({50, 350}, {200, 100}),
                                       forest,
                                       [&](Button* button) {
                                           Enemy* enemy = forest.getScreen().getSelectedEnemy();
