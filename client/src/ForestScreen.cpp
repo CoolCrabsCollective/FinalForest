@@ -17,6 +17,7 @@ ForestScreen::ForestScreen(wiz::Game& game)
                                                             turretMenu(new TurretMenu(game.getAssets(), forest)){
     animalMenu->show(true);
     turretMenu->show(false);
+    //enemyMenu->show(false);
 }
 
 void ForestScreen::tick(float delta) {
@@ -159,27 +160,28 @@ void ForestScreen::clickActiveMenu(sf::Vector2f clickVector) {
             turretMenu->click(clickVector);
             break;
         case ENEMY_MENU:
-            enemyMenu->click(clickVector);
+            //enemyMenu->click(clickVector);
             break;
     }
 }
 
 void ForestScreen::setMenu(MenuType menuType) {
+    activeMenu = menuType;
     switch (menuType) {
         case ANIMAL_MENU:
             animalMenu->show(true);
             turretMenu->show(false);
-            enemyMenu->show(false);
+            //enemyMenu->show(false);
             break;
         case TURRET_MENU:
             animalMenu->show(false);
             turretMenu->show(true);
-            enemyMenu->show(false);
+            //enemyMenu->show(false);
             break;
         case ENEMY_MENU:
             animalMenu->show(false);
             turretMenu->show(false);
-            enemyMenu->show(true);
+            //enemyMenu->show(true);
             break;
     }
 }
