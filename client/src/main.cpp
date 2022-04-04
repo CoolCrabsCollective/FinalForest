@@ -18,7 +18,6 @@
 
 int main(int argc, char* argv[])
 {
-    srand(time(NULL));
 #ifdef OS_SWITCH
 	// Setup NXLink
 	socketInitializeDefault();
@@ -66,7 +65,11 @@ int main(int argc, char* argv[])
 		seed = std::stoul(argv[1]);
 		logger->info("Seed set");
 	} else {
+#ifdef OS_WINDOWS
+		seed = time(nullptr);
+#else
 		seed = random();
+#endif
 		logger->info("Seed is " + std::to_string(seed));
 	}
 
