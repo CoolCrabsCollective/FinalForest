@@ -67,6 +67,7 @@ public:
     std::vector<Tree*> trees;
     std::vector<Tree*> aliveTrees;
     std::vector<Enemy*> enemies;
+    std::vector<Animal*> animals;
 
     WaveState waveState;
 
@@ -129,6 +130,8 @@ public:
     void sendToCompost(Entity* entity);
 
     const std::vector<Entity *> &getToDelete() const;
+
+    const std::vector<Animal *> &getAnimals() const;
 };
 
 

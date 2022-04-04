@@ -55,6 +55,14 @@ void ForestScreen::tick(float delta) {
     updateWave();
 	fps = 1.0f / delta * 1000.0f;
 
+    // Next wave detection
+    if (forest.enemies.empty()) {
+        forest.waveState.difficulty += 0.5;
+        forest.waveState.round++;
+        forest.generateEnemyWave();
+        wavePopUp.popUp("Wave " + std::to_string(forest.waveState.round), 1000);
+    }
+
     // Game over detection.
     if (forest.getGreatOakTree()->isDestroyed()) {
         gameOverText.setFont(*getGame().getAssets().get(GameAssets::DEFAULT_FONT));
@@ -164,7 +172,7 @@ void ForestScreen::show() {
 
 	music->play();
 
-    wavePopUp.popUp("penis", 5000);
+    wavePopUp.popUp("Wave " + std::to_string(forest.waveState.round), 1000);
 }
 
 void ForestScreen::hide() {

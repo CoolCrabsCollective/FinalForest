@@ -10,6 +10,9 @@
 #include "world/enemy/state/EnemyLeaveState.h"
 #include "ForestScreen.h"
 #include "world/Forest.h"
+#include "world/Damageable.h"
+#include "world/Damager.h"
+#include "world/animal/Animal.h"
 
 Enemy::Enemy(Forest& forest, b2Vec2 position) : forest(forest), healthBar(this, this, forest.assetLoader) {
 	setPower(0.5);
@@ -134,15 +137,6 @@ void Enemy::tick(float delta) {
 		direction.Normalize();
 
 	body->SetLinearVelocity(speed * direction);
-
-//	sf::Vector2<int> rawMousePos = sf::Mouse::getPosition(getForest().getScreen().getWindow());
-//	sf::Vector2f worldMousePos = getForest().getScreen().getWindow().mapPixelToCoords({rawMousePos.x, rawMousePos.y}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
-//	if(!this->isDestroyed() && sf::Mouse::isButtonPressed(sf::Mouse::Left) && (worldMousePos.x - sprite.getPosition().x)*(worldMousePos.x - sprite.getPosition().x) +
-//																			  (worldMousePos.y - sprite.getPosition().y)*(worldMousePos.y - sprite.getPosition().y) < 61)
-//	{
-//		getForest().getScreen().setSelectedEnemy(this);
-//		getForest().getScreen().setMenu(ENEMY_MENU);
-//	}
 }
 
 b2Body* Enemy::getBody() const {
@@ -199,6 +193,27 @@ void Enemy::targetNearestTree() {
 	this->state = std::make_shared<EnemyAttackState>(this, target);
 }
 
+void Enemy::targetNearestAnimal() {
+    if(forest.getAnimals().empty()) {
+        return;
+    }
+
+    std::vector<Animal*> animals(forest.getAnimals());
+
+    if (animals.size() > 2) {
+        std::sort(animals.begin(), animals.end(), [this](Animal* a, Animal* b){
+            float a_dis = b2DistanceSquared(a->getPosition(), body->GetPosition());
+            float b_dis = b2DistanceSquared(b->getPosition(), body->GetPosition());
+            return a_dis < b_dis;
+        });
+    }
+
+    Damageable* target = animals.front();
+    setDestination(target->getPosition());
+
+    this->state = std::make_shared<EnemyAttackState>(this, target);
+}
+
 std::shared_ptr<EnemyState> Enemy::getState() const {
 	return state;
 }
@@ -218,6 +233,10 @@ float Enemy::getZOrder() const {
 
 bool Enemy::isLeaving() {
 	return std::dynamic_pointer_cast<EnemyLeaveState>(state) != nullptr;
+}
+
+bool Enemy::isAttacking() {
+    return std::dynamic_pointer_cast<EnemyAttackState>(state) != nullptr;
 }
 
 void Enemy::drawDebug(sf::RenderTarget& target, const sf::RenderStates& states) const {
@@ -265,4 +284,12 @@ void Enemy::drawDebug(sf::RenderTarget& target, const sf::RenderStates& states) 
 
 const sf::Sprite &Enemy::getSprite() const {
     return sprite;
+}
+
+void Enemy::damage(Damager* attacker)  {
+    if (!dynamic_cast<Animal*>(attacker))
+        return;
+
+    Damageable::damage(attacker);
+    this->state = std::make_shared<EnemyAttackState>(this, dynamic_cast<Animal*>(attacker));
 }

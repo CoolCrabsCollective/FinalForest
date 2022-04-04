@@ -92,6 +92,7 @@ Forest::~Forest() {
 void Forest::spawnSquirrel() {
     Squirrel* squirrel = new Squirrel(*this, {50, 50});
     objects.push_back(squirrel);
+    animals.push_back(squirrel);
     assignToNextAvailableTree(squirrel);
     squirrelCount++;
 }
@@ -99,12 +100,14 @@ void Forest::spawnSquirrel() {
 void Forest::spawnWolf() {
 	Wolf* wolf = new Wolf(*this, {50, 50});
 	objects.push_back(wolf);
+    animals.push_back(wolf);
 	wolf->targetNearestEnemy();
 }
 
 void Forest::spawnBear() {
 	Bear* bear = new Bear(*this, {50, 50});
 	objects.push_back(bear);
+    animals.push_back(bear);
 	bear->targetNearestEnemy();
 }
 
@@ -183,6 +186,15 @@ void Forest::tick(float delta) {
             }
         }
 
+        if(dynamic_cast<Animal*>(trash))
+        {
+            for (int i = 0; i<animals.size(); i++) {
+                if (animals.at(i) == trash) {
+                    animals.erase(animals.begin() + i);
+                }
+            }
+        }
+
 	    if(trash == getScreen().getEntityClickSelection().getSelectedEntity())
             getScreen().getEntityClickSelection().setSelectedEntity(nullptr);
 
@@ -190,12 +202,6 @@ void Forest::tick(float delta) {
     }
 
 	toDelete.clear();
-
-    if (enemies.empty()) {
-        waveState.difficulty += 0.5;
-        waveState.round++;
-        generateEnemyWave();
-    }
 
 	world.Step(delta / 1000.0f, 6, 2);
 }
@@ -226,13 +232,13 @@ void Forest::generateEnemyWave() {
         newXPos = (float) cos( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
         newYPos = (float) sin( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
 
-		newEnemy = new Bulldozer(*this, b2Vec2(newXPos, newYPos));
+		//newEnemy = new Bulldozer(*this, b2Vec2(newXPos, newYPos));
 
         //if (numOfChainSaw<maxNumOfChainSaw && enemyMagicNum==2) {
         //    newEnemy = new LumberJackChainsaw(*this, b2Vec2(newXPos, newYPos));
         //    numOfChainSaw++;
         //} else {
-        //    newEnemy = new LumberJack(*this, b2Vec2(newXPos, newYPos));
+            newEnemy = new LumberJack(*this, b2Vec2(newXPos, newYPos));
         //}
         objects.push_back(newEnemy);
         enemies.push_back(newEnemy);
@@ -482,5 +488,9 @@ void Forest::respawnSquirrel(Tree *tree) {
     Squirrel* squirrel = new Squirrel(*this,  tree->getPosition());
     objects.push_back(squirrel);
     assignToNextAvailableTree(squirrel);
+}
+
+const std::vector<Animal *> &Forest::getAnimals() const {
+    return animals;
 }
 
