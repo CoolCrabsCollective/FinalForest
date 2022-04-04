@@ -3,20 +3,17 @@
 //
 
 #include "world/enemy/state/EnemyState.h"
+#include "world/enemy/Enemy.h"
 
 
-EnemyState::EnemyState(LumberJack* lumberJack) : lumberJack(lumberJack) {
+EnemyState::EnemyState(Enemy* enemy) : enemy(enemy) {
 
 }
 
-EnemyState::EnemyState(Forest *forest, LumberJack *lumberJack) : lumberJack(lumberJack) {
-    this->lumberJack = lumberJack;
-}
-
-LumberJack* EnemyState::getLumberJack() {
-    return lumberJack;
+Enemy* EnemyState::getEnemy() {
+    return enemy;
 }
 
 Forest* EnemyState::getForest() {
-    return &this->lumberJack->getForest();
+    return &this->enemy->getForest();
 }

@@ -202,10 +202,8 @@ void Animal::targetNearestEnemy() {
 	}
 
 	for (Enemy* enemy : enemies) {
-		if(LumberJack* jack = dynamic_cast<LumberJack*>(enemy)) {
-			if(std::dynamic_pointer_cast<EnemyLeaveState>(jack->getState())) {
-				continue;
-			}
+		if(enemy->isLeaving()) {
+			continue;
 		}
 
 		if (!enemy->isDestroyed()) {

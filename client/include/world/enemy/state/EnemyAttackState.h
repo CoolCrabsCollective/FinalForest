@@ -6,11 +6,12 @@
 #define LD50_CLIENT_LUMBERJACKGoATTACKSTATE_H
 
 #include "EnemyState.h"
+#include "world/Damageable.h"
 
 class EnemyAttackState : public EnemyState {
 	Damageable* target;
 public:
-    EnemyAttackState(LumberJack* lumberJack, Damageable* target);
+    EnemyAttackState(Enemy* lumberJack, Damageable* target);
 
     void tick(float delta) override;
 };

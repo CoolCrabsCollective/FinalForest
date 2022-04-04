@@ -5,6 +5,7 @@
 #include "world/animal/state/AnimalAttackState.h"
 #include "world/animal/state/AnimalAttackState.h"
 #include "world/enemy/state/EnemyLeaveState.h"
+#include "world/enemy/LumberJack.h"
 
 AnimalAttackState::AnimalAttackState(Animal* animal, Enemy *target)
 	: AnimalState(animal)
@@ -14,17 +15,10 @@ AnimalAttackState::AnimalAttackState(Animal* animal, Enemy *target)
 }
 
 void AnimalAttackState::tick(float delta) {
-    if (target->isDestroyed()) {
+    if (target == nullptr || target->isDestroyed() || target->isLeaving()) {
         getAnimal()->targetNearestEnemy();
 		return;
     }
-
-	if(LumberJack* jack = dynamic_cast<LumberJack*>(target)) {
-		if(std::dynamic_pointer_cast<EnemyLeaveState>(jack->getState())) {
-			getAnimal()->targetNearestEnemy();
-			return;
-		}
-	}
 
     if(b2DistanceSquared(getAnimal()->getPosition(), target->getPosition()) < MIN_DISTANCE_FOR_CONTACT * MIN_DISTANCE_FOR_CONTACT) {
 

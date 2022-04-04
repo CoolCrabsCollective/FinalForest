@@ -9,7 +9,7 @@
 
 class EnemyLeaveState : public EnemyState {
 public:
-	EnemyLeaveState(LumberJack* lumberJack);
+	EnemyLeaveState(Enemy* enemy);
 
 	void tick(float delta) override;
 };
