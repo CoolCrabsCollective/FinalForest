@@ -57,6 +57,9 @@ class Forest : public sf::Drawable, public Tickable {
 public:
     int nutCount;
     int squirrelCount;
+
+    int getSquirrelCount() const;
+
     int mana;
 
     const ForestScreen& screen;

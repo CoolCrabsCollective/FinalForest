@@ -101,14 +101,12 @@ void Forest::spawnWolf() {
 	Wolf* wolf = new Wolf(*this, {50, 50});
 	objects.push_back(wolf);
     animals.push_back(wolf);
-	wolf->targetNearestEnemy();
 }
 
 void Forest::spawnBear() {
 	Bear* bear = new Bear(*this, {50, 50});
 	objects.push_back(bear);
     animals.push_back(bear);
-	bear->targetNearestEnemy();
 }
 
 void Forest::assignToNextAvailableTree(Squirrel* squirrel) {
@@ -533,5 +531,9 @@ void Forest::respawnSquirrel(Tree *tree) {
 
 const std::vector<Animal *> &Forest::getAnimals() const {
     return animals;
+}
+
+int Forest::getSquirrelCount() const {
+    return squirrelCount;
 }
 

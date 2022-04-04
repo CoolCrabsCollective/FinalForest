@@ -91,6 +91,7 @@ void ForestScreen::tick(float delta) {
             [&](Button* button) {
 				getGame().setScreen(std::make_shared<TitleScreen>(getGame()));
             },
+            []() { return true; },
             "Restart"
             );
 

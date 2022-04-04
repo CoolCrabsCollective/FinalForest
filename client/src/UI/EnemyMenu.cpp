@@ -54,6 +54,7 @@ EnemyMenu::EnemyMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu
 
                                           }
                                       },
+                                      [&](){ return forest.getSquirrelCount() > 0; },
                                       "Squirrel Attack"
     ));
     // Wolf Button
@@ -93,6 +94,7 @@ EnemyMenu::EnemyMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu
 
                                           }
                                       },
+                                      [&](){ return true; },
                                       "Wolf Attack"
     ));
     // Bear Button
@@ -132,6 +134,7 @@ EnemyMenu::EnemyMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu
 
                                           }
                                       },
+                                      [&](){ return true; },
                                       "Bear Attack"
     ));
 }

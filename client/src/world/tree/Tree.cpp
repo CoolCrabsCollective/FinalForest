@@ -175,8 +175,7 @@ int Tree::getSquirrelCount() const {
 }
 
 void Tree::addSquirrelTurret() {
-    if (squirrels == 0)
-        sprite.setTexture(*turretTreeTexture);
+    sprite.setTexture(*turretTreeTexture);
 
     squirrels++;
 }
@@ -197,7 +196,7 @@ void Tree::damage(Damager* attacker) {
 }
 
 void Tree::removeSquirrelTurret() {
-    if (squirrels == 0)
+    if (squirrels == 1)
         sprite.setTexture(*normalTreeTexture);
 
     if(getSquirrelCount() > 0)
