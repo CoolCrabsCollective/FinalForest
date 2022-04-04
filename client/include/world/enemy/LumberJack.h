@@ -34,7 +34,7 @@ class LumberJack : public Enemy {
     std::shared_ptr<LumberJackState> state;
 protected:
     Forest& forest;
-    mutable sf::Sprite sprite, debugSprite;
+    mutable sf::Sprite sprite, whiteSprite, debugSprite;
     HealthBar healthBar;
 
 public:

@@ -46,4 +46,3 @@ void Squirrel::tick(float delta) {
 b2Vec2 Squirrel::getSize() const {
 	return {1.5f, 1.5f};
 }
-

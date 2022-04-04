@@ -39,6 +39,7 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
     Menu* enemyMenu;
     MenuType activeMenu = ANIMAL_MENU;
     Tree* selectedTree;
+    Enemy* selectedEnemy;
 
     bool debug = false;
 	float fps = 0.0f;
@@ -48,7 +49,11 @@ public:
 
     Tree *getSelectedTree() const;
 
+    Enemy *getSelectedEnemy() const;
+
     void setSelectedTree(Tree *selectedTree);
+
+    void setSelectedEnemy(Enemy *selectedEnemy);
 
 	void tick(float delta) override;
 
