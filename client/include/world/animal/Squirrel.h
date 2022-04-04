@@ -15,6 +15,7 @@
 #include "world/pathfinding/ForestNode.h"
 #include "memory.h"
 #include "Animal.h"
+#include "world/enemy/Enemy.h"
 
 class SquirrelState;
 
@@ -22,6 +23,7 @@ class Squirrel : public Animal {
 	sf::Texture* squirrelWalk;
 	sf::Texture* squirrelIdle;
 	sf::Texture* squirrelNut;
+    sf::Texture* squirrelAttack;
 
 	std::shared_ptr<SquirrelState> state;
 public:

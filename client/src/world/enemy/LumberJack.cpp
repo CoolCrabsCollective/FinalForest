@@ -23,7 +23,6 @@ LumberJack::LumberJack(Forest& forest, b2Vec2 position) : forest(forest) {
     insertFrame(forest.getAssets().get(GameAssets::LUMBERJACKAXE));
     insertFrame(forest.getAssets().get(GameAssets::LUMBERJACKAXE_SWING));
 
-    setDestroyedTexture(forest.getAssets().get(GameAssets::WHITE_PIXEL));
     setDamageStateSprite(&sprite);
     setHealth(3.0);
 
@@ -139,14 +138,13 @@ void LumberJack::draw(sf::RenderTarget& target, const sf::RenderStates& states) 
 }
 
 void LumberJack::tick(float delta) {
-
     if(this->isDestroyed())
     {
         this->getForest().sendToCompost(this);
         return;
     }
 
-    if(target != nullptr && target->isDestroyed()) {
+    if(target->isDestroyed()) {
         this->state = std::make_shared<LumberJackIdleState>(&this->forest, this);
         targetNearestTree();
         resetAnimationState();

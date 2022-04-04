@@ -14,16 +14,14 @@ void Anime::setStateSprite(sf::Sprite* sprite) {
 
 void Anime::animate(float delta) {
     timeSinceLastFrame += delta;
-    if (timeSinceLastFrame >= msBetweenFrames) {
-        if (currentFrame >= animationFrames.size()) {
-            currentFrame = 0;
-        }
-
-        sprite->setTexture(*animationFrames.at(currentFrame));
-
-        currentFrame++;
-        timeSinceLastFrame = 0;
+    if (currentFrame >= animationFrames.size()) {
+        currentFrame = 0;
     }
+
+    sprite->setTexture(*animationFrames.at(currentFrame));
+
+    currentFrame++;
+    timeSinceLastFrame = 0;
 }
 
 void Anime::resetAnimationState() {

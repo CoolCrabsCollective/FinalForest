@@ -11,8 +11,14 @@
 #include "ForestScreen.h"
 
 Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest) {
+
 	sprite.setTexture(*forest.getAssets().get(GameAssets::TREE));
 	whiteTreeSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_TREE));
+    labelSquirrelCount.setFont(*forest.getAssets().get(GameAssets::SANS_TTF));
+
+
+    labelSquirrelCount.setCharacterSize(24);
+    labelSquirrelCount.setFillColor(sf::Color::Black);
 
     setDestroyedTexture(forest.getAssets().get(GameAssets::TREE_STUMP));
     setDamageStateSprite(&sprite);
@@ -56,11 +62,27 @@ void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const 
     sprite.setColor(sf::Color(255, 255, 255, 255));
     sprite.setScale({getSize().x / sprite.getTexture()->getSize().x, getSize().y / sprite.getTexture()->getSize().y});
 	target.draw(sprite);
+
+	if(!squirrels.empty())
+    {
+
+        sf::View windowView = sf::View(sf::Vector2f(forest.getScreen().getWindow().getSize().x / 2.f, forest.getScreen().getWindow().getSize().y / 2.f), sf::Vector2f (forest.getScreen().getWindow().getSize()));
+        target.setView(windowView);
+        target.draw(labelSquirrelCount);
+        target.setView(sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
+    }
 }
 
 
 
 void Tree::tick(float delta) {
+
+    labelSquirrelCount.setString(std::to_string(squirrels.size()));
+
+    sf::Vector2 v = forest.getScreen().getWindow().mapCoordsToPixel({this->getPosition().x + 2, 100.f - this->getPosition().y - 5}, sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
+
+    labelSquirrelCount.setPosition({(float)v.x, (float)v.y});
+
 
     if(timeLeftForNut >= 0)
     {
@@ -68,18 +90,19 @@ void Tree::tick(float delta) {
     }
     else if(getSquirrelCount() > 0)
     {
-        if(getForest().getEnemies().size() > 0)
+        if(getForest().getEnemies().size() > 1)
         {
             Enemy* closestEnemy = getForest().getEnemies()[0];
             float closestDistance = b2DistanceSquared(getPosition(), closestEnemy->getPosition());
-            for(int i = 1; i < getForest().getEnemies().size(); i++)
+            for(int i = 1; i < getForest().getEnemies().size() - 1; i++) // There is an Enemy* in the last elem for some reason lol
             {
                 Enemy* enemy = getForest().getEnemies()[i];
-                float dis = b2DistanceSquared(getPosition(), enemy->getPosition());
-                if(dis < closestDistance)
-                {
-                    closestDistance = dis;
-                    closestEnemy = enemy;
+                if (!enemy->isDestroyed()) {
+                    float dis = b2DistanceSquared(getPosition(), enemy->getPosition());
+                    if (dis < closestDistance) {
+                        closestDistance = dis;
+                        closestEnemy = enemy;
+                    }
                 }
             }
 

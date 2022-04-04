@@ -19,6 +19,5 @@ void LumberJackLeaveState::tick(float delta) {
 	if(b2DistanceSquared(getLumberJack()->getPosition(), b2Vec2(50.0f, 50.0f)) > 100.0f * 100.0f)
 	{
 		getForest()->sendToCompost(getLumberJack());
-		getForest()->getScreen().getLogger().debug("LumberJack is gone");
 	}
 }

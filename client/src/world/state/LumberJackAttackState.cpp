@@ -15,13 +15,20 @@ void LumberJackAttackState::tick(float delta) {
     Tree* target = lumberJack->getTarget();
 
     lumberJack->getBody()->SetLinearVelocity(*(new b2Vec2(0.0, 0.0)));
-    lumberJack->attack(target);
-    lumberJack->animate(delta);
+
+    lumberJack->setMsSinceLastAttack(lumberJack->getMsSinceLastAttack() + delta);
+    if (lumberJack->getMsSinceLastAttack() >= lumberJack->getMsAttackInterval()) {
+        lumberJack->attack(target);
+        lumberJack->animate(delta);
+        lumberJack->setMsSinceLastAttack(0.0f);
+    }
 
     if (target->isDestroyed()) {
         getForest()->killTree(target);
 
 		lumberJack->setState(std::make_shared<LumberJackIdleState>(&lumberJack->getForest(), lumberJack));
 		lumberJack->targetNearestTree();
+
+        lumberJack->resetAnimationState();
     }
 }

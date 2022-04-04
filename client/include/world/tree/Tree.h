@@ -21,6 +21,8 @@ protected:
     mutable sf::Sprite sprite;
     mutable sf::Sprite whiteTreeSprite;
 
+    sf::Text labelSquirrelCount;
+
 	b2Body* body;
 	Forest& forest;
 	std::vector<Squirrel*> squirrels;

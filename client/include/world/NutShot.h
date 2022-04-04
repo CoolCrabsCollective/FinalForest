@@ -23,7 +23,6 @@ public:
 
     float getZOrder() const override;
 
-protected:
     void draw(sf::RenderTarget &target, const sf::RenderStates &states) const override;
 
 private:

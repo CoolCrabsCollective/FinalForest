@@ -10,13 +10,14 @@ SquirrelAttackState::SquirrelAttackState(Forest *forest, Squirrel *squirrel, Ene
 }
 
 void SquirrelAttackState::tick(float delta) {
+    if (target->isDestroyed()) {
+        getSquirrel()->targetNearestEnemy();
+        return;
+    }
+
     Squirrel* squirrel = getSquirrel();
 
     squirrel->attack(target);
-
-    if (target->isDestroyed()) {
-        // Do something
-    }
 
     squirrel->getBody()->SetLinearVelocity(*(new b2Vec2(0.0, 0.0)));
 }

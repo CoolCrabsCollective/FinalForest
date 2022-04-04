@@ -64,9 +64,6 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 
     aliveTrees = std::vector<Tree*>(trees);
 
-	for(int i = 0; i < 8; i++)
-		spawnSquirrel();
-
 	finder.initialize(objects);
 
 	for(Entity* entity : objects) {
@@ -89,6 +86,9 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 
     generateEnemyWave(20, 0.0);
     aliveTrees[1]->addSquirrelTurret(nullptr);
+
+    for(int i = 0; i < 8; i++)
+        spawnSquirrel();
 }
 
 Forest::~Forest() {
@@ -100,7 +100,8 @@ Forest::~Forest() {
 void Forest::spawnSquirrel() {
     Squirrel* squirrel = new Squirrel(*this, {50, 50});
     objects.push_back(squirrel);
-    assignToNextAvailableTree(squirrel);
+//    assignToNextAvailableTree(squirrel);
+    squirrel->targetNearestEnemy();
 }
 
 void Forest::spawnWolf() {
@@ -179,6 +180,10 @@ void Forest::tick(float delta) {
 
 	for(Entity* trash : toDelete)
     {
+        if (trash->numberOfTicksAfterDeletion < 1) {
+            trash->numberOfTicksAfterDeletion++;
+            continue;
+        }
 	    std::vector<Entity*>::iterator entity_it = std::find(objects.begin(), objects.end(), trash);
 	    objects.erase(entity_it);
 	    if(dynamic_cast<Enemy*>(*entity_it))
@@ -454,5 +459,9 @@ void Forest::shootNut(NutShot *nut) {
 
 void Forest::sendToCompost(Entity* entity) {
     this->toDelete.push_back(entity);
+}
+
+const std::vector<Entity *> &Forest::getToDelete() const {
+    return toDelete;
 }
 
