@@ -247,13 +247,13 @@ void Forest::generateEnemyWave() {
         newXPos = (float) cos( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
         newYPos = (float) sin( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
 
-		newEnemy = new Bulldozer(*this, b2Vec2(newXPos, newYPos));
+		//newEnemy = new Bulldozer(*this, b2Vec2(newXPos, newYPos));
 
         //if (numOfChainSaw<maxNumOfChainSaw && enemyMagicNum==2) {
         //    newEnemy = new LumberJackChainsaw(*this, b2Vec2(newXPos, newYPos));
         //    numOfChainSaw++;
         //} else {
-        //    newEnemy = new LumberJack(*this, b2Vec2(newXPos, newYPos));
+            newEnemy = new LumberJack(*this, b2Vec2(newXPos, newYPos));
         //}
         objects.push_back(newEnemy);
         enemies.push_back(newEnemy);
