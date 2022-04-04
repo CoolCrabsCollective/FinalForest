@@ -282,9 +282,6 @@ void Forest::draw(sf::RenderTarget& target, const sf::RenderStates& states) cons
 void Forest::generateForest() {
 	int noLuck = 0;
 
-	if(2 > 1)
-		return;
-
     while (noLuck < 50) {
         float x = (float) (rand() % 100);
         float y = (float) (rand() % 100);
