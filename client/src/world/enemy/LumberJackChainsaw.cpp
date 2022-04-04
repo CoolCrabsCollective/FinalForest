@@ -16,5 +16,6 @@ LumberJackChainsaw::LumberJackChainsaw(Forest& forest, const b2Vec2& position)
     insertAttackFrame(forest.getAssets().get(GameAssets::LUMBERJACKCHAINSAW));
     insertAttackFrame(forest.getAssets().get(GameAssets::LUMBERJACKCHAINSAW_SWING));
 	sprite.setTexture(*forest.getAssets().get(GameAssets::LUMBERJACKCHAINSAW), true);
-    setHealth(8.f);
+    maxHealth = 8.0f;
+    setHealth(maxHealth);
 }

@@ -16,7 +16,7 @@ void LoadingScreen::tick(float delta) {
 	getGame().getAssets().update(16.0f);
 
 	if(getGame().getAssets().isAllLoaded())
-		getGame().setScreen(std::make_shared<ForestScreen>(getGame()));
+		getGame().setScreen(std::make_shared<TitleScreen>(getGame()));
 }
 
 void LoadingScreen::render(sf::RenderTarget& target) {
