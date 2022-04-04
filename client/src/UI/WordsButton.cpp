@@ -16,7 +16,6 @@ WordsButton::WordsButton(sf::IntRect rectangle, Forest &forest, std::function<vo
         sf::FloatRect bounds = lblText.getLocalBounds();
         lblText.setPosition({(float)rectangle.getPosition().x + (rectangle.width / 2) - (bounds.width / 2), (float)rectangle.getPosition().y + (rectangle.height / 2) - (bounds.height / 2)});
 
-
         rectangleShape.setSize(sf::Vector2f(rectangle.getSize().x, rectangle.getSize().y));
         rectangleShape.setOutlineColor(sf::Color::Black);
         rectangleShape.setFillColor(availableColor);

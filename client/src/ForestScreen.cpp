@@ -17,10 +17,13 @@
 #include "WIZ/game/BasicGame.h"
 
 ForestScreen::ForestScreen(wiz::Game& game)
-		: Screen(game), forest(*this, game.getAssets()), animalMenu(new AnimalMenu(
-                                                                             game.getAssets(), forest)),
-                                                            turretMenu(new TurretMenu(game.getAssets(), forest)),
-                                                                       enemyMenu(new EnemyMenu(game.getAssets(), forest)){
+		: Screen(game),
+        forest(*this, game.getAssets()),
+        animalMenu(new AnimalMenu(game.getAssets(), forest)),
+        turretMenu(new TurretMenu(game.getAssets(), forest)),
+        enemyMenu(new EnemyMenu(game.getAssets(), forest)),
+        wavePopUp(game.getAssets()) {
+
     animalMenu->show(true);
     turretMenu->show(false);
     enemyMenu->show(false);
@@ -38,6 +41,7 @@ void ForestScreen::tick(float delta) {
 	animalMenu->tick(delta);
 	turretMenu->tick(delta);
     enemyMenu->tick(delta);
+    wavePopUp.tick(delta);
     updateSquirrelCount();
     updateNutCount();
     updateMana();
@@ -79,6 +83,7 @@ void ForestScreen::render(sf::RenderTarget& target) {
     target.draw(*animalMenu);
     target.draw(*turretMenu);
     target.draw(*enemyMenu);
+    target.draw(wavePopUp);
 
     if (gameOver) {
         target.draw(gameOverText);
@@ -148,6 +153,8 @@ void ForestScreen::show() {
 	getGame().addInputListener(this);
 
 	music->play();
+
+    wavePopUp.popUp("penis", 5000);
 }
 
 void ForestScreen::hide() {

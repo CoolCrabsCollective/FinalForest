@@ -11,10 +11,12 @@
 #include "ForestScreen.h"
 
 Tree::Tree(Forest& forest, b2Vec2 position) : forest(forest), healthBar(this, this, forest.assetLoader) {
-    normalTreeTexture = *forest.getAssets().get(GameAssets::TREE);
-    turretTreeTexture = *forest.getAssets().get(GameAssets::TREE_TURRET);
+    // Normal tree and turrets textures needs to be pointers! Copying them will crash on the switch
+    // This is an issue that is supposed to be fixed in switch-sfml
+    normalTreeTexture = forest.getAssets().get(GameAssets::TREE);
+    turretTreeTexture = forest.getAssets().get(GameAssets::TREE_TURRET);
 
-	sprite.setTexture(normalTreeTexture);
+	sprite.setTexture(*normalTreeTexture);
 	whiteTreeSprite.setTexture(*forest.getAssets().get(GameAssets::WHITE_TREE));
     labelSquirrelCount.setFont(*forest.getAssets().get(GameAssets::DEFAULT_FONT));
 
@@ -56,9 +58,9 @@ void Tree::draw(sf::RenderTarget& target, const sf::RenderStates& states) const 
         target.draw(labelSquirrelCount);
         target.setView(sf::View({50.0f, 50.0f}, {195.56f, 110.0f}));
 
-        sprite.setTexture(turretTreeTexture);
+        sprite.setTexture(*turretTreeTexture);
     } else {
-        sprite.setTexture(normalTreeTexture);
+        sprite.setTexture(*normalTreeTexture);
     }
 
 	sprite.setPosition({getPosition().x, 100.0f - getPosition().y - getSize().y / 4});
