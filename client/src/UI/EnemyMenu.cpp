@@ -12,8 +12,13 @@
 #include "world/animal/Bear.h"
 
 EnemyMenu::EnemyMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu(assetLoader, forest) {
-    // Squirrel Button
-    buttons.push_back(new WordsButton(sf::IntRect({50, 50}, {200, 100}),
+
+    enemyMenu.setTexture(*assetLoader.get(GameAssets::ENEMY_MENU));
+    enemyMenu.setPosition({25, 20});
+    enemyMenu.setColor(sf::Color::White);
+    enemyMenu.setScale({4.f, 4.f});
+
+    buttons.push_back(new WordsButton(sf::IntRect({50, 125}, {200, 100}),
                                       forest,
                                       [&](Button* button) {
                                           if (!dynamic_cast<Enemy*>(forest.getScreen().getEntityClickSelection().getSelectedEntity()))
@@ -52,7 +57,7 @@ EnemyMenu::EnemyMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu
                                       "Squirrel Attack"
     ));
     // Wolf Button
-    buttons.push_back(new WordsButton(sf::IntRect({50, 200}, {200, 100}),
+    buttons.push_back(new WordsButton(sf::IntRect({50, 270}, {200, 100}),
                                       forest,
                                       [&](Button* button) {
                                           if (!dynamic_cast<Enemy*>(forest.getScreen().getEntityClickSelection().getSelectedEntity()))
@@ -91,7 +96,7 @@ EnemyMenu::EnemyMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu
                                       "Wolf Attack"
     ));
     // Bear Button
-    buttons.push_back(new WordsButton(sf::IntRect({50, 350}, {200, 100}),
+    buttons.push_back(new WordsButton(sf::IntRect({50, 415}, {200, 100}),
                                       forest,
                                       [&](Button* button) {
                                           if (!dynamic_cast<Enemy*>(forest.getScreen().getEntityClickSelection().getSelectedEntity()))
@@ -129,4 +134,10 @@ EnemyMenu::EnemyMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu
                                       },
                                       "Bear Attack"
     ));
+}
+
+void EnemyMenu::draw(sf::RenderTarget &target, const sf::RenderStates &states) const {
+    if(!hidden)
+        target.draw(enemyMenu);
+    Menu::draw(target, states);
 }

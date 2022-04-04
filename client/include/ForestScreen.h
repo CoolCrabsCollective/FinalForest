@@ -60,6 +60,8 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
     bool debug = false;
 	float fps = 0.0f;
     bool gameOver = false;
+    bool waitingForNextWave = false;
+    float timeTillNextWave = 0.0f;
 
 public:
 	ForestScreen(wiz::Game& game);

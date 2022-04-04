@@ -32,12 +32,10 @@ void EntityClickSelection::clickScan(sf::Vector2f clickVector, Forest& forest) {
                  ((clickV.x - tree->getPosition().x)*(clickV.x - tree->getPosition().x) +
                   (clickV.y - tree->getPosition().y)*(clickV.y - tree->getPosition().y)) < 61) {
             selectedTree = tree;
-            break;
         } else if (tree &&
                 ((clickV.x - tree->getPosition().x)*(clickV.x - tree->getPosition().x) +
                 (clickV.y - tree->getPosition().y)*(clickV.y - tree->getPosition().y)) < 14) {
             selectedTree = tree;
-            break;
         }
 
     }

@@ -12,7 +12,7 @@ AnimalMenu::AnimalMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Me
     animalMenu.setPosition({25, 20});
     animalMenu.setColor(sf::Color::White);
     animalMenu.setScale({4.f, 4.f});
-    // Squirrel Button
+
     buttons.push_back(new PurchaseButton(
             sf::IntRect({50, 125}, {200, 115}),
             forest,
@@ -26,7 +26,7 @@ AnimalMenu::AnimalMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Me
             5,
             0
     ));
-    // Wolf Button
+
     buttons.push_back(new PurchaseButton(
             sf::IntRect({50, 285}, {200, 120}),
             forest,
@@ -40,7 +40,7 @@ AnimalMenu::AnimalMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Me
             20,
             -15
     ));
-    // Bear Button
+
     buttons.push_back(new PurchaseButton(
             sf::IntRect({50, 450}, {200, 140}),
             forest,
@@ -57,9 +57,9 @@ AnimalMenu::AnimalMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Me
 }
 
 void AnimalMenu::draw(sf::RenderTarget &target, const sf::RenderStates &states) const {
-    Menu::draw(target, states);
     if(!hidden)
         target.draw(animalMenu);
+    Menu::draw(target, states);
 }
 
 void AnimalMenu::tick(float delta) {

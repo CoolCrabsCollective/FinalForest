@@ -8,9 +8,10 @@
 #include "world/Forest.h"
 
 class EntityClickSelection {
-    Entity* selectedEntity;
 
+    Entity* selectedEntity;
 public:
+
     EntityClickSelection();
 
     void clickScan(sf::Vector2f clickVector, Forest& forest);

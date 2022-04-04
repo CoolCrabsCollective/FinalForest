@@ -66,6 +66,8 @@ namespace GameAssets {
 	ASSET(wiz::TextureAsset, METAL_BRIDGE, ("gfx/bridge/metal.png"))
 
     ASSET(wiz::TextureAsset, ANIMAL_MENU, ("gfx/animal_menu.png"))
+    ASSET(wiz::TextureAsset, ENEMY_MENU, ("gfx/enemy_menu.png"))
+    ASSET(wiz::TextureAsset, TURRET_MENU, ("gfx/turret_menu.png"))
 
 	ASSET(wiz::TextureAsset, GRASS, ("gfx/grass.png"))
 
