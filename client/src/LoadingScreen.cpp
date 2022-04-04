@@ -3,6 +3,8 @@
 //
 
 #include <ForestScreen.h>
+
+#include <memory>
 #include "LoadingScreen.h"
 #include "TitleScreen.h"
 #include "GameAssets.h"
@@ -14,7 +16,7 @@ void LoadingScreen::tick(float delta) {
 	getGame().getAssets().update(16.0f);
 
 	if(getGame().getAssets().isAllLoaded())
-		getGame().setScreen(std::shared_ptr<ForestScreen>(new ForestScreen(getGame())));
+		getGame().setScreen(std::make_shared<ForestScreen>(getGame()));
 }
 
 void LoadingScreen::render(sf::RenderTarget& target) {
@@ -46,23 +48,16 @@ void LoadingScreen::show() {
 	getGame().getAssets().loadAll(GameAssets::ALL);
 	getGame().getAssets().finishLoading(GameAssets::DEFAULT_FONT);
 	getGame().getAssets().finishLoading(GameAssets::WHITE_PIXEL);
+	getGame().getAssets().finishLoading(GameAssets::TREE_TURRET);
 
 	sprite.setTexture(*getGame().getAssets().get(GameAssets::WHITE_PIXEL));
 
-#ifdef OS_WINDOWS
-	message.setString("Deleting System32...");
-#endif
-#ifdef OS_UNIX
-	message.setString("Final Forest is loading...");
-#endif
-#ifdef OS_MAC
-	message.setString("Final Forest is loading...");
-#endif
-#ifdef OS_SWITCH
-	message.setString("Formatting SD card...");
-#endif
-
+	message.setString("Loading...");
 	message.setFont(*getGame().getAssets().get(GameAssets::DEFAULT_FONT));
+
+	sf::Texture* iconTex = getGame().getAssets().get(GameAssets::TREE_TURRET);
+	sf::Image image = iconTex->copyToImage();
+	getWindow().setIcon(image.getSize().x, image.getSize().y, image.getPixelsPtr());
 
 	getGame().addWindowListener(this);
 }
