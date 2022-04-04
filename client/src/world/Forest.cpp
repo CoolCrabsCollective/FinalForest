@@ -535,3 +535,7 @@ const std::vector<Animal *> &Forest::getAnimals() const {
     return animals;
 }
 
+int Forest::getSquirrelCount() const {
+    return squirrelCount;
+}
+

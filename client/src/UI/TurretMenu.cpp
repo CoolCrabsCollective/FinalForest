@@ -69,6 +69,7 @@ TurretMenu::TurretMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Me
                 }
             }
         },
+        [&](){ return forest.getSquirrelCount() > 0; },
         "Assign Squirrel Archer"
     ));
 
@@ -89,6 +90,20 @@ TurretMenu::TurretMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Me
                     }
                 }
             },
+            [&](){
+
+                Entity* entity = forest.getScreen().getEntityClickSelection().getSelectedEntity();
+                if(entity == nullptr)
+                    return false;
+
+                Tree* tree = dynamic_cast<Tree*>(entity);
+
+                if(tree == nullptr)
+                    return false;
+
+
+                return tree->getSquirrelCount() > 0;
+                },
             "Unassign Squirrel Archer"
     ));
 }

@@ -7,8 +7,9 @@
 #include "SFML/Graphics/Text.hpp"
 #include "UI/Button.h"
 
-WordsButton::WordsButton(sf::IntRect rectangle, Forest &forest, std::function<void(Button *)> onClick,
+WordsButton::WordsButton(sf::IntRect rectangle, Forest &forest, std::function<void(Button *)> onClick, std::function<bool(void)> isEnabled,
                          std::string str) : Button(rectangle, forest, onClick) {
+        this->isEnabled = isEnabled;
         lblText.setString(str);
         lblText.setCharacterSize(16);
         lblText.setFillColor(sf::Color::Black);
@@ -24,10 +25,24 @@ WordsButton::WordsButton(sf::IntRect rectangle, Forest &forest, std::function<vo
 }
 
 void WordsButton::tick(float delta) {
-
+    if(isEnabled())
+    {
+        rectangleShape.setFillColor(availableColor);
+        rectangleShape.setOutlineColor(sf::Color::Black);
+    }
+    else
+    {
+        rectangleShape.setFillColor(unavailableColor);
+        rectangleShape.setOutlineColor(gray);
+    }
 }
 
 void WordsButton::draw(sf::RenderTarget &target, const sf::RenderStates &states) const {
     Button::draw(target, states);
     target.draw(lblText);
+}
+
+void WordsButton::click() {
+    if(isEnabled())
+        Button::click();
 }
