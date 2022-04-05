@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
 #ifdef OS_WINDOWS
 		seed = time(nullptr);
 #else
-		seed = random();
+		seed = time(nullptr);
 #endif
 		logger->info("Seed is " + std::to_string(seed));
 	}
