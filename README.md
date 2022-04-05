@@ -1,5 +1,7 @@
 # Final Forest
 
+*This game was made of Ludum Dare 50! Check out the page [here](https://ldjam.com/events/ludum-dare/50/final-forest).*
+
 ## Introduction
 
 Welcome to Final Forest! 🐿️ A Real-Time Strategy game about defending the **final forest** from invading lumberjacks. You must protect your central Great Oak Tree from being destroyed, if it is, you lose. You must hire squirrels who will collect nuts from trees. The invaders slowly cut down trees which you don't defend, harming your source of nuts. Use your nuts to buy more squirrels, wolves, or bears who can defend your forest. Click on enemies to send animals to attack them; or send your squirrels into trees to act as turrets shooting enemies. **Delay the inevitable** of the final forest's final stand against deforestation.
