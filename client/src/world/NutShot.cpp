@@ -8,7 +8,7 @@
 
 NutShot::NutShot(Forest& forest, sf::Vector2f pos, Enemy* target) : pos(pos), target(target), forest(forest) {
     sprite.setTexture(*forest.getAssets().get(GameAssets::NUT));
-    this->damage = 0.2f;
+    this->damage = 0.05f;
     this->speed = 100;
 }
 
