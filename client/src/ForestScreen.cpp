@@ -272,11 +272,11 @@ void ForestScreen::updateSquirrelCount() {
 }
 
 void ForestScreen::updateWolfCount() {
-	wolfCountText.setString(std::to_string(forest.getSquirrelCount()));
+	wolfCountText.setString(std::to_string(forest.getWolfCount()));
 }
 
 void ForestScreen::updateBearCount() {
-	bearCountText.setString(std::to_string(forest.getSquirrelCount()));
+	bearCountText.setString(std::to_string(forest.getBearCount()));
 }
 
 void ForestScreen::updateTreeCount() {
