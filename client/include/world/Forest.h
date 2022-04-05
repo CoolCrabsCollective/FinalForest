@@ -141,6 +141,12 @@ public:
     const std::vector<Entity *> &getToDelete() const;
 
     const std::vector<Animal *> &getAnimals() const;
+
+    int availableSquirrelsCount();
+
+    int availableWolvesCount();
+
+    int availableBearsCount();
 };
 
 

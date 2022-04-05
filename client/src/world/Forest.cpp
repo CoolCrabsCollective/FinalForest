@@ -13,6 +13,9 @@
 #include "world/animal/state/SquirrelGoGathertState.h"
 #include "world/animal/state/AnimalIdleState.h"
 #include <world/NutShot.h>
+#include <world/animal/state/SquirrelGatherState.h>
+#include <world/animal/state/SquirrelReturnGatherState.h>
+#include <world/animal/state/AnimalPatrolState.h>
 #include "GameAssets.h"
 #include "world/tree/BigAssTree.h"
 #include "ForestScreen.h"
@@ -535,5 +538,76 @@ const std::vector<Animal *> &Forest::getAnimals() const {
 
 int Forest::getSquirrelCount() const {
     return squirrelCount;
+}
+
+int Forest::availableSquirrelsCount() {
+    int count = 0;
+    for(int i = 0; i < animals.size(); i++)
+    {
+        Animal* animal = animals[i];
+        if(animal)
+        {
+            Squirrel* squirrel = dynamic_cast<Squirrel*>(animal);
+            if(squirrel)
+            {
+                std::shared_ptr<AnimalState> state = squirrel->getState();
+                if(dynamic_pointer_cast<AnimalIdleState>(state).get()
+                         || dynamic_pointer_cast<SquirrelGatherState>(state).get()
+                         || dynamic_pointer_cast<SquirrelGoGatherState>(state).get()
+                         || dynamic_pointer_cast<SquirrelReturnGatherState>(state).get())
+                {
+                    count++;
+                }
+            }
+        }
+    }
+
+    return count;
+}
+
+int Forest::availableWolvesCount() {
+    int count = 0;
+    for(int i = 0; i < animals.size(); i++)
+    {
+        Animal* animal = animals[i];
+        if(animal)
+        {
+            Wolf* wolf = dynamic_cast<Wolf*>(animal);
+            if(wolf)
+            {
+                std::shared_ptr<AnimalState> state = wolf->getState();
+                if(dynamic_pointer_cast<AnimalIdleState>(state).get()
+                   || dynamic_pointer_cast<AnimalPatrolState>(state).get())
+                {
+                    count++;
+                }
+            }
+        }
+    }
+
+    return count;
+}
+
+int Forest::availableBearsCount() {
+    int count = 0;
+    for(int i = 0; i < animals.size(); i++)
+    {
+        Animal* animal = animals[i];
+        if(animal)
+        {
+            Bear* bear = dynamic_cast<Bear*>(animal);
+            if(bear)
+            {
+                std::shared_ptr<AnimalState> state = bear->getState();
+                if(dynamic_pointer_cast<AnimalIdleState>(state).get()
+                   || dynamic_pointer_cast<AnimalPatrolState>(state).get())
+                {
+                    count++;
+                }
+            }
+        }
+    }
+
+    return count;
 }
 

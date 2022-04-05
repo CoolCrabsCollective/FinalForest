@@ -39,8 +39,6 @@ void EntityClickSelection::clickScan(sf::Vector2f clickVector, Forest& forest) {
 
     }
 
-    forest.getScreen().getLogger().debug(std::to_string(clickV.x));
-
     if(selectedEntity != nullptr || clickV.x > -15.f)
         this->setSelectedEntity(selectedEntity);
 }
