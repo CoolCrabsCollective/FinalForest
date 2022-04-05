@@ -12,7 +12,7 @@
 #include "world/animal/state/AnimalIdleState.h"
 #include "world/animal/state/AnimalPatrolState.h"
 
-#define COMBO_RADIUS 15.0f
+#define COMBO_RADIUS 20.0f
 
 Animal::Animal(Forest& forest, b2Vec2 position)
 		: forest(forest), healthBar(this, this, forest.assetLoader)
@@ -193,7 +193,8 @@ void Animal::setState(std::shared_ptr<AnimalState> state) {
 
 void Animal::targetNearestEnemy() {
 	if(forest.getEnemies().size() <= 1){
-		noEnemyLeft();
+		if(!std::dynamic_pointer_cast<AnimalPatrolState>(state))
+			noEnemyLeft();
 		return;
 	}
 
@@ -218,12 +219,12 @@ void Animal::targetNearestEnemy() {
 		}
 	}
 
-	noEnemyLeft();
+	if(!std::dynamic_pointer_cast<AnimalPatrolState>(state))
+		noEnemyLeft();
 }
 
 void Animal::noEnemyLeft() {
-	if(!std::dynamic_pointer_cast<AnimalPatrolState>(state))
-		this->state = std::make_shared<AnimalIdleState>(this);
+	this->state = std::make_shared<AnimalIdleState>(this);
 }
 
 bool Animal::isAttacking() {
