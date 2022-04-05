@@ -224,26 +224,54 @@ void Forest::generateEnemyWave() {
 
     if (waveState.round <= waveSpawns->size()) {
         WaveSpawn currentWaveSpawn = waveSpawns->at(waveState.round - 1);
-        for (int i = 0; i<currentWaveSpawn.LumberJacks; i++) {
-            randomSpawnPos = getRandomEnemySpawn();
-            newEnemy = new LumberJack(*this, randomSpawnPos);
-            objects.push_back(newEnemy);
-            enemies.push_back(newEnemy);
-        }
 
-        for (int i = 0; i<currentWaveSpawn.ChainSawLumberJacks; i++) {
-            randomSpawnPos = getRandomEnemySpawn();
-            newEnemy = new LumberJackChainsaw(*this, randomSpawnPos);
-            objects.push_back(newEnemy);
-            enemies.push_back(newEnemy);
-        }
+		if(currentWaveSpawn.singleDir) {
+			float spawnDirection = rand() % 360;
 
-        for (int i = 0; i<currentWaveSpawn.Bulldozer; i++) {
-            randomSpawnPos = getRandomEnemySpawn();
-            newEnemy = new Bulldozer(*this, randomSpawnPos);
-            objects.push_back(newEnemy);
-            enemies.push_back(newEnemy);
-        }
+			for (int i = 0; i<currentWaveSpawn.LumberJacks; i++) {
+				randomSpawnPos = getRandomEnemySpawn(spawnDirection);
+				newEnemy = new LumberJack(*this, randomSpawnPos);
+				objects.push_back(newEnemy);
+				enemies.push_back(newEnemy);
+			}
+
+			for (int i = 0; i<currentWaveSpawn.ChainSawLumberJacks; i++) {
+				randomSpawnPos = getRandomEnemySpawn(spawnDirection);
+				newEnemy = new LumberJackChainsaw(*this, randomSpawnPos);
+				objects.push_back(newEnemy);
+				enemies.push_back(newEnemy);
+			}
+
+			for (int i = 0; i<currentWaveSpawn.Bulldozer; i++) {
+				randomSpawnPos = getRandomEnemySpawn(spawnDirection);
+				newEnemy = new Bulldozer(*this, randomSpawnPos);
+				objects.push_back(newEnemy);
+				enemies.push_back(newEnemy);
+			}
+
+		} else {
+
+			for (int i = 0; i<currentWaveSpawn.LumberJacks; i++) {
+				randomSpawnPos = getRandomEnemySpawn();
+				newEnemy = new LumberJack(*this, randomSpawnPos);
+				objects.push_back(newEnemy);
+				enemies.push_back(newEnemy);
+			}
+
+			for (int i = 0; i<currentWaveSpawn.ChainSawLumberJacks; i++) {
+				randomSpawnPos = getRandomEnemySpawn();
+				newEnemy = new LumberJackChainsaw(*this, randomSpawnPos);
+				objects.push_back(newEnemy);
+				enemies.push_back(newEnemy);
+			}
+
+			for (int i = 0; i<currentWaveSpawn.Bulldozer; i++) {
+				randomSpawnPos = getRandomEnemySpawn();
+				newEnemy = new Bulldozer(*this, randomSpawnPos);
+				objects.push_back(newEnemy);
+				enemies.push_back(newEnemy);
+			}
+		}
     } else {
         int numOfEnemies = ceil(3 * waveState.difficulty);
         int maxNumOfChainSaw = 0;
@@ -285,6 +313,24 @@ b2Vec2 Forest::getRandomEnemySpawn() {
     newYPos = (float) sin( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
 
     return b2Vec2(newXPos, newYPos);
+}
+
+b2Vec2 Forest::getRandomEnemySpawn(float spawnDir) {
+	int spawnRadius;
+	int screenCenter = 50;
+
+	int spawnDirection;
+	float newXPos;
+	float newYPos;
+
+	spawnRadius = rand() % 150 + 80;
+
+	spawnDirection = spawnDir + rand() % 60 - 30;
+
+	newXPos = (float) cos( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
+	newYPos = (float) sin( spawnDirection * M_PI / 180.0 ) * spawnRadius + screenCenter;
+
+	return b2Vec2(newXPos, newYPos);
 }
 
 void Forest::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {

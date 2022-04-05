@@ -120,6 +120,8 @@ public:
 
     b2Vec2 getRandomEnemySpawn();
 
+	b2Vec2 getRandomEnemySpawn(float spawnDir);
+
 	const ForestPathFinder& getPathFinder() const;
 
 	ForestPathFinder& getPathFinder();
