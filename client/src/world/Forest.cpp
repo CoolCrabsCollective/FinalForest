@@ -271,7 +271,7 @@ void Forest::generateEnemyWave() {
 			}
 		}
     } else {
-        int numOfEnemies = ceil(3 * waveState.difficulty);
+        int numOfEnemies = ceil(3 * waveState.difficulty*waveState.difficulty);
         int maxNumOfChainSaw = 0;
         int maxNumOfBulldozer = 0;
 
