@@ -16,7 +16,7 @@ SquirrelGoGatherState::SquirrelGoGatherState(Squirrel *squirrel, Tree *tree)
 }
 
 void SquirrelGoGatherState::tick(float delta) {
-    if(b2Distance(this->getAnimal()->getPosition(), this->tree->getPosition()) < MIN_TREE_DISTANCE)
+    if(b2DistanceSquared(this->getAnimal()->getPosition(), this->tree->getPosition()) < MIN_TREE_DISTANCE * MIN_TREE_DISTANCE)
     {
         this->getSquirrel()->setState(std::make_shared<SquirrelGatherState>(this->getSquirrel(), this->tree));
     }

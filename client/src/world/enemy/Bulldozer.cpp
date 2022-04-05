@@ -79,7 +79,7 @@ void Bulldozer::draw(sf::RenderTarget& target, const sf::RenderStates& states) c
 		whiteSprite.setOrigin({0.5f * whiteSprite.getTexture()->getSize().x, 0.5f * whiteSprite.getTexture()->getSize().y});
 		whiteSprite.setScale({flip * getSize().x * 2.0f / sprite.getTexture()->getSize().x,
 							  getSize().y * 2.0f / sprite.getTexture()->getSize().y});
-		whiteSprite.setColor(sf::Color(220, 220, 220, 255));
+		whiteSprite.setColor(sf::Color(255, 50, 50, 255));
 		target.draw(whiteSprite);
 	}
 
