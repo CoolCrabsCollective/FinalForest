@@ -64,6 +64,9 @@ void ForestScreen::tick(float delta) {
     wavePopUp.tick(delta);
     updateSquirrelCount();
     updateNutCount();
+	updateWolfCount();
+	updateBearCount();
+	updateTreeCount();
     updateMana();
     updateWave();
 	fps = 1.0f / delta * 1000.0f;
@@ -122,6 +125,16 @@ void ForestScreen::render(sf::RenderTarget& target) {
     target.draw(squirrelSprite);
     //target.draw(manaText);
     //target.draw(manaSprite);
+
+	target.draw(wolfCountText);
+	target.draw(wolfSprite);
+
+	target.draw(bearCountText);
+	target.draw(bearSprite);
+
+	target.draw(treeCountText);
+	target.draw(treeSprite);
+
     target.draw(waveText);
     target.draw(*animalMenu);
     target.draw(*turretMenu);
@@ -163,6 +176,27 @@ void ForestScreen::show() {
     squirrelSprite.setPosition(sf::Vector2f(1500.0f, 75.0f));
     squirrelSprite.setScale({2.0f, 2.0f});
 
+	wolfTexture = getGame().getAssets().get(GameAssets::WOLF);
+	wolfSprite.setTexture(*wolfTexture);
+	//wolfSprite.setTextureRect(sf::Rect<int>({0, 0}, {16, 16}));
+	wolfSprite.setColor(sf::Color(255, 255, 255, 200));
+	wolfSprite.setPosition(sf::Vector2f(1475.0f, 90.0f));
+	wolfSprite.setScale({2.0f, 2.0f});
+
+	bearTexture = getGame().getAssets().get(GameAssets::BEAR);
+	bearSprite.setTexture(*bearTexture);
+	//bearSprite.setTextureRect(sf::Rect<int>({0, 0}, {16, 16}));
+	bearSprite.setColor(sf::Color(255, 255, 255, 200));
+	bearSprite.setPosition(sf::Vector2f(1475.0f, 140.0f));
+	bearSprite.setScale({2.0f, 2.0f});
+
+	treeTexture = getGame().getAssets().get(GameAssets::TREE);
+	treeSprite.setTexture(*treeTexture);
+	treeSprite.setTextureRect(sf::Rect<int>({0, 0}, {16, 16}));
+	treeSprite.setColor(sf::Color(255, 255, 255, 200));
+	treeSprite.setPosition(sf::Vector2f(1500.0f, 225.0f));
+	treeSprite.setScale({2.0f, 2.0f});
+
     manaTexture = getGame().getAssets().get(GameAssets::MANA);
     manaSprite.setTexture(*manaTexture);
     manaSprite.setTextureRect(sf::Rect<int>({0, 0}, {16, 16}));
@@ -184,6 +218,18 @@ void ForestScreen::show() {
     squirrelCountText.setCharacterSize(20);
     squirrelCountText.setFont(*getGame().getAssets().get(GameAssets::DEFAULT_FONT));
 
+	wolfCountText.setPosition(sf::Vector2f(1550, 125));
+	wolfCountText.setCharacterSize(20);
+	wolfCountText.setFont(*getGame().getAssets().get(GameAssets::DEFAULT_FONT));
+
+	bearCountText.setPosition(sf::Vector2f(1550, 175));
+	bearCountText.setCharacterSize(20);
+	bearCountText.setFont(*getGame().getAssets().get(GameAssets::DEFAULT_FONT));
+
+	treeCountText.setPosition(sf::Vector2f(1550, 225));
+	treeCountText.setCharacterSize(20);
+	treeCountText.setFont(*getGame().getAssets().get(GameAssets::DEFAULT_FONT));
+
     nutCountText.setPosition(sf::Vector2f(1550, 75));
     nutCountText.setCharacterSize(20);
     nutCountText.setFont(*getGame().getAssets().get(GameAssets::DEFAULT_FONT));
@@ -192,7 +238,7 @@ void ForestScreen::show() {
     manaText.setCharacterSize(20);
     manaText.setFont(*getGame().getAssets().get(GameAssets::DEFAULT_FONT));
 
-    waveText.setPosition(sf::Vector2f(1500, 175));
+    waveText.setPosition(sf::Vector2f(1500, 275));
     waveText.setCharacterSize(20);
     waveText.setFont(*getGame().getAssets().get(GameAssets::DEFAULT_FONT));
 
@@ -224,6 +270,18 @@ void ForestScreen::updateNutCount() {
 
 void ForestScreen::updateSquirrelCount() {
     nutCountText.setString(std::to_string(forest.getSquirrelCount()));
+}
+
+void ForestScreen::updateWolfCount() {
+	wolfCountText.setString(std::to_string(forest.getSquirrelCount()));
+}
+
+void ForestScreen::updateBearCount() {
+	bearCountText.setString(std::to_string(forest.getSquirrelCount()));
+}
+
+void ForestScreen::updateTreeCount() {
+	treeCountText.setString(std::to_string(forest.getAliveTrees().size()));
 }
 
 void ForestScreen::updateMana() {

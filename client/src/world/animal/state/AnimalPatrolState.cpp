@@ -7,7 +7,6 @@
 AnimalPatrolState::AnimalPatrolState(Animal* animal)
 	: AnimalState(animal)
 {
-	animal->setDestination(b2Vec2(50.0f, 45.0f));
 }
 
 void AnimalPatrolState::tick(float delta) {
@@ -16,10 +15,19 @@ void AnimalPatrolState::tick(float delta) {
 	}
 
 	if(timeWaiting > 3.0f) {
-		float x = (rand() % 1000) / 1000.0f * 20.0f - 10.0f;
-		float y = (rand() % 1000) / 1000.0f * 20.0f - 10.0f;
+		float x = (rand() % 1000) / 1000.0f * 10.0f - 5.0f;
+		float y = (rand() % 1000) / 1000.0f * 10.0f - 5.0f;
 
-		animal->setDestination(b2Vec2(50.0f + x, 50.0f + y));
+		b2Vec2 newDest = animal->getPosition() + b2Vec2(x, y);
+
+		if(b2DistanceSquared(newDest, b2Vec2(50.0f, 50.0f)) > 50.0f * 50.0f) {
+			b2Vec2 diff = newDest - b2Vec2(50.0f, 50.0f);
+			diff.Normalize();
+			diff *= 45.0f;
+			newDest = b2Vec2(50.0f, 50.0f) + diff;
+		}
+
+		animal->setDestination(newDest);
 		timeWaiting = 0.0f;
 	}
 	animal->targetNearestEnemy();

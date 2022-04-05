@@ -58,6 +58,8 @@ public:
     int nutCount;
 
     int getSquirrelCount() const;
+	int getWolfCount() const;
+	int getBearCount() const;
 
     int mana;
 
