@@ -33,6 +33,19 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
     sf::Text squirrelCountText;
     sf::Texture* squirrelTexture;
     sf::Sprite squirrelSprite;
+
+	sf::Text wolfCountText;
+	sf::Texture* wolfTexture;
+	sf::Sprite wolfSprite;
+
+	sf::Text bearCountText;
+	sf::Texture* bearTexture;
+	sf::Sprite bearSprite;
+
+	sf::Text treeCountText;
+	sf::Texture* treeTexture;
+	sf::Sprite treeSprite;
+
     sf::Text manaText;
     sf::Texture* manaTexture;
     sf::Sprite manaSprite;
@@ -82,6 +95,12 @@ public:
     void updateNutCount();
 
     void updateSquirrelCount();
+
+	void updateWolfCount();
+
+	void updateBearCount();
+
+	void updateTreeCount();
 
     void updateMana();
 

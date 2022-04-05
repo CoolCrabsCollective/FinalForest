@@ -613,6 +613,40 @@ int Forest::getSquirrelCount() const {
     return count;
 }
 
+int Forest::getWolfCount() const {
+	int count = 0;
+	for(int i = 0; i < animals.size(); i++)
+	{
+		Animal* animal = animals[i];
+		if(animal)
+		{
+			Wolf* wolf = dynamic_cast<Wolf*>(animal);
+			if(wolf)
+			{
+				count++;
+			}
+		}
+	}
+	return count;
+}
+
+int Forest::getBearCount() const {
+	int count = 0;
+	for(int i = 0; i < animals.size(); i++)
+	{
+		Animal* animal = animals[i];
+		if(animal)
+		{
+			Bear* bear = dynamic_cast<Bear*>(animal);
+			if(bear)
+			{
+				count++;
+			}
+		}
+	}
+	return count;
+}
+
 int Forest::availableSquirrelsCount() {
     int count = 0;
     for(int i = 0; i < animals.size(); i++)
