@@ -6,21 +6,19 @@ Welcome to Final Forest! 🐿️ A Real-Time Strategy game about defending the *
 
 
 *Main Menu*
-![mannnn_menu.png](///raw/507/44/z/4bcf7.png)
-
+![mannnn_menu](https://user-images.githubusercontent.com/8109538/161663589-43676934-5953-4937-855b-ff23f70ebe1e.png)
 
 *Early Game*
-![game.png](///raw/507/44/z/4bcb4.png)
+![game](https://user-images.githubusercontent.com/8109538/161663610-6481f00a-c9cd-484e-acc8-144c651ced76.png)
 
 *Enemy Menu*
-![screen1.png](///raw/507/44/z/4be61.png)
+![screen1](https://user-images.githubusercontent.com/8109538/161663625-7c764a0c-7f21-4ce1-963e-58ef6efe26de.png)
 
 *Turret Menu*
-![screen2.png](///raw/507/44/z/4be31.png)
+![screen2](https://user-images.githubusercontent.com/8109538/161663637-6ee6ca01-9043-4b4b-b69a-72fa395f45b4.png)
 
 *BullDozer!*
-![screen5.png](///raw/507/44/z/4be16.png)
-
+![screen5](https://user-images.githubusercontent.com/8109538/161663649-8f14b4d7-8dcd-47e1-bf4f-ba769b9929c5.png)
 
 ## How To Play
 
@@ -41,4 +39,4 @@ Click on a tree. A Turret Menu should appear on the left on the screen. Here the
 
 *The game works on the Nintendo Switch too!*
 
-![photo1649119612.jpeg](///raw/507/44/z/4bc44.jpg)
+![photo1649119612](https://user-images.githubusercontent.com/8109538/161663665-1437e670-d1f0-4abd-ac2e-4666f44083df.jpeg)
