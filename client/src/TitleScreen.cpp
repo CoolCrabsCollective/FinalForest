@@ -23,6 +23,7 @@ TitleScreen::TitleScreen(wiz::Game& game)
 	playWithMouse.setCharacterSize(50);
 	clickToPlay.setCharacterSize(50);
 
+#ifndef OS_SWITCH
 	sf::FloatRect bounds = playWithMouse.getLocalBounds();
 	playWithMouse.setPosition(sf::Vector2f(game.getWindow().getView().getSize().x / 2.0f - bounds.getSize().x / 2,
 										   game.getWindow().getView().getSize().y / 2.0f - bounds.getSize().y / 2));
@@ -30,7 +31,7 @@ TitleScreen::TitleScreen(wiz::Game& game)
 	sf::FloatRect bounds2 = clickToPlay.getLocalBounds();
 	clickToPlay.setPosition(sf::Vector2f(game.getWindow().getView().getSize().x / 2.0f - bounds2.getSize().x / 2,
 										   game.getWindow().getView().getSize().y * 3.0f / 4.0f - bounds2.getSize().y / 2));
-
+#endif
 
 	click.setBuffer(*getAssets().get(GameAssets::CLICK_SOUND));
 	click.setVolume(100.0f);
@@ -74,8 +75,10 @@ void TitleScreen::render(sf::RenderTarget& target) {
 	target.clear();
 	target.draw(background);
 	target.draw(logo);
+#ifndef OS_SWITCH
 	target.draw(playWithMouse);
 	target.draw(clickToPlay);
+#endif
 }
 
 void TitleScreen::show() {
