@@ -16,7 +16,7 @@
 #include "world/animal/state/AnimalAttackState.h"
 
 Squirrel::Squirrel(Forest& forest, b2Vec2 position) : Animal(forest, position) {
-    setPower(0.5);
+    setPower(0.2);
 
     squirrelWalk = forest.getAssets().get(GameAssets::SQUIRREL);
     squirrelIdle = forest.getAssets().get(GameAssets::SQUIRREL_IDLE);

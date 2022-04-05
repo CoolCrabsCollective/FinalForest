@@ -11,7 +11,7 @@
 Bear::Bear(Forest& forest, b2Vec2 position)
 		: Animal(forest, position)
 {
-	setPower(5.0);
+	setPower(2.5);
 	sprite.setTexture(*forest.getAssets().get(GameAssets::BEAR));
 
 	this->state = std::make_shared<AnimalPatrolState>(this);

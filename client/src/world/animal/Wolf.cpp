@@ -11,7 +11,7 @@
 Wolf::Wolf(Forest& forest, b2Vec2 position)
 	: Animal(forest, position)
 {
-	setPower(.5);
+	setPower(.25);
 	speed = 15.0f;
 	setMsAttackInterval(500);
 	sprite.setTexture(*forest.getAssets().get(GameAssets::WOLF));
