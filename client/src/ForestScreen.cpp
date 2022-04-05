@@ -222,7 +222,7 @@ void ForestScreen::updateNutCount() {
 }
 
 void ForestScreen::updateSquirrelCount() {
-    nutCountText.setString(std::to_string(forest.squirrelCount));
+    nutCountText.setString(std::to_string(forest.getSquirrelCount()));
 }
 
 void ForestScreen::updateMana() {

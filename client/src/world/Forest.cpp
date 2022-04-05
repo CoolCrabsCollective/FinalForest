@@ -38,7 +38,6 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 	grassSprite.setScale({250.0f / grassSprite.getTexture()->getSize().x, 160.0f / grassSprite.getTexture()->getSize().y});
 
     nutCount = 0;
-    squirrelCount = 0;
     mana = 0;
 
     this->greatOakTree = new BigAssTree(*this, b2Vec2(50.0f, 50.0f));
@@ -97,7 +96,6 @@ void Forest::spawnSquirrel() {
     objects.push_back(squirrel);
     animals.push_back(squirrel);
     assignToNextAvailableTree(squirrel);
-    squirrelCount++;
 }
 
 void Forest::spawnWolf() {
@@ -575,6 +573,7 @@ const std::vector<Entity *> &Forest::getObjects() const {
 void Forest::respawnSquirrel(Tree *tree) {
     Squirrel* squirrel = new Squirrel(*this,  tree->getPosition());
     objects.push_back(squirrel);
+    animals.push_back(squirrel);
     assignToNextAvailableTree(squirrel);
 }
 
@@ -583,7 +582,29 @@ const std::vector<Animal *> &Forest::getAnimals() const {
 }
 
 int Forest::getSquirrelCount() const {
-    return squirrelCount;
+    int count = 0;
+    for(int i = 0; i < animals.size(); i++)
+    {
+        Animal* animal = animals[i];
+        if(animal)
+        {
+            Squirrel* squirrel = dynamic_cast<Squirrel*>(animal);
+            if(squirrel)
+            {
+                count++;
+            }
+        }
+    }
+
+    for(int i = 0; i < trees.size(); i++)
+    {
+        Tree* tree = trees[i];
+        if(tree)
+        {
+            count += tree->getSquirrelCount();
+        }
+    }
+    return count;
 }
 
 int Forest::availableSquirrelsCount() {
