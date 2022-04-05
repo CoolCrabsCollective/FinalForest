@@ -24,7 +24,6 @@ ForestScreen::ForestScreen(wiz::Game& game)
         turretMenu(new TurretMenu(game.getAssets(), forest)),
         enemyMenu(new EnemyMenu(game.getAssets(), forest)),
         wavePopUp(game.getAssets()) {
-
     animalMenu->show(true);
     turretMenu->show(false);
     enemyMenu->show(false);
@@ -45,8 +44,10 @@ ForestScreen::ForestScreen(wiz::Game& game)
 	pausedText.setFont(*getGame().getAssets().get(GameAssets::DEFAULT_FONT));
 	pausedText.setCharacterSize(50);
 	pausedText.setString("Game paused (Escape to resume)");
+#ifndef OS_SWITCH
 	sf::FloatRect bounds = pausedText.getLocalBounds();
 	pausedText.setPosition(sf::Vector2f(800 - bounds.getSize().x / 2, 450 - bounds.getSize().y / 2));
+#endif
 }
 
 void ForestScreen::tick(float delta) {
