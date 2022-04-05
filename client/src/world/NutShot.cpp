@@ -9,7 +9,7 @@
 NutShot::NutShot(Forest& forest, sf::Vector2f pos, Enemy* target) : pos(pos), target(target), forest(forest) {
     sprite.setTexture(*forest.getAssets().get(GameAssets::NUT));
     this->speed = 100;
-    this->setPower(0.4f);
+    this->setPower(0.2f);
 }
 
 void NutShot::tick(float delta) {
