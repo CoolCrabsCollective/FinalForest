@@ -56,7 +56,7 @@ EnemyMenu::EnemyMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu
                                               }
                                           }
                                       },
-                                      [&](){ return forest.getSquirrelCount() > 0; },
+                                      [&](){ return forest.availableSquirrelsCount() > 0; },
                                       "Squirrel Attack"
     ));
     // Wolf Button
@@ -96,7 +96,7 @@ EnemyMenu::EnemyMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu
 
                                           }
                                       },
-                                      [&](){ return true; },
+                                      [&](){  return forest.availableWolvesCount() > 0; },
                                       "Wolf Attack"
     ));
     // Bear Button
@@ -136,7 +136,7 @@ EnemyMenu::EnemyMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Menu
 
                                           }
                                       },
-                                      [&](){ return true; },
+                                      [&](){   return forest.availableBearsCount() > 0;},
                                       "Bear Attack"
     ));
 }
