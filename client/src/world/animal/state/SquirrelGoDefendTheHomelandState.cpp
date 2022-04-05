@@ -13,6 +13,11 @@ SquirrelGoDefendTheHomelandState::SquirrelGoDefendTheHomelandState(Squirrel* squ
 
 void SquirrelGoDefendTheHomelandState::tick(float delta) {
 
+	if(tree->isDestroyed()) {
+		getForest().assignToNextAvailableTree(getSquirrel());
+		return;
+	}
+
     if(b2DistanceSquared(this->getSquirrel()->getPosition(), this->tree->getPosition()) < 9.f)
     {
         this->getForest().sendToCompost(getSquirrel());
