@@ -1,11 +1,6 @@
 #! /bin/bash
 
 
-if [[ $# < 1 ]]; then
-    echo "Please provide the path to your ndk"
-    exit 1
-fi
-
 requirements=(wget unzip cmake git make)
 
 for requirement in ${requirements[@]} ; do
@@ -44,28 +39,25 @@ elif (( ${CMAKE_MAJOR} == ${REQUIRED_CMAKE_MAJOR} )) ; then
     fi
 fi
 
-
-if [[ $? != 0 ]]; then
-    exit 1
-fi
-
-ndk_input_path=$1
-if [[ ${1: -1} != / ]]; then
-    ndk_input_path=${ndk_input_path}/
-fi
-
-readonly CURRENT_PATH=$(dirname "$(readlink -f "$0")")
-
-if [[ ${ndk_input_path:0:1} != / ]]; then
-    readonly NDK_PATH=${CURRENT_PATH}/${ndk_input_path}
-else
-    readonly NDK_PATH=${ndk_input_path}
-fi
-
 set -eu
 mkdir -p build-android
 cd build-android
 mkdir -p armeabi-v7a
-cmake -DCMAKE_SYSTEM_NAME=Android -DCMAKE_ANDROID_NDK=${NDK_PATH} -DCMAKE_ANDROID_ARCH_ABI=armeabi-v7a -DCMAKE_ANDROID_STL_TYPE=c++_static -DCMAKE_BUILD_TYPE=Debug ..
+
+readonly NDK_VERSION=20
+readonly ANDROID_ZIP_NAME=android-ndk-r${NDK_VERSION}-linux-x86_64.zip
+readonly NDK_DIR=`realpath ./ndk/android-ndk-r${NDK_VERSION}/`
+
+if [ -d ${NDK_DIR} ] ; then
+    echo "Using existing Android NDK ${NDK_DIR}"
+else
+    echo "Downloading Android NDK..."
+    wget --no-verbose --directory-prefix ndk https://dl.google.com/android/repository/${ANDROID_ZIP_NAME}
+    echo "Unzipping Android NDK..."
+    unzip -q -d ndk ndk/${ANDROID_ZIP_NAME}
+    rm -rf ndk/${ANDROID_ZIP_NAME}
+fi
+
+cmake -DCMAKE_SYSTEM_NAME=Android -DCMAKE_ANDROID_NDK=${NDK_DIR} -DCMAKE_ANDROID_ARCH_ABI=armeabi-v7a -DCMAKE_ANDROID_STL_TYPE=c++_static -DCMAKE_BUILD_TYPE=Debug ..
 make
 make install

@@ -73,8 +73,8 @@ Forest::Forest(const ForestScreen& screen, const wiz::AssetLoader& assetLoader)
 			float dst1 = b2DistanceSquared(path[i - 1], b2Vec2(50.0f, 50.0f));
 			float dst2 = b2DistanceSquared(path[i], b2Vec2(50.0f, 50.0f));
 
-			if(dst1 < 60.0f * 60.0f && dst2 > 60.0f * 60.0f
-			   || dst1 > 60.0f * 60.0f && dst2 < 60.0f * 60.0f)
+			if((dst1 < 60.0f * 60.0f && dst2 > 60.0f * 60.0f)
+			|| (dst1 > 60.0f * 60.0f && dst2 < 60.0f * 60.0f))
 				river->addBridge(new Bridge(*river, i, METAL));
 		}
 	}
@@ -662,9 +662,7 @@ int Forest::availableSquirrelsCount() {
 				|| std::dynamic_pointer_cast<SquirrelGatherState>(state).get()
 				|| std::dynamic_pointer_cast<SquirrelGoGatherState>(state).get()
 				|| std::dynamic_pointer_cast<SquirrelReturnGatherState>(state).get())
-                {
                     count++;
-                }
             }
         }
     }
@@ -683,11 +681,9 @@ int Forest::availableWolvesCount() {
             if(wolf)
             {
                 std::shared_ptr<AnimalState> state = wolf->getState();
-                if(dynamic_pointer_cast<AnimalIdleState>(state).get()
-                   || dynamic_pointer_cast<AnimalPatrolState>(state).get())
-                {
+                if(std::dynamic_pointer_cast<AnimalIdleState>(state).get()
+			   	|| std::dynamic_pointer_cast<AnimalPatrolState>(state).get())
                     count++;
-                }
             }
         }
     }
@@ -706,11 +702,9 @@ int Forest::availableBearsCount() {
             if(bear)
             {
                 std::shared_ptr<AnimalState> state = bear->getState();
-                if(dynamic_pointer_cast<AnimalIdleState>(state).get()
-                   || dynamic_pointer_cast<AnimalPatrolState>(state).get())
-                {
+                if(std::dynamic_pointer_cast<AnimalIdleState>(state).get()
+			   	|| std::dynamic_pointer_cast<AnimalPatrolState>(state).get())
                     count++;
-                }
             }
         }
     }
