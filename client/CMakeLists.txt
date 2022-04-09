@@ -103,7 +103,8 @@ find_package(Threads REQUIRED)
 # include and source files
 include_directories(include ${SFML_SOURCE_DIR}/include
         ${WizEngine_SOURCE_DIR}/include
-        ${Box2D_SOURCE_DIR}/Box2D/Box2D)
+        ${Box2D_SOURCE_DIR}/Box2D/Box2D
+        ${Box2D_SOURCE_DIR}/Box2D)
 
 file(GLOB SOURCE_FILES
         ${PROJECT_SOURCE_DIR}/src/*.cpp

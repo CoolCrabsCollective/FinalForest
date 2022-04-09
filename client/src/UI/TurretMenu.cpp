@@ -37,10 +37,10 @@ TurretMenu::TurretMenu(const wiz::AssetLoader &assetLoader, Forest &forest) : Me
                 for(Entity* e : forest.getObjects())
                 {
                     Squirrel* s = dynamic_cast<Squirrel*>(e);
-                    if(s && (dynamic_pointer_cast<AnimalIdleState>(s->getState()).get()
-                       || dynamic_pointer_cast<SquirrelGatherState>(s->getState()).get()
-                       || dynamic_pointer_cast<SquirrelGoGatherState>(s->getState()).get()
-                       || dynamic_pointer_cast<SquirrelReturnGatherState>(s->getState()).get()))
+                    if(s && (std::dynamic_pointer_cast<AnimalIdleState>(s->getState()).get()
+                       || std::dynamic_pointer_cast<SquirrelGatherState>(s->getState()).get()
+                       || std::dynamic_pointer_cast<SquirrelGoGatherState>(s->getState()).get()
+                       || std::dynamic_pointer_cast<SquirrelReturnGatherState>(s->getState()).get()))
                     {
                         if(closestSquirrel == nullptr)
                         {

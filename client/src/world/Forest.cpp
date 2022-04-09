@@ -658,10 +658,10 @@ int Forest::availableSquirrelsCount() {
             if(squirrel)
             {
                 std::shared_ptr<AnimalState> state = squirrel->getState();
-                if(dynamic_pointer_cast<AnimalIdleState>(state).get()
-                         || dynamic_pointer_cast<SquirrelGatherState>(state).get()
-                         || dynamic_pointer_cast<SquirrelGoGatherState>(state).get()
-                         || dynamic_pointer_cast<SquirrelReturnGatherState>(state).get())
+                if(std::dynamic_pointer_cast<AnimalIdleState>(state).get()
+				|| std::dynamic_pointer_cast<SquirrelGatherState>(state).get()
+				|| std::dynamic_pointer_cast<SquirrelGoGatherState>(state).get()
+				|| std::dynamic_pointer_cast<SquirrelReturnGatherState>(state).get())
                 {
                     count++;
                 }

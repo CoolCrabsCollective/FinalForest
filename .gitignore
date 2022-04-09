@@ -3,6 +3,7 @@ cmake-build-release/
 .idea/
 bin/
 build/
+build-android/
 build-switch/
 out/
 server/logs/

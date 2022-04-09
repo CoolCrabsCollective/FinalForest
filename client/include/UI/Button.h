@@ -36,7 +36,7 @@ public:
 
     void checkClick(sf::Vector2f clickVector);
 
-    void tick(float delta);
+    void tick(float delta) override;
 };
 
 

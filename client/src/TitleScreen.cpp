@@ -4,6 +4,7 @@
 
 #include "TitleScreen.h"
 
+#include <sstream>
 #include <memory>
 #include "GameAssets.h"
 #include "SFML/Window/Touch.hpp"
