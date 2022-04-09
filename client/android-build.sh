@@ -44,7 +44,7 @@ mkdir -p build-android
 cd build-android
 mkdir -p armeabi-v7a
 
-readonly NDK_VERSION=20
+readonly NDK_VERSION=19
 readonly ANDROID_ZIP_NAME=android-ndk-r${NDK_VERSION}-linux-x86_64.zip
 readonly NDK_DIR=`realpath ./ndk/android-ndk-r${NDK_VERSION}/`
 
@@ -60,4 +60,3 @@ fi
 
 cmake -DCMAKE_SYSTEM_NAME=Android -DCMAKE_ANDROID_NDK=${NDK_DIR} -DCMAKE_ANDROID_ARCH_ABI=armeabi-v7a -DCMAKE_ANDROID_STL_TYPE=c++_static -DCMAKE_BUILD_TYPE=Debug ..
 make
-make install

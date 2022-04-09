@@ -36,12 +36,12 @@ b2Vec2 Squirrel::getSize() const {
 
 void Squirrel::draw(sf::RenderTarget& target, const sf::RenderStates& states) const {
 
-	if(dynamic_pointer_cast<AnimalIdleState>(state).get() || dynamic_pointer_cast<SquirrelGatherState>(state).get())
+	if(std::dynamic_pointer_cast<AnimalIdleState>(state).get() || std::dynamic_pointer_cast<SquirrelGatherState>(state).get())
 		sprite.setTexture(*squirrelIdle);
-	else if(dynamic_pointer_cast<SquirrelReturnGatherState>(state).get())
+	else if(std::dynamic_pointer_cast<SquirrelReturnGatherState>(state).get())
 		sprite.setTexture(*squirrelNut);
-	else if(dynamic_pointer_cast<AnimalAttackState>(state).get() ||
-			dynamic_pointer_cast<AnimalAttackState>(state).get())
+	else if(std::dynamic_pointer_cast<AnimalAttackState>(state).get() ||
+			std::dynamic_pointer_cast<AnimalAttackState>(state).get())
 		sprite.setTexture(*squirrelAttack);
 	else
 		sprite.setTexture(*squirrelWalk);

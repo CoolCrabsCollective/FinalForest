@@ -125,7 +125,7 @@ void Forest::assignSquirrel(Squirrel *squirrel, Tree *tree) {
 }
 
 void Forest::reAssignTree(Tree *tree) {
-    if (treeSquirrelMap.contains(tree)) {
+    if (treeSquirrelMap.find(tree) != treeSquirrelMap.end()) {
         Squirrel* squirrel = treeSquirrelMap[tree];
         unassignTree(tree);
         assignToNextAvailableTree(squirrel);
@@ -155,7 +155,7 @@ void Forest::killTree(Tree* tree) {
 
 Tree *Forest::getNextAvailableTree() {
     for(Tree* tree : aliveTrees)
-        if(!dynamic_cast<BigAssTree*>(tree) && !treeSquirrelMap.contains(tree))
+        if(!dynamic_cast<BigAssTree*>(tree) && treeSquirrelMap.find(tree) == treeSquirrelMap.end())
             return tree;
 
     return nullptr;

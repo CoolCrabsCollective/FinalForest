@@ -9,19 +9,21 @@ set(WizEngine_COMMIT master)
 set(SFML_COMMIT 8f6903d00853fd3db395a557733ae65a14f37c01)
 set(BOX2D_CMAKE_COMMIT master)
 
-if(CMAKE_COMPILER_IS_GNUCXX AND NOT WIN32)
-    # Not for windows because windres.exe doesn't support those
-    add_definitions(-Wall -ansi -Wno-deprecated -pthread -Wpedantic -w)
-endif()
-
 if(WIN32)
+    message("Building for windows")
     # static linking of important libraries on windows
     set(CMAKE_CXX_STANDARD_LIBRARIES "-static-libgcc -static-libstdc++ -lwsock32 -lws2_32 ${CMAKE_CXX_STANDARD_LIBRARIES}")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-Bstatic,--whole-archive -lpthread -Wl,--no-whole-archive")
     add_compile_definitions(OS_WINDOWS) # applies C++ macro
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    message("Building for mac")
     add_compile_definitions(OS_MAC) # applies C++ macro
+elseif(ANDROID)
+    message("Building for Android")
+    unset(UNIX)
 elseif(UNIX)
+    message("Building for Linux")
+    add_definitions(-Wall -ansi -Wno-deprecated -pthread -Wpedantic -w)
     # static linking of libraries on linux
     set(CMAKE_CXX_STANDARD_LIBRARIES "-static-libgcc -static-libstdc++ ${CMAKE_CXX_STANDARD_LIBRARIES}")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-rpath,./lib/") # -lpthread -lFLAC -logg -lvorbis -lvorbisfile -lvorbisenc -lc -lm -lfreetype -lopenal -ldl -lX11 -lXrandr -lXcursor -lGL -ludev -lrt -lz -lbz2 -lpng -lharfbuzz -lbrotlidec -lstdc++ -lgcc -lxcb -lXext -lXrender -lXfixes -lGLdispatch -lGLX -lgraphite2 -lglib -lbrotlicommon -lXau -lXdmcp -lpcre")
@@ -127,10 +129,10 @@ target_link_libraries(${PARENT_PROJECT_NAME}
         sfml-window
         sfml-graphics
         sfml-audio
-        sfml-network
         WIZ::Box2D)
 
 if (UNIX)
+    message("Linking pthread")
     target_link_libraries(${PARENT_PROJECT_NAME} pthread)
 endif (UNIX)
 

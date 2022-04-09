@@ -2,6 +2,7 @@
 // Created by Alexander Winter🤤 on 2022-04-02.
 //
 
+#include <unordered_map>
 #include "world/Physical.h"
 #include "world/pathfinding/ForestPathFinder.h"
 #include "GameAssets.h"
