@@ -11,7 +11,7 @@ bool doOBBCollideWithOBB(float r1X, float r1Y, float r1Width, float r1Height, fl
 	sf::Vector2 vec(r1Width, r1Height);
 	vec.x *= -0.5f;
 	vec.y *= -0.5f;
-	vec.rotatedBy(sf::degrees(r1Angle));
+	vec = vec.rotatedBy(sf::degrees(r1Angle));
 	vec += { r1X, r1Y };
 	float r1X1 = vec.x;
 	float r1Y1 = vec.y;
@@ -19,7 +19,7 @@ bool doOBBCollideWithOBB(float r1X, float r1Y, float r1Width, float r1Height, fl
 	sf::Vector2 vec2(r1Width, r1Height);
 	vec2.x *= -0.5f;
 	vec2.y *= 0.5f;
-	vec2.rotatedBy(sf::degrees(r1Angle));
+	vec2 = vec2.rotatedBy(sf::degrees(r1Angle));
 	vec2 += { r1X, r1Y };
 	float r1X2 = vec2.x;
 	float r1Y2 = vec2.y;
@@ -27,7 +27,7 @@ bool doOBBCollideWithOBB(float r1X, float r1Y, float r1Width, float r1Height, fl
 	sf::Vector2 vec3(r1Width, r1Height);
 	vec3.x *= 0.5f;
 	vec3.y *= 0.5f;
-	vec3.rotatedBy(sf::degrees(r1Angle));
+	vec3 = vec3.rotatedBy(sf::degrees(r1Angle));
 	vec3 += { r1X, r1Y };
 	float r1X3 = vec3.x;
 	float r1Y3 = vec3.y;
@@ -35,7 +35,7 @@ bool doOBBCollideWithOBB(float r1X, float r1Y, float r1Width, float r1Height, fl
 	sf::Vector2 vec4(r1Width, r1Height);
 	vec4.x *= 0.5f;
 	vec4.y *= -0.5f;
-	vec4.rotatedBy(sf::degrees(r1Angle));
+	vec4 = vec4.rotatedBy(sf::degrees(r1Angle));
 	vec4 += { r1X, r1Y };
 	float r1X4 = vec4.x;
 	float r1Y4 = vec4.y;
@@ -43,7 +43,7 @@ bool doOBBCollideWithOBB(float r1X, float r1Y, float r1Width, float r1Height, fl
 	sf::Vector2 vec5(r2Width, r2Height);
 	vec5.x *= -0.5f;
 	vec5.y *= -0.5f;
-	vec5.rotatedBy(sf::degrees(r2Angle));
+	vec5 = vec5.rotatedBy(sf::degrees(r2Angle));
 	vec5 += { r2X, r2Y };
 	float r2X1 = vec5.x;
 	float r2Y1 = vec5.y;
@@ -51,7 +51,7 @@ bool doOBBCollideWithOBB(float r1X, float r1Y, float r1Width, float r1Height, fl
 	sf::Vector2 vec6(r2Width, r2Height);
 	vec6.x *= -0.5f;
 	vec6.y *= 0.5f;
-	vec6.rotatedBy(sf::degrees(r2Angle));
+	vec6 = vec6.rotatedBy(sf::degrees(r2Angle));
 	vec6 += { r2X, r2Y };
 	float r2X2 = vec6.x;
 	float r2Y2 = vec6.y;
@@ -59,7 +59,7 @@ bool doOBBCollideWithOBB(float r1X, float r1Y, float r1Width, float r1Height, fl
 	sf::Vector2 vec7(r2Width, r2Height);
 	vec7.x *= 0.5f;
 	vec7.y *= 0.5f;
-	vec7.rotatedBy(sf::degrees(r2Angle));
+	vec7 = vec7.rotatedBy(sf::degrees(r2Angle));
 	vec7 += { r2X, r2Y };
 	float r2X3 = vec7.x;
 	float r2Y3 = vec7.y;
@@ -67,7 +67,7 @@ bool doOBBCollideWithOBB(float r1X, float r1Y, float r1Width, float r1Height, fl
 	sf::Vector2 vec8(r2Width, r2Height);
 	vec8.x *= 0.5f;
 	vec8.y *= -0.5f;
-	vec8.rotatedBy(sf::degrees(r2Angle));
+	vec8 = vec8.rotatedBy(sf::degrees(r2Angle));
 	vec8 += { r2X, r2Y };
 	float r2X4 = vec8.x;
 	float r2Y4 = vec8.y;
