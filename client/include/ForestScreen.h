@@ -13,7 +13,7 @@
 #include "SFML/Graphics/Text.hpp"
 #include "world/Forest.h"
 #include "SFML/Graphics/Texture.hpp"
-#include "../cmake-build-debug/_deps/sfml-src/include/SFML/Window/Event.hpp"
+#include "SFML/Window/Event.hpp"
 #include "UI/Menu.h"
 #include "SFML/Audio/Music.hpp"
 #include "UI/WordsButton.h"
@@ -77,6 +77,8 @@ class ForestScreen : public wiz::Screen, public wiz::WindowListener, public wiz:
     bool waitingForNextWave = false;
     float timeTillNextWave = 0.0f;
 
+	std::chrono::time_point<std::chrono::system_clock, std::chrono::duration<float>> frameStart;
+
 public:
 	ForestScreen(wiz::Game& game);
 
@@ -125,6 +127,13 @@ public:
     void setEntityClickSelection(const EntityClickSelection &entityClickSelection);
 
 	sf::Sound& getClick();
+
+	/**
+	 * @returns true if the screen has exceeded the time it aims to spend doing
+	 * computation for this frame, or false if more computations can be done
+	 * without hurting the frame rate
+	 */
+	bool hasExceededTargetComputationTime();
 };
 
 

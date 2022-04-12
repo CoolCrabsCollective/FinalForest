@@ -79,11 +79,15 @@ void Animal::tick(float delta) {
 	}
 
 	if(destinationChanged) {
-		if(!getForest().getPathFinder().findPath(ANIMAL_UNIT, getPosition(), destination, path))
-			path.clear();
-		else
-			pathIndex = 1;
-		destinationChanged = false;
+		if(getForest().getScreen().hasExceededTargetComputationTime()) {
+			pathIndex = -1;
+		} else {
+			if(!getForest().getPathFinder().findPath(ANIMAL_UNIT, getPosition(), destination, path))
+				path.clear();
+			else
+				pathIndex = 1;
+			destinationChanged = false;
+		}
 	}
 
 	b2Vec2 direction;

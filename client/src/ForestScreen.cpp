@@ -54,8 +54,10 @@ void ForestScreen::tick(float delta) {
 	if(paused)
 		return;
 
-    if (gameOver)
+    if(gameOver)
         return;
+
+	frameStart = std::chrono::high_resolution_clock::now();
 
 	forest.tick(delta);
 	animalMenu->tick(delta);
@@ -385,4 +387,16 @@ void ForestScreen::setEntityClickSelection(const EntityClickSelection &entityCli
 
 sf::Sound& ForestScreen::getClick() {
 	return click;
+}
+
+bool ForestScreen::hasExceededTargetComputationTime() {
+
+	if(paused || gameOver)
+		return false;
+
+	auto now = std::chrono::high_resolution_clock::now();
+
+    auto int_s = std::chrono::duration_cast<std::chrono::milliseconds>(now - frameStart);
+
+	return int_s.count() > 14; // 14 ms, gives 2.66 ms of loose for rendering
 }
