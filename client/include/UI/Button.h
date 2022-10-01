@@ -11,6 +11,7 @@
 #include "world/Tickable.h"
 #include "world/Forest.h"
 #include "SFML/Graphics/RectangleShape.hpp"
+#include <functional>
 
 class Button : public sf::Drawable, public Tickable  {
 

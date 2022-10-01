@@ -13,6 +13,7 @@
 #include "SFML/Graphics/Drawable.hpp"
 #include "SFML/Graphics/Sprite.hpp"
 #include "WIZ/asset/AssetLoader.h"
+#include <unordered_map>
 
 enum PathType {
 	ANIMAL_UNIT,
