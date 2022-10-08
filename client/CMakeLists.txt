@@ -7,7 +7,7 @@ project(${PARENT_PROJECT_NAME}_client)
 
 set(WizEngine_COMMIT b7a0d5f284604d61a7c422c93cd04688492a6cf5)
 set(SFML_COMMIT 8f6903d00853fd3db395a557733ae65a14f37c01)
-set(BOX2D_CMAKE_COMMIT master)
+set(BOX2D_CMAKE_COMMIT ee2bc1b02a35bfe7b6f14584bd134ac601f54ab5)
 
 if(CMAKE_COMPILER_IS_GNUCXX AND NOT WIN32)
     # Not for windows because windres.exe doesn't support those
